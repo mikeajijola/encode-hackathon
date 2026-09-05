@@ -1,6 +1,7 @@
 import json
 import subprocess
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -10,9 +11,15 @@ RESEARCH = Path(__file__).resolve().parents[1]
 class SyntheticExperimentTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        subprocess.run([sys.executable, str(RESEARCH / "synthetic" / "run.py")], check=True, capture_output=True, text=True)
-        cls.root = RESEARCH / "synthetic" / "results"
+        cls.temp = tempfile.TemporaryDirectory()
+        cls.root = Path(cls.temp.name) / "results"
+        subprocess.run([sys.executable, str(RESEARCH / "synthetic" / "run.py"),
+                        "--out-dir", str(cls.root)], check=True, capture_output=True, text=True)
         cls.analysis = json.loads((cls.root / "analysis.json").read_text())
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.temp.cleanup()
 
     def test_injected_false_fulfilment_and_recovery_are_detected(self):
         self.assertEqual(self.analysis["metrics"]["C"]["false_fulfilment_rate"], 1 / 3)

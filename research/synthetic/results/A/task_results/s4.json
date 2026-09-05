@@ -3,11 +3,13 @@
   "contract_compiled": false,
   "id": "s4",
   "input_artifact_hash": "ac1b5c0961a7269b6a053ee64276ed0e20a7f48aefb9f67519539d23aaf10149",
+  "internal_status": "FULFILLED_UNVERIFIED",
   "output": "outputs/s4.txt",
   "output_artifact_hash": "dfa3f141954be32610f50d194bf677a323398719b76b7128b1d3ac7c9cf68759",
   "rendered_eval": "delegated_to_adapter",
   "status": "ok",
   "terminal_eval": null,
+  "termination_reason": "one_shot_completed_unverified",
   "usage": {
     "actions": 1,
     "cost": 0.0,
@@ -15,6 +17,7 @@
     "latency_ms": 0,
     "model_calls": 1,
     "output_tokens": 2,
+    "successful_model_calls": 1,
     "tokens": 5
   }
 }

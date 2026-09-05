@@ -7,6 +7,7 @@ it is not evidence about model quality or the research hypothesis.
 
 from __future__ import annotations
 
+import argparse
 from dataclasses import asdict
 from hashlib import sha256
 import json
@@ -106,9 +107,8 @@ def config(arm: Arm) -> RunConfig:
                      ("Synthetic scripted services; not benchmark/model evidence.",))
 
 
-def main() -> None:
+def run_experiment(output_root: Path) -> None:
     root = RESEARCH / "synthetic"
-    output_root = root / "results"
     if output_root.exists():
         shutil.rmtree(output_root)
     output_root.mkdir(parents=True)
@@ -142,7 +142,6 @@ def main() -> None:
                                    "correct": int(passed), "cells": 1})
             item = json.loads((arm_dir / "task_results" / f"{task_id}.json").read_text())
             terminal = item.get("terminal_eval")
-            item["internal_status"] = "FULFILLED" if terminal and terminal["passed"] else "UNFULFILLED"
             item["artifact_valid"] = True
             item["first_mutation_pass"] = terminal.get("details", {}).get("first_mutation_pass") if terminal else None
             item.update({key: definition[key] for key in ("instruction_type", "task_family")})
@@ -206,6 +205,13 @@ def main() -> None:
     print(table)
     print("task_manifest_sha256", task_manifest["selection_sha256"])
     print("evidence_root_sha256_before_ledger", evidence_hash)
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--out-dir", default=str(RESEARCH / "synthetic" / "results"))
+    args = parser.parse_args()
+    run_experiment(Path(args.out_dir))
 
 
 if __name__ == "__main__":

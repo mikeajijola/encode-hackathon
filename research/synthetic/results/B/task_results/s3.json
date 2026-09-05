@@ -3,11 +3,13 @@
   "contract_compiled": true,
   "id": "s3",
   "input_artifact_hash": "ac1b5c0961a7269b6a053ee64276ed0e20a7f48aefb9f67519539d23aaf10149",
+  "internal_status": "FULFILLED_UNVERIFIED",
   "output": "outputs/s3.txt",
   "output_artifact_hash": "5d1b92d1633e8fab0bfa5a4289ed82ec0a9a0a8f1b1257673a0b674d060b0f14",
   "rendered_eval": "delegated_to_adapter",
   "status": "ok",
   "terminal_eval": null,
+  "termination_reason": "one_shot_completed_unverified",
   "usage": {
     "actions": 1,
     "cost": 0.0,
@@ -15,6 +17,7 @@
     "latency_ms": 0,
     "model_calls": 2,
     "output_tokens": 4,
+    "successful_model_calls": 2,
     "tokens": 10
   }
 }
