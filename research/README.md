@@ -2,6 +2,8 @@
 
 Given a workbook and a plain-English instruction from a real Excel forum post, produce the workbook with the answer filled in. Fine-tune a model, build a harness around one, or both. The score is the share of tasks where every graded cell matches the golden workbook.
 
+For an artifact-neutral, contract-driven implementation proposal, see [Declarative Fulfilment Architecture](ARCHITECTURE.md).
+
 Dataset: [SpreadsheetBench Verified](https://huggingface.co/datasets/KAKA22/SpreadsheetBench), 400 human-validated tasks. Licence CC-BY-SA-4.0. Paper: [arxiv 2406.14991](https://arxiv.org/abs/2406.14991).
 
 ## Setup
