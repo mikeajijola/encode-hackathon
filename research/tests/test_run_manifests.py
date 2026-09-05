@@ -43,10 +43,8 @@ class RunManifestTest(unittest.TestCase):
             self.assertEqual(manifest["backend_config"]["context_limits"],
                              {"max_cells": 400, "max_chars": 30000})
             self.assertEqual(manifest["backend_config"]["provider"]["timeout_seconds"], 120)
-            self.assertEqual(
-                manifest["backend_config"]["selection_manifest"],
-                "/app/research/protocol/development_selection.json",
-            )
+            self.assertEqual(manifest["task_selection"]["name"], "development")
+            self.assertEqual(len(manifest["task_selection"]["tasks"]), 20)
             clone = copy.deepcopy(manifest)
             clone["run_config"].pop("arm")
             normalized.append(clone)
@@ -61,6 +59,31 @@ class RunManifestTest(unittest.TestCase):
         self.assertEqual(metadata["deviations"], ["provider outage window excluded"])
         self.assertEqual(metadata["multimodal_eval"],
                          "delegated_to_adapter_when_intent_has_visual_semantics")
+
+    def test_heldout_selection_is_embedded_and_hash_bound(self):
+        protocol = Path(__file__).resolve().parents[1] / "protocol"
+        selection = protocol / "heldout_selection.json"
+        manifests = build_manifests(**pins(), selection_path=selection)
+        self.assertEqual(manifests["A"]["task_selection"]["name"], "heldout")
+        self.assertEqual(len(manifests["A"]["task_selection"]["tasks"]), 380)
+        self.assertEqual(manifests["A"]["reproducibility"]["selection_file_sha256"], file_hash(selection))
+        validate_manifest_set(manifests, selection_path=selection)
+        development = json.loads((protocol / "development_selection.json").read_text())
+        all_tasks = json.loads((protocol / "all_tasks_selection.json").read_text())
+        dev_ids = {item["id"] for item in development["tasks"]}
+        heldout_ids = {item["id"] for item in manifests["A"]["task_selection"]["tasks"]}
+        all_ids = {item["id"] for item in all_tasks["tasks"]}
+        self.assertFalse(dev_ids & heldout_ids)
+        self.assertEqual(dev_ids | heldout_ids, all_ids)
+        self.assertEqual(len(all_ids), 400)
+
+    def test_registered_experiment_rejects_development_selection(self):
+        with self.assertRaisesRegex(ValueError, "preregistered held-out selection"):
+            build_manifests(**pins(experiment_id="four-arm-heldout-v1"))
+        heldout = Path(__file__).resolve().parents[1] / "protocol" / "heldout_selection.json"
+        manifests = build_manifests(**pins(experiment_id="four-arm-heldout-v1"),
+                                    selection_path=heldout)
+        self.assertEqual(manifests["D"]["task_selection"]["name"], "heldout")
 
     def test_missing_or_placeholder_pins_are_rejected(self):
         for key, value in (("model", "TODO"), ("model_version", "latest"),

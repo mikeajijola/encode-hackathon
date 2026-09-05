@@ -18,6 +18,7 @@ python -m experiment.manifests \
   --scorer-commit '<full 40-character git commit>' \
   --dataset-metadata-sha256 bcecaa89a005bd4e3bbe98da150a86e8062c27f262e575d5e47bd9861b3525e7 \
   --dataset-json ../run-input/dataset/dataset.json \
+  --selection protocol/heldout_selection.json \
   --environment 'linux-amd64-python3.13' \
   --max-cost 25.00
 ```
@@ -29,10 +30,14 @@ are fixed at 400 cells/30,000 characters and provider timeout at 120 seconds unl
 an explicitly recorded new experiment changes them. Use `--deviation '<reason>'`
 for infrastructure deviations; never silently edit one arm.
 
-The generator uses the committed golden-blind development selection at
-`protocol/development_selection.json`. Each manifest records its content hash, its
-canonical selection hash, the source dataset metadata hash, `uv.lock` hash, protocol
-hash, backend factory, container digest, environment, and LibreOffice version.
+The generator defaults to the committed golden-blind development selection. Pass
+`--selection protocol/heldout_selection.json` for the preregistered 380-task
+experiment or `--selection protocol/all_tasks_selection.json` for a subsequent
+all-400 submission run. The chosen selection is embedded into every manifest and
+bound by its canonical and file hashes. The registered experiment ID rejects any
+selection other than the preregistered held-out complement. Each manifest also
+records the source dataset metadata hash, `uv.lock` hash, protocol hash, backend
+factory, container digest, environment, and LibreOffice version.
 Rendered/multimodal evaluation remains explicitly delegated to the adapter when the
 intent has visual semantics.
 

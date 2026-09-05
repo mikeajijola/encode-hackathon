@@ -111,8 +111,10 @@ def factory(raw: Mapping[str, Any]):
     if float(raw.get("run_config", {}).get("temperature", 0)) != 0:
         raise ProviderConfigurationError("preregistered backend requires temperature 0")
     dataset_dir = Path(backend.get("dataset_dir") or raw.get("dataset_dir") or "/data")
+    embedded_selection = raw.get("task_selection")
     selection = backend.get("selection_manifest") or raw.get("selection_manifest")
-    selected_ids = _selection_ids(Path(selection)) if selection else None
+    selected_ids = (_selection_ids_value(embedded_selection) if embedded_selection is not None
+                    else _selection_ids(Path(selection)) if selection else None)
     limits = backend.get("context_limits") or {}
     tasks = load_runtime_tasks(dataset_dir, selected_ids=selected_ids,
                                max_cells=int(limits.get("max_cells", 400)),
@@ -152,7 +154,10 @@ def load_runtime_tasks(dataset_dir: Path, *, selected_ids: set[str] | None,
 
 
 def _selection_ids(path: Path) -> set[str]:
-    value = json.loads(path.read_text())
+    return _selection_ids_value(json.loads(path.read_text()))
+
+
+def _selection_ids_value(value) -> set[str]:
     rows = value.get("task_ids") if isinstance(value, dict) else value
     if rows is None and isinstance(value, dict) and isinstance(value.get("tasks"), list):
         rows = [row.get("id") if isinstance(row, dict) else row for row in value["tasks"]]

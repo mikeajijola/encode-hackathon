@@ -88,6 +88,7 @@ def main() -> None:
     parser.add_argument("--dataset-json", required=True)
     parser.add_argument("--out", required=True)
     parser.add_argument("--heldout-out")
+    parser.add_argument("--all-out")
     parser.add_argument("--cell", type=int, default=10)
     parser.add_argument("--sheet", type=int, default=10)
     parser.add_argument("--seed", type=int, default=20260905)
@@ -99,6 +100,11 @@ def main() -> None:
     Path(args.out).write_text(json.dumps(manifest("development", development, args.seed, sha256(source).hexdigest()), indent=2) + "\n")
     if args.heldout_out:
         Path(args.heldout_out).write_text(json.dumps(manifest("heldout", heldout, args.seed, sha256(source).hexdigest()), indent=2) + "\n")
+    if args.all_out:
+        all_tasks = sorted((safe_task(task, Path(args.dataset_json).parent) for task in tasks),
+                           key=lambda task: task["id"])
+        Path(args.all_out).write_text(json.dumps(manifest("all-400", all_tasks, args.seed,
+                                                         sha256(source).hexdigest()), indent=2) + "\n")
 
 
 if __name__ == "__main__":

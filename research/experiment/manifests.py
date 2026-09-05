@@ -73,6 +73,9 @@ def build_manifests(
     model = _require_pin("model", model)
     model_version = _require_pin("model_version", model_version)
     experiment_id = _require_pin("experiment_id", experiment_id)
+    if (experiment_id == protocol.get("experiment_id") and
+            selection_hash != protocol.get("task_set", {}).get("selection_manifest_sha256")):
+        raise ValueError("registered experiment must use the preregistered held-out selection")
     container_digest = _require_sha256("container_digest", container_digest, prefixed=True)
     soffice_version = _require_pin("soffice_version", soffice_version)
     environment = _require_pin("environment", environment)
@@ -85,9 +88,9 @@ def build_manifests(
     common = {
         "schema_version": "1.0.0",
         "backend": BACKEND,
+        "task_selection": selection,
         "backend_config": {
             "dataset_dir": "/data/dataset",
-            "selection_manifest": "/app/research/protocol/development_selection.json",
             "context_limits": {"max_cells": context_max_cells, "max_chars": context_max_chars},
             "provider": {"type": "openrouter", "timeout_seconds": provider_timeout_seconds},
         },
@@ -134,34 +137,43 @@ def build_manifests(
 
 def validate_manifest_set(
     manifests: Mapping[str, Mapping[str, Any]], *, protocol_path: Path = DEFAULT_PROTOCOL,
-    selection_path: Path = DEFAULT_SELECTION, lock_path: Path = DEFAULT_LOCK,
+    selection_path: Path | None = DEFAULT_SELECTION, lock_path: Path = DEFAULT_LOCK,
 ) -> None:
     if set(manifests) != set(ARMS):
         raise ValueError("manifest set must contain exactly arms A, B, C, D")
     protocol = _load_json(protocol_path)
     fixed = protocol["fixed_conditions"]
-    selection = _load_json(selection_path)
+    selection = (_load_json(selection_path) if selection_path is not None
+                 else json.loads(json.dumps(manifests.get("A", {}).get("task_selection"))))
+    if not isinstance(selection, dict):
+        raise ValueError("manifest set lacks an embedded task selection")
     validate_selection(selection)
     expected_hashes = {
         "protocol_sha256": file_hash(protocol_path),
         "selection_sha256": selection["selection_sha256"],
-        "selection_file_sha256": file_hash(selection_path),
         "uv_lock_sha256": file_hash(lock_path),
     }
+    if selection_path is not None:
+        expected_hashes["selection_file_sha256"] = file_hash(selection_path)
     normalized = []
     for arm in ARMS:
         value = manifests[arm]
         if value.get("backend") != BACKEND or value.get("run_config", {}).get("arm") != arm:
             raise ValueError(f"manifest {arm} has wrong backend or arm")
-        serialized = json.dumps(value, sort_keys=True).lower()
-        if any(marker in serialized for marker in FORBIDDEN_PIN_MARKERS):
-            raise ValueError(f"manifest {arm} contains an unpinned marker")
         reproducibility = value.get("reproducibility") or {}
+        embedded_selection = value.get("task_selection")
+        if not isinstance(embedded_selection, dict):
+            raise ValueError(f"manifest {arm} lacks embedded task selection")
+        validate_selection(embedded_selection)
+        if embedded_selection != selection:
+            raise ValueError(f"manifest {arm} embedded task selection differs from selection pin")
         for key, expected in expected_hashes.items():
             if reproducibility.get(key) != expected:
                 raise ValueError(f"manifest {arm} has invalid {key}")
         _require_sha256("dataset_metadata_sha256", reproducibility.get("dataset_metadata_sha256", ""))
         _require_sha256("container_digest", reproducibility.get("container_digest", ""), prefixed=True)
+        _require_pin("environment", str(reproducibility.get("environment", "")))
+        _require_pin("soffice_version", str(reproducibility.get("soffice_version", "")))
         run = value["run_config"]
         for key in ("experiment_id", "model", "model_version", "recalculation_engine"):
             _require_pin(key, str(run.get(key, "")))
@@ -183,8 +195,6 @@ def validate_manifest_set(
         if reproducibility.get("dataset_metadata_sha256") != selection["source_metadata_sha256"]:
             raise ValueError(f"manifest {arm} dataset hash differs from selection source")
         backend = value.get("backend_config") or {}
-        if backend.get("selection_manifest") != "/app/research/protocol/development_selection.json":
-            raise ValueError(f"manifest {arm} does not use committed development selection")
         if backend.get("context_limits") != reproducibility.get("context_limits"):
             raise ValueError(f"manifest {arm} has inconsistent context limits")
         if (backend.get("provider") or {}).get("timeout_seconds") != reproducibility.get("provider_timeout_seconds"):
@@ -223,6 +233,7 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--scorer-commit", required=True)
     parser.add_argument("--dataset-metadata-sha256", required=True)
     parser.add_argument("--dataset-json")
+    parser.add_argument("--selection", default=str(DEFAULT_SELECTION))
     parser.add_argument("--environment", required=True)
     parser.add_argument("--max-cost", required=True, type=float)
     parser.add_argument("--context-max-cells", type=int, default=400)
@@ -242,6 +253,7 @@ def main(argv: Sequence[str] | None = None) -> None:
         container_digest=args.container_digest, soffice_version=args.soffice_version,
         scorer_commit=args.scorer_commit, dataset_metadata_sha256=args.dataset_metadata_sha256,
         dataset_json=Path(args.dataset_json) if args.dataset_json else None,
+        selection_path=Path(args.selection),
         environment=args.environment, max_cost=args.max_cost,
         context_max_cells=args.context_max_cells, context_max_chars=args.context_max_chars,
         provider_timeout_seconds=args.provider_timeout_seconds, deviations=args.deviation,

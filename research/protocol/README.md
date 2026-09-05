@@ -7,7 +7,7 @@ This directory freezes the four-arm comparison before held-out runs and provides
 - `preregistered_experiment.json` fixes the treatment semantics, common budgets, deviations, metrics, breakdowns, statistical method, and unchanged success thresholds. Replace every `TO_BE_PINNED_BEFORE_RUN` value and hash the manifest before execution; any later change is a new protocol version.
 - `ledger.schema.json` is the normative JSON Schema for append-only experiment ledger entries. `ledger.template.json` is a starting record. Provenance binds each claim to code, run manifest, evidence root, and scorer.
 - `analysis.py` calculates FFR, recovery yield, completion precision/recall, validity, resource overhead, paired pass-rate effects, seeded paired bootstrap intervals, exact two-sided McNemar tests, breakdowns, and failure counts.
-- `selection.py` creates deterministic, stratified, hash-verified task manifests from public metadata without resolving reference-answer files. `development_selection.json` is the seed-20260905, 10-cell/10-sheet development split.
+- `selection.py` creates deterministic, stratified, hash-verified task manifests from public metadata without resolving reference-answer files. `development_selection.json` is the seed-20260905, 10-cell/10-sheet development split; `heldout_selection.json` is its disjoint 380-task complement; `all_tasks_selection.json` identifies the final 400-task benchmark submission set.
 - `offline_report.py` joins terminated internal runs to official evaluator results by exact task ID, then emits JSON statistics and the required four-arm Markdown table. This is the only stage that consumes official outcomes.
 - `failure_assignment.schema.json` requires evidence-linked, multi-label failure classifications. `REPORT_TEMPLATE.md` prevents missing reliability, overhead, and validity reporting.
 
@@ -16,7 +16,10 @@ Generate a split without inspecting answers:
 ```sh
 cd research
 python -m protocol.selection --dataset-json data/spreadsheetbench_verified_400/dataset.json \
-  --out protocol/development_selection.json --cell 10 --sheet 10 --seed 20260905
+  --out protocol/development_selection.json \
+  --heldout-out protocol/heldout_selection.json \
+  --all-out protocol/all_tasks_selection.json \
+  --cell 10 --sheet 10 --seed 20260905
 ```
 
 Generate the offline report only after all runs and official scoring have terminated:

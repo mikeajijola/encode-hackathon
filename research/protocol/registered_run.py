@@ -25,7 +25,7 @@ RESEARCH = Path(__file__).resolve().parents[1]
 
 def _load_manifests(directory: Path) -> dict[str, dict[str, Any]]:
     values = {arm: json.loads((directory / f"{arm}.json").read_text()) for arm in ARMS}
-    validate_manifest_set(values)
+    validate_manifest_set(values, selection_path=None)
     return values
 
 
@@ -132,8 +132,7 @@ def _stage_blind_dataset(source: Path, target: Path, selected_ids: set[str]) -> 
         raise RuntimeError("blind dataset staging included a reference artifact")
 
 
-def _write_analysis(run_root: Path, selection_path: Path) -> dict[str, Any]:
-    selection = json.loads(selection_path.read_text())
+def _write_analysis(run_root: Path, selection: dict[str, Any]) -> dict[str, Any]:
     metadata = {str(task["id"]): task for task in selection["tasks"]}
     joined = {
         arm: join_results(load_internal(run_root / arm),
@@ -158,7 +157,7 @@ def _write_ledger(run_root: Path, manifest_dir: Path, manifests: dict[str, dict[
         "change": "A through D add declarative state, executable evals, then iterative reconciliation",
         "control": "A", "treatment": "D",
         "task_set": {"manifest_sha256": manifests["A"]["reproducibility"]["selection_sha256"],
-                     "task_count": len(json.loads((RESEARCH / "protocol" / "development_selection.json").read_text())["tasks"])},
+                     "task_count": len(manifests["A"]["task_selection"]["tasks"])},
         "model": {"name": run["model"], "version": run["model_version"],
                   "temperature": run["temperature"]},
         "budgets": {"tokens": run["max_tokens"], "actions": run["max_actions"],
@@ -179,8 +178,8 @@ def _write_ledger(run_root: Path, manifest_dir: Path, manifests: dict[str, dict[
 def execute(manifest_dir: Path, run_root: Path, dataset_dir: Path, image: str) -> None:
     manifests = _load_manifests(manifest_dir)
     preflight(manifest_dir, run_root, dataset_dir, image)
-    selection_path = RESEARCH / "protocol" / "development_selection.json"
-    expected = {str(item["id"]) for item in json.loads(selection_path.read_text())["tasks"]}
+    selection = manifests["A"]["task_selection"]
+    expected = {str(item["id"]) for item in selection["tasks"]}
     blind_dataset = run_root / "blind_fulfilment_input"
     _stage_blind_dataset(dataset_dir, blind_dataset, expected)
     # Goldens are inaccessible to all fulfilment processes by protocol and chronology:
@@ -191,7 +190,7 @@ def execute(manifest_dir: Path, run_root: Path, dataset_dir: Path, image: str) -
         _verify_arm_termination(run_root / arm, expected)
     for arm in ARMS:
         _run(scorer_command(image, dataset_dir, run_root / arm), run_root / arm / "scorer.log")
-    report = _write_analysis(run_root, selection_path)
+    report = _write_analysis(run_root, selection)
     _write_ledger(run_root, manifest_dir, manifests, report)
 
 

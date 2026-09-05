@@ -7,7 +7,8 @@
   "pairing_key": "task_id",
   "task_set": {
     "name": "SpreadsheetBench Verified held-out split",
-    "selection_manifest_sha256": "TO_BE_RECORDED_BEFORE_RUN",
+    "selection_manifest_sha256": "34b4a95330e8547cd89dc5991f83289ac114c508ad709b1b92071c1205c5492c",
+    "task_count": 380,
     "golden_access": "offline_scoring_only"
   },
   "fixed_conditions": {
