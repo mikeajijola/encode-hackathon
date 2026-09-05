@@ -17,6 +17,8 @@ import subprocess
 from typing import Any, Sequence
 
 from experiment.manifests import ARMS, file_hash, validate_manifest_set
+from experiment.runner import verify_run_manifest
+from fulfilment import EvidenceStore
 from protocol.offline_report import analyze, join_results, load_internal, load_official, markdown_table
 
 
@@ -97,6 +99,7 @@ def _run(command: list[str], log_path: Path) -> None:
 
 
 def _verify_arm_termination(output: Path, expected_tasks: set[str]) -> None:
+    verify_run_manifest(output)
     predictions = [json.loads(line) for line in (output / "predictions.jsonl").read_text().splitlines()]
     observed = {str(item["id"]) for item in predictions}
     task_results = {path.stem for path in (output / "task_results").glob("*.json")}
@@ -104,6 +107,16 @@ def _verify_arm_termination(output: Path, expected_tasks: set[str]) -> None:
         raise RuntimeError(f"arm output is incomplete: {output}")
     if len(predictions) != len(observed):
         raise RuntimeError(f"arm output contains duplicate predictions: {output}")
+    for task_id in sorted(expected_tasks):
+        result = json.loads((output / "task_results" / f"{task_id}.json").read_text())
+        artifact = output / result["output"]
+        if not artifact.is_file() or file_hash(artifact) != result["output_artifact_hash"]:
+            raise RuntimeError(f"task output hash is not reconstructable: {output.name}/{task_id}")
+        if result["internal_status"] == "FULFILLED":
+            broker_path = output / "events" / f"{task_id}.broker.jsonl"
+            evidence = EvidenceStore(broker_path).verify()
+            if not evidence or evidence[-1].event_type != "termination_decision" or not evidence[-1].payload.get("fulfilled"):
+                raise RuntimeError(f"fulfilled decision lacks terminal evidence: {output.name}/{task_id}")
 
 
 def _stage_blind_dataset(source: Path, target: Path, selected_ids: set[str]) -> None:
@@ -145,12 +158,44 @@ def _write_analysis(run_root: Path, selection: dict[str, Any]) -> dict[str, Any]
     joined = {arm: join_results(internal[arm], load_official(run_root / arm / "official_results.json"),
                                 metadata) for arm in ARMS}
     report = analyze(joined)
+    report["preregistered_assessment"]["manual_gates"]["all_fulfilment_decisions_reconstructable"] = "pass"
     (run_root / "analysis.json").write_text(json.dumps(report, indent=2, sort_keys=True) + "\n")
     (run_root / "arm_table.md").write_text(markdown_table(report) + "\n")
     assignments = _failure_assignments(joined, run_root)
     (run_root / "failure_assignments.json").write_text(
         json.dumps(assignments, indent=2, sort_keys=True) + "\n")
+    (run_root / "REPORT.md").write_text(_render_report(report) + "\n")
     return report
+
+
+def _render_report(report: dict[str, Any]) -> str:
+    assessment = report["preregistered_assessment"]
+    outcome = {
+        "quantitative_thresholds_met_pending_evidence_and_cost_review": "INCONCLUSIVE — quantitative gates pass; cost-defensibility review pending",
+        "partially_supported_quantitatively": "PARTIALLY SUPPORTED — primary effect passes but one or more reliability gates fail",
+        "not_supported_by_preregistered_primary_threshold": "REJECTED — preregistered primary effect threshold not met",
+    }[assessment["result"]]
+    criteria = "\n".join(f"- [{'x' if passed else ' '}] `{name}`"
+                           for name, passed in assessment["criteria"].items())
+    comparisons = report["paired_comparisons"]
+    inference = "\n".join(
+        f"- {name}: effect={item['bootstrap']['estimate']:.4f}, "
+        f"95% CI [{item['bootstrap']['lower']:.4f}, {item['bootstrap']['upper']:.4f}], "
+        f"McNemar p={item['mcnemar']['p_value']:.4f}"
+        for name, item in comparisons.items()
+    )
+    return ("# Four-arm fulfilment experiment\n\n"
+            f"## Provisional conclusion\n\n**{outcome}**\n\n"
+            "This report is generated after all fulfilment runs terminate and official scoring completes. "
+            "It does not expose reference answers to fulfilment.\n\n"
+            "## Results\n\n" + markdown_table(report) + "\n\n"
+            "## Paired inference\n\n" + inference + "\n\n"
+            "## Preregistered criteria\n\n" + criteria + "\n\n"
+            "## Remaining review gates\n\n"
+            f"- Evidence reconstruction: {assessment['manual_gates']['all_fulfilment_decisions_reconstructable']}\n"
+            f"- Cost defensibility: {assessment['manual_gates']['latency_token_cost_overhead_defensible']}\n\n"
+            "See `analysis.json` for breakdowns, overhead distributions, failure counts, and exact statistics; "
+            "see `failure_assignments.json` for evidence-linked examples. Failed criteria must not be waived post hoc.")
 
 
 def _failure_assignments(joined: dict[str, list[dict]], run_root: Path) -> list[dict[str, Any]]:

@@ -55,6 +55,9 @@ class IsolatedSemanticEvaluatorTest(unittest.TestCase):
         self.assertFalse(result["terminal_eval"]["passed"])
         self.assertEqual(result["usage"]["model_calls"], 3)
         self.assertEqual(result["usage"]["tokens"], 15)
+        c_evidence = EvidenceStore(out / "events" / "t.broker.jsonl").verify()
+        self.assertEqual(c_evidence[-1].event_type, "termination_decision")
+        self.assertFalse(c_evidence[-1].payload["fulfilled"])
         traces = [json.loads(line) for line in (out / "traces" / "t.jsonl").read_text().splitlines()]
         self.assertEqual([row["purpose"] for row in traces], ["contract", "action_generation", "independent_evaluation"])
         self.assertEqual(traces[-1]["provider_request_id"], "role-3")

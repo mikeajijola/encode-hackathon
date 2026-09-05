@@ -22,7 +22,7 @@ from fulfilment import (
     Broker, CapabilityRequest, Contract, ContractValidator, DesiredAssertion,
     Discrepancy, EvalResult, EvalSpec, EvalStatus, EvidenceStore, Observation,
     Scope, derive_discrepancies,
-    DeterministicContractCompiler, EvaluatorRegistry, FulfilmentAgent,
+    DeterministicContractCompiler, EvaluatorRegistry, FulfilmentAgent, decide_completion,
     Transition, TransitionKind,
 )
 from fulfilment.models import FrozenDict
@@ -310,10 +310,28 @@ class SpreadsheetServices:
         session = self._session(task, contract, artifact, runtime, inspect=True)
         results, discrepancies = self._evaluate(task, artifact, session, runtime)
         session.discrepancies = discrepancies
-        passed = all(result.status is EvalStatus.PASS for result in results)
-        status = "pass" if passed else ("uncertain" if any(r.status is EvalStatus.UNCERTAIN for r in results) else "fail")
-        return EvaluationResult(passed, status, {"evals": [_eval_mapping(r) for r in results],
-                                                  "discrepancies": [_discrepancy_mapping(d) for d in discrepancies]})
+        by_id = {result.eval_id: result for result in results}
+        decision = decide_completion(
+            session.contract, results, session.evidence.records(),
+            desired_state_satisfied=not discrepancies,
+            constraints_preserved=by_id.get("preservation") is not None and by_id["preservation"].passed,
+            invariants_hold=all(by_id.get(key) is not None and by_id[key].passed
+                                for key in ("artifact-valid", "formula-errors")),
+            artifact_valid=by_id.get("artifact-valid") is not None and by_id["artifact-valid"].passed,
+        )
+        status = ("pass" if decision.fulfilled else
+                  "uncertain" if any(r.status is EvalStatus.UNCERTAIN for r in results) else
+                  "completion_gate_failed")
+        details = {"evals": [_eval_mapping(r) for r in results],
+                   "discrepancies": [_discrepancy_mapping(d) for d in discrepancies],
+                   "completion": asdict(decision)}
+        session.evidence.append("termination_decision", {
+            "fulfilled": decision.fulfilled, "reason": status, "completion": asdict(decision),
+            "artifact": {"path": str(artifact), "hash": _file_hash(artifact)},
+        })
+        runtime.event("completion_decision", {"fulfilled": decision.fulfilled,
+                                               "failed_conditions": decision.failed_conditions})
+        return EvaluationResult(decision.fulfilled, status, details)
 
     def reconcile(self, task: Task, contract: Mapping[str, Any], destination: Path,
                   runtime: TaskRuntime) -> tuple[ExecutionResult, EvaluationResult]:

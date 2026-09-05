@@ -8,6 +8,7 @@ from openpyxl import Workbook, load_workbook
 
 from adapters.spreadsheet import KIND
 from experiment.runner import Arm, ExperimentRunner, ModelReply, RunConfig, Task
+from fulfilment import EvidenceStore
 from services.spreadsheet import SpreadsheetServices
 from tests.contract_fixtures import capability_records, contract_reply, transition_reply
 
@@ -89,6 +90,15 @@ class SpreadsheetServicesE2E(unittest.TestCase):
                 self.assertEqual(self.value(out, result), (4, "preserve"))
                 self.assertEqual(len(provider.calls), 1 if arm is Arm.A else 2)
                 self.assertEqual(result["contract_compiled"], arm is not Arm.A)
+
+    def test_arm_c_fulfilled_decision_is_evidence_gated_and_reconstructable(self):
+        td, out, provider, result = self.run_arm(
+            Arm.C, [contract_reply("B1 equals independently computed twice A1"), transition_reply()])
+        self.addCleanup(td.cleanup)
+        self.assertEqual(result["internal_status"], "FULFILLED")
+        evidence = EvidenceStore(out / "events" / "t1.broker.jsonl").verify()
+        self.assertEqual(evidence[-1].event_type, "termination_decision")
+        self.assertTrue(evidence[-1].payload["fulfilled"])
 
     def test_absent_independent_semantics_is_typed_uncertain_not_fulfilled(self):
         contract = contract_reply("B1 answers the intent")

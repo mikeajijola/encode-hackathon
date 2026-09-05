@@ -6,7 +6,7 @@ from pathlib import Path
 from experiment.manifests import build_manifests, write_manifest_set
 from protocol.analysis import validate_ledger
 from protocol.offline_report import analyze
-from protocol.registered_run import (_failure_assignments, _stage_blind_dataset, _write_ledger,
+from protocol.registered_run import (_failure_assignments, _render_report, _stage_blind_dataset, _write_ledger,
                                      fulfilment_command, preflight, scorer_command)
 
 
@@ -104,6 +104,20 @@ class RegisteredRunTest(unittest.TestCase):
         serialized = json.dumps(assignments)
         self.assertNotIn("expected", serialized.lower())
         self.assertNotIn("actual", serialized.lower())
+
+    def test_generated_report_surfaces_failed_reliability_gate(self):
+        def row(task_id, passed, claimed=True):
+            return {"task_id": task_id, "official_pass": passed,
+                    "internal_status": "FULFILLED" if claimed else "UNFULFILLED",
+                    "artifact_valid": True, "constraint_violation": False,
+                    "first_mutation_pass": False, "correct_cells": int(passed), "total_cells": 1,
+                    "actions": 1, "tokens": 1, "latency_ms": 1, "cost_usd": .01,
+                    "failure_classes": []}
+        arms = {arm: [row(str(i), arm == "D" and i < 9) for i in range(10)] for arm in "ABCD"}
+        report = analyze(arms, samples=100, seed=2)
+        rendered = _render_report(report)
+        self.assertIn("PARTIALLY SUPPORTED", rendered)
+        self.assertIn("[ ] `D_false_fulfilment_below_5_percent`", rendered)
 
 
 if __name__ == "__main__": unittest.main()

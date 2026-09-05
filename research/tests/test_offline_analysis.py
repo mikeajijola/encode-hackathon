@@ -101,5 +101,18 @@ class OfflineAnalysisTests(unittest.TestCase):
         self.assertIn("evaluation_false_positive", rows[0]["failure_classes"])
         self.assertIn("evaluation_false_negative", rows[1]["failure_classes"])
 
+    def test_preregistered_assessment_cannot_ignore_reliability_gates(self):
+        rows_a = [join_results([internal(str(i), False, None, 1)], [official(str(i), False, 0)])[0]
+                  for i in range(10)]
+        rows_d = []
+        for i in range(10):
+            item = internal(str(i), True, False, 2)
+            rows_d.extend(join_results([item], [official(str(i), i < 9, int(i < 9))]))
+        report = analyze({"A": rows_a, "B": rows_a, "C": rows_a, "D": rows_d}, samples=100, seed=2)
+        assessment = report["preregistered_assessment"]
+        self.assertTrue(assessment["criteria"]["D_minus_A_at_least_8_points"])
+        self.assertFalse(assessment["criteria"]["D_false_fulfilment_below_5_percent"])
+        self.assertEqual(assessment["result"], "partially_supported_quantitatively")
+
 
 if __name__ == "__main__": unittest.main()

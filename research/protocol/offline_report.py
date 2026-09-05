@@ -82,7 +82,7 @@ def analyze(arms: dict[str, list[dict]], *, samples: int = 10_000, seed: int = 2
             "bootstrap": paired_bootstrap_ci(arms[control], arms[treatment], samples=samples, seed=seed),
             "mcnemar": mcnemar_exact(arms[control], arms[treatment]),
         }
-    return {
+    report = {
         "metrics": metrics, "paired_comparisons": paired,
         "breakdowns": {arm: {field: breakdown(arms[arm], field) for field in BREAKDOWN_FIELDS} for arm in ARMS},
         "failure_distribution": {arm: failure_distribution(arms[arm]) for arm in ARMS},
@@ -91,6 +91,36 @@ def analyze(arms: dict[str, list[dict]], *, samples: int = 10_000, seed: int = 2
         "resource_distributions": {arm: resource_distribution(arms[arm]) for arm in ARMS},
         "multimodal": {"status": "not_applicable", "rationale": "Analysis records have no rendered semantics; adapter evidence is analyzed by reference."},
     }
+    report["preregistered_assessment"] = assess_preregistered(report)
+    return report
+
+
+def assess_preregistered(report: dict) -> dict:
+    """Mechanical thresholds only; cost defensibility remains an explicit review gate."""
+    metrics = report["metrics"]
+    d, comparison = metrics["D"], report["paired_comparisons"]["D_minus_A"]["bootstrap"]
+    pass_rates = [metrics[arm]["pass_rate"] for arm in ARMS]
+    criteria = {
+        "D_minus_A_at_least_8_points": comparison["estimate"] >= .08,
+        "D_minus_A_95_ci_excludes_zero": comparison["lower"] > 0,
+        "ordering_D_gt_C_gte_B_gte_A": pass_rates[3] > pass_rates[2] >= pass_rates[1] >= pass_rates[0],
+        "D_recovery_yield_at_least_20_percent": d["recovery_yield"] is not None and d["recovery_yield"] >= .20,
+        "D_false_fulfilment_below_5_percent": d["false_fulfilment_rate"] is not None and d["false_fulfilment_rate"] < .05,
+        "D_completion_precision_at_least_90_percent": d["completion_claim_precision"] is not None and d["completion_claim_precision"] >= .90,
+        "D_artifact_validity_at_least_99_percent": d["artifact_validity_rate"] is not None and d["artifact_validity_rate"] >= .99,
+        "D_no_known_constraint_violation": d["constraint_violation_rate"] == 0,
+        "overhead_reported": "D" in report.get("overhead_vs_A", {}),
+    }
+    primary = criteria["D_minus_A_at_least_8_points"] and criteria["D_minus_A_95_ci_excludes_zero"]
+    if all(criteria.values()):
+        result = "quantitative_thresholds_met_pending_evidence_and_cost_review"
+    elif primary:
+        result = "partially_supported_quantitatively"
+    else:
+        result = "not_supported_by_preregistered_primary_threshold"
+    return {"result": result, "criteria": criteria,
+            "manual_gates": {"all_fulfilment_decisions_reconstructable": "pending_coordinator_verification",
+                             "latency_token_cost_overhead_defensible": "requires_reported_judgment"}}
 
 
 def overhead(control: dict, treatment: dict) -> dict:
