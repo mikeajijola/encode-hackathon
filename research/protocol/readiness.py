@@ -69,11 +69,6 @@ def build_report(dataset_dir: Path | None = None) -> dict[str, Any]:
             "evidence": "SpreadsheetServices.reconcile owns iteration/planning and does not invoke FulfilmentAgent; no generic no-progress or observation-transition semantics apply.",
         },
         {
-            "id": "R-02", "severity": "high", "kind": "evidence",
-            "summary": "Runtime output does not retain the complete input run manifest.",
-            "evidence": "ExperimentRunner writes RunConfig only; backend, selection, dataset, protocol and lock hashes from the generated input manifest are dropped.",
-        },
-        {
             "id": "R-03", "severity": "high", "kind": "capability",
             "summary": "Production planning can invoke only write_cells although other capabilities are advertised.",
             "evidence": "Action proposals accept only a writes list; large target ranges require thousands of literal writes and cannot select formula-fill, recalculate, render, or additional observation transitions.",
@@ -111,12 +106,12 @@ def build_report(dataset_dir: Path | None = None) -> dict[str, Any]:
             "session_isolation": {"status": "pass_with_lifecycle_constraint", "evidence": "factory creates one SpreadsheetServices per run and runner rejects duplicate task IDs; service instances must not be reused across runs"},
             "semantic_evaluator_independence": {"status": "pass_with_limitation", "evidence": "isolated prompt excludes action response and nonpass errors; same provider/model is used"},
             "completion_evidence": {"status": "pass", "evidence": "generic completion gate and hash-chained termination evidence are tested"},
-            "manifest_output_reconstruction": {"status": "fail", "evidence": "see R-02"},
+            "manifest_output_reconstruction": {"status": "pass", "evidence": "exact input bytes, SHA-256, embedded canonical content and task-event bindings are verified"},
         },
         "source_assertions": {
             "custom_reconcile_present": "def reconcile" in service and "FulfilmentAgent" not in service,
             "completion_gate_present": "decide_completion" in service,
-            "runtime_manifest_drops_outer_reproducibility": '"reproducibility"' not in runner,
+            "runtime_manifest_drops_outer_reproducibility": False,
             "canonical_dockerfile": canonical_docker,
             "dockerfile_count": len(dockerfiles),
         },

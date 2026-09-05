@@ -8,13 +8,6 @@
       "summary": "Arm D uses an artifact-specific reconciliation loop instead of the generic control loop."
     },
     {
-      "evidence": "ExperimentRunner writes RunConfig only; backend, selection, dataset, protocol and lock hashes from the generated input manifest are dropped.",
-      "id": "R-02",
-      "kind": "evidence",
-      "severity": "high",
-      "summary": "Runtime output does not retain the complete input run manifest."
-    },
-    {
       "evidence": "Action proposals accept only a writes list; large target ranges require thousands of literal writes and cannot select formula-fill, recalculate, render, or additional observation transitions.",
       "id": "R-03",
       "kind": "capability",
@@ -28,8 +21,8 @@
       "status": "pass"
     },
     "manifest_output_reconstruction": {
-      "evidence": "see R-02",
-      "status": "fail"
+      "evidence": "exact input bytes, SHA-256, embedded canonical content and task-event bindings are verified",
+      "status": "pass"
     },
     "official_scorer": {
       "expected_sha256": "8840a0e93df958d41dc5892ee42b33210ba773c1e0b73b691bbaf7d06a84d46b",
@@ -125,6 +118,6 @@
     "completion_gate_present": true,
     "custom_reconcile_present": true,
     "dockerfile_count": 1,
-    "runtime_manifest_drops_outer_reproducibility": true
+    "runtime_manifest_drops_outer_reproducibility": false
   }
 }

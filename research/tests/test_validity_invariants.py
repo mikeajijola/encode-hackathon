@@ -155,11 +155,11 @@ class RegisteredRunBlockerSentinels(unittest.TestCase):
         self.assertNotIn("FulfilmentAgent", source)
         self.assertNotIn("no_progress", reconcile)
 
-    def test_output_manifest_drops_outer_reproducibility_envelope(self):
+    def test_output_manifest_preserves_outer_reproducibility_envelope(self):
         runner = (RESEARCH / "experiment" / "runner.py").read_text()
         prepare = runner.split("def _prepare", 1)[1].split("def run", 1)[0]
-        self.assertNotIn('raw["reproducibility"]', prepare)
-        self.assertNotIn('"selection_sha256"', prepare)
+        self.assertIn('manifest["source_manifest"]', prepare)
+        self.assertIn('"input_manifest.json"', prepare)
 
     def test_internal_status_and_termination_reason_are_projected_by_runner(self):
         source = (RESEARCH / "experiment" / "runner.py").read_text()
@@ -183,7 +183,8 @@ class RegisteredRunBlockerSentinels(unittest.TestCase):
         report = build_report()
         self.assertFalse(report["registered_run_ready"])
         self.assertEqual(report["decision"], "BLOCKED")
-        self.assertTrue({"R-01", "R-02", "R-03"} <= {item["id"] for item in report["blockers"]})
+        self.assertTrue({"R-01", "R-03"} <= {item["id"] for item in report["blockers"]})
+        self.assertNotIn("R-02", {item["id"] for item in report["blockers"]})
         self.assertEqual(
             report["original_finding_status"]["V-06"]["status"],
             "resolved_static_external_smoke_pending",

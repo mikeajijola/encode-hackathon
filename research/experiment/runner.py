@@ -94,6 +94,10 @@ class BudgetExceeded(RuntimeError):
     pass
 
 
+class ManifestIntegrityError(RuntimeError):
+    pass
+
+
 def file_hash(path: Path) -> str:
     digest = sha256()
     with path.open("rb") as stream:
@@ -198,18 +202,54 @@ class TaskRuntime:
 
 
 class ExperimentRunner:
-    def __init__(self, config: RunConfig, services: Services, provider: ModelProvider, out_dir: Path):
+    def __init__(self, config: RunConfig, services: Services, provider: ModelProvider, out_dir: Path,
+                 *, source_manifest_bytes: bytes | None = None):
         self.config, self.services, self.provider, self.out_dir = config, services, provider, Path(out_dir)
+        self.source_manifest_bytes = source_manifest_bytes
+        self.source_manifest_sha256 = sha256(source_manifest_bytes).hexdigest() if source_manifest_bytes else None
+
+    def _source_manifest(self) -> Mapping[str, Any] | None:
+        if self.source_manifest_bytes is None:
+            return None
+        try:
+            source = json.loads(self.source_manifest_bytes)
+        except (UnicodeDecodeError, json.JSONDecodeError) as error:
+            raise ManifestIntegrityError(f"source manifest is not valid UTF-8 JSON: {error}") from error
+        if not isinstance(source, dict) or not isinstance(source.get("run_config"), dict):
+            raise ManifestIntegrityError("source manifest must be an object containing run_config")
+        expected = json.loads(json.dumps(asdict(self.config), default=str))
+        expected["arm"] = self.config.arm.value
+        observed = source["run_config"]
+        mismatched = sorted(
+            key for key, value in expected.items()
+            if observed.get(key, [] if key == "deviations" else None) != value
+        )
+        if mismatched:
+            raise ManifestIntegrityError(f"source manifest differs from runtime config: {mismatched}")
+        if not isinstance(source.get("backend"), str) or not isinstance(source.get("backend_config"), dict):
+            raise ManifestIntegrityError("source manifest lacks backend provenance")
+        reproducibility = source.get("reproducibility")
+        required_pins = {"protocol_sha256", "selection_sha256", "dataset_metadata_sha256",
+                         "uv_lock_sha256", "container_digest"}
+        if not isinstance(reproducibility, dict) or not required_pins <= set(reproducibility):
+            raise ManifestIntegrityError("source manifest lacks required reproducibility pins")
+        return source
 
     def _prepare(self) -> None:
+        source = self._source_manifest()
         if self.out_dir.exists() and any(self.out_dir.iterdir()):
             raise FileExistsError("output directory must be empty")
         for name in ("outputs", "traces", "events", "task_results"):
             (self.out_dir / name).mkdir(parents=True, exist_ok=True)
-        manifest = {"schema_version": "1.0.0", **asdict(self.config)}
+        manifest = {"schema_version": "1.1.0", **asdict(self.config)}
         manifest["arm"] = self.config.arm.value
-        manifest["created_unix"] = time()
+        manifest["runtime_created_unix"] = time()
         manifest["golden_access"] = "offline_scoring_only"
+        manifest["source_manifest_sha256"] = self.source_manifest_sha256
+        manifest["source_manifest_path"] = "input_manifest.json" if source is not None else None
+        manifest["source_manifest"] = source
+        if self.source_manifest_bytes is not None:
+            (self.out_dir / "input_manifest.json").write_bytes(self.source_manifest_bytes)
         (self.out_dir / "run_manifest.json").write_text(json.dumps(manifest, indent=2, sort_keys=True, default=str) + "\n")
         (self.out_dir / "predictions.jsonl").touch()
         (self.out_dir / "run.log").touch()
@@ -238,7 +278,8 @@ class ExperimentRunner:
         execution = None
         termination_reason = "execution_not_started"
         try:
-            runtime.event("task_started", {"task_id": task.id, "artifact_hash": before, "arm": self.config.arm.value})
+            runtime.event("task_started", {"task_id": task.id, "artifact_hash": before, "arm": self.config.arm.value,
+                                           "source_manifest_sha256": self.source_manifest_sha256})
             if self.config.arm is Arm.A:
                 execution = self.services.execute_once(task, None, destination, runtime)
             else:
@@ -284,3 +325,35 @@ class ExperimentRunner:
         with (self.out_dir / "run.log").open("a", encoding="utf-8") as stream:
             stream.write(f"{task.id} arm={self.config.arm.value} status={status} actions={runtime.actions}\n")
         return result
+
+
+def verify_run_manifest(out_dir: Path | str) -> Mapping[str, Any]:
+    """Reconstruct and verify the retained source manifest and its runtime binding."""
+    root = Path(out_dir)
+    try:
+        runtime = json.loads((root / "run_manifest.json").read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as error:
+        raise ManifestIntegrityError(f"runtime manifest unreadable: {error}") from error
+    expected_hash = runtime.get("source_manifest_sha256")
+    relative = runtime.get("source_manifest_path")
+    if not expected_hash or relative != "input_manifest.json":
+        raise ManifestIntegrityError("runtime manifest has no retained source-manifest binding")
+    source_path = root / relative
+    try:
+        source_bytes = source_path.read_bytes()
+        source = json.loads(source_bytes)
+    except (OSError, UnicodeDecodeError, json.JSONDecodeError) as error:
+        raise ManifestIntegrityError(f"retained source manifest unreadable: {error}") from error
+    observed_hash = sha256(source_bytes).hexdigest()
+    if observed_hash != expected_hash:
+        raise ManifestIntegrityError("retained source manifest hash mismatch")
+    if source != runtime.get("source_manifest"):
+        raise ManifestIntegrityError("embedded source manifest differs from retained bytes")
+    events = sorted((root / "events").glob("*.jsonl"))
+    for path in events:
+        if path.name.endswith(".broker.jsonl"):
+            continue
+        first = json.loads(path.read_text(encoding="utf-8").splitlines()[0])
+        if first.get("event_type") != "task_started" or first.get("payload", {}).get("source_manifest_sha256") != expected_hash:
+            raise ManifestIntegrityError(f"task event is not bound to source manifest: {path.name}")
+    return runtime

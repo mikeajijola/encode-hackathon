@@ -23,7 +23,7 @@ This review does not change the preregistered thresholds or official scorer. Tes
 | V-11 | Low | No | 275/400 dataset tasks have no `answer_sheet`; active-sheet resolution matches the scorer. Six tasks contain multiple explicit sheet markers and resolve in fixture coverage. Nine contain comma-separated positions. These cases require a pre-run selector-resolution audit over the selected split. |
 | V-12 | Low | No | The development selection is reproducible, hash-verified, balanced 10/10, and contains no reference-answer fields. Selection metadata includes answer position/sheet, so that benchmark-specific narrowing must remain identical across arms and be disclosed. |
 | R-01 | Critical | Yes | The production D loop is artifact-specific. It lacks the generic agent's transition type validation, knowledge-to-observation rule, capability-manifest planning and repeated-transition/no-progress guard. Completion gating alone does not prove generic reconciliation semantics. |
-| R-02 | High | Yes | Generated input manifests contain protocol, selection, dataset, lock, environment and container pins, but `ExperimentRunner._prepare` writes only `RunConfig` to the output manifest. A submitted output directory is insufficient to reconstruct its run without separately preserved input state. |
+| R-02 | High | Resolved | Registered CLI runs now retain byte-equivalent input manifest bytes, their SHA-256, and complete embedded content in the runtime manifest. Runtime config equality is checked before execution, task-start events bind the source hash, and reconstruction detects byte or embedded-content tampering. |
 | R-03 | High | Yes | The production action path accepts only literal `writes`. Although formula-fill, recalculation, validation, rendering and observation capabilities are advertised, the planner cannot select them. The all-400 selector audit found targets as large as 104,110 cells and the development split includes a 6,066-cell target, making literal output incompatible with the fixed token budget for affected tasks. |
 
 ## Invariants verified
@@ -42,11 +42,10 @@ This review does not change the preregistered thresholds or official scorer. Tes
 ## Required pre-run resolution order
 
 1. Route D through the generic control semantics, retaining the now-working independent evaluator and evidence completion gate.
-2. Preserve the complete validated input manifest (or its content and hash) with each output run so evidence reconstruction is self-contained.
-3. Expose advertised capabilities to discrepancy planning, especially bounded observation and formula-fill/recalculation for large ranges.
-4. Freeze Arm A v2 prompts, schemas, tools, completion labels, and budgets; treat any legacy comparison as a separate ablation.
-5. Resolve the two-Dockerfile ambiguity and complete a real container build/smoke run with LibreOffice.
-6. Verify an oracle score of 1.0 offline and pin scorer/container/provider revisions.
+2. Expose advertised capabilities to discrepancy planning, especially bounded observation and formula-fill/recalculation for large ranges.
+3. Freeze Arm A v2 prompts, schemas, tools, completion labels, and budgets; treat any legacy comparison as a separate ablation.
+4. Complete a real canonical-container build/smoke run with LibreOffice.
+5. Verify an oracle score of 1.0 offline and pin scorer/container/provider revisions.
 
 ## Evaluation coverage
 
@@ -54,7 +53,7 @@ This review does not change the preregistered thresholds or official scorer. Tes
 
 ## Conclusion
 
-The semantic evaluator, generic completion gate, explicit completion claims, retry enforcement, and reproducible input-manifest generator materially improve validity. Registered execution remains blocked: D still runs artifact-specific rather than generic reconciliation semantics; output evidence drops the outer reproducibility manifest; large-range tasks cannot select the advertised non-literal capabilities; and Docker packaging remains ambiguous. Synthetic results validate orchestration arithmetic only and do not mitigate these blockers.
+The semantic evaluator, generic completion gate, explicit completion claims, retry enforcement, and self-contained run-manifest provenance materially improve validity. Registered execution remains blocked: D still runs artifact-specific rather than generic reconciliation semantics, large-range tasks cannot select the advertised non-literal capabilities, and the canonical Docker image has not been externally built or smoke-tested. Synthetic results validate orchestration arithmetic only and do not mitigate these blockers.
 
 ## Final sweep evidence
 

@@ -45,7 +45,9 @@ class SpreadsheetBenchBackendTest(unittest.TestCase):
             "run_config": {"experiment_id": "e", "arm": arm, "model": "pinned", "model_version": "v1",
             "temperature": 0, "max_tokens": 100, "max_actions": 5, "max_wall_time_ms": 10000,
             "max_cost": 1, "environment_image_digest": "sha256:x", "recalculation_engine": "none",
-            "scorer_commit": "fixed", "retry_policy": {"transport": 0}}}
+            "scorer_commit": "fixed", "retry_policy": {"transport": 0}},
+            "reproducibility": {"protocol_sha256": "1", "selection_sha256": "2",
+            "dataset_metadata_sha256": "3", "uv_lock_sha256": "4", "container_digest": "sha256:x"}}
 
     def test_loader_exposes_only_init_metadata_and_bounded_canonical_context(self):
         real_load = __import__("backends.spreadsheetbench", fromlist=["load_workbook"]).load_workbook
@@ -127,6 +129,12 @@ class SpreadsheetBenchBackendTest(unittest.TestCase):
         run_manifest = json.loads((out / "run_manifest.json").read_text())
         self.assertEqual(run_manifest["model"], "pinned")
         self.assertEqual(run_manifest["temperature"], 0)
+        self.assertEqual((out / "input_manifest.json").read_bytes(), manifest.read_bytes())
+        self.assertEqual(run_manifest["source_manifest"], json.loads(manifest.read_text()))
+        self.assertRegex(run_manifest["source_manifest_sha256"], r"^[0-9a-f]{64}$")
+        first_event = json.loads((out / "events" / "x.jsonl").read_text().splitlines()[0])
+        self.assertEqual(first_event["payload"]["source_manifest_sha256"],
+                         run_manifest["source_manifest_sha256"])
 
 
 if __name__ == "__main__": unittest.main()
