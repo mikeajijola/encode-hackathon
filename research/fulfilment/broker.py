@@ -44,7 +44,10 @@ def _validate_json_schema(inputs: Mapping[str, Any], schema: Mapping[str, Any]) 
         extras = set(inputs) - set(properties)
         if extras:
             raise BrokerError(f"unexpected inputs: {sorted(extras)}")
-    types = {"string": str, "integer": int, "number": (int, float), "boolean": bool, "array": list, "object": dict}
+    # Frozen request records represent JSON arrays as tuples, so both mutable
+    # and immutable sequences satisfy the JSON Schema array type here.
+    types = {"string": str, "integer": int, "number": (int, float), "boolean": bool,
+             "array": (list, tuple), "object": dict}
     for name, value in inputs.items():
         expected = properties.get(name, {}).get("type")
         if expected in types and (not isinstance(value, types[expected]) or expected == "integer" and isinstance(value, bool)):

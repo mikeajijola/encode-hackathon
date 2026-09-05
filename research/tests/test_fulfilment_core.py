@@ -196,6 +196,20 @@ class BrokerTest(unittest.TestCase):
         with self.assertRaisesRegex(BrokerError, "provenance"):
             self.broker.invoke(contract(), request)
 
+    def test_frozen_json_array_satisfies_array_schema(self):
+        manifest = CapabilityManifest(
+            "inspect", "1", ("text",),
+            {"type": "object", "properties": {"selectors": {"type": "array"}},
+             "required": ["selectors"], "additionalProperties": False},
+            CapabilityEffect.OBSERVE,
+        )
+        self.broker.register(manifest, FakeHandler(actual=()))
+        request = CapabilityRequest(
+            "inspect-1", "inspect", "1", "artifact", "text",
+            {"selectors": ["document/target"]}, (), ("d1",),
+        )
+        self.broker.invoke(contract(), request)
+
 
 if __name__ == "__main__":
     unittest.main()

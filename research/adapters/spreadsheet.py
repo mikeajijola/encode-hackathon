@@ -236,12 +236,8 @@ def _require_requested(actual: tuple[Scope, ...], requested: tuple[Scope, ...]) 
 def manifests() -> tuple[CapabilityManifest, ...]:
     base_provenance = ("adapter_version", "artifact_sha256", "selectors")
     schemas = {
-        # Frozen generic request records represent JSON arrays as tuples. The
-        # broker's shallow validator accepts only lists for `array`, so array
-        # element validation is performed by this adapter until that generic
-        # representation/validator mismatch is resolved.
-        "inspect_workbook": ({"selectors": {}}, ("selectors",), CapabilityEffect.OBSERVE),
-        "write_cells": ({"writes": {}}, ("writes",), CapabilityEffect.MUTATE),
+        "inspect_workbook": ({"selectors": {"type": "array"}}, ("selectors",), CapabilityEffect.OBSERVE),
+        "write_cells": ({"writes": {"type": "array"}}, ("writes",), CapabilityEffect.MUTATE),
         "copy_or_fill_formula": ({"source": {"type": "string"}, "target": {"type": "string"}}, ("source", "target"), CapabilityEffect.MUTATE),
         "recalculate": ({}, (), CapabilityEffect.MUTATE),
         "validate_workbook": ({}, (), CapabilityEffect.VALIDATE),
