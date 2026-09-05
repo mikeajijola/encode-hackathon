@@ -11,7 +11,7 @@ This review does not change the preregistered thresholds or official scorer. Tes
 | ID | Severity | Blocking? | Evidence and consequence |
 |---|---|---:|---|
 | V-01 | Critical | Resolved with limitation | A production isolated semantic-model evaluator now independently receives intent, accepted contract, bounded source observation, and current target facts without the action response. Malformed, error, and uncertain verdicts cannot pass; blank targets first create an actionable state discrepancy. It uses the same configured provider/model in an isolated role, so actor-level independence remains a disclosed limitation. |
-| V-02 | Critical | Partially resolved; still blocking | Every prospective success now passes generic `decide_completion`, and hash-chained evidence contains contract, observation, eval and termination records. However, `SpreadsheetServices.reconcile` still owns the iteration and transition policy instead of invoking the generic `FulfilmentAgent`; generic observation-transition, capability selection, and no-progress semantics therefore are not the semantics under test. Tracked as R-01. |
+| V-02 | Critical | Resolved | Production Arm D now constructs the generic `FulfilmentAgent`; its artifact-neutral loop exclusively owns observation transitions, eval execution, discrepancy lifecycle, broker invocation, repetition/no-progress detection, completion, and termination evidence. Spreadsheet-specific observer, evaluator, planner, lifecycle, and capability handlers implement only the generic interfaces. Production fixture tests cover repair, knowledge observation, scope rejection, no-progress, uncertainty, and reconstructable evidence. |
 | V-03 | High | Resolved as controlled deviation | Production control is now explicitly characterized as Arm A v2 in `ARM_A_V2.md`; it is not represented as the legacy baseline and legacy scores cannot be reused. A/B/C/D share its bounded context, action schema, broker, and budgets, leaving the declared treatment components as differences. A legacy-v2 comparison remains a separate harness ablation. |
 | V-04 | High | Resolved | The runner now projects `FULFILLED_UNVERIFIED` for successful A/B one-shot claims, `FULFILLED` only for passing C/D terminal evals, and `UNFULFILLED` otherwise, with a typed termination reason. Offline FFR includes both completion-claim labels while preserving their evidentiary distinction. |
 | V-05 | High | Resolved | `TaskRuntime.complete` now enforces `model_transport_retries` uniformly across arms, traces every failed and successful attempt, records retry events, and separately reports total versus successful calls. No action retry was added. |
@@ -22,7 +22,7 @@ This review does not change the preregistered thresholds or official scorer. Tes
 | V-10 | Medium | No | Evaluator independence is isolation-by-field-filter within the same service/process. `independent_expected` is withheld from model prompts, which is good, but any future computation must be provenance-recorded and tested against tautology. There is no process-level separation. |
 | V-11 | Low | No | 275/400 dataset tasks have no `answer_sheet`; active-sheet resolution matches the scorer. Six tasks contain multiple explicit sheet markers and resolve in fixture coverage. Nine contain comma-separated positions. These cases require a pre-run selector-resolution audit over the selected split. |
 | V-12 | Low | No | The development selection is reproducible, hash-verified, balanced 10/10, and contains no reference-answer fields. Selection metadata includes answer position/sheet, so that benchmark-specific narrowing must remain identical across arms and be disclosed. |
-| R-01 | Critical | Yes | The production D loop is artifact-specific. It lacks the generic agent's transition type validation, knowledge-to-observation rule, capability-manifest planning and repeated-transition/no-progress guard. Completion gating alone does not prove generic reconciliation semantics. |
+| R-01 | Critical | Resolved | `SpreadsheetServices.reconcile` delegates to `FulfilmentAgent` with spreadsheet protocol implementations beneath its interfaces. Source assertions and production tests demonstrate generic knowledge-to-observation routing, capability transition authorization, re-observation/evaluation, repeated-transition `no_progress`, evidence-gated completion, and typed refusal. No spreadsheet import was added to `fulfilment/`. |
 | R-02 | High | Resolved | Registered CLI runs now retain byte-equivalent input manifest bytes, their SHA-256, and complete embedded content in the runtime manifest. Runtime config equality is checked before execution, task-start events bind the source hash, and reconstruction detects byte or embedded-content tampering. |
 | R-03 | High | Yes | The production action path accepts only literal `writes`. Although formula-fill, recalculation, validation, rendering and observation capabilities are advertised, the planner cannot select them. The all-400 selector audit found targets as large as 104,110 cells and the development split includes a 6,066-cell target, making literal output incompatible with the fixed token budget for affected tasks. |
 
@@ -41,11 +41,10 @@ This review does not change the preregistered thresholds or official scorer. Tes
 
 ## Required pre-run resolution order
 
-1. Route D through the generic control semantics, retaining the now-working independent evaluator and evidence completion gate.
-2. Expose advertised capabilities to discrepancy planning, especially bounded observation and formula-fill/recalculation for large ranges.
-3. Freeze Arm A v2 prompts, schemas, tools, completion labels, and budgets; treat any legacy comparison as a separate ablation.
-4. Complete a real canonical-container build/smoke run with LibreOffice.
-5. Verify an oracle score of 1.0 offline and pin scorer/container/provider revisions.
+1. Expose advertised capabilities to discrepancy planning, especially bounded observation and formula-fill/recalculation for large ranges.
+2. Freeze Arm A v2 prompts, schemas, tools, completion labels, and budgets; treat any legacy comparison as a separate ablation.
+3. Complete a real canonical-container build/smoke run with LibreOffice.
+4. Verify an oracle score of 1.0 offline and pin scorer/container/provider revisions.
 
 ## Evaluation coverage
 

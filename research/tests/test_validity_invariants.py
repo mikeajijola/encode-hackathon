@@ -143,17 +143,15 @@ class RegisteredRunBlockerSentinels(unittest.TestCase):
     def test_spreadsheet_reconciler_uses_evidence_completion_gate(self):
         source = (RESEARCH / "services" / "spreadsheet.py").read_text()
         reconcile = source.split("def reconcile", 1)[1].split("def _session", 1)[0]
-        self.assertIn("decide_completion", reconcile)
-        self.assertIn("session.evidence.records()", reconcile)
-        self.assertIn('session.evidence.append("termination_decision"', reconcile)
-        self.assertIn('ExecutionResult(destination, "fulfilled"', reconcile)
+        self.assertIn("FulfilmentAgent(", reconcile)
+        self.assertIn("agent.run", reconcile)
+        self.assertNotIn("for iteration in range", reconcile)
 
-    def test_custom_reconcile_still_does_not_use_generic_agent_semantics(self):
+    def test_production_reconcile_uses_generic_agent_semantics(self):
         source = (RESEARCH / "services" / "spreadsheet.py").read_text()
-        reconcile = source.split("def reconcile", 1)[1].split("def _completion_decision", 1)[0]
-        self.assertIn("for iteration in range", reconcile)
-        self.assertNotIn("FulfilmentAgent", source)
-        self.assertNotIn("no_progress", reconcile)
+        reconcile = source.split("def reconcile", 1)[1].split("def _session", 1)[0]
+        self.assertNotIn("for iteration in range", reconcile)
+        self.assertIn("FulfilmentAgent", reconcile)
 
     def test_output_manifest_preserves_outer_reproducibility_envelope(self):
         runner = (RESEARCH / "experiment" / "runner.py").read_text()
@@ -183,7 +181,9 @@ class RegisteredRunBlockerSentinels(unittest.TestCase):
         report = build_report()
         self.assertFalse(report["registered_run_ready"])
         self.assertEqual(report["decision"], "BLOCKED")
-        self.assertTrue({"R-01", "R-03"} <= {item["id"] for item in report["blockers"]})
+        blocker_ids = {item["id"] for item in report["blockers"]}
+        self.assertEqual({"R-03"}, blocker_ids)
+        self.assertNotIn("R-01", blocker_ids)
         self.assertNotIn("R-02", {item["id"] for item in report["blockers"]})
         self.assertEqual(
             report["original_finding_status"]["V-06"]["status"],

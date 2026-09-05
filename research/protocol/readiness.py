@@ -64,11 +64,6 @@ def build_report(dataset_dir: Path | None = None) -> dict[str, Any]:
     runner = (RESEARCH / "experiment" / "runner.py").read_text()
     blockers = [
         {
-            "id": "R-01", "severity": "critical", "kind": "code",
-            "summary": "Arm D uses an artifact-specific reconciliation loop instead of the generic control loop.",
-            "evidence": "SpreadsheetServices.reconcile owns iteration/planning and does not invoke FulfilmentAgent; no generic no-progress or observation-transition semantics apply.",
-        },
-        {
             "id": "R-03", "severity": "high", "kind": "capability",
             "summary": "Production planning can invoke only write_cells although other capabilities are advertised.",
             "evidence": "Action proposals accept only a writes list; large target ranges require thousands of literal writes and cannot select formula-fill, recalculate, render, or additional observation transitions.",
@@ -82,7 +77,7 @@ def build_report(dataset_dir: Path | None = None) -> dict[str, Any]:
     environment_blockers = [key for key, value in environment.items() if value == "missing"]
     statuses = {
         "V-01": {"status": "resolved_with_limitation", "evidence": "isolated semantic evaluator role; malformed/error/uncertain verdicts cannot pass; same provider/model actor remains a disclosed limitation"},
-        "V-02": {"status": "partially_resolved", "evidence": "generic decide_completion now gates success, but artifact-specific reconciliation control semantics remain R-01"},
+        "V-02": {"status": "resolved", "evidence": "production D delegates iteration, transition validation, broker invocation, no-progress, completion and termination to generic FulfilmentAgent"},
         "V-03": {"status": "resolved_as_controlled_deviation", "evidence": "Arm A v2 is frozen and explicitly not equated with the legacy baseline"},
         "V-04": {"status": "resolved", "evidence": "explicit verified/unverified/unfulfilled status and FFR projection"},
         "V-05": {"status": "resolved", "evidence": "shared transport retries are enforced and every attempt traced"},
@@ -109,8 +104,9 @@ def build_report(dataset_dir: Path | None = None) -> dict[str, Any]:
             "manifest_output_reconstruction": {"status": "pass", "evidence": "exact input bytes, SHA-256, embedded canonical content and task-event bindings are verified"},
         },
         "source_assertions": {
-            "custom_reconcile_present": "def reconcile" in service and "FulfilmentAgent" not in service,
-            "completion_gate_present": "decide_completion" in service,
+            "custom_reconcile_present": "def reconcile" in service and "FulfilmentAgent(" not in service,
+            "generic_agent_present": "FulfilmentAgent(" in service,
+            "completion_gate_present": "FulfilmentAgent(" in service,
             "runtime_manifest_drops_outer_reproducibility": False,
             "canonical_dockerfile": canonical_docker,
             "dockerfile_count": len(dockerfiles),

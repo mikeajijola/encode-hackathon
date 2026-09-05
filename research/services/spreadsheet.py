@@ -12,14 +12,16 @@ from uuid import uuid4
 from openpyxl import load_workbook
 from openpyxl.utils.cell import range_boundaries
 
-from adapters.spreadsheet import KIND, VERSION, WorkbookSnapshots, parse_selector, register_spreadsheet_capabilities, scope_for
+from adapters.spreadsheet import (KIND, VERSION, SpreadsheetCapability, WorkbookSnapshots,
+                                  manifests, parse_selector, register_spreadsheet_capabilities, scope_for)
 from experiment.runner import EvaluationResult, ExecutionResult, Task, TaskRuntime
 from sb import answer_cells
 from fulfilment import (
     Broker, CapabilityRequest, Contract, ContractValidator, DesiredAssertion,
     Discrepancy, EvalResult, EvalSpec, EvalStatus, EvidenceStore, Observation,
     Scope, derive_discrepancies,
-    decide_completion,
+    DeterministicContractCompiler, EvaluatorRegistry, FulfilmentAgent,
+    Transition, TransitionKind,
 )
 from fulfilment.models import FrozenDict
 
@@ -51,6 +53,139 @@ class _Session:
     evidence: EvidenceStore
     initial_cells: dict[str, Any]
     discrepancies: tuple[Discrepancy, ...] = ()
+
+
+class _RuntimeCapability:
+    def __init__(self, runtime, handler): self.runtime, self.handler = runtime, handler
+    def invoke(self, request):
+        self.runtime.action(request.capability_name, {"discrepancy_ids": request.discrepancy_ids})
+        return self.handler.invoke(request)
+
+
+class _RuntimeEvidenceStore(EvidenceStore):
+    """Hash-chain remains authoritative; runtime stream gets a searchable mirror."""
+    def __init__(self, path, runtime): self.runtime = runtime; super().__init__(path)
+    def append(self, event_type, payload):
+        event = super().append(event_type, payload)
+        mirrored = {"evidence_event_id": event.id, **dict(payload)}
+        if event_type == "capability_result":
+            mirrored["actual_scope"] = list(payload.get("actual_mutation_scope", ()))
+        self.runtime.event(event_type, mirrored)
+        return event
+
+
+class _SpreadsheetObserver:
+    def __init__(self, task, artifact):
+        self.task, self.artifact, self.count = task, artifact, 0
+
+    def observe(self, scopes=()):
+        self.count += 1
+        selectors = _answer_selectors(self.task.context, self.artifact)
+        hidden = bool(self.task.context.get("test_omit_target_once")) and self.count == 1 and not scopes
+        facts = [] if hidden else _selected_cells(self.artifact, selectors)
+        inspected = () if hidden else tuple(scope_for(item) for item in selectors)
+        omitted = tuple(scope_for(item) for item in selectors) if hidden else (scope_for("__omitted__!A1"),)
+        return Observation(str(uuid4()), str(self.artifact), KIND, _file_hash(self.artifact),
+                           {"cells": facts}, {}, inspected, omitted)
+
+
+class _SpreadsheetEvaluator:
+    def __init__(self, services, task, artifact, session, runtime):
+        self.services, self.task, self.artifact = services, task, artifact
+        self.session, self.runtime, self.latest = session, runtime, []
+
+    def evaluate(self, spec, observation, contract):
+        facts = list(observation.facts.get("cells", ()))
+        values = [item["value"] for item in facts]
+        if spec.evaluator == "artifact-valid":
+            valid, error = _valid(self.artifact)
+            result = _eval(spec.id, observation, valid, error or "workbook loads", kind="artifact_invalid")
+        elif spec.evaluator == "preservation":
+            current = _all_cells(self.artifact)
+            allowed = {scope.resource for scope in contract.authorized_mutation_scopes}
+            changed = sorted(key for key in self.session.initial_cells.keys() | current.keys()
+                             if key not in allowed and self.session.initial_cells.get(key) != current.get(key))
+            result = _eval(spec.id, observation, not changed, "outside scope preserved",
+                           observed=changed, kind="constraint_violation")
+        elif not facts:
+            result = EvalResult(spec.id, observation.id, EvalStatus.FAIL, "target facts unobserved",
+                                details={"knowledge_gap": True, "expected": "observed target facts",
+                                         "confidence": 1.0})
+        elif spec.evaluator == "nonblank":
+            result = _eval(spec.id, observation, all(value not in (None, "") for value in values),
+                           "answers nonblank", observed=values)
+        elif spec.evaluator == "type":
+            expected = spec.parameters.get("expected_type", "any")
+            result = _eval(spec.id, observation, expected in ("any", "mixed") or
+                           all(_type_name(value) == expected for value in values), "answer types",
+                           expected=expected, observed=[_type_name(value) for value in values])
+        elif spec.evaluator == "output-shape":
+            expected = spec.parameters["expected_shape"]; observed = "scalar" if len(values) == 1 else "range"
+            result = _eval(spec.id, observation, expected == observed, "answer shape",
+                           expected=expected, observed=observed)
+        elif spec.evaluator == "formula-errors":
+            current = _all_cells(self.artifact)
+            initial_errors = {key for key, value in self.session.initial_cells.items()
+                              if isinstance(value, str) and value.startswith("#")}
+            errors = sorted(key for key, value in current.items() if isinstance(value, str) and
+                            value.startswith("#") and key not in initial_errors)
+            result = _eval(spec.id, observation, not errors, "no new formula errors", observed=errors)
+        elif spec.evaluator == "semantic-independent":
+            if "independent_expected" in self.task.context:
+                expected = self.task.context["independent_expected"]
+                actual = values[0] if len(values) == 1 else values
+                result = _eval(spec.id, observation, actual == expected, "independent computation",
+                               expected=expected, observed=actual)
+            elif any(value in (None, "") for value in values):
+                result = _eval(spec.id, observation, False, "semantic evaluation deferred until target exists",
+                               expected="intent-satisfying target state", observed=values,
+                               likely_causes=["target state is missing"], confidence=1.0)
+            else:
+                result = self.services._semantic_model_eval(self.task, contract, observation, facts, self.runtime)
+        elif spec.evaluator == "render":
+            selector = _answer_selectors(self.task.context, self.artifact)[0]
+            request = CapabilityRequest(str(uuid4()), "render_range", VERSION, str(self.artifact), KIND,
+                {"selector": selector, "output_dir": str(self.artifact.parent / "renders")}, (), ())
+            rendered = self.session.broker.invoke(contract, request)
+            result = _eval(spec.id, observation, rendered.succeeded, rendered.error or "render captured",
+                           kind="evaluation_uncertainty")
+        else:
+            result = EvalResult(spec.id, observation.id, EvalStatus.ERROR, "unsupported spreadsheet evaluator")
+        self.latest = [item for item in self.latest if item.eval_id != result.eval_id] + [result]
+        self.runtime.event("eval_result", _eval_mapping(result))
+        return result
+
+
+class _SpreadsheetPlanner:
+    def __init__(self, services, task, artifact, runtime):
+        self.services, self.task, self.artifact, self.runtime = services, task, artifact, runtime
+
+    def plan(self, contract, observation, discrepancies, capabilities):
+        ids = tuple(item.id for item in discrepancies)
+        if any(item.kind.value == "knowledge_discrepancy" for item in discrepancies):
+            scopes = tuple(scope for item in discrepancies for scope in item.permissible_mutation_scope)
+            return Transition(str(uuid4()), TransitionKind.OBSERVE, ids, "observe missing target facts", scopes)
+        if any(item.kind.value == "evaluation_uncertainty" for item in discrepancies):
+            return None
+        if not any(item.name == "write_cells" and item.version == VERSION for item in capabilities):
+            return None
+        proposal = self.services._action_proposal(self.task, _contract_mapping_existing(contract),
+                                                  self.runtime, discrepancies)
+        writes = proposal.get("writes")
+        if not isinstance(writes, list) or not writes:
+            return None
+        requested = tuple(scope_for(item["selector"]) for item in writes)
+        request = CapabilityRequest(str(uuid4()), "write_cells", VERSION, str(self.artifact), KIND,
+                                    {"writes": writes}, requested, ids)
+        return Transition(str(uuid4()), TransitionKind.CAPABILITY, ids,
+                          "bounded mutation addressing open discrepancies", capability_request=request)
+
+
+class _SpreadsheetLifecycle:
+    def __init__(self, artifact, runtime): self.artifact, self.runtime = artifact, runtime
+    def rollback(self, reason): self.runtime.event("capability_rollback", {"reason": reason})
+    def select_result(self, observation, status):
+        return {"path": str(self.artifact), "hash": _file_hash(self.artifact), "status": status}
 
 
 class SpreadsheetServices:
@@ -145,69 +280,44 @@ class SpreadsheetServices:
     def reconcile(self, task: Task, contract: Mapping[str, Any], destination: Path,
                   runtime: TaskRuntime) -> tuple[ExecutionResult, EvaluationResult]:
         shutil.copy2(task.artifact, destination)
-        session = self._session(task, contract, destination, runtime, inspect=True)
-        evaluation = None
-        for iteration in range(1, runtime.config.max_actions + 1):
-            results, discrepancies = self._evaluate(task, destination, session, runtime)
-            session.discrepancies = discrepancies
-            completion = self._completion_decision(session, results, discrepancies)
-            if completion.fulfilled:
-                evaluation = EvaluationResult(True, "pass", {"iteration": iteration,
-                    "evals": [_eval_mapping(r) for r in results], "discrepancies": [],
-                    "completion": asdict(completion)})
-                runtime.event("terminal_evaluation", asdict(evaluation))
-                self._record_termination(session, True, "fulfilled", evaluation, destination)
-                return ExecutionResult(destination, "fulfilled", {"iterations": iteration,
-                    "broker_evidence": str(session.evidence.path)}), evaluation
-            if all(result.status is EvalStatus.PASS for result in results):
-                evaluation = EvaluationResult(False, "completion_gate_failed", {"iteration": iteration,
-                    "evals": [_eval_mapping(r) for r in results], "discrepancies": [],
-                    "completion": asdict(completion)})
-                runtime.event("terminal_evaluation", asdict(evaluation))
-                self._record_termination(session, False, "completion_gate_failed", evaluation, destination)
-                return ExecutionResult(destination, "unfulfilled:completion_gate_failed", {}), evaluation
-            if any(d.kind.value == "evaluation_uncertainty" for d in discrepancies):
-                evaluation = EvaluationResult(False, "uncertain", {"iteration": iteration,
-                    "evals": [_eval_mapping(r) for r in results],
-                    "discrepancies": [_discrepancy_mapping(d) for d in discrepancies]})
-                runtime.event("terminal_evaluation", asdict(evaluation))
-                self._record_termination(session, False, "evaluation_uncertain", evaluation, destination)
-                return ExecutionResult(destination, "unfulfilled:evaluation_uncertain", {},), evaluation
-            proposal = self._action_proposal(task, contract, runtime, discrepancies)
-            if not self._apply_proposal(task, destination, runtime, session, proposal, discrepancies):
-                evaluation = EvaluationResult(False, "capability_failure", {"iteration": iteration})
-                self._record_termination(session, False, "capability_failure", evaluation, destination)
-                return ExecutionResult(destination, "unfulfilled:capability_failure", {}), evaluation
-        evaluation = EvaluationResult(False, "budget_exhausted", {"discrepancies": [_discrepancy_mapping(d) for d in session.discrepancies]})
-        self._record_termination(session, False, "budget_exhausted", evaluation, destination)
-        return ExecutionResult(destination, "unfulfilled:budget_exhausted", {}), evaluation
-
-    def _completion_decision(self, session, results, discrepancies):
-        by_id = {result.eval_id: result for result in results}
-        return decide_completion(
-            session.contract, results, session.evidence.records(),
-            desired_state_satisfied=not discrepancies,
-            constraints_preserved=by_id.get("preservation") is not None and by_id["preservation"].passed,
-            invariants_hold=all(by_id.get(eval_id) is not None and by_id[eval_id].passed
-                                for eval_id in ("artifact-valid", "formula-errors")),
-            artifact_valid=by_id.get("artifact-valid") is not None and by_id["artifact-valid"].passed,
+        session = self._session(task, contract, destination, runtime, inspect=False, record_contract=False,
+                                runtime_capabilities=True)
+        observer = _SpreadsheetObserver(task, destination)
+        domain_evaluator = _SpreadsheetEvaluator(self, task, destination, session, runtime)
+        registry = EvaluatorRegistry(session.evidence)
+        for name in {spec.evaluator for spec in session.contract.evals}:
+            registry.register(name, domain_evaluator)
+        agent = FulfilmentAgent(
+            DeterministicContractCompiler({task.intent: session.contract}), ContractValidator(), observer,
+            registry, _SpreadsheetPlanner(self, task, destination, runtime), session.broker,
+            session.evidence, _SpreadsheetLifecycle(destination, runtime),
+            max_iterations=runtime.config.max_actions, max_repeated_transition=1,
         )
-
-    def _record_termination(self, session, fulfilled, reason, evaluation, artifact):
-        session.evidence.append("termination_decision", {
-            "fulfilled": fulfilled, "reason": reason, "contract_id": session.contract.id,
-            "artifact_hash": _file_hash(artifact), "evaluation": asdict(evaluation),
+        result = agent.run(task.intent, observer.observe(()))
+        latest = domain_evaluator.latest
+        evaluation = EvaluationResult(result.fulfilled, "pass" if result.fulfilled else result.reason, {
+            "iteration": result.iterations, "evals": [_eval_mapping(item) for item in latest],
+            "discrepancies": [_discrepancy_mapping(item) for item in result.open_discrepancies],
         })
+        runtime.event("terminal_evaluation", asdict(evaluation))
+        status = "fulfilled" if result.fulfilled else f"unfulfilled:{result.reason}"
+        return ExecutionResult(destination, status, {"iterations": result.iterations,
+            "broker_evidence": str(session.evidence.path)}), evaluation
 
-    def _session(self, task, contract_mapping, artifact, runtime, *, inspect=False, record_contract=True):
+    def _session(self, task, contract_mapping, artifact, runtime, *, inspect=False, record_contract=True,
+                 runtime_capabilities=False):
         if task.id in self._sessions:
             return self._sessions[task.id]
         contract = _contract_from_mapping(contract_mapping)
         evidence_path = runtime.event_path.with_name(f"{task.id}.broker.jsonl")
-        evidence = EvidenceStore(evidence_path)
+        evidence = _RuntimeEvidenceStore(evidence_path, runtime) if runtime_capabilities else EvidenceStore(evidence_path)
         snapshots = WorkbookSnapshots()
         broker = Broker(evidence, snapshots)
-        register_spreadsheet_capabilities(broker)
+        if runtime_capabilities:
+            for manifest in manifests():
+                broker.register(manifest, _RuntimeCapability(runtime, SpreadsheetCapability(manifest.name)))
+        else:
+            register_spreadsheet_capabilities(broker)
         session = _Session(contract, broker, snapshots, evidence, _all_cells(artifact))
         self._sessions[task.id] = session
         if record_contract:
@@ -413,6 +523,17 @@ def _contract_mapping(contract, context, proposed_assertion, required_capabiliti
         "has_independent_expected": "independent_expected" in context,
     }
     return _freeze_mapping(value)
+
+
+def _contract_mapping_existing(contract):
+    """Prompt-safe projection of the accepted immutable generic contract."""
+    return {"id": contract.id, "version": contract.version, "intent": contract.intent,
+            "assertions": [{"id": item.id, "description": item.description,
+                            "target_scope": [scope.resource for scope in item.target_scope]}
+                           for item in contract.assertions],
+            "constraints": list(contract.constraints), "invariants": list(contract.invariants),
+            "evals": [{"id": item.id, "evaluator": item.evaluator,
+                       "parameters": dict(item.parameters)} for item in contract.evals]}
 
 
 def _contract_from_mapping(value):

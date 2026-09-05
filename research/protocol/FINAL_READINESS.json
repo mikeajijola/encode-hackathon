@@ -1,13 +1,6 @@
 {
   "blockers": [
     {
-      "evidence": "SpreadsheetServices.reconcile owns iteration/planning and does not invoke FulfilmentAgent; no generic no-progress or observation-transition semantics apply.",
-      "id": "R-01",
-      "kind": "code",
-      "severity": "critical",
-      "summary": "Arm D uses an artifact-specific reconciliation loop instead of the generic control loop."
-    },
-    {
       "evidence": "Action proposals accept only a writes list; large target ranges require thousands of literal writes and cannot select formula-fill, recalculate, render, or additional observation transitions.",
       "id": "R-03",
       "kind": "capability",
@@ -90,8 +83,8 @@
       "status": "resolved_with_limitation"
     },
     "V-02": {
-      "evidence": "generic decide_completion now gates success, but artifact-specific reconciliation control semantics remain R-01",
-      "status": "partially_resolved"
+      "evidence": "production D delegates iteration, transition validation, broker invocation, no-progress, completion and termination to generic FulfilmentAgent",
+      "status": "resolved"
     },
     "V-03": {
       "evidence": "Arm A v2 is frozen and explicitly not equated with the legacy baseline",
@@ -116,8 +109,9 @@
   "source_assertions": {
     "canonical_dockerfile": true,
     "completion_gate_present": true,
-    "custom_reconcile_present": true,
+    "custom_reconcile_present": false,
     "dockerfile_count": 1,
+    "generic_agent_present": true,
     "runtime_manifest_drops_outer_reproducibility": false
   }
 }
