@@ -149,7 +149,8 @@ class SpreadsheetServices:
 
     def _action_proposal(self, task, contract, runtime, discrepancies):
         prompt = {"intent": task.intent, "answer_selectors": _answer_selectors(task.context, task.artifact),
-                  "contract": contract, "discrepancies": [_discrepancy_mapping(d) for d in discrepancies]}
+                  "observed_context": _model_context(task.context), "contract": contract,
+                  "discrepancies": [_discrepancy_mapping(d) for d in discrepancies]}
         return _json_reply(runtime.complete(json.dumps(prompt, default=str), purpose="action_generation").text)
 
     def _apply_proposal(self, task, destination, runtime, session, proposal, discrepancies):
