@@ -43,6 +43,10 @@ class RunManifestTest(unittest.TestCase):
             self.assertEqual(manifest["backend_config"]["context_limits"],
                              {"max_cells": 400, "max_chars": 30000})
             self.assertEqual(manifest["backend_config"]["provider"]["timeout_seconds"], 120)
+            self.assertEqual(
+                manifest["backend_config"]["selection_manifest"],
+                "/app/research/protocol/development_selection.json",
+            )
             clone = copy.deepcopy(manifest)
             clone["run_config"].pop("arm")
             normalized.append(clone)

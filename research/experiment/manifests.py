@@ -87,7 +87,7 @@ def build_manifests(
         "backend": BACKEND,
         "backend_config": {
             "dataset_dir": "/data/dataset",
-            "selection_manifest": "/app/protocol/development_selection.json",
+            "selection_manifest": "/app/research/protocol/development_selection.json",
             "context_limits": {"max_cells": context_max_cells, "max_chars": context_max_chars},
             "provider": {"type": "openrouter", "timeout_seconds": provider_timeout_seconds},
         },
@@ -183,7 +183,7 @@ def validate_manifest_set(
         if reproducibility.get("dataset_metadata_sha256") != selection["source_metadata_sha256"]:
             raise ValueError(f"manifest {arm} dataset hash differs from selection source")
         backend = value.get("backend_config") or {}
-        if backend.get("selection_manifest") != "/app/protocol/development_selection.json":
+        if backend.get("selection_manifest") != "/app/research/protocol/development_selection.json":
             raise ValueError(f"manifest {arm} does not use committed development selection")
         if backend.get("context_limits") != reproducibility.get("context_limits"):
             raise ValueError(f"manifest {arm} has inconsistent context limits")
