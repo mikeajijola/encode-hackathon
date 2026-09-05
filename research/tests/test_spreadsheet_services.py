@@ -9,7 +9,7 @@ from openpyxl import Workbook, load_workbook
 from adapters.spreadsheet import KIND
 from experiment.runner import Arm, ExperimentRunner, ModelReply, RunConfig, Task
 from services.spreadsheet import SpreadsheetServices
-from tests.contract_fixtures import capability_records, contract_reply
+from tests.contract_fixtures import capability_records, contract_reply, transition_reply
 
 
 class QueueProvider:
@@ -51,8 +51,8 @@ class SpreadsheetServicesE2E(unittest.TestCase):
 
     def test_arm_c_detects_fault_once_and_d_repairs_from_discrepancy(self):
         contract = contract_reply("B1 equals independently computed twice A1")
-        wrong = '{"writes":[{"selector":"Data!B1","value":"wrong"}]}'
-        correct = '{"writes":[{"selector":"Data!B1","value":4}]}'
+        wrong = transition_reply(inputs={"writes": [{"selector": "Data!B1", "value": "wrong"}]})
+        correct = transition_reply()
 
         td_c, out_c, provider_c, c = self.run_arm(Arm.C, [contract, wrong])
         self.addCleanup(td_c.cleanup)
@@ -79,7 +79,7 @@ class SpreadsheetServicesE2E(unittest.TestCase):
         self.assertIn("artifact_sha256", broker_events.read_text())
 
     def test_all_arms_use_provider_interface_and_preserve_treatments(self):
-        direct = '{"writes":[{"selector":"Data!B1","value":4}]}'
+        direct = transition_reply()
         contract = contract_reply("B1 has the requested state")
         cases = {Arm.A: [direct], Arm.B: [contract, direct]}
         for arm, replies in cases.items():
@@ -96,7 +96,7 @@ class SpreadsheetServicesE2E(unittest.TestCase):
         root = Path(td.name); artifact = self.fixture(root)
         context = {"answer_sheet": "Data", "answer_position": "B1", "expected_type": "number"}
         out2 = root / "out"; provider2 = QueueProvider([
-            contract, '{"writes":[{"selector":"Data!B1","value":4}]}', '{"verdict":"pass"}'
+            contract, transition_reply(), '{"verdict":"pass"}'
         ])
         uncertain = ExperimentRunner(config(Arm.D), SpreadsheetServices(), provider2, out2).run(
             [Task("u1", "derive an answer", artifact, KIND, context, capability_records())])[0]
@@ -108,7 +108,7 @@ class SpreadsheetServicesE2E(unittest.TestCase):
 
     def test_scope_violation_is_rejected_without_mutation(self):
         contract = contract_reply("B1 is populated")
-        malicious = '{"writes":[{"selector":"Data!D1","value":"changed"}]}'
+        malicious = transition_reply(inputs={"writes": [{"selector": "Data!D1", "value": "changed"}]})
         td, out, provider, result = self.run_arm(Arm.B, [contract, malicious])
         self.addCleanup(td.cleanup)
         self.assertEqual(self.value(out, result), (None, "preserve"))
@@ -122,7 +122,7 @@ class SpreadsheetServicesE2E(unittest.TestCase):
         contract = json.dumps(base)
         with patch("adapters.spreadsheet.shutil.which", return_value=None):
             td, out, provider, result = self.run_arm(Arm.C,
-                [contract, '{"writes":[{"selector":"Data!B1","value":4}]}'], {"visual_intent": True})
+                [contract, transition_reply()], {"visual_intent": True})
         self.addCleanup(td.cleanup)
         self.assertFalse(result["terminal_eval"]["passed"])
         visual = next(e for e in result["terminal_eval"]["details"]["evals"] if e["eval_id"] == "visual")
@@ -138,7 +138,7 @@ class SpreadsheetServicesE2E(unittest.TestCase):
     def test_null_answer_sheet_resolves_to_active_sheet(self):
         td, out, provider, result = self.run_arm(
             Arm.A,
-            ['{"writes":[{"selector":"Data!B1","value":4}]}'],
+            [transition_reply()],
             {"answer_sheet": None},
         )
         self.addCleanup(td.cleanup)

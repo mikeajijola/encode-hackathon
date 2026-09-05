@@ -24,7 +24,7 @@ This review does not change the preregistered thresholds or official scorer. Tes
 | V-12 | Low | No | The development selection is reproducible, hash-verified, balanced 10/10, and contains no reference-answer fields. Selection metadata includes answer position/sheet, so that benchmark-specific narrowing must remain identical across arms and be disclosed. |
 | R-01 | Critical | Resolved | `SpreadsheetServices.reconcile` delegates to `FulfilmentAgent` with spreadsheet protocol implementations beneath its interfaces. Source assertions and production tests demonstrate generic knowledge-to-observation routing, capability transition authorization, re-observation/evaluation, repeated-transition `no_progress`, evidence-gated completion, and typed refusal. No spreadsheet import was added to `fulfilment/`. |
 | R-02 | High | Resolved | Registered CLI runs now retain byte-equivalent input manifest bytes, their SHA-256, and complete embedded content in the runtime manifest. Runtime config equality is checked before execution, task-start events bind the source hash, and reconstruction detects byte or embedded-content tampering. |
-| R-03 | High | Yes | The production action path accepts only literal `writes`. Although formula-fill, recalculation, validation, rendering and observation capabilities are advertised, the planner cannot select them. The all-400 selector audit found targets as large as 104,110 cells and the development split includes a 6,066-cell target, making literal output incompatible with the fixed token budget for affected tasks. |
+| R-03 | High | Resolved with limitation | Production planning now accepts one strict, versioned capability transition selected from the task manifests: bounded inspection, literal writes, compact formula fill, recalculation, validation, or rendering. Compact ranges expand in the adapter to exact cell scopes before broker authorization; tests prove a 99-cell fill and reject one-cell overreach. Non-successful validation/recalculation cannot succeed, and literal writes are capped at 400. The golden-blind development audit still has 6,066- and 480-cell targets: compact formula fill addresses applicable repeated-formula cases, but other large transformations require future bounded range capabilities rather than literal output. |
 
 ## Invariants verified
 
@@ -41,10 +41,9 @@ This review does not change the preregistered thresholds or official scorer. Tes
 
 ## Required pre-run resolution order
 
-1. Expose advertised capabilities to discrepancy planning, especially bounded observation and formula-fill/recalculation for large ranges.
-2. Freeze Arm A v2 prompts, schemas, tools, completion labels, and budgets; treat any legacy comparison as a separate ablation.
-3. Complete a real canonical-container build/smoke run with LibreOffice.
-4. Verify an oracle score of 1.0 offline and pin scorer/container/provider revisions.
+1. Freeze Arm A v2 prompts, schemas, tools, completion labels, and budgets; treat any legacy comparison as a separate ablation.
+2. Complete a real canonical-container build/smoke run with LibreOffice.
+3. Pin provider/model and container revisions, then execute the preregistered paired runs.
 
 ## Evaluation coverage
 
@@ -52,7 +51,7 @@ This review does not change the preregistered thresholds or official scorer. Tes
 
 ## Conclusion
 
-The semantic evaluator, generic completion gate, explicit completion claims, retry enforcement, and self-contained run-manifest provenance materially improve validity. Registered execution remains blocked: D still runs artifact-specific rather than generic reconciliation semantics, large-range tasks cannot select the advertised non-literal capabilities, and the canonical Docker image has not been externally built or smoke-tested. Synthetic results validate orchestration arithmetic only and do not mitigate these blockers.
+The semantic evaluator, generic reconciliation loop, manifest-driven capability planning, explicit completion claims, retry enforcement, and self-contained run-manifest provenance materially improve implementation validity. Registered execution remains environmentally blocked: no pinned model credential is available and the canonical Docker image has not been built or smoke-tested on this host. Large non-formula transformations also remain a disclosed capability limitation. Synthetic results validate orchestration arithmetic only and do not mitigate these blockers.
 
 ## Final sweep evidence
 

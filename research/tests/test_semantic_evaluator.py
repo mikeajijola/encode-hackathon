@@ -9,7 +9,7 @@ from adapters.spreadsheet import KIND
 from experiment.runner import Arm, ExperimentRunner, ModelReply, RunConfig, Task
 from services.spreadsheet import SpreadsheetServices
 from fulfilment import EvidenceStore
-from tests.contract_fixtures import capability_records, contract_reply
+from tests.contract_fixtures import capability_records, contract_reply, transition_reply
 
 
 class RoleProvider:
@@ -47,7 +47,7 @@ class IsolatedSemanticEvaluatorTest(unittest.TestCase):
     def test_c_evaluates_wrong_once_and_never_repairs(self):
         replies = [
             contract_reply("B1 equals twice A1"),
-            '{"writes":[{"selector":"Data!B1","value":3}]}',
+            transition_reply(inputs={"writes": [{"selector": "Data!B1", "value": 3}]}),
             '{"verdict":"fail","expected_state":{"Data!B1":4},"rationale":"three is not twice two","confidence":0.99}',
         ]
         td, out, provider, result = self.run_arm(Arm.C, replies); self.addCleanup(td.cleanup)
@@ -62,9 +62,9 @@ class IsolatedSemanticEvaluatorTest(unittest.TestCase):
     def test_d_acts_first_then_repairs_from_isolated_failed_verdict(self):
         replies = [
             contract_reply("B1 equals twice A1"),
-            '{"writes":[{"selector":"Data!B1","value":3}]}',
+            transition_reply(inputs={"writes": [{"selector": "Data!B1", "value": 3}]}),
             '{"verdict":"fail","expected_state":{"Data!B1":4},"rationale":"expected four","confidence":1}',
-            '{"writes":[{"selector":"Data!B1","value":4}]}',
+            transition_reply(),
             '{"verdict":"pass","expected_state":{"Data!B1":4},"rationale":"four is twice two","confidence":1}',
         ]
         td, out, provider, result = self.run_arm(Arm.D, replies); self.addCleanup(td.cleanup)
@@ -93,7 +93,7 @@ class IsolatedSemanticEvaluatorTest(unittest.TestCase):
 
     def test_malformed_evaluator_response_is_uncertain_and_never_passes(self):
         replies = [contract_reply("B1 equals twice A1"),
-                   '{"writes":[{"selector":"Data!B1","value":4}]}',
+                   transition_reply(),
                    '{"verdict":"pass"}']
         td, out, provider, result = self.run_arm(Arm.D, replies); self.addCleanup(td.cleanup)
         self.assertEqual(result["status"], "unfulfilled:evaluation_uncertain")
@@ -104,7 +104,7 @@ class IsolatedSemanticEvaluatorTest(unittest.TestCase):
 
     def test_explicit_uncertain_verdict_prevents_fulfilled(self):
         replies = [contract_reply("B1 equals twice A1"),
-                   '{"writes":[{"selector":"Data!B1","value":4}]}',
+                   transition_reply(),
                    '{"verdict":"uncertain","expected_state":null,"rationale":"insufficient source facts","confidence":0.2}']
         td, out, provider, result = self.run_arm(Arm.D, replies); self.addCleanup(td.cleanup)
         self.assertEqual(result["status"], "unfulfilled:evaluation_uncertain")
@@ -112,7 +112,7 @@ class IsolatedSemanticEvaluatorTest(unittest.TestCase):
 
     def test_evaluator_provider_error_prevents_fulfilled(self):
         replies = [contract_reply("B1 equals twice A1"),
-                   '{"writes":[{"selector":"Data!B1","value":4}]}']
+                   transition_reply()]
         td, out, provider, result = self.run_arm(Arm.D, replies); self.addCleanup(td.cleanup)
         self.assertEqual(result["status"], "unfulfilled:evaluation_uncertain")
         semantic = next(e for e in result["terminal_eval"]["details"]["evals"] if e["eval_id"] == "semantic")
@@ -128,9 +128,9 @@ class IsolatedSemanticEvaluatorTest(unittest.TestCase):
 
     def test_generic_repeated_transition_stops_no_progress(self):
         replies = [contract_reply("B1 equals twice A1"),
-                   '{"writes":[{"selector":"Data!B1","value":3}]}',
+                   transition_reply(inputs={"writes": [{"selector": "Data!B1", "value": 3}]}),
                    '{"verdict":"fail","expected_state":{"Data!B1":4},"rationale":"expected four","confidence":1}',
-                   '{"writes":[{"selector":"Data!B1","value":3}]}']
+                   transition_reply(inputs={"writes": [{"selector": "Data!B1", "value": 3}]})]
         td, out, provider, result = self.run_arm(Arm.D, replies); self.addCleanup(td.cleanup)
         self.assertEqual(result["status"], "unfulfilled:no_progress")
         evidence = EvidenceStore(out / "events" / "t.broker.jsonl").verify()
@@ -139,7 +139,7 @@ class IsolatedSemanticEvaluatorTest(unittest.TestCase):
 
     def test_generic_knowledge_gap_observes_then_acts(self):
         replies = [contract_reply("B1 equals twice A1"),
-                   '{"writes":[{"selector":"Data!B1","value":4}]}',
+                   transition_reply(),
                    '{"verdict":"pass","expected_state":{"Data!B1":4},"rationale":"correct","confidence":1}']
         td, out, provider, result = self.run_arm(
             Arm.D, replies, context_extra={"test_omit_target_once": True})
@@ -152,7 +152,7 @@ class IsolatedSemanticEvaluatorTest(unittest.TestCase):
 
     def test_generic_broker_rejects_d_scope_violation(self):
         replies = [contract_reply("B1 equals twice A1"),
-                   '{"writes":[{"selector":"Data!A1","value":99}]}']
+                   transition_reply(inputs={"writes": [{"selector": "Data!A1", "value": 99}]})]
         td, out, provider, result = self.run_arm(Arm.D, replies); self.addCleanup(td.cleanup)
         self.assertEqual(result["status"], "unfulfilled:no_safe_transition")
         self.assertEqual(self.value(out, result), None)
@@ -161,8 +161,8 @@ class IsolatedSemanticEvaluatorTest(unittest.TestCase):
 
     def test_a_and_b_never_invoke_evaluation_role(self):
         cases = {
-            Arm.A: ['{"writes":[{"selector":"Data!B1","value":4}]}'],
-            Arm.B: [contract_reply("B1 equals twice A1"), '{"writes":[{"selector":"Data!B1","value":4}]}'],
+            Arm.A: [transition_reply()],
+            Arm.B: [contract_reply("B1 equals twice A1"), transition_reply()],
         }
         for arm, replies in cases.items():
             with self.subTest(arm=arm):

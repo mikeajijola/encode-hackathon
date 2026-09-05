@@ -62,13 +62,7 @@ def build_report(dataset_dir: Path | None = None) -> dict[str, Any]:
     )
     service = (RESEARCH / "services" / "spreadsheet.py").read_text()
     runner = (RESEARCH / "experiment" / "runner.py").read_text()
-    blockers = [
-        {
-            "id": "R-03", "severity": "high", "kind": "capability",
-            "summary": "Production planning can invoke only write_cells although other capabilities are advertised.",
-            "evidence": "Action proposals accept only a writes list; large target ranges require thousands of literal writes and cannot select formula-fill, recalculate, render, or additional observation transitions.",
-        },
-    ]
+    blockers = []
     environment = {
         "openrouter_api_key": "present" if os.environ.get("OPENROUTER_API_KEY") else "missing",
         "docker_cli": shutil.which("docker") or "missing",
@@ -83,6 +77,7 @@ def build_report(dataset_dir: Path | None = None) -> dict[str, Any]:
         "V-05": {"status": "resolved", "evidence": "shared transport retries are enforced and every attempt traced"},
         "V-06": {"status": "resolved_static_external_smoke_pending",
                   "evidence": "one hardened repository-root Dockerfile; Docker build/smoke remains environmental"},
+        "R-03": {"status": "resolved_with_limitation", "evidence": "strict manifest-selected transitions, exact adapter-expanded formula-fill scopes, bounded literal writes; non-formula large transformations still need compact capabilities"},
     }
     dataset = selector_audit(dataset_dir) if dataset_dir else {"status": "not_run", "reason": "dataset_not_supplied"}
     return {
@@ -102,6 +97,7 @@ def build_report(dataset_dir: Path | None = None) -> dict[str, Any]:
             "semantic_evaluator_independence": {"status": "pass_with_limitation", "evidence": "isolated prompt excludes action response and nonpass errors; same provider/model is used"},
             "completion_evidence": {"status": "pass", "evidence": "generic completion gate and hash-chained termination evidence are tested"},
             "manifest_output_reconstruction": {"status": "pass", "evidence": "exact input bytes, SHA-256, embedded canonical content and task-event bindings are verified"},
+            "capability_planning": {"status": "pass_with_limitation", "evidence": "see R-03 status; development target audit retains unsupported large non-formula risk"},
         },
         "source_assertions": {
             "custom_reconcile_present": "def reconcile" in service and "FulfilmentAgent(" not in service,

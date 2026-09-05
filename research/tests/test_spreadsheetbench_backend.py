@@ -14,7 +14,7 @@ from backends.spreadsheetbench import (
 )
 from experiment.runner import Arm, ExperimentRunner, RunConfig
 from experiment.cli import main as cli_main
-from tests.contract_fixtures import contract_reply
+from tests.contract_fixtures import contract_reply, transition_reply
 
 
 class SpreadsheetBenchBackendTest(unittest.TestCase):
@@ -40,7 +40,7 @@ class SpreadsheetBenchBackendTest(unittest.TestCase):
     def raw(self, arm="A", replies=None):
         return {"backend": "backends.spreadsheetbench:factory", "backend_config": {
             "dataset_dir": str(self.root), "selection_manifest": str(self.selection),
-            "provider": {"type": "scripted", "replies": replies or ['{"writes":[{"selector":"Data!B1","value":4}]}']},
+            "provider": {"type": "scripted", "replies": replies or [transition_reply()]},
             "context_limits": {"max_cells": 5, "max_chars": 2000}},
             "run_config": {"experiment_id": "e", "arm": arm, "model": "pinned", "model_version": "v1",
             "temperature": 0, "max_tokens": 100, "max_actions": 5, "max_wall_time_ms": 10000,
@@ -91,7 +91,7 @@ class SpreadsheetBenchBackendTest(unittest.TestCase):
         self.assertNotIn("golden", provider.prompts[0].lower())
 
     def test_contract_and_action_prompts_receive_same_bounded_context(self):
-        replies = [contract_reply("B1 is twice A1"), '{"writes":[{"selector":"Data!B1","value":4}]}']
+        replies = [contract_reply("B1 is twice A1"), transition_reply()]
         raw = self.raw("B", replies)
         services, provider, tasks = factory(raw)
         fields = {key: value for key, value in raw["run_config"].items() if key != "arm"}

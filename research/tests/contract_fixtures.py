@@ -17,7 +17,7 @@ def capability_records():
 def contract_reply(description="target contains the computed result", *, property="computed_value",
                    output_type="number", shape="scalar", uncertainty_allowed=False,
                    evaluator="semantic-independent", capability="write_cells",
-                   extra=None):
+                   capabilities=None, extra=None):
     value = {
         "schema_version": "2.0.0",
         "desired_state": {"assertions": [{
@@ -29,7 +29,15 @@ def contract_reply(description="target contains the computed result", *, propert
         "invariants": ["workbook remains loadable and formulas remain valid"],
         "evaluator_intents": [{"id": "semantic-check", "assertion_id": "answer-state",
                               "evaluator": evaluator, "purpose": "independently verify the requested result"}],
-        "required_capabilities": [{"name": capability, "version": "1.0.0"}],
+        "required_capabilities": [{"name": name, "version": "1.0.0"}
+                                  for name in (capabilities or [capability])],
     }
     if extra: value.update(extra)
     return json.dumps(value)
+
+
+def transition_reply(name="write_cells", inputs=None, *, version="1.0.0", rationale="reduce target discrepancy"):
+    if inputs is None:
+        inputs = {"writes": [{"selector": "Data!B1", "value": 4}]}
+    return json.dumps({"capability": {"name": name, "version": version},
+                       "inputs": inputs, "rationale": rationale})

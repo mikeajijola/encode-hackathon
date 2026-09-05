@@ -8,7 +8,7 @@ from openpyxl import Workbook
 from adapters.spreadsheet import KIND
 from experiment.runner import Arm, ExperimentRunner, ModelReply, RunConfig, Task
 from services.spreadsheet import SpreadsheetServices
-from tests.contract_fixtures import capability_records, contract_reply
+from tests.contract_fixtures import capability_records, contract_reply, transition_reply
 
 
 class CaptureRuntime:
@@ -76,7 +76,7 @@ class ContractCompilerV2Test(unittest.TestCase):
         task = Task("typed", "put twice A1 in B1", self.artifact, KIND, context, capability_records())
         provider = QueueProvider([
             contract_reply("B1 is textual", output_type="text"),
-            '{"writes":[{"selector":"Data!B1","value":4}]}',
+            transition_reply(),
         ])
         config = RunConfig("v2", Arm.C, "m", "v", 0, 100, 5, 10000, 1,
                            "sha256:x", "none", "fixed", {"transport": 0})
@@ -95,13 +95,13 @@ class ContractCompilerV2Test(unittest.TestCase):
 
     def test_action_and_eval_use_accepted_state_not_raw_compiler_response(self):
         raw = contract_reply("B1 is a numeric doubled result", property="computed_value")
-        provider = QueueProvider([raw, '{"writes":[{"selector":"Data!B1","value":4}]}'])
+        provider = QueueProvider([raw, transition_reply()])
         config = RunConfig("v2", Arm.B, "m", "v", 0, 100, 5, 10000, 1,
                            "sha256:x", "none", "fixed", {"transport": 0})
         result = ExperimentRunner(config, SpreadsheetServices(), provider, self.root / "out").run([self.task()])[0]
         self.assertEqual(result["status"], "ok")
         action = json.loads(provider.prompts[1])
-        accepted = action["contract"]
+        accepted = action["accepted_contract"]
         self.assertNotIn("schema_version", accepted)
         self.assertEqual(accepted["version"], 2)
         self.assertEqual(accepted["desired_state"]["assertions"][0]["property"], "computed_value")

@@ -8,7 +8,7 @@ from openpyxl import Workbook, load_workbook
 
 from adapters.spreadsheet import (
     KIND, VERSION, SelectorError, SpreadsheetCapability, WorkbookSnapshots,
-    manifests, parse_selector, register_spreadsheet_capabilities, scope_for,
+    expand_selector_scopes, manifests, parse_selector, register_spreadsheet_capabilities, scope_for,
 )
 from fulfilment import (
     Broker, CapabilityRequest, Contract, DesiredAssertion, Discrepancy,
@@ -70,7 +70,7 @@ class SpreadsheetAdapterTest(unittest.TestCase):
     def test_formula_fill_translates_relative_references(self):
         result = self.broker.invoke(self.contract, self.request(
             "copy_or_fill_formula", {"source": "Data!B1", "target": "Data!B2:B3"},
-            (scope_for("Data!B2:B3"),), "formula"))
+            expand_selector_scopes("Data!B2:B3"), "formula"))
         self.assertTrue(result.succeeded)
         wb = load_workbook(self.path, data_only=False)
         self.assertEqual(wb["Data"]["B2"].value, "=A2*2")

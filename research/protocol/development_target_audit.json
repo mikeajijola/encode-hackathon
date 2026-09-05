@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.0.0",
+  "selection_sha256": "90991785a7b341beaaabb2ba8dc2be76f6860b7945338eae1636fdf70ec638ad",
+  "tasks": 20,
+  "maximum_target_cells": 6066,
+  "maximum_task_id": "209-30",
+  "targets_over_literal_write_limit": [
+    {"id": "209-30", "target_cells": 6066},
+    {"id": "45738", "target_cells": 480}
+  ],
+  "literal_write_limit": 400,
+  "finding": "Large targets require a compact capability such as formula fill or a future bounded range transformation; literal writes are rejected above the limit.",
+  "scope": "Golden-blind development selection metadata only; artifact suitability for formula fill is not asserted."
+}

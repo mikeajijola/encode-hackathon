@@ -182,9 +182,11 @@ class RegisteredRunBlockerSentinels(unittest.TestCase):
         self.assertFalse(report["registered_run_ready"])
         self.assertEqual(report["decision"], "BLOCKED")
         blocker_ids = {item["id"] for item in report["blockers"]}
-        self.assertEqual({"R-03"}, blocker_ids)
+        self.assertEqual(set(), blocker_ids)
         self.assertNotIn("R-01", blocker_ids)
         self.assertNotIn("R-02", {item["id"] for item in report["blockers"]})
+        self.assertNotIn("R-03", blocker_ids)
+        self.assertEqual(report["original_finding_status"]["R-03"]["status"], "resolved_with_limitation")
         self.assertEqual(
             report["original_finding_status"]["V-06"]["status"],
             "resolved_static_external_smoke_pending",

@@ -1,14 +1,10 @@
 {
-  "blockers": [
-    {
-      "evidence": "Action proposals accept only a writes list; large target ranges require thousands of literal writes and cannot select formula-fill, recalculate, render, or additional observation transitions.",
-      "id": "R-03",
-      "kind": "capability",
-      "severity": "high",
-      "summary": "Production planning can invoke only write_cells although other capabilities are advertised."
-    }
-  ],
+  "blockers": [],
   "checks": {
+    "capability_planning": {
+      "evidence": "see R-03 status; development target audit retains unsupported large non-formula risk",
+      "status": "pass_with_limitation"
+    },
     "completion_evidence": {
       "evidence": "generic completion gate and hash-chained termination evidence are tested",
       "status": "pass"
@@ -78,6 +74,10 @@
     "soffice"
   ],
   "original_finding_status": {
+    "R-03": {
+      "evidence": "strict manifest-selected transitions, exact adapter-expanded formula-fill scopes, bounded literal writes; non-formula large transformations still need compact capabilities",
+      "status": "resolved_with_limitation"
+    },
     "V-01": {
       "evidence": "isolated semantic evaluator role; malformed/error/uncertain verdicts cannot pass; same provider/model actor remains a disclosed limitation",
       "status": "resolved_with_limitation"

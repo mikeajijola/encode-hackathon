@@ -11,7 +11,7 @@ from typing import Any
 
 from openpyxl import load_workbook
 from openpyxl.formula.translate import Translator
-from openpyxl.utils.cell import range_boundaries
+from openpyxl.utils.cell import get_column_letter, range_boundaries
 
 from fulfilment.models import CapabilityEffect, CapabilityManifest, CapabilityRequest, CapabilityResult, Scope
 
@@ -40,6 +40,15 @@ def parse_selector(selector: str) -> tuple[str, str]:
 def scope_for(selector: str) -> Scope:
     sheet, coordinates = parse_selector(selector)
     return Scope(f"workbook/{sheet}/{coordinates}")
+
+
+def expand_selector_scopes(selector: str) -> tuple[Scope, ...]:
+    """Translate one compact selector into exact cell-level mutation scopes."""
+    sheet, coordinates = parse_selector(selector)
+    min_col, min_row, max_col, max_row = range_boundaries(coordinates)
+    return tuple(Scope(f"workbook/{sheet}/{get_column_letter(column)}{row}")
+                 for row in range(min_row, max_row + 1)
+                 for column in range(min_col, max_col + 1))
 
 
 def _hash(path: Path) -> str:
@@ -171,7 +180,7 @@ class SpreadsheetCapability:
     def _copy_formula(self, request, path):
         source = request.inputs["source"]
         target = request.inputs["target"]
-        scopes = (scope_for(target),)
+        scopes = expand_selector_scopes(target)
         _require_requested(scopes, request.requested_mutation_scope)
         source_sheet, source_coord = parse_selector(source)
         target_sheet, target_range = parse_selector(target)

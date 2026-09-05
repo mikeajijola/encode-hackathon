@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import json
 import shutil
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any, Mapping
 from uuid import uuid4
@@ -12,8 +12,10 @@ from uuid import uuid4
 from openpyxl import load_workbook
 from openpyxl.utils.cell import range_boundaries
 
-from adapters.spreadsheet import (KIND, VERSION, SpreadsheetCapability, WorkbookSnapshots,
-                                  manifests, parse_selector, register_spreadsheet_capabilities, scope_for)
+from adapters.spreadsheet import (
+    KIND, VERSION, SpreadsheetCapability, WorkbookSnapshots, expand_selector_scopes,
+    manifests, parse_selector, register_spreadsheet_capabilities, scope_for,
+)
 from experiment.runner import EvaluationResult, ExecutionResult, Task, TaskRuntime
 from sb import answer_cells
 from fulfilment import (
@@ -43,6 +45,10 @@ AVAILABLE_EVALUATORS = {
     "formula-errors", "semantic-independent", "render",
 }
 PROCEDURAL_PREFIXES = ("first ", "then ", "next ", "step ", "click ", "open ", "write ", "copy ")
+TRANSITION_FIELDS = {"capability", "inputs", "rationale"}
+TRANSITION_CAPABILITY_FIELDS = {"name", "version"}
+MAX_LITERAL_WRITES = 400
+MAX_INSPECT_CELLS = 400
 
 
 @dataclass
@@ -53,13 +59,21 @@ class _Session:
     evidence: EvidenceStore
     initial_cells: dict[str, Any]
     discrepancies: tuple[Discrepancy, ...] = ()
+    capability_observations: list[dict[str, Any]] = field(default_factory=list)
 
 
 class _RuntimeCapability:
-    def __init__(self, runtime, handler): self.runtime, self.handler = runtime, handler
+    def __init__(self, runtime, handler, session):
+        self.runtime, self.handler, self.session = runtime, handler, session
     def invoke(self, request):
         self.runtime.action(request.capability_name, {"discrepancy_ids": request.discrepancy_ids})
-        return self.handler.invoke(request)
+        result = self.handler.invoke(request)
+        self.session.capability_observations.append({
+            "capability": request.capability_name, "succeeded": result.succeeded,
+            "output": dict(result.output), "error": result.error,
+            "artifact_sha256": result.provenance.get("artifact_sha256"),
+        })
+        return result
 
 
 class _RuntimeEvidenceStore(EvidenceStore):
@@ -157,8 +171,8 @@ class _SpreadsheetEvaluator:
 
 
 class _SpreadsheetPlanner:
-    def __init__(self, services, task, artifact, runtime):
-        self.services, self.task, self.artifact, self.runtime = services, task, artifact, runtime
+    def __init__(self, services, task, artifact, runtime, session):
+        self.services, self.task, self.artifact, self.runtime, self.session = services, task, artifact, runtime, session
 
     def plan(self, contract, observation, discrepancies, capabilities):
         ids = tuple(item.id for item in discrepancies)
@@ -167,18 +181,31 @@ class _SpreadsheetPlanner:
             return Transition(str(uuid4()), TransitionKind.OBSERVE, ids, "observe missing target facts", scopes)
         if any(item.kind.value == "evaluation_uncertainty" for item in discrepancies):
             return None
-        if not any(item.name == "write_cells" and item.version == VERSION for item in capabilities):
-            return None
         proposal = self.services._action_proposal(self.task, _contract_mapping_existing(contract),
-                                                  self.runtime, discrepancies)
-        writes = proposal.get("writes")
-        if not isinstance(writes, list) or not writes:
+                                                  self.runtime, discrepancies, session=self.session)
+        name = proposal["capability"]["name"]
+        version = proposal["capability"]["version"]
+        if not any(item.name == name and item.version == version for item in capabilities):
             return None
-        requested = tuple(scope_for(item["selector"]) for item in writes)
-        request = CapabilityRequest(str(uuid4()), "write_cells", VERSION, str(self.artifact), KIND,
-                                    {"writes": writes}, requested, ids)
+        inputs = dict(proposal["inputs"])
+        if name == "write_cells":
+            requested = tuple(scope_for(item["selector"]) for item in inputs["writes"])
+        elif name == "copy_or_fill_formula":
+            requested = expand_selector_scopes(inputs["target"])
+        elif name == "recalculate":
+            requested = contract.authorized_mutation_scopes
+        else:
+            requested = ()
+        allowed = {scope.resource for scope in contract.authorized_mutation_scopes}
+        if any(scope.resource not in allowed for scope in requested):
+            self.runtime.event("scope_violation_rejected", {"requested": [s.resource for s in requested]})
+            return None
+        if name == "render_range":
+            inputs["output_dir"] = str(self.artifact.parent / "renders")
+        request = CapabilityRequest(str(uuid4()), name, version, str(self.artifact), KIND,
+                                    inputs, requested, ids)
         return Transition(str(uuid4()), TransitionKind.CAPABILITY, ids,
-                          "bounded mutation addressing open discrepancies", capability_request=request)
+                          proposal["rationale"], capability_request=request)
 
 
 class _SpreadsheetLifecycle:
@@ -263,7 +290,7 @@ class SpreadsheetServices:
         shutil.copy2(task.artifact, destination)
         session = self._session(task, contract or self._direct_contract(task), destination, runtime,
                                 inspect=contract is not None, record_contract=contract is not None)
-        proposal = self._action_proposal(task, contract, runtime, discrepancies=())
+        proposal = self._action_proposal(task, contract, runtime, discrepancies=(), session=session)
         result = self._apply_proposal(task, destination, runtime, session, proposal, ())
         return ExecutionResult(destination, "ok" if result else "action_failed", {"broker_evidence": str(session.evidence.path)})
 
@@ -289,7 +316,7 @@ class SpreadsheetServices:
             registry.register(name, domain_evaluator)
         agent = FulfilmentAgent(
             DeterministicContractCompiler({task.intent: session.contract}), ContractValidator(), observer,
-            registry, _SpreadsheetPlanner(self, task, destination, runtime), session.broker,
+            registry, _SpreadsheetPlanner(self, task, destination, runtime, session), session.broker,
             session.evidence, _SpreadsheetLifecycle(destination, runtime),
             max_iterations=runtime.config.max_actions, max_repeated_transition=1,
         )
@@ -313,12 +340,12 @@ class SpreadsheetServices:
         evidence = _RuntimeEvidenceStore(evidence_path, runtime) if runtime_capabilities else EvidenceStore(evidence_path)
         snapshots = WorkbookSnapshots()
         broker = Broker(evidence, snapshots)
-        if runtime_capabilities:
-            for manifest in manifests():
-                broker.register(manifest, _RuntimeCapability(runtime, SpreadsheetCapability(manifest.name)))
-        else:
+        if not runtime_capabilities:
             register_spreadsheet_capabilities(broker)
         session = _Session(contract, broker, snapshots, evidence, _all_cells(artifact))
+        if runtime_capabilities:
+            for manifest in manifests():
+                broker.register(manifest, _RuntimeCapability(runtime, SpreadsheetCapability(manifest.name), session))
         self._sessions[task.id] = session
         if record_contract:
             evidence.append("accepted_contract", {"contract_id": contract.id, "version": contract.version,
@@ -346,29 +373,62 @@ class SpreadsheetServices:
             ("workbook remains structurally valid",), evals, tuple(scope_for(s) for s in selectors))
         return _contract_mapping(contract, task.context, proposed, [])
 
-    def _action_proposal(self, task, contract, runtime, discrepancies):
-        prompt = {"intent": task.intent, "answer_selectors": _answer_selectors(task.context, task.artifact),
-                  "observed_context": _model_context(task.context), "contract": contract,
-                  "discrepancies": [_discrepancy_mapping(d) for d in discrepancies]}
-        return _json_reply(runtime.complete(json.dumps(prompt, default=str), purpose="action_generation").text)
+    def _action_proposal(self, task, contract, runtime, discrepancies, session=None):
+        prompt = {
+            "role": "bounded_transition_planner",
+            "instruction": (
+                "Return exactly one declarative capability transition as JSON with fields capability, inputs, "
+                "and rationale. Select an exact supplied name/version. Never emit code or execute commands. "
+                "Prefer copy_or_fill_formula for large repeated formula ranges instead of literal cell writes."
+            ),
+            "transition_schemas": {
+                "write_cells": {"inputs": {"writes": [{"selector": "Sheet!A1", "value": "JSON value"}]},
+                                "max_writes": MAX_LITERAL_WRITES},
+                "copy_or_fill_formula": {"inputs": {"source": "Sheet!A1", "target": "Sheet!A2:A10"}},
+                "inspect_workbook": {"inputs": {"selectors": ["Sheet!A1:B10"]},
+                                     "max_cells": MAX_INSPECT_CELLS},
+                "recalculate": {"inputs": {}}, "validate_workbook": {"inputs": {}},
+                "render_range": {"inputs": {"selector": "Sheet!A1:B10"}},
+            },
+            "intent": task.intent, "answer_selectors": _answer_selectors(task.context, task.artifact),
+            "observed_context": _model_context(task.context), "accepted_contract": contract,
+            "discrepancies": [_discrepancy_mapping(d) for d in discrepancies],
+            "capability_manifests": task.capability_manifests,
+            "capability_observations": tuple(session.capability_observations) if session else (),
+        }
+        reply = runtime.complete(json.dumps(prompt, default=str), purpose="action_generation")
+        return _validate_transition(_strict_contract_reply(reply.text), task)
 
     def _apply_proposal(self, task, destination, runtime, session, proposal, discrepancies):
-        writes = proposal.get("writes")
-        if not isinstance(writes, list):
-            return False
+        name = proposal["capability"]["name"]
+        inputs = dict(proposal["inputs"])
+        if name == "write_cells":
+            requested = tuple(scope_for(item["selector"]) for item in inputs["writes"])
+        elif name == "copy_or_fill_formula":
+            requested = expand_selector_scopes(inputs["target"])
+        elif name == "recalculate":
+            requested = session.contract.authorized_mutation_scopes
+        else:
+            requested = ()
         allowed = {scope.resource for scope in session.contract.authorized_mutation_scopes}
-        requested = tuple(scope_for(item["selector"]) for item in writes)
         if any(scope.resource not in allowed for scope in requested):
             runtime.event("scope_violation_rejected", {"requested": [s.resource for s in requested]})
             return False
         discrepancy_ids = tuple(d.id for d in discrepancies) or (f"initial-{task.id}",)
-        runtime.action("write_cells", {"discrepancy_ids": discrepancy_ids})
-        request = CapabilityRequest(str(uuid4()), "write_cells", VERSION, str(destination), KIND,
-                                    {"writes": writes}, requested, discrepancy_ids)
+        if name == "render_range":
+            inputs["output_dir"] = str(destination.parent / "renders")
+        runtime.action(name, {"discrepancy_ids": discrepancy_ids, "rationale": proposal["rationale"]})
+        request = CapabilityRequest(str(uuid4()), name, proposal["capability"]["version"],
+                                    str(destination), KIND, inputs, requested, discrepancy_ids)
         result = session.broker.invoke(session.contract, request)
-        runtime.event("capability_result", {"succeeded": result.succeeded,
+        observation = {"capability": name, "succeeded": result.succeeded,
+                       "output": dict(result.output), "error": result.error,
+                       "artifact_sha256": result.provenance.get("artifact_sha256")}
+        session.capability_observations.append(observation)
+        runtime.event("capability_result", {"capability": name, "succeeded": result.succeeded,
                       "actual_scope": [s.resource for s in result.actual_mutation_scope],
-                      "discrepancy_ids": discrepancy_ids})
+                      "discrepancy_ids": discrepancy_ids, "output": dict(result.output),
+                      "provenance": dict(result.provenance), "error": result.error})
         return result.succeeded
 
     def _evaluate(self, task, artifact, session, runtime):
@@ -655,8 +715,8 @@ def _validate_contract_proposal(value, task, selectors):
         if pair not in available:
             raise ValueError(f"required capability unavailable: {pair}")
         requested.add(pair)
-    if ("write_cells", VERSION) not in requested:
-        raise ValueError("proposal lacks required write capability")
+    if not requested & {("write_cells", VERSION), ("copy_or_fill_formula", VERSION)}:
+        raise ValueError("proposal lacks a bounded mutation capability")
     return value
 
 
@@ -667,6 +727,51 @@ def _selector_cell_count(selectors):
         min_col, min_row, max_col, max_row = range_boundaries(coordinates)
         count += (max_col - min_col + 1) * (max_row - min_row + 1)
     return count
+
+
+def _validate_transition(value, task):
+    _require_exact_fields(value, TRANSITION_FIELDS, "transition")
+    _require_exact_fields(value["capability"], TRANSITION_CAPABILITY_FIELDS, "transition.capability")
+    name, version = value["capability"]["name"], value["capability"]["version"]
+    available = {(str(item.get("name")), str(item.get("version"))) for item in task.capability_manifests
+                 if isinstance(item, Mapping)}
+    if (name, version) not in available:
+        raise ValueError(f"transition capability unavailable: {(name, version)}")
+    if name not in {"write_cells", "copy_or_fill_formula", "inspect_workbook", "recalculate",
+                    "validate_workbook", "render_range"}:
+        raise ValueError("transition capability is not permitted")
+    if not isinstance(value["rationale"], str) or not value["rationale"].strip():
+        raise ValueError("transition.rationale must be nonempty text")
+    value["rationale"] = value["rationale"].strip()
+    inputs = value["inputs"]
+    if not isinstance(inputs, dict):
+        raise ValueError("transition.inputs must be an object")
+    if name == "write_cells":
+        _require_exact_fields(inputs, {"writes"}, "transition.inputs")
+        writes = inputs["writes"]
+        if not isinstance(writes, list) or not writes or len(writes) > MAX_LITERAL_WRITES:
+            raise ValueError(f"writes must contain 1..{MAX_LITERAL_WRITES} literal cells")
+        for item in writes:
+            _require_exact_fields(item, {"selector", "value"}, "write")
+            _, coordinates = parse_selector(item["selector"])
+            if ":" in coordinates:
+                raise ValueError("literal write selectors must identify one cell")
+    elif name == "copy_or_fill_formula":
+        _require_exact_fields(inputs, {"source", "target"}, "transition.inputs")
+        parse_selector(inputs["source"]); parse_selector(inputs["target"])
+        if ":" in parse_selector(inputs["source"])[1]:
+            raise ValueError("formula source must identify one cell")
+    elif name == "inspect_workbook":
+        _require_exact_fields(inputs, {"selectors"}, "transition.inputs")
+        selectors = inputs["selectors"]
+        if not isinstance(selectors, list) or not selectors or _selector_cell_count(selectors) > MAX_INSPECT_CELLS:
+            raise ValueError("inspection transition exceeds bounded selector limit")
+    elif name in {"recalculate", "validate_workbook"}:
+        _require_exact_fields(inputs, set(), "transition.inputs")
+    else:
+        _require_exact_fields(inputs, {"selector"}, "transition.inputs")
+        parse_selector(inputs["selector"])
+    return value
 
 
 def _json_reply(text):
