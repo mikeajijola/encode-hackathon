@@ -124,10 +124,12 @@ class RegisteredRunBlockerSentinels(unittest.TestCase):
         context_projection = source.split("context = {key: record[key]", 1)[1].split("tasks.append", 1)[0]
         self.assertNotIn("independent_expected", context_projection)
 
-    def test_spreadsheet_reconciler_bypasses_evidence_completion_gate(self):
+    def test_spreadsheet_reconciler_uses_evidence_completion_gate(self):
         source = (RESEARCH / "services" / "spreadsheet.py").read_text()
         reconcile = source.split("def reconcile", 1)[1].split("def _session", 1)[0]
-        self.assertNotIn("decide_completion", reconcile)
+        self.assertIn("decide_completion", reconcile)
+        self.assertIn("session.evidence.records()", reconcile)
+        self.assertIn('session.evidence.append("termination_decision"', reconcile)
         self.assertIn('ExecutionResult(destination, "fulfilled"', reconcile)
 
     def test_internal_status_is_not_projected_by_runner(self):

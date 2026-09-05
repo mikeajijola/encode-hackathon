@@ -8,6 +8,7 @@ from openpyxl import Workbook, load_workbook
 from adapters.spreadsheet import KIND
 from experiment.runner import Arm, ExperimentRunner, ModelReply, RunConfig, Task
 from services.spreadsheet import SpreadsheetServices
+from fulfilment import EvidenceStore
 
 
 class RoleProvider:
@@ -23,7 +24,7 @@ def config(arm):
 
 
 class IsolatedSemanticEvaluatorTest(unittest.TestCase):
-    def run_arm(self, arm, replies):
+    def run_arm(self, arm, replies, service_type=SpreadsheetServices):
         td = tempfile.TemporaryDirectory(); root = Path(td.name)
         artifact = root / "initial.xlsx"
         wb = Workbook(); ws = wb.active; ws.title = "Data"; ws["A1"] = 2; ws["B1"] = None
@@ -34,7 +35,7 @@ class IsolatedSemanticEvaluatorTest(unittest.TestCase):
                        {"selector": "Data!B1", "value": None, "data_type": "n"}]},
                        "truncation": {"truncated": False}}}
         provider = RoleProvider(replies); out = root / "out"
-        result = ExperimentRunner(config(arm), SpreadsheetServices(), provider, out).run(
+        result = ExperimentRunner(config(arm), service_type(), provider, out).run(
             [Task("t", "put twice A1 in B1", artifact, KIND, context)])[0]
         return td, out, provider, result
 
@@ -75,6 +76,12 @@ class IsolatedSemanticEvaluatorTest(unittest.TestCase):
         # The first action occurs before the first independent-evaluation call.
         events = [json.loads(line) for line in (out / "events" / "t.jsonl").read_text().splitlines()]
         self.assertTrue(any(e["event_type"] == "semantic_evaluator_verdict" for e in events))
+        evidence = EvidenceStore(out / "events" / "t.broker.jsonl").verify()
+        self.assertEqual(evidence[-1].event_type, "termination_decision")
+        self.assertTrue(evidence[-1].payload["fulfilled"])
+        self.assertEqual(evidence[-1].payload["artifact_hash"], result["output_artifact_hash"])
+        self.assertTrue({"accepted_contract", "observation", "eval_result", "termination_decision"}
+                        <= {event.event_type for event in evidence})
         evaluator_prompts = [p for p in provider.prompts if "independent_semantic_evaluator" in p]
         self.assertEqual(len(evaluator_prompts), 2)
         self.assertTrue(all("writes" not in p and "golden" not in p.lower() for p in evaluator_prompts))
@@ -92,6 +99,46 @@ class IsolatedSemanticEvaluatorTest(unittest.TestCase):
         semantic = next(e for e in result["terminal_eval"]["details"]["evals"] if e["eval_id"] == "semantic")
         self.assertEqual(semantic["status"], "uncertain")
         self.assertIn("malformed", semantic["message"])
+
+    def test_missing_required_evidence_prevents_fulfilled(self):
+        class MissingObservationEvidence(SpreadsheetServices):
+            def _record_evaluation_evidence(self, session, observation, results):
+                pass
+        replies = ['{"description":"B1 equals twice A1"}',
+                   '{"writes":[{"selector":"Data!B1","value":4}]}',
+                   '{"verdict":"pass","expected_state":{"Data!B1":4},"rationale":"correct","confidence":1}']
+        td, out, provider, result = self.run_arm(Arm.D, replies, MissingObservationEvidence)
+        self.addCleanup(td.cleanup)
+        self.assertEqual(result["status"], "unfulfilled:completion_gate_failed")
+        completion = result["terminal_eval"]["details"]["completion"]
+        self.assertIn("required_evidence_missing", completion["failed_conditions"])
+        evidence = EvidenceStore(out / "events" / "t.broker.jsonl").verify()
+        self.assertNotIn("observation", {event.event_type for event in evidence})
+        self.assertFalse(evidence[-1].payload["fulfilled"])
+
+    def test_explicit_uncertain_verdict_prevents_fulfilled(self):
+        replies = ['{"description":"B1 equals twice A1"}',
+                   '{"writes":[{"selector":"Data!B1","value":4}]}',
+                   '{"verdict":"uncertain","expected_state":null,"rationale":"insufficient source facts","confidence":0.2}']
+        td, out, provider, result = self.run_arm(Arm.D, replies); self.addCleanup(td.cleanup)
+        self.assertEqual(result["status"], "unfulfilled:evaluation_uncertain")
+        self.assertFalse(EvidenceStore(out / "events" / "t.broker.jsonl").verify()[-1].payload["fulfilled"])
+
+    def test_evaluator_provider_error_prevents_fulfilled(self):
+        replies = ['{"description":"B1 equals twice A1"}',
+                   '{"writes":[{"selector":"Data!B1","value":4}]}']
+        td, out, provider, result = self.run_arm(Arm.D, replies); self.addCleanup(td.cleanup)
+        self.assertEqual(result["status"], "unfulfilled:evaluation_uncertain")
+        semantic = next(e for e in result["terminal_eval"]["details"]["evals"] if e["eval_id"] == "semantic")
+        self.assertEqual(semantic["status"], "uncertain")
+        self.assertIn("IndexError", semantic["message"])
+        self.assertFalse(EvidenceStore(out / "events" / "t.broker.jsonl").verify()[-1].payload["fulfilled"])
+
+    def test_generic_layer_has_no_spreadsheet_imports(self):
+        fulfilment = Path(__file__).resolve().parents[1] / "fulfilment"
+        source = "\n".join(path.read_text() for path in fulfilment.glob("*.py"))
+        self.assertNotIn("openpyxl", source)
+        self.assertNotIn("adapters.spreadsheet", source)
 
     def test_a_and_b_never_invoke_evaluation_role(self):
         cases = {

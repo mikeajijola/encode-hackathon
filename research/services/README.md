@@ -8,6 +8,8 @@ Production semantic evaluation uses a separate model call with purpose `independ
 
 Internal checks cover workbook loading, preservation outside authorized cells, nonblank answers, declared types, formula-error values, independent semantics, and rendering for visual intent. Rendering absence is non-passing. Every adapter action passes through broker authorization, hashes, provenance, and evidence; experiment events retain observations, evals, discrepancies, and linked capability effects.
 
+Arm D has no spreadsheet-specific fulfilment gate. The generic `decide_completion` function is the sole authority that can permit a `fulfilled` result. It verifies desired state, every required eval, preservation constraints, invariants, artifact validity, and required evidence. The same hash-chained evidence store records the accepted contract, observations, eval results, capability effects, and a final decision bound to the artifact hash. Missing evidence, evaluator errors, or uncertainty therefore remain unfulfilled even when other checks pass.
+
 This is an MVP isolated judge, not a claim that model judgment equals deterministic correctness. Its precision and recall must be measured against offline official outcomes, and uncertain cases remain reliable refusals.
 
 ```sh
