@@ -11,6 +11,9 @@ pinned in the manifests. Providers record prompt/completion tokens, reported cos
 when supplied, and provider request ID. Missing credentials and malformed responses
 are typed failures.
 
+The registered manifest CLI defaults to `gemini-3.7-flash`, with Google API
+metadata version `3.7-flash-08-2026`; both values are recorded in every arm.
+
 For CLI plumbing only, `provider.type=scripted` consumes configured JSON replies. Its request ID is `scripted-not-benchmark-evidence`; those runs must never be reported as benchmark evidence.
 
 Example backend fragment:

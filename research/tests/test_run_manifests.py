@@ -91,11 +91,13 @@ class RunManifestTest(unittest.TestCase):
                            ("container_digest", "TO_BE_PINNED"), ("soffice_version", "placeholder")):
             with self.subTest(key=key), self.assertRaises(ValueError):
                 build_manifests(**pins(**{key: value}))
-        with patch.dict("os.environ", {}, clear=True), self.assertRaises(SystemExit):
-            parse_args(["--manifest-dir", "m", "--run-root", "r", "--experiment-id", "e",
-                        "--container-digest", "sha256:" + "a" * 64, "--soffice-version", "v",
-                        "--scorer-commit", "b" * 40, "--dataset-metadata-sha256", DATASET_HASH,
-                        "--environment", "linux", "--max-cost", "1"])
+        with patch.dict("os.environ", {}, clear=True):
+            args = parse_args(["--manifest-dir", "m", "--run-root", "r", "--experiment-id", "e",
+                               "--container-digest", "sha256:" + "a" * 64, "--soffice-version", "v",
+                               "--scorer-commit", "b" * 40, "--dataset-metadata-sha256", DATASET_HASH,
+                               "--environment", "linux", "--max-cost", "1"])
+        self.assertEqual((args.model, args.model_version),
+                         ("gemini-3.7-flash", "3.7-flash-08-2026"))
 
     def test_selection_format_and_source_hash_are_validated(self):
         with tempfile.TemporaryDirectory() as directory:

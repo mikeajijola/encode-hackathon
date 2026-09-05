@@ -3,7 +3,9 @@
 Generate all four development-arm manifests only after pinning the model release,
 container, scorer revision, LibreOffice version, dataset metadata, environment, and
 monetary ceiling. The model has no default: pass both flags or set
-`EXPERIMENT_MODEL` and `EXPERIMENT_MODEL_VERSION`.
+The default direct-Gemini pins are `gemini-3.7-flash` and provider-reported version
+`3.7-flash-08-2026`. Override them with `EXPERIMENT_MODEL` and
+`EXPERIMENT_MODEL_VERSION` only when registering a separate experiment.
 
 ```sh
 cd research
@@ -12,7 +14,7 @@ python -m experiment.manifests \
   --run-root ../run-output/development-four-arm-v1 \
   --experiment-id development-four-arm-v1 \
   --model 'PROVIDER/EXACT-MODEL-ID' \
-  --model-version 'PROVIDER-REPORTED-IMMUTABLE-VERSION' \
+  --model-version '3.7-flash-08-2026' \
   --container-digest 'sha256:<64 hex characters>' \
   --soffice-version 'LibreOffice <exact version>' \
   --scorer-commit '<full 40-character git commit>' \

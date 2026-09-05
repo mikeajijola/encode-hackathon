@@ -20,6 +20,8 @@ DEFAULT_LOCK = ROOT / "uv.lock"
 BACKEND = "backends.spreadsheetbench:factory"
 ARMS = ("A", "B", "C", "D")
 FORBIDDEN_PIN_MARKERS = ("todo", "to_be_", "placeholder", "unpinned", "latest")
+DEFAULT_GEMINI_MODEL = "gemini-3.7-flash"
+DEFAULT_GEMINI_MODEL_VERSION = "3.7-flash-08-2026"
 
 
 def file_hash(path: Path) -> str:
@@ -228,8 +230,9 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--manifest-dir", required=True)
     parser.add_argument("--run-root", required=True)
     parser.add_argument("--experiment-id", required=True)
-    parser.add_argument("--model", default=os.environ.get("EXPERIMENT_MODEL"))
-    parser.add_argument("--model-version", default=os.environ.get("EXPERIMENT_MODEL_VERSION"))
+    parser.add_argument("--model", default=os.environ.get("EXPERIMENT_MODEL", DEFAULT_GEMINI_MODEL))
+    parser.add_argument("--model-version", default=os.environ.get(
+        "EXPERIMENT_MODEL_VERSION", DEFAULT_GEMINI_MODEL_VERSION))
     parser.add_argument("--container-digest", required=True)
     parser.add_argument("--soffice-version", required=True)
     parser.add_argument("--scorer-commit", required=True)
@@ -244,8 +247,6 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--provider", choices=("gemini", "openrouter"), default="gemini")
     parser.add_argument("--deviation", action="append", default=[])
     args = parser.parse_args(argv)
-    if not args.model or not args.model_version:
-        parser.error("--model/EXPERIMENT_MODEL and --model-version/EXPERIMENT_MODEL_VERSION are required")
     return args
 
 
