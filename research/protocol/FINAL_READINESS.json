@@ -70,12 +70,12 @@
   "environment": {
     "docker_cli": "missing",
     "openrouter_api_key": "missing",
-    "soffice": "missing"
+    "rootless_oci_runner": "/data/data/com.termux/files/usr/bin/udocker",
+    "soffice": "/data/data/com.termux/files/usr/bin/soffice"
   },
   "environment_blockers": [
     "openrouter_api_key",
-    "docker_cli",
-    "soffice"
+    "docker_cli"
   ],
   "original_finding_status": {
     "R-03": {

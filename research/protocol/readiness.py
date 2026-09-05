@@ -68,9 +68,11 @@ def build_report(dataset_dir: Path | None = None) -> dict[str, Any]:
     environment = {
         "openrouter_api_key": "present" if os.environ.get("OPENROUTER_API_KEY") else "missing",
         "docker_cli": shutil.which("docker") or "missing",
+        "rootless_oci_runner": shutil.which("udocker") or "missing",
         "soffice": shutil.which("soffice") or shutil.which("libreoffice") or "missing",
     }
-    environment_blockers = [key for key, value in environment.items() if value == "missing"]
+    environment_blockers = [key for key in ("openrouter_api_key", "docker_cli", "soffice")
+                            if environment[key] == "missing"]
     statuses = {
         "V-01": {"status": "resolved_with_limitation", "evidence": "isolated semantic evaluator role; malformed/error/uncertain verdicts cannot pass; same provider/model actor remains a disclosed limitation"},
         "V-02": {"status": "resolved", "evidence": "production D delegates iteration, transition validation, broker invocation, no-progress, completion and termination to generic FulfilmentAgent"},
