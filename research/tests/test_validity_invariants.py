@@ -21,6 +21,7 @@ from fulfilment.models import (
     EvalStatus, EvidenceRequirements, Scope,
 )
 from protocol.selection import validate_manifest
+from protocol.readiness import build_report, selector_audit
 from services.spreadsheet import _answer_selectors, _model_context
 
 
@@ -55,6 +56,14 @@ class LeakageAndSelectionInvariants(unittest.TestCase):
 
 
 class ProductionPathInvariants(unittest.TestCase):
+    def test_all_available_dataset_selectors_resolve_without_duplicates(self):
+        dataset = RESEARCH / "data" / "spreadsheetbench_verified_400"
+        if not (dataset / "dataset.json").is_file():
+            self.skipTest("dataset not installed; run data/download.py for the all-400 audit")
+        audit = selector_audit(dataset)
+        self.assertEqual((audit["status"], audit["records"], audit["resolved"]), ("pass", 400, 400))
+        self.assertEqual(audit["errors"], [])
+        self.assertEqual(audit["duplicate_selector_tasks"], [])
     def test_truncation_is_explicit_and_counts_omissions(self):
         with tempfile.TemporaryDirectory() as td:
             path = Path(td) / "x.xlsx"; wb = Workbook()
@@ -125,6 +134,12 @@ class RegisteredRunBlockerSentinels(unittest.TestCase):
         context_projection = source.split("context = {key: record[key]", 1)[1].split("tasks.append", 1)[0]
         self.assertNotIn("independent_expected", context_projection)
 
+    def test_isolated_semantic_evaluator_replaces_missing_fixture_oracle(self):
+        source = (RESEARCH / "services" / "spreadsheet.py").read_text()
+        self.assertIn("def _semantic_model_eval", source)
+        self.assertIn('purpose="independent_evaluation"', source)
+        self.assertIn("current_target_facts", source)
+
     def test_spreadsheet_reconciler_uses_evidence_completion_gate(self):
         source = (RESEARCH / "services" / "spreadsheet.py").read_text()
         reconcile = source.split("def reconcile", 1)[1].split("def _session", 1)[0]
@@ -132,6 +147,19 @@ class RegisteredRunBlockerSentinels(unittest.TestCase):
         self.assertIn("session.evidence.records()", reconcile)
         self.assertIn('session.evidence.append("termination_decision"', reconcile)
         self.assertIn('ExecutionResult(destination, "fulfilled"', reconcile)
+
+    def test_custom_reconcile_still_does_not_use_generic_agent_semantics(self):
+        source = (RESEARCH / "services" / "spreadsheet.py").read_text()
+        reconcile = source.split("def reconcile", 1)[1].split("def _completion_decision", 1)[0]
+        self.assertIn("for iteration in range", reconcile)
+        self.assertNotIn("FulfilmentAgent", source)
+        self.assertNotIn("no_progress", reconcile)
+
+    def test_output_manifest_drops_outer_reproducibility_envelope(self):
+        runner = (RESEARCH / "experiment" / "runner.py").read_text()
+        prepare = runner.split("def _prepare", 1)[1].split("def run", 1)[0]
+        self.assertNotIn('raw["reproducibility"]', prepare)
+        self.assertNotIn('"selection_sha256"', prepare)
 
     def test_internal_status_and_termination_reason_are_projected_by_runner(self):
         source = (RESEARCH / "experiment" / "runner.py").read_text()
@@ -150,6 +178,19 @@ class RegisteredRunBlockerSentinels(unittest.TestCase):
     def test_official_scorer_is_immutable_at_audited_hash(self):
         digest = sha256((RESEARCH / "evaluate.py").read_bytes()).hexdigest()
         self.assertEqual(digest, OFFICIAL_SCORER_SHA256)
+
+    def test_machine_readiness_stays_blocked_with_named_code_and_environment_gaps(self):
+        report = build_report()
+        self.assertFalse(report["registered_run_ready"])
+        self.assertEqual(report["decision"], "BLOCKED")
+        self.assertTrue({"R-01", "R-02", "V-06", "R-03"} <= {item["id"] for item in report["blockers"]})
+
+    def test_factory_provides_fresh_session_container_per_run(self):
+        from backends.spreadsheetbench import factory
+        # Object construction requires no dataset when freshness is checked at
+        # the service type boundary; the factory itself returns SpreadsheetServices().
+        source = (RESEARCH / "backends" / "spreadsheetbench.py").read_text()
+        self.assertIn("return SpreadsheetServices(), provider, tasks", source)
 
 
 if __name__ == "__main__": unittest.main()

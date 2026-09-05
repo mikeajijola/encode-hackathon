@@ -1,0 +1,136 @@
+{
+  "blockers": [
+    {
+      "evidence": "SpreadsheetServices.reconcile owns iteration/planning and does not invoke FulfilmentAgent; no generic no-progress or observation-transition semantics apply.",
+      "id": "R-01",
+      "kind": "code",
+      "severity": "critical",
+      "summary": "Arm D uses an artifact-specific reconciliation loop instead of the generic control loop."
+    },
+    {
+      "evidence": "ExperimentRunner writes RunConfig only; backend, selection, dataset, protocol and lock hashes from the generated input manifest are dropped.",
+      "id": "R-02",
+      "kind": "evidence",
+      "severity": "high",
+      "summary": "Runtime output does not retain the complete input run manifest."
+    },
+    {
+      "evidence": "Repository-root Dockerfile lacks the hardened research Dockerfile's LibreOffice/preflight/non-root contract and is chosen by docker build .",
+      "id": "V-06",
+      "kind": "packaging",
+      "severity": "high",
+      "summary": "Two materially different Dockerfiles remain selectable."
+    },
+    {
+      "evidence": "Action proposals accept only a writes list; large target ranges require thousands of literal writes and cannot select formula-fill, recalculate, render, or additional observation transitions.",
+      "id": "R-03",
+      "kind": "capability",
+      "severity": "high",
+      "summary": "Production planning can invoke only write_cells although other capabilities are advertised."
+    }
+  ],
+  "checks": {
+    "completion_evidence": {
+      "evidence": "generic completion gate and hash-chained termination evidence are tested",
+      "status": "pass"
+    },
+    "manifest_output_reconstruction": {
+      "evidence": "see R-02",
+      "status": "fail"
+    },
+    "official_scorer": {
+      "expected_sha256": "8840a0e93df958d41dc5892ee42b33210ba773c1e0b73b691bbaf7d06a84d46b",
+      "observed_sha256": "8840a0e93df958d41dc5892ee42b33210ba773c1e0b73b691bbaf7d06a84d46b",
+      "status": "pass"
+    },
+    "selector_audit": {
+      "dataset_metadata_sha256": "bcecaa89a005bd4e3bbe98da150a86e8062c27f262e575d5e47bd9861b3525e7",
+      "duplicate_selector_tasks": [],
+      "errors": [],
+      "largest_tasks": [
+        {
+          "expanded_selectors": 104110,
+          "id": "455-35"
+        },
+        {
+          "expanded_selectors": 95988,
+          "id": "80-42"
+        },
+        {
+          "expanded_selectors": 12315,
+          "id": "297-42"
+        },
+        {
+          "expanded_selectors": 11917,
+          "id": "341-40"
+        },
+        {
+          "expanded_selectors": 9998,
+          "id": "118-50"
+        }
+      ],
+      "max_expanded_selectors": 104110,
+      "records": 400,
+      "resolved": 400,
+      "status": "pass"
+    },
+    "semantic_evaluator_independence": {
+      "evidence": "isolated prompt excludes action response and nonpass errors; same provider/model is used",
+      "status": "pass_with_limitation"
+    },
+    "session_isolation": {
+      "evidence": "factory creates one SpreadsheetServices per run and runner rejects duplicate task IDs; service instances must not be reused across runs",
+      "status": "pass_with_lifecycle_constraint"
+    },
+    "synthetic_test_cleanliness": {
+      "evidence": "tests generate into TemporaryDirectory via --out-dir",
+      "status": "pass"
+    }
+  },
+  "decision": "BLOCKED",
+  "environment": {
+    "docker_cli": "missing",
+    "openrouter_api_key": "missing",
+    "soffice": "missing"
+  },
+  "environment_blockers": [
+    "openrouter_api_key",
+    "docker_cli",
+    "soffice"
+  ],
+  "original_finding_status": {
+    "V-01": {
+      "evidence": "isolated semantic evaluator role; malformed/error/uncertain verdicts cannot pass; same provider/model actor remains a disclosed limitation",
+      "status": "resolved_with_limitation"
+    },
+    "V-02": {
+      "evidence": "generic decide_completion now gates success, but artifact-specific reconciliation control semantics remain R-01",
+      "status": "partially_resolved"
+    },
+    "V-03": {
+      "evidence": "Arm A v2 is frozen and explicitly not equated with the legacy baseline",
+      "status": "resolved_as_controlled_deviation"
+    },
+    "V-04": {
+      "evidence": "explicit verified/unverified/unfulfilled status and FFR projection",
+      "status": "resolved"
+    },
+    "V-05": {
+      "evidence": "shared transport retries are enforced and every attempt traced",
+      "status": "resolved"
+    },
+    "V-06": {
+      "evidence": "Dockerfiles differ",
+      "status": "open"
+    }
+  },
+  "registered_run_ready": false,
+  "review_date": "2026-09-05",
+  "schema_version": "1.0.0",
+  "source_assertions": {
+    "completion_gate_present": true,
+    "custom_reconcile_present": true,
+    "dockerfiles_identical": false,
+    "runtime_manifest_drops_outer_reproducibility": true
+  }
+}
