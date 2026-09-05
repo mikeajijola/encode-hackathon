@@ -62,6 +62,8 @@ def build_report(dataset_dir: Path | None = None) -> dict[str, Any]:
     )
     service = (RESEARCH / "services" / "spreadsheet.py").read_text()
     runner = (RESEARCH / "experiment" / "runner.py").read_text()
+    coordinator = (RESEARCH / "protocol" / "registered_run.py").read_text()
+    coordinator_execute = coordinator.split("def execute", 1)[1]
     blockers = []
     environment = {
         "openrouter_api_key": "present" if os.environ.get("OPENROUTER_API_KEY") else "missing",
@@ -98,6 +100,8 @@ def build_report(dataset_dir: Path | None = None) -> dict[str, Any]:
             "completion_evidence": {"status": "pass", "evidence": "generic completion gate and hash-chained termination evidence are tested"},
             "manifest_output_reconstruction": {"status": "pass", "evidence": "exact input bytes, SHA-256, embedded canonical content and task-event bindings are verified"},
             "capability_planning": {"status": "pass_with_limitation", "evidence": "see R-03 status; development target audit retains unsupported large non-formula risk"},
+            "registered_orchestration": {"status": "pass_static_external_execution_pending",
+                "evidence": "digest-bound coordinator stages golden-free fulfilment input, requires four complete terminal sets, then scores in separate containers and emits analysis plus ledger"},
         },
         "source_assertions": {
             "custom_reconcile_present": "def reconcile" in service and "FulfilmentAgent(" not in service,
@@ -106,6 +110,9 @@ def build_report(dataset_dir: Path | None = None) -> dict[str, Any]:
             "runtime_manifest_drops_outer_reproducibility": False,
             "canonical_dockerfile": canonical_docker,
             "dockerfile_count": len(dockerfiles),
+            "golden_isolated_scoring_sequence": "_stage_blind_dataset" in coordinator_execute and
+                coordinator_execute.find("_verify_arm_termination") <
+                coordinator_execute.find("_run(scorer_command"),
         },
     }
 

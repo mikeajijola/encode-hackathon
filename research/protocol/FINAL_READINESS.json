@@ -18,6 +18,10 @@
       "observed_sha256": "8840a0e93df958d41dc5892ee42b33210ba773c1e0b73b691bbaf7d06a84d46b",
       "status": "pass"
     },
+    "registered_orchestration": {
+      "evidence": "digest-bound coordinator stages golden-free fulfilment input, requires four complete terminal sets, then scores in separate containers and emits analysis plus ledger",
+      "status": "pass_static_external_execution_pending"
+    },
     "selector_audit": {
       "dataset_metadata_sha256": "bcecaa89a005bd4e3bbe98da150a86e8062c27f262e575d5e47bd9861b3525e7",
       "duplicate_selector_tasks": [],
@@ -112,6 +116,7 @@
     "custom_reconcile_present": false,
     "dockerfile_count": 1,
     "generic_agent_present": true,
+    "golden_isolated_scoring_sequence": true,
     "runtime_manifest_drops_outer_reproducibility": false
   }
 }

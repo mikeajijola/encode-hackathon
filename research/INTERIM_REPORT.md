@@ -38,8 +38,8 @@ On a Docker host with LibreOffice and a funded, pinned provider credential:
 
 1. Build the sole repository-root Dockerfile and retain its immutable digest and preflight report.
 2. Generate the four manifests with exact model/version, provider environment, scorer commit, dataset hash, container digest, LibreOffice version, and cost ceiling.
-3. Run the same frozen task selection through A/B/C/D.
-4. Terminate all fulfilment runs before exposing reference artifacts to the offline scorer.
+3. Run `python -m protocol.registered_run ...`; its fail-closed orchestration executes the same frozen task selection through A/B/C/D.
+4. The orchestrator verifies all four terminal output sets before exposing reference artifacts to separate scorer containers.
 5. Produce official results, paired bootstrap intervals, McNemar tests, failure assignments, ablations, overhead tables, and an append-only ledger entry.
 6. Apply the preregistered thresholds without revision. Report supported, partially supported, rejected, or inconclusive from those measurements.
 

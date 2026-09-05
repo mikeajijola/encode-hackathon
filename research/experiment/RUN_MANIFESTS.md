@@ -53,3 +53,25 @@ done
 Every arm directory is created empty. The experiment runner additionally refuses a
 non-empty directory. Score outputs only after all fulfilment runs finish; goldens
 must not be present in manifests, prompts, contracts, or fulfilment-time evals.
+
+The preferred orchestration command enforces that chronology, checks the exact
+image and dataset pins, stages a fulfilment-only dataset containing no golden
+workbooks, runs every arm to a complete terminal output set, and only then mounts
+the original dataset into fresh scorer containers. It also writes `analysis.json`,
+`arm_table.md`, and a provisional append-only `ledger.json`:
+
+```sh
+cd research
+python -m protocol.registered_run \
+  --manifest-dir ../run-input/manifests \
+  --run-root ../run-output/development-four-arm-v1 \
+  --dataset-dir ../run-input/dataset \
+  --image 'fulfilment-experiment@sha256:<same digest recorded above>'
+```
+
+Use `--preflight-only` before spending model budget. The orchestrator passes the
+host numeric user into the non-root container and assigns a disposable tmpfs home,
+so bind-mounted results remain writable without broadening artifact access. A
+failed or incomplete arm prevents all official scoring. The generated ledger is
+deliberately `inconclusive` until a researcher applies the frozen thresholds,
+reviews cost defensibility, and attaches evidence-backed failure assignments.
