@@ -18,9 +18,14 @@ def safe_ratio(numerator: int | float, denominator: int | float) -> float | None
 def arm_metrics(rows: list[dict]) -> dict:
     """Compute preregistered metrics for one arm from completed per-task rows."""
     n = len(rows)
-    fulfilled = [r for r in rows if r["internal_status"] == "FULFILLED"]
+    # One-shot arms make an explicit completion claim without internal evidence.
+    # They remain in the FFR denominator while staying distinguishable from an
+    # evidence-gated FULFILLED decision.
+    fulfilled = [r for r in rows if r["internal_status"] in {"FULFILLED", "FULFILLED_UNVERIFIED"}]
+    eval_fulfilled = [r for r in rows if r["internal_status"] == "FULFILLED"]
     official_success = [r for r in rows if r["official_pass"]]
     true_fulfilled = [r for r in fulfilled if r["official_pass"]]
+    true_eval_fulfilled = [r for r in eval_fulfilled if r["official_pass"]]
     first_failed = [r for r in rows if r.get("first_mutation_pass") is False]
     recovered = [r for r in first_failed if r["official_pass"]]
     total_cells = sum(r.get("total_cells", 0) for r in rows)
@@ -30,8 +35,9 @@ def arm_metrics(rows: list[dict]) -> dict:
         "pass_rate": safe_ratio(len(official_success), n),
         "cell_accuracy": safe_ratio(correct_cells, total_cells),
         "false_fulfilment_rate": safe_ratio(len(fulfilled) - len(true_fulfilled), len(fulfilled)),
-        "internal_eval_precision": safe_ratio(len(true_fulfilled), len(fulfilled)),
-        "internal_eval_recall": safe_ratio(len(true_fulfilled), len(official_success)),
+        "completion_claim_precision": safe_ratio(len(true_fulfilled), len(fulfilled)),
+        "internal_eval_precision": safe_ratio(len(true_eval_fulfilled), len(eval_fulfilled)),
+        "internal_eval_recall": safe_ratio(len(true_eval_fulfilled), len(official_success)),
         "recovery_yield": safe_ratio(len(recovered), len(first_failed)),
         "artifact_validity_rate": safe_ratio(sum(bool(r["artifact_valid"]) for r in rows), n),
         "constraint_violation_rate": safe_ratio(sum(bool(r.get("constraint_violation")) for r in rows), n),

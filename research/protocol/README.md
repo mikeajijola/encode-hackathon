@@ -26,7 +26,9 @@ python -m protocol.offline_report --inputs four_arm_inputs.json \
   --selection protocol/development_selection.json --out analysis.json --markdown-out arm_table.md
 ```
 
-Per-task analysis rows require `task_id`, `official_pass`, `internal_status`, and `artifact_valid`. Cell counts and cost fields are additive. For Arm D, `first_mutation_pass=false` identifies the denominator eligible for reconciliation recovery; a final official pass counts as recovered. FFR is failed official runs among runs internally declared `FULFILLED`.
+Per-task analysis rows require `task_id`, `official_pass`, `internal_status`, and `artifact_valid`. `FULFILLED` and `FULFILLED_UNVERIFIED` are both explicit completion claims and enter the FFR denominator; the labels preserve whether the claim passed an internal evidence gate. Cell counts and cost fields are additive. For Arm D, `first_mutation_pass=false` identifies the denominator eligible for reconciliation recovery; a final official pass counts as recovered.
+
+`completion_claim_precision` covers both claim labels. `internal_eval_precision` and `internal_eval_recall` use only evidence-gated `FULFILLED` decisions, so they are N/A for arms without internal evals rather than being mislabeled one-shot accuracy.
 
 Run the semantic and structural checks from this directory:
 

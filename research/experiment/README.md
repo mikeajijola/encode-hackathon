@@ -2,7 +2,7 @@
 
 `experiment.runner` fixes the treatment boundaries while injecting all semantic behavior through `Services`:
 
-- A calls `execute_once(task, None, ...)` exactly once. A production service should delegate to the existing one-shot baseline prompt/parser/writer.
+- A calls `execute_once(task, None, ...)` exactly once. The spreadsheet production implementation is the explicitly characterized controlled Arm A v2, not the legacy baseline.
 - B compiles a contract and calls `execute_once` once; it never evaluates.
 - C does the same and calls `evaluate_once` once after execution; it never reconciles.
 - D compiles a contract and delegates the iterative observe/evaluate/discrepancy/action loop to `reconcile`.
@@ -34,3 +34,5 @@ The preflight exits `2` with typed errors such as `missing_soffice`,
 disable recalculation.
 
 The adapter is responsible for rendered/visual evidence where meaningful. Each task result explicitly records this delegation. Official scoring remains a separate offline command and is intentionally not imported here.
+
+Successful A/B attempts emit `FULFILLED_UNVERIFIED`; C/D emit `FULFILLED` only after a passing terminal internal evaluation. Both fulfilment labels are completion claims in offline FFR calculations, but only the latter is evidence-gated. Every provider transport attempt is separately traced. `retry_policy.model_transport_retries` is the number of additional attempts and applies at the shared runtime boundary; action retries remain disabled.

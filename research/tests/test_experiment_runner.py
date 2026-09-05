@@ -17,6 +17,14 @@ class FakeProvider:
         return ModelReply("ok", 2, 1, 0.01, f"fake-{len(self.calls)}")
 
 
+class FlakyProvider(FakeProvider):
+    def complete(self, prompt, *, model, temperature):
+        self.calls.append((prompt, model, temperature))
+        if len(self.calls) == 1:
+            raise ConnectionError("synthetic transport failure")
+        return ModelReply("ok", 2, 1, 0.01, "recovered")
+
+
 class FakeServices:
     def __init__(self): self.calls = []
     def compile_contract(self, task, runtime):
@@ -85,8 +93,11 @@ class FourArmTests(unittest.TestCase):
                 self.assertEqual(result["rendered_eval"], "delegated_to_adapter")
                 if eval_passed is None:
                     self.assertIsNone(result["terminal_eval"])
+                    self.assertEqual(result["internal_status"], "FULFILLED_UNVERIFIED")
+                    self.assertEqual(result["termination_reason"], "one_shot_completed_unverified")
                 else:
                     self.assertEqual(result["terminal_eval"]["passed"], eval_passed)
+                    self.assertEqual(result["internal_status"], "FULFILLED" if eval_passed else "UNFULFILLED")
 
     def test_budget_failure_projects_original_and_is_traced(self):
         with tempfile.TemporaryDirectory() as td:
@@ -100,6 +111,27 @@ class FourArmTests(unittest.TestCase):
             events = [json.loads(line)["event_type"] for line in (out / "events" / "t1.jsonl").read_text().splitlines()]
             self.assertIn("task_error", events)
             self.assertIn("fallback_projection", events)
+            self.assertEqual(result["internal_status"], "UNFULFILLED")
+            self.assertEqual(result["termination_reason"], "execution_error")
+
+    def test_transport_retry_is_uniformly_enforced_and_each_attempt_traced(self):
+        for arm in Arm:
+            with self.subTest(arm=arm), tempfile.TemporaryDirectory() as td:
+                root = Path(td); artifact = root / "initial.txt"; artifact.write_text("initial")
+                cfg = RunConfig(**{**config(arm).__dict__, "retry_policy": {"model_transport_retries": 1,
+                                                                            "action_retries": 0}})
+                provider = FlakyProvider(); out = root / "out"
+                result = ExperimentRunner(cfg, FakeServices(), provider, out).run(
+                    [Task("t1", "intent", artifact, "text", {})])[0]
+                traces = [json.loads(line) for line in (out / "traces" / "t1.jsonl").read_text().splitlines()]
+                self.assertEqual((traces[0]["attempt"], traces[0]["error"]),
+                                 (1, "ConnectionError: synthetic transport failure"))
+                self.assertEqual(traces[1]["attempt"], 2)
+                self.assertIsNone(traces[1]["error"])
+                self.assertEqual(result["usage"]["model_calls"], len(provider.calls))
+                self.assertEqual(result["usage"]["successful_model_calls"], result["usage"]["model_calls"] - 1)
+                events = (out / "events" / "t1.jsonl").read_text()
+                self.assertIn('"event_type": "model_transport_retry"', events)
 
     def test_nonempty_output_directory_is_rejected(self):
         with tempfile.TemporaryDirectory() as td:

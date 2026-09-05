@@ -58,6 +58,32 @@ class OfflineAnalysisTests(unittest.TestCase):
         with self.assertRaises(ValueError): join_results([internal("1", False, None, 1)], [official("2", False)])
         with self.assertRaises(ValueError): join_results([internal("1", False, None, 1)] * 2, [official("1", False)])
 
+    def test_unverified_one_shot_claims_are_in_ffr_denominator(self):
+        rows = [internal("1", False, None, 1), internal("2", False, None, 1)]
+        for row in rows:
+            row["internal_status"] = "FULFILLED_UNVERIFIED"
+        joined = join_results(rows, [official("1", True), official("2", False, 0)])
+        report = analyze({arm: joined for arm in "ABCD"}, samples=10, seed=1)
+        self.assertEqual(report["metrics"]["A"]["false_fulfilment_rate"], .5)
+        self.assertEqual(report["metrics"]["A"]["completion_claim_precision"], .5)
+        self.assertIsNone(report["metrics"]["A"]["internal_eval_precision"])
+
+    def test_unknown_completion_label_is_rejected(self):
+        row = internal("1", False, None, 1); row["internal_status"] = "LOOKS_GOOD"
+        with self.assertRaisesRegex(ValueError, "unknown internal_status"):
+            join_results([row], [official("1", True)])
+
+    def test_unverified_one_shot_completion_claim_is_in_ffr_denominator(self):
+        rows = join_results([
+            {"id": "1", "internal_status": "FULFILLED_UNVERIFIED", "usage": {}},
+            {"id": "2", "internal_status": "FULFILLED_UNVERIFIED", "usage": {}},
+        ], [official("1", True), official("2", False, 0)])
+        arms = {arm: rows for arm in "ABCD"}
+        metrics = analyze(arms, samples=10)["metrics"]["A"]
+        self.assertEqual(metrics["false_fulfilment_rate"], .5)
+        self.assertEqual(metrics["completion_claim_precision"], .5)
+        self.assertIsNone(metrics["internal_eval_precision"])
+
     def test_failure_schema_contains_exact_registered_taxonomy(self):
         schema = json.loads((RESEARCH / "protocol" / "failure_assignment.schema.json").read_text())
         labels = set(schema["properties"]["classes"]["items"]["enum"])

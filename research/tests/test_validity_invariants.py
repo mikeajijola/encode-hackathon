@@ -107,13 +107,14 @@ class CompletionEvidenceAndBudgetInvariants(unittest.TestCase):
             original = path.read_text(); path.write_text(original.replace('"a"', '"b"'))
             with self.assertRaises(EvidenceIntegrityError): store.verify()
 
-    def test_preregistered_budgets_are_common_but_retry_is_only_recorded(self):
+    def test_preregistered_budgets_and_retry_are_enforced_by_shared_runtime(self):
         protocol = json.loads((RESEARCH / "protocol" / "preregistered_experiment.json").read_text())
         fixed = protocol["fixed_conditions"]
         self.assertEqual((fixed["token_budget"], fixed["action_budget"], fixed["wall_clock_seconds"]), (16000, 12, 300))
         runner_source = (RESEARCH / "experiment" / "runner.py").read_text()
         self.assertIn("retry_policy", runner_source)
-        self.assertNotIn("config.retry_policy", runner_source)  # validity-review sentinel: not enforced
+        self.assertIn("config.retry_policy", runner_source)
+        self.assertIn("model_transport_retry", runner_source)
 
 
 class RegisteredRunBlockerSentinels(unittest.TestCase):
@@ -132,10 +133,11 @@ class RegisteredRunBlockerSentinels(unittest.TestCase):
         self.assertIn('session.evidence.append("termination_decision"', reconcile)
         self.assertIn('ExecutionResult(destination, "fulfilled"', reconcile)
 
-    def test_internal_status_is_not_projected_by_runner(self):
+    def test_internal_status_and_termination_reason_are_projected_by_runner(self):
         source = (RESEARCH / "experiment" / "runner.py").read_text()
         result_projection = source.split('result = {', 1)[1].split('runtime.event("task_finished"', 1)[0]
-        self.assertNotIn('"internal_status"', result_projection)
+        self.assertIn('"internal_status"', result_projection)
+        self.assertIn('"termination_reason"', result_projection)
 
     def test_two_dockerfiles_are_behaviorally_different(self):
         root = (REPO / "Dockerfile").read_text()

@@ -38,6 +38,8 @@ def join_results(internal: list[dict], official: list[dict], metadata: dict[str,
         declared = internal_row.get("internal_status")
         if declared is None:
             declared = "FULFILLED" if terminal and terminal.get("passed") is True else "UNFULFILLED"
+        if declared not in {"FULFILLED", "FULFILLED_UNVERIFIED", "UNFULFILLED"}:
+            raise ValueError(f"unknown internal_status for task {task_id}: {declared!r}")
         row = {
             "task_id": task_id, "internal_status": declared,
             "official_pass": bool(official_row.get("pass", False)),

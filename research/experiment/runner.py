@@ -116,6 +116,7 @@ class TaskRuntime:
         self.output_tokens = 0
         self.cost = 0.0
         self.model_calls = 0
+        self.successful_model_calls = 0
 
     def _elapsed_ms(self) -> int:
         return int((monotonic() - self.started) * 1000)
@@ -144,23 +145,25 @@ class TaskRuntime:
 
     def complete(self, prompt: str, *, purpose: str) -> ModelReply:
         self._check()
-        started = monotonic()
-        error = None
-        reply = None
-        try:
-            reply = self.provider.complete(prompt, model=self.config.model, temperature=self.config.temperature)
-            self.input_tokens += reply.input_tokens
-            self.output_tokens += reply.output_tokens
-            self.cost += reply.cost
-            self.model_calls += 1
+        retries = self.config.retry_policy.get(
+            "model_transport_retries", self.config.retry_policy.get("transport", 0))
+        if not isinstance(retries, int) or isinstance(retries, bool) or retries < 0:
+            raise ValueError("model transport retry count must be a non-negative integer")
+        last_exception: Exception | None = None
+        for attempt in range(1, retries + 2):
             self._check()
-            return reply
-        except Exception as exc:
-            error = f"{type(exc).__name__}: {exc}"
-            raise
-        finally:
+            started = monotonic()
+            error = None
+            reply = None
+            self.model_calls += 1
+            try:
+                reply = self.provider.complete(prompt, model=self.config.model, temperature=self.config.temperature)
+            except Exception as exc:
+                last_exception = exc
+                error = f"{type(exc).__name__}: {exc}"
             trace = {
-                "step": self.model_calls + (0 if reply else 1), "purpose": purpose,
+                "step": self.model_calls, "attempt": attempt, "max_attempts": retries + 1,
+                "purpose": purpose,
                 "model": self.config.model, "model_version": self.config.model_version,
                 "temperature": self.config.temperature, "prompt": prompt,
                 "response": reply.text if reply else None,
@@ -172,11 +175,26 @@ class TaskRuntime:
             }
             with self.trace_path.open("a", encoding="utf-8") as stream:
                 stream.write(json.dumps(trace, sort_keys=True) + "\n")
+            if reply is None:
+                if attempt <= retries:
+                    self.event("model_transport_retry", {"purpose": purpose, "failed_attempt": attempt,
+                                                          "max_attempts": retries + 1, "error": error})
+                    continue
+                assert last_exception is not None
+                raise last_exception
+            self.input_tokens += reply.input_tokens
+            self.output_tokens += reply.output_tokens
+            self.cost += reply.cost
+            self.successful_model_calls += 1
+            self._check()
+            return reply
+        raise AssertionError("unreachable retry loop")
 
     def usage(self) -> dict[str, Any]:
         return {"actions": self.actions, "input_tokens": self.input_tokens,
                 "output_tokens": self.output_tokens, "tokens": self.input_tokens + self.output_tokens,
-                "latency_ms": self._elapsed_ms(), "cost": self.cost, "model_calls": self.model_calls}
+                "latency_ms": self._elapsed_ms(), "cost": self.cost, "model_calls": self.model_calls,
+                "successful_model_calls": self.successful_model_calls}
 
 
 class ExperimentRunner:
@@ -217,6 +235,8 @@ class ExperimentRunner:
         before = file_hash(task.artifact)
         contract = None
         evaluation = None
+        execution = None
+        termination_reason = "execution_not_started"
         try:
             runtime.event("task_started", {"task_id": task.id, "artifact_hash": before, "arm": self.config.arm.value})
             if self.config.arm is Arm.A:
@@ -232,8 +252,18 @@ class ExperimentRunner:
                         evaluation = self.services.evaluate_once(task, contract, execution.artifact, runtime)
                         runtime.event("terminal_evaluation", asdict(evaluation))
             status = execution.status
+            if self.config.arm in (Arm.A, Arm.B):
+                internal_status = "FULFILLED_UNVERIFIED" if status == "ok" else "UNFULFILLED"
+                termination_reason = "one_shot_completed_unverified" if status == "ok" else "execution_failed"
+            else:
+                passed = evaluation is not None and evaluation.passed
+                internal_status = "FULFILLED" if passed else "UNFULFILLED"
+                termination_reason = "required_internal_evals_passed" if passed else (
+                    f"internal_eval_{evaluation.status}" if evaluation else "evaluation_missing")
         except Exception as exc:
             status = f"error: {type(exc).__name__}: {exc}"[:500]
+            internal_status = "UNFULFILLED"
+            termination_reason = "execution_error"
             runtime.event("task_error", {"error": status})
         if not destination.exists():
             shutil.copy2(task.artifact, destination)
@@ -243,6 +273,7 @@ class ExperimentRunner:
             "id": task.id, "arm": self.config.arm.value, "status": status,
             "output": f"outputs/{destination.name}", "input_artifact_hash": before,
             "output_artifact_hash": after, "contract_compiled": contract is not None,
+            "internal_status": internal_status, "termination_reason": termination_reason,
             "terminal_eval": asdict(evaluation) if evaluation else None, "usage": runtime.usage(),
             "rendered_eval": "delegated_to_adapter",
         }
