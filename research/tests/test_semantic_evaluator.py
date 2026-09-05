@@ -9,6 +9,7 @@ from adapters.spreadsheet import KIND
 from experiment.runner import Arm, ExperimentRunner, ModelReply, RunConfig, Task
 from services.spreadsheet import SpreadsheetServices
 from fulfilment import EvidenceStore
+from tests.contract_fixtures import capability_records, contract_reply
 
 
 class RoleProvider:
@@ -36,7 +37,7 @@ class IsolatedSemanticEvaluatorTest(unittest.TestCase):
                        "truncation": {"truncated": False}}}
         provider = RoleProvider(replies); out = root / "out"
         result = ExperimentRunner(config(arm), service_type(), provider, out).run(
-            [Task("t", "put twice A1 in B1", artifact, KIND, context)])[0]
+            [Task("t", "put twice A1 in B1", artifact, KIND, context, capability_records())])[0]
         return td, out, provider, result
 
     def value(self, out, result):
@@ -44,7 +45,7 @@ class IsolatedSemanticEvaluatorTest(unittest.TestCase):
 
     def test_c_evaluates_wrong_once_and_never_repairs(self):
         replies = [
-            '{"description":"B1 equals twice A1"}',
+            contract_reply("B1 equals twice A1"),
             '{"writes":[{"selector":"Data!B1","value":3}]}',
             '{"verdict":"fail","expected_state":{"Data!B1":4},"rationale":"three is not twice two","confidence":0.99}',
         ]
@@ -59,7 +60,7 @@ class IsolatedSemanticEvaluatorTest(unittest.TestCase):
 
     def test_d_acts_first_then_repairs_from_isolated_failed_verdict(self):
         replies = [
-            '{"description":"B1 equals twice A1"}',
+            contract_reply("B1 equals twice A1"),
             '{"writes":[{"selector":"Data!B1","value":3}]}',
             '{"verdict":"fail","expected_state":{"Data!B1":4},"rationale":"expected four","confidence":1}',
             '{"writes":[{"selector":"Data!B1","value":4}]}',
@@ -90,7 +91,7 @@ class IsolatedSemanticEvaluatorTest(unittest.TestCase):
         self.assertNotIn("independent_semantic_evaluator", repair_prompt)
 
     def test_malformed_evaluator_response_is_uncertain_and_never_passes(self):
-        replies = ['{"description":"B1 equals twice A1"}',
+        replies = [contract_reply("B1 equals twice A1"),
                    '{"writes":[{"selector":"Data!B1","value":4}]}',
                    '{"verdict":"pass"}']
         td, out, provider, result = self.run_arm(Arm.D, replies); self.addCleanup(td.cleanup)
@@ -104,7 +105,7 @@ class IsolatedSemanticEvaluatorTest(unittest.TestCase):
         class MissingObservationEvidence(SpreadsheetServices):
             def _record_evaluation_evidence(self, session, observation, results):
                 pass
-        replies = ['{"description":"B1 equals twice A1"}',
+        replies = [contract_reply("B1 equals twice A1"),
                    '{"writes":[{"selector":"Data!B1","value":4}]}',
                    '{"verdict":"pass","expected_state":{"Data!B1":4},"rationale":"correct","confidence":1}']
         td, out, provider, result = self.run_arm(Arm.D, replies, MissingObservationEvidence)
@@ -117,7 +118,7 @@ class IsolatedSemanticEvaluatorTest(unittest.TestCase):
         self.assertFalse(evidence[-1].payload["fulfilled"])
 
     def test_explicit_uncertain_verdict_prevents_fulfilled(self):
-        replies = ['{"description":"B1 equals twice A1"}',
+        replies = [contract_reply("B1 equals twice A1"),
                    '{"writes":[{"selector":"Data!B1","value":4}]}',
                    '{"verdict":"uncertain","expected_state":null,"rationale":"insufficient source facts","confidence":0.2}']
         td, out, provider, result = self.run_arm(Arm.D, replies); self.addCleanup(td.cleanup)
@@ -125,7 +126,7 @@ class IsolatedSemanticEvaluatorTest(unittest.TestCase):
         self.assertFalse(EvidenceStore(out / "events" / "t.broker.jsonl").verify()[-1].payload["fulfilled"])
 
     def test_evaluator_provider_error_prevents_fulfilled(self):
-        replies = ['{"description":"B1 equals twice A1"}',
+        replies = [contract_reply("B1 equals twice A1"),
                    '{"writes":[{"selector":"Data!B1","value":4}]}']
         td, out, provider, result = self.run_arm(Arm.D, replies); self.addCleanup(td.cleanup)
         self.assertEqual(result["status"], "unfulfilled:evaluation_uncertain")
@@ -143,7 +144,7 @@ class IsolatedSemanticEvaluatorTest(unittest.TestCase):
     def test_a_and_b_never_invoke_evaluation_role(self):
         cases = {
             Arm.A: ['{"writes":[{"selector":"Data!B1","value":4}]}'],
-            Arm.B: ['{"description":"B1 equals twice A1"}', '{"writes":[{"selector":"Data!B1","value":4}]}'],
+            Arm.B: [contract_reply("B1 equals twice A1"), '{"writes":[{"selector":"Data!B1","value":4}]}'],
         }
         for arm, replies in cases.items():
             with self.subTest(arm=arm):

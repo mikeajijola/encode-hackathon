@@ -9,6 +9,7 @@ from openpyxl import Workbook, load_workbook
 from adapters.spreadsheet import KIND
 from experiment.runner import Arm, ExperimentRunner, ModelReply, RunConfig, Task
 from services.spreadsheet import SpreadsheetServices
+from tests.contract_fixtures import capability_records, contract_reply
 
 
 class QueueProvider:
@@ -40,7 +41,7 @@ class SpreadsheetServicesE2E(unittest.TestCase):
         task_context.update(context or {})
         provider = QueueProvider(replies)
         result = ExperimentRunner(config(arm), SpreadsheetServices(), provider, out).run(
-            [Task("t1", "put twice A1 in B1", artifact, KIND, task_context)])[0]
+            [Task("t1", "put twice A1 in B1", artifact, KIND, task_context, capability_records())])[0]
         return td, out, provider, result
 
     def value(self, out, result):
@@ -49,7 +50,7 @@ class SpreadsheetServicesE2E(unittest.TestCase):
         wb.close(); return value, preserved
 
     def test_arm_c_detects_fault_once_and_d_repairs_from_discrepancy(self):
-        contract = '{"description":"B1 equals independently computed twice A1"}'
+        contract = contract_reply("B1 equals independently computed twice A1")
         wrong = '{"writes":[{"selector":"Data!B1","value":"wrong"}]}'
         correct = '{"writes":[{"selector":"Data!B1","value":4}]}'
 
@@ -79,7 +80,7 @@ class SpreadsheetServicesE2E(unittest.TestCase):
 
     def test_all_arms_use_provider_interface_and_preserve_treatments(self):
         direct = '{"writes":[{"selector":"Data!B1","value":4}]}'
-        contract = '{"description":"B1 has the requested state"}'
+        contract = contract_reply("B1 has the requested state")
         cases = {Arm.A: [direct], Arm.B: [contract, direct]}
         for arm, replies in cases.items():
             with self.subTest(arm=arm):
@@ -90,7 +91,7 @@ class SpreadsheetServicesE2E(unittest.TestCase):
                 self.assertEqual(result["contract_compiled"], arm is not Arm.A)
 
     def test_absent_independent_semantics_is_typed_uncertain_not_fulfilled(self):
-        contract = '{"description":"B1 answers the intent"}'
+        contract = contract_reply("B1 answers the intent")
         td = tempfile.TemporaryDirectory(); self.addCleanup(td.cleanup)
         root = Path(td.name); artifact = self.fixture(root)
         context = {"answer_sheet": "Data", "answer_position": "B1", "expected_type": "number"}
@@ -98,7 +99,7 @@ class SpreadsheetServicesE2E(unittest.TestCase):
             contract, '{"writes":[{"selector":"Data!B1","value":4}]}', '{"verdict":"pass"}'
         ])
         uncertain = ExperimentRunner(config(Arm.D), SpreadsheetServices(), provider2, out2).run(
-            [Task("u1", "derive an answer", artifact, KIND, context)])[0]
+            [Task("u1", "derive an answer", artifact, KIND, context, capability_records())])[0]
         self.assertEqual(uncertain["status"], "unfulfilled:evaluation_uncertain")
         self.assertFalse(uncertain["terminal_eval"]["passed"])
         discrepancies = uncertain["terminal_eval"]["details"]["discrepancies"]
@@ -106,7 +107,7 @@ class SpreadsheetServicesE2E(unittest.TestCase):
         self.assertEqual(len(provider2.calls), 3)  # contract, first action, malformed independent eval
 
     def test_scope_violation_is_rejected_without_mutation(self):
-        contract = '{"description":"B1 is populated"}'
+        contract = contract_reply("B1 is populated")
         malicious = '{"writes":[{"selector":"Data!D1","value":"changed"}]}'
         td, out, provider, result = self.run_arm(Arm.B, [contract, malicious])
         self.addCleanup(td.cleanup)
@@ -115,7 +116,10 @@ class SpreadsheetServicesE2E(unittest.TestCase):
         self.assertIn("scope_violation_rejected", events)
 
     def test_visual_intent_missing_renderer_is_nonpass(self):
-        contract = '{"description":"B1 is visually and semantically correct"}'
+        base = json.loads(contract_reply("B1 is visually and semantically correct", property="visual_state"))
+        base["evaluator_intents"].append({"id": "visual-check", "assertion_id": "answer-state",
+            "evaluator": "render", "purpose": "verify the requested visual state"})
+        contract = json.dumps(base)
         with patch("adapters.spreadsheet.shutil.which", return_value=None):
             td, out, provider, result = self.run_arm(Arm.C,
                 [contract, '{"writes":[{"selector":"Data!B1","value":4}]}'], {"visual_intent": True})

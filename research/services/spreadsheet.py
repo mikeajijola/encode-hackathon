@@ -21,6 +21,26 @@ from fulfilment import (
     Scope, derive_discrepancies,
     decide_completion,
 )
+from fulfilment.models import FrozenDict
+
+
+CONTRACT_SCHEMA_VERSION = "2.0.0"
+CONTRACT_PROPOSAL_FIELDS = {
+    "schema_version", "desired_state", "constraints", "invariants",
+    "evaluator_intents", "required_capabilities",
+}
+ASSERTION_FIELDS = {"id", "property", "description", "output"}
+OUTPUT_FIELDS = {"type", "shape", "uncertainty_allowed"}
+EVALUATOR_INTENT_FIELDS = {"id", "assertion_id", "evaluator", "purpose"}
+CAPABILITY_REF_FIELDS = {"name", "version"}
+OUTPUT_TYPES = {"number", "text", "boolean", "date", "formula", "mixed", "any"}
+OUTPUT_SHAPES = {"scalar", "range"}
+STATE_PROPERTIES = {"computed_value", "formula_result", "transformed_values", "table_state", "visual_state"}
+AVAILABLE_EVALUATORS = {
+    "artifact-valid", "preservation", "nonblank", "type", "output-shape",
+    "formula-errors", "semantic-independent", "render",
+}
+PROCEDURAL_PREFIXES = ("first ", "then ", "next ", "step ", "click ", "open ", "write ", "copy ")
 
 
 @dataclass
@@ -46,34 +66,62 @@ class SpreadsheetServices:
         if forbidden:
             raise ValueError(f"runtime context contains forbidden golden-like keys: {sorted(forbidden)}")
         selectors = _answer_selectors(task.context, task.artifact)
+        compiler_input = {
+            "contract_schema_version": CONTRACT_SCHEMA_VERSION,
+            "instruction": (
+                "Return JSON only. Describe required state/properties, never actions or steps. "
+                "Use exactly the declared schema fields; cite only supplied capability name/version pairs "
+                "and evaluator identifiers. Do not guess hidden expected values."
+            ),
+            "schema": {
+                "schema_version": CONTRACT_SCHEMA_VERSION,
+                "desired_state": {"assertions": [{"id": "string", "property": sorted(STATE_PROPERTIES),
+                    "description": "state assertion", "output": {"type": sorted(OUTPUT_TYPES),
+                    "shape": sorted(OUTPUT_SHAPES), "uncertainty_allowed": "boolean"}}]},
+                "constraints": ["state constraint"], "invariants": ["state invariant"],
+                "evaluator_intents": [{"id": "string", "assertion_id": "string",
+                    "evaluator": sorted(AVAILABLE_EVALUATORS), "purpose": "state property to test"}],
+                "required_capabilities": [{"name": "manifest name", "version": "manifest version"}],
+            },
+            "intent": task.intent,
+            "observed_context": _model_context(task.context),
+            "capability_manifests": task.capability_manifests,
+        }
         reply = runtime.complete(
-            "Compile a declarative state-only contract. Do not provide steps.\n"
-            + json.dumps({"intent": task.intent, "observed_context": _model_context(task.context),
-                          "capabilities": ["inspect", "write", "formula_fill", "validate", "render"]}, default=str),
+            json.dumps(compiler_input, default=str),
             purpose="contract",
         )
-        proposal = _json_reply(reply.text)
-        description = str(proposal.get("description") or f"answer selectors satisfy the requested intent: {task.intent}")
-        if description.lower().lstrip().startswith(("first ", "then ", "step ", "click ", "open ")):
-            raise ValueError("procedural contract proposal rejected")
-        assertion = DesiredAssertion("answer-state", description, tuple(scope_for(s) for s in selectors))
+        proposal = _validate_contract_proposal(_strict_contract_reply(reply.text), task, selectors)
+        proposed = proposal["desired_state"]["assertions"][0]
+        assertion_id = proposed["id"]
+        assertion = DesiredAssertion(assertion_id, proposed["description"], tuple(scope_for(s) for s in selectors))
+        purpose_by_evaluator = {item["evaluator"]: item["purpose"] for item in proposal["evaluator_intents"]}
+        output = proposed["output"]
         evals = [
-            EvalSpec("artifact-valid", "answer-state", "artifact-valid"),
-            EvalSpec("preservation", "answer-state", "preservation"),
-            EvalSpec("nonblank", "answer-state", "nonblank"),
-            EvalSpec("type", "answer-state", "type"),
-            EvalSpec("formula-errors", "answer-state", "formula-errors"),
-            EvalSpec("semantic", "answer-state", "semantic-independent"),
+            EvalSpec("artifact-valid", assertion_id, "artifact-valid"),
+            EvalSpec("preservation", assertion_id, "preservation"),
+            EvalSpec("nonblank", assertion_id, "nonblank"),
+            EvalSpec("type", assertion_id, "type", parameters={"expected_type": output["type"]}),
+            EvalSpec("output-shape", assertion_id, "output-shape", parameters={"expected_shape": output["shape"]}),
+            EvalSpec("formula-errors", assertion_id, "formula-errors"),
+            EvalSpec("semantic", assertion_id, "semantic-independent", parameters={
+                "property": proposed["property"], "purpose": purpose_by_evaluator["semantic-independent"],
+                "uncertainty_allowed": output["uncertainty_allowed"],
+            }),
         ]
         if task.context.get("visual_intent"):
-            evals.append(EvalSpec("visual", "answer-state", "render"))
+            evals.append(EvalSpec("visual", assertion_id, "render",
+                                  parameters={"purpose": purpose_by_evaluator["render"]}))
+        policy_constraint = "preserve cells outside authorized answer selectors"
+        policy_invariant = "workbook remains structurally valid"
         contract = Contract(
-            f"contract-{task.id}", 1, task.intent, (assertion,),
-            ("preserve cells outside authorized answer selectors",), ("workbook remains structurally valid",),
+            f"contract-{task.id}", 2, task.intent, (assertion,),
+            tuple(dict.fromkeys((policy_constraint, *proposal["constraints"]))),
+            tuple(dict.fromkeys((policy_invariant, *proposal["invariants"]))),
             tuple(evals), tuple(scope_for(s) for s in selectors),
         )
         ContractValidator().validate(contract)
-        return _contract_mapping(contract, task.context)
+        return _contract_mapping(contract, task.context, proposed, proposal["required_capabilities"])
 
     def execute_once(self, task: Task, contract: Mapping[str, Any] | None, destination: Path,
                      runtime: TaskRuntime) -> ExecutionResult:
@@ -176,10 +224,17 @@ class SpreadsheetServices:
 
     def _direct_contract(self, task):
         selectors = _answer_selectors(task.context, task.artifact)
-        return {"id": f"direct-{task.id}", "version": 1, "intent": task.intent,
-                "description": "direct action boundary", "selectors": [scope_for(s).resource for s in selectors],
-                "expected_type": task.context.get("expected_type"), "visual_intent": False,
-                "independent_expected": None}
+        shape = "scalar" if _selector_cell_count(selectors) == 1 else "range"
+        proposed = {"id": "direct-state", "property": "transformed_values",
+                    "description": "direct action boundary",
+                    "output": {"type": task.context.get("expected_type") or "any", "shape": shape,
+                               "uncertainty_allowed": True}}
+        assertion = DesiredAssertion("direct-state", proposed["description"], tuple(scope_for(s) for s in selectors))
+        evals = _policy_evals(assertion.id, proposed, "direct boundary", visual=False)
+        contract = Contract(f"direct-{task.id}", 2, task.intent, (assertion,),
+            ("preserve cells outside authorized answer selectors",),
+            ("workbook remains structurally valid",), evals, tuple(scope_for(s) for s in selectors))
+        return _contract_mapping(contract, task.context, proposed, [])
 
     def _action_proposal(self, task, contract, runtime, discrepancies):
         prompt = {"intent": task.intent, "answer_selectors": _answer_selectors(task.context, task.artifact),
@@ -224,10 +279,16 @@ class SpreadsheetServices:
                              observed=changed_outside, kind="constraint_violation"))
         values = [item["value"] for item in facts]
         results.append(_eval("nonblank", observation, all(v not in (None, "") for v in values), "answers nonblank", observed=values))
-        expected_type = task.context.get("expected_type")
-        type_ok = expected_type is None or all(_type_name(v) == expected_type for v in values)
+        type_spec = next(spec for spec in session.contract.evals if spec.id == "type")
+        expected_type = type_spec.parameters.get("expected_type", "any")
+        type_ok = expected_type in ("any", "mixed") or all(_type_name(v) == expected_type for v in values)
         results.append(_eval("type", observation, type_ok, "answer types", expected=expected_type,
                              observed=[_type_name(v) for v in values]))
+        shape_spec = next(spec for spec in session.contract.evals if spec.id == "output-shape")
+        expected_shape = shape_spec.parameters["expected_shape"]
+        observed_shape = "scalar" if len(values) == 1 else "range"
+        results.append(_eval("output-shape", observation, expected_shape == observed_shape,
+                             "answer shape", expected=expected_shape, observed=observed_shape))
         initial_errors = {key for key, value in session.initial_cells.items()
                           if isinstance(value, str) and value.startswith("#")}
         new_errors = sorted(key for key, value in current.items()
@@ -286,6 +347,8 @@ class SpreadsheetServices:
                 "id": contract.id, "version": contract.version,
                 "assertions": [a.description for a in contract.assertions],
                 "constraints": list(contract.constraints), "invariants": list(contract.invariants),
+                "evaluator_intents": [{"id": spec.id, "evaluator": spec.evaluator,
+                    "parameters": dict(spec.parameters)} for spec in contract.evals],
             },
             "bounded_source_observation": _model_context(task.context).get("workbook_observation", {}),
             "current_target_facts": target_facts,
@@ -336,22 +399,153 @@ def _answer_selectors(context, artifact=None):
     return selectors
 
 
-def _contract_mapping(contract, context):
-    return {"id": contract.id, "version": contract.version, "intent": contract.intent,
-            "description": contract.assertions[0].description,
-            "selectors": [s.resource for s in contract.assertions[0].target_scope],
-            "expected_type": context.get("expected_type"), "visual_intent": bool(context.get("visual_intent")),
-            "has_independent_expected": "independent_expected" in context}
+def _contract_mapping(contract, context, proposed_assertion, required_capabilities):
+    value = {
+        "id": contract.id, "version": contract.version, "intent": contract.intent,
+        "desired_state": {"assertions": [{**proposed_assertion,
+            "selectors": [s.resource for s in contract.assertions[0].target_scope]}]},
+        "constraints": list(contract.constraints), "invariants": list(contract.invariants),
+        "evals": [{"id": spec.id, "assertion_id": spec.assertion_id, "evaluator": spec.evaluator,
+                   "severity": spec.severity, "parameters": dict(spec.parameters)} for spec in contract.evals],
+        "authorized_mutation_scopes": [s.resource for s in contract.authorized_mutation_scopes],
+        "required_capabilities": required_capabilities,
+        "visual_intent": bool(context.get("visual_intent")),
+        "has_independent_expected": "independent_expected" in context,
+    }
+    return _freeze_mapping(value)
 
 
 def _contract_from_mapping(value):
-    scopes = tuple(Scope(resource) for resource in value["selectors"])
-    assertion = DesiredAssertion("answer-state", value.get("description", "answer state holds"), scopes)
-    ids = ["artifact-valid", "preservation", "nonblank", "type", "formula-errors", "semantic"]
-    if value.get("visual_intent"): ids.append("visual")
-    return Contract(value["id"], int(value.get("version", 1)), value["intent"], (assertion,),
-                    ("preserve outside scope",), ("valid workbook",),
-                    tuple(EvalSpec(i, "answer-state", i) for i in ids), scopes)
+    proposed = value["desired_state"]["assertions"][0]
+    scopes = tuple(Scope(resource) for resource in value["authorized_mutation_scopes"])
+    assertion = DesiredAssertion(proposed["id"], proposed["description"], scopes)
+    evals = tuple(EvalSpec(item["id"], item["assertion_id"], item["evaluator"],
+                           item.get("severity", "required"), item.get("parameters", {}))
+                  for item in value["evals"])
+    contract = Contract(value["id"], int(value["version"]), value["intent"], (assertion,),
+                        tuple(value["constraints"]), tuple(value["invariants"]), evals, scopes)
+    ContractValidator().validate(contract)
+    return contract
+
+
+def _freeze_mapping(value):
+    if isinstance(value, dict):
+        return FrozenDict({key: _freeze_mapping(item) for key, item in value.items()})
+    if isinstance(value, list):
+        return tuple(_freeze_mapping(item) for item in value)
+    return value
+
+
+def _policy_evals(assertion_id, proposed, semantic_purpose, *, visual):
+    output = proposed["output"]
+    evals = [
+        EvalSpec("artifact-valid", assertion_id, "artifact-valid"),
+        EvalSpec("preservation", assertion_id, "preservation"),
+        EvalSpec("nonblank", assertion_id, "nonblank"),
+        EvalSpec("type", assertion_id, "type", parameters={"expected_type": output["type"]}),
+        EvalSpec("output-shape", assertion_id, "output-shape", parameters={"expected_shape": output["shape"]}),
+        EvalSpec("formula-errors", assertion_id, "formula-errors"),
+        EvalSpec("semantic", assertion_id, "semantic-independent", parameters={
+            "property": proposed["property"], "purpose": semantic_purpose,
+            "uncertainty_allowed": output["uncertainty_allowed"],
+        }),
+    ]
+    if visual:
+        evals.append(EvalSpec("visual", assertion_id, "render"))
+    return tuple(evals)
+
+
+def _require_exact_fields(value, expected, path):
+    if not isinstance(value, dict) or set(value) != expected:
+        raise ValueError(f"{path} must contain exactly {sorted(expected)}")
+
+
+def _state_text(value, path):
+    if not isinstance(value, str) or not value.strip():
+        raise ValueError(f"{path} must be nonempty text")
+    if value.lower().lstrip().startswith(PROCEDURAL_PREFIXES):
+        raise ValueError(f"procedural contract proposal rejected at {path}")
+    return value.strip()
+
+
+def _validate_contract_proposal(value, task, selectors):
+    _require_exact_fields(value, CONTRACT_PROPOSAL_FIELDS, "contract")
+    if value["schema_version"] != CONTRACT_SCHEMA_VERSION:
+        raise ValueError("unsupported contract schema version")
+    _require_exact_fields(value["desired_state"], {"assertions"}, "desired_state")
+    assertions = value["desired_state"]["assertions"]
+    if not isinstance(assertions, list) or len(assertions) != 1:
+        raise ValueError("desired_state.assertions must contain exactly one assertion")
+    assertion = assertions[0]
+    _require_exact_fields(assertion, ASSERTION_FIELDS, "assertion")
+    assertion["id"] = _state_text(assertion["id"], "assertion.id")
+    assertion["description"] = _state_text(assertion["description"], "assertion.description")
+    if assertion["property"] not in STATE_PROPERTIES:
+        raise ValueError("assertion.property is not a supported state property")
+    _require_exact_fields(assertion["output"], OUTPUT_FIELDS, "assertion.output")
+    output = assertion["output"]
+    if output["type"] not in OUTPUT_TYPES or output["shape"] not in OUTPUT_SHAPES:
+        raise ValueError("assertion output type or shape is invalid")
+    if not isinstance(output["uncertainty_allowed"], bool):
+        raise ValueError("uncertainty_allowed must be boolean")
+    if output["type"] == "any" and not output["uncertainty_allowed"]:
+        raise ValueError("an unspecified output type must explicitly allow uncertainty")
+    expected_type = task.context.get("expected_type")
+    if expected_type and output["type"] not in (expected_type, "any"):
+        raise ValueError("proposal output type conflicts with observed task metadata")
+    expected_shape = "scalar" if _selector_cell_count(selectors) == 1 else "range"
+    if output["shape"] != expected_shape:
+        raise ValueError("proposal output shape conflicts with authorized selectors")
+    for field in ("constraints", "invariants"):
+        if not isinstance(value[field], list) or not value[field]:
+            raise ValueError(f"{field} must be a nonempty list")
+        value[field] = [_state_text(item, f"{field}[]") for item in value[field]]
+
+    intents = value["evaluator_intents"]
+    if not isinstance(intents, list) or not intents:
+        raise ValueError("evaluator_intents must be nonempty")
+    seen_evaluators = set()
+    for item in intents:
+        _require_exact_fields(item, EVALUATOR_INTENT_FIELDS, "evaluator_intent")
+        if item["assertion_id"] != assertion["id"] or item["evaluator"] not in AVAILABLE_EVALUATORS:
+            raise ValueError("evaluator intent references unavailable evaluator or assertion")
+        _state_text(item["id"], "evaluator_intent.id")
+        item["purpose"] = _state_text(item["purpose"], "evaluator_intent.purpose")
+        if item["evaluator"] in seen_evaluators:
+            raise ValueError("duplicate evaluator intent")
+        seen_evaluators.add(item["evaluator"])
+    required_evaluators = {"semantic-independent"}
+    if task.context.get("visual_intent"):
+        required_evaluators.add("render")
+    if not required_evaluators <= seen_evaluators:
+        raise ValueError("proposal lacks required evaluator intent")
+
+    if any(not isinstance(item, Mapping) or not item.get("name") or not item.get("version")
+           for item in task.capability_manifests):
+        raise ValueError("task capability manifests must contain versioned name entries")
+    available = {(str(item["name"]), str(item["version"])) for item in task.capability_manifests}
+    required = value["required_capabilities"]
+    if not isinstance(required, list) or not required:
+        raise ValueError("required_capabilities must be nonempty")
+    requested = set()
+    for item in required:
+        _require_exact_fields(item, CAPABILITY_REF_FIELDS, "required_capability")
+        pair = (_state_text(item["name"], "capability.name"), _state_text(item["version"], "capability.version"))
+        if pair not in available:
+            raise ValueError(f"required capability unavailable: {pair}")
+        requested.add(pair)
+    if ("write_cells", VERSION) not in requested:
+        raise ValueError("proposal lacks required write capability")
+    return value
+
+
+def _selector_cell_count(selectors):
+    count = 0
+    for selector in selectors:
+        _, coordinates = parse_selector(selector)
+        min_col, min_row, max_col, max_row = range_boundaries(coordinates)
+        count += (max_col - min_col + 1) * (max_row - min_row + 1)
+    return count
 
 
 def _json_reply(text):
@@ -359,6 +553,23 @@ def _json_reply(text):
     if start < 0 or end < start: raise ValueError("model reply has no JSON object")
     value = json.loads(text[start:end + 1])
     if not isinstance(value, dict): raise ValueError("model reply must be object")
+    return value
+
+
+def _strict_contract_reply(text):
+    def object_without_duplicates(pairs):
+        value = {}
+        for key, item in pairs:
+            if key in value:
+                raise ValueError(f"duplicate contract field: {key}")
+            value[key] = item
+        return value
+    try:
+        value = json.loads(text.strip(), object_pairs_hook=object_without_duplicates)
+    except json.JSONDecodeError as error:
+        raise ValueError("contract proposal must be exactly one JSON object") from error
+    if not isinstance(value, dict):
+        raise ValueError("contract proposal must be a JSON object")
     return value
 
 
@@ -413,6 +624,7 @@ def _type_name(value):
     if isinstance(value, str) and value.startswith("="): return "formula"
     if isinstance(value, str): return "text"
     if value is None: return "blank"
+    if hasattr(value, "isoformat") and hasattr(value, "year"): return "date"
     return "other"
 
 

@@ -14,6 +14,7 @@ from backends.spreadsheetbench import (
 )
 from experiment.runner import Arm, ExperimentRunner, RunConfig
 from experiment.cli import main as cli_main
+from tests.contract_fixtures import contract_reply
 
 
 class SpreadsheetBenchBackendTest(unittest.TestCase):
@@ -88,7 +89,7 @@ class SpreadsheetBenchBackendTest(unittest.TestCase):
         self.assertNotIn("golden", provider.prompts[0].lower())
 
     def test_contract_and_action_prompts_receive_same_bounded_context(self):
-        replies = ['{"description":"B1 is twice A1"}', '{"writes":[{"selector":"Data!B1","value":4}]}']
+        replies = [contract_reply("B1 is twice A1"), '{"writes":[{"selector":"Data!B1","value":4}]}']
         raw = self.raw("B", replies)
         services, provider, tasks = factory(raw)
         fields = {key: value for key, value in raw["run_config"].items() if key != "arm"}
