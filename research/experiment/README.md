@@ -16,4 +16,21 @@ docker build -t fulfilment-experiment .
 docker run --rm -v "$PWD/run-input:/data:ro" -v "$PWD/run-output:/out" fulfilment-experiment
 ```
 
+The image runs as an unprivileged user, installs LibreOffice Calc for headless
+recalculation, and installs the exact Python resolution in `uv.lock`. Its entrypoint
+only accepts a manifest beneath `/data` and output beneath `/out`; mount `/data`
+read-only as shown above. Every run writes `/out/preflight.json` with Python,
+dependency, and `soffice` versions before starting the experiment.
+
+Run the same dependency check without an experiment:
+
+```sh
+docker run --rm -v "$PWD/run-input:/data:ro" -v "$PWD/run-output:/out" \
+  fulfilment-experiment preflight --json
+```
+
+The preflight exits `2` with typed errors such as `missing_soffice`,
+`missing_package:<name>`, or `output_directory_not_writable`; it does not silently
+disable recalculation.
+
 The adapter is responsible for rendered/visual evidence where meaningful. Each task result explicitly records this delegation. Official scoring remains a separate offline command and is intentionally not imported here.
