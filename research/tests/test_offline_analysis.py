@@ -91,5 +91,15 @@ class OfflineAnalysisTests(unittest.TestCase):
         self.assertIn("evaluation_false_positive", labels)
         self.assertIn("budget_failure", labels)
 
+    def test_official_disagreement_adds_evaluator_error_classes_only_when_evaluated(self):
+        false_positive = internal("1", True, False, 1)
+        false_positive["terminal_eval"] = {"passed": True}
+        false_negative = internal("2", False, False, 1)
+        false_negative["terminal_eval"] = {"passed": False}
+        rows = join_results([false_positive, false_negative],
+                            [official("1", False, 0), official("2", True)])
+        self.assertIn("evaluation_false_positive", rows[0]["failure_classes"])
+        self.assertIn("evaluation_false_negative", rows[1]["failure_classes"])
+
 
 if __name__ == "__main__": unittest.main()

@@ -60,6 +60,7 @@ class _Session:
     initial_cells: dict[str, Any]
     discrepancies: tuple[Discrepancy, ...] = ()
     capability_observations: list[dict[str, Any]] = field(default_factory=list)
+    first_mutation_path: Path | None = None
 
 
 class _RuntimeCapability:
@@ -73,6 +74,16 @@ class _RuntimeCapability:
             "output": dict(result.output), "error": result.error,
             "artifact_sha256": result.provenance.get("artifact_sha256"),
         })
+        if result.succeeded and result.actual_mutation_scope and self.session.first_mutation_path is None:
+            root = self.runtime.event_path.parent.parent
+            checkpoint = root / "checkpoints" / f"{self.runtime.event_path.stem}.first_mutation.xlsx"
+            checkpoint.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(request.artifact_id, checkpoint)
+            self.session.first_mutation_path = checkpoint
+            self.runtime.event("first_mutation_checkpoint", {
+                "path": str(checkpoint.relative_to(root)), "artifact_hash": _file_hash(checkpoint),
+                "capability": request.capability_name, "request_id": request.id,
+            })
         return result
 
 
@@ -329,7 +340,8 @@ class SpreadsheetServices:
         runtime.event("terminal_evaluation", asdict(evaluation))
         status = "fulfilled" if result.fulfilled else f"unfulfilled:{result.reason}"
         return ExecutionResult(destination, status, {"iterations": result.iterations,
-            "broker_evidence": str(session.evidence.path)}), evaluation
+            "broker_evidence": str(session.evidence.path),
+            "first_mutation_artifact": str(session.first_mutation_path) if session.first_mutation_path else None}), evaluation
 
     def _session(self, task, contract_mapping, artifact, runtime, *, inspect=False, record_contract=True,
                  runtime_capabilities=False):

@@ -6,8 +6,8 @@ from pathlib import Path
 from experiment.manifests import build_manifests, write_manifest_set
 from protocol.analysis import validate_ledger
 from protocol.offline_report import analyze
-from protocol.registered_run import (_stage_blind_dataset, _write_ledger, fulfilment_command,
-                                     preflight, scorer_command)
+from protocol.registered_run import (_failure_assignments, _stage_blind_dataset, _write_ledger,
+                                     fulfilment_command, preflight, scorer_command)
 
 
 DATASET = Path(__file__).resolve().parents[1] / "data" / "spreadsheetbench_verified_400"
@@ -51,6 +51,11 @@ class RegisteredRunTest(unittest.TestCase):
         self.assertIn("--entrypoint", score)
         self.assertIn("/run/official_results.json", score)
         self.assertNotIn(str(manifests.resolve()), score)
+        checkpoint_score = scorer_command("test@" + DIGEST, DATASET, runs / "D",
+                                          predictions="first_mutation_predictions.jsonl",
+                                          results="first_mutation_official_results.json")
+        self.assertIn("/run/first_mutation_predictions.jsonl", checkpoint_score)
+        self.assertIn("/run/first_mutation_official_results.json", checkpoint_score)
 
     def test_manifests_never_contain_golden_or_expected_answers(self):
         td, manifests, runs = self.fixture(); self.addCleanup(td.cleanup)
@@ -85,6 +90,20 @@ class RegisteredRunTest(unittest.TestCase):
         self.assertTrue(any("init" in name for name in files))
         self.assertFalse(any("golden" in name.lower() for name in files))
         self.assertEqual(len(list(target.rglob("*init*.xlsx"))), 2)
+
+    def test_failure_assignments_link_runtime_evidence_without_answer_values(self):
+        td, manifests, runs = self.fixture(); self.addCleanup(td.cleanup)
+        events = runs / "D" / "events"; events.mkdir()
+        (events / "one.jsonl").write_text(json.dumps({"sequence": 7, "event_type": "task_finished"}) + "\n")
+        base = {arm: [] for arm in "ABCD"}
+        base["D"] = [{"task_id": "one", "failure_classes": ["evaluation_false_positive"],
+                      "internal_status": "FULFILLED", "official_pass": False,
+                      "artifact_valid": True}]
+        assignments = _failure_assignments(base, runs)
+        self.assertEqual(assignments[0]["evidence_event_ids"], ["events/one.jsonl#sequence=7"])
+        serialized = json.dumps(assignments)
+        self.assertNotIn("expected", serialized.lower())
+        self.assertNotIn("actual", serialized.lower())
 
 
 if __name__ == "__main__": unittest.main()

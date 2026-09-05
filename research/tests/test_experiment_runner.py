@@ -113,6 +113,7 @@ class FourArmTests(unittest.TestCase):
             self.assertIn("fallback_projection", events)
             self.assertEqual(result["internal_status"], "UNFULFILLED")
             self.assertEqual(result["termination_reason"], "execution_error")
+            self.assertEqual(result["failure_classes"], ["budget_failure", "execution_failure"])
 
     def test_transport_retry_is_uniformly_enforced_and_each_attempt_traced(self):
         for arm in Arm:

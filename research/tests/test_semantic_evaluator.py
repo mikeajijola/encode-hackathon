@@ -70,6 +70,11 @@ class IsolatedSemanticEvaluatorTest(unittest.TestCase):
         td, out, provider, result = self.run_arm(Arm.D, replies); self.addCleanup(td.cleanup)
         self.assertEqual(self.value(out, result), 4)
         self.assertEqual(result["status"], "fulfilled")
+        checkpoint = out / result["first_mutation_output"]
+        wb = load_workbook(checkpoint); self.assertEqual(wb["Data"]["B1"].value, 3); wb.close()
+        checkpoint_rows = [json.loads(line) for line in
+                           (out / "first_mutation_predictions.jsonl").read_text().splitlines()]
+        self.assertEqual(checkpoint_rows[0]["output"], result["first_mutation_output"])
         self.assertEqual(result["usage"]["model_calls"], 5)
         self.assertEqual(result["usage"]["tokens"], 25)
         traces = [json.loads(line) for line in (out / "traces" / "t.jsonl").read_text().splitlines()]

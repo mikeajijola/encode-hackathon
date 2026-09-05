@@ -62,8 +62,11 @@ must not be present in manifests, prompts, contracts, or fulfilment-time evals.
 The preferred orchestration command enforces that chronology, checks the exact
 image and dataset pins, stages a fulfilment-only dataset containing no golden
 workbooks, runs every arm to a complete terminal output set, and only then mounts
-the original dataset into fresh scorer containers. It also writes `analysis.json`,
-`arm_table.md`, and a provisional append-only `ledger.json`:
+the original dataset into fresh scorer containers. Arm D's first mutation is saved
+and scored separately, making recovery yield an observed benchmark quantity rather
+than an inference from the final artifact. The coordinator writes `analysis.json`,
+`arm_table.md`, evidence-linked `failure_assignments.json`, and a provisional
+append-only `ledger.json`:
 
 ```sh
 cd research

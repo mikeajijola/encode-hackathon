@@ -77,15 +77,16 @@ def fulfilment_command(image: str, manifest_dir: Path, dataset_dir: Path,
             "run", "--manifest", f"/manifests/{arm}.json", "--out-dir", "/out"]
 
 
-def scorer_command(image: str, dataset_dir: Path, output_dir: Path) -> list[str]:
+def scorer_command(image: str, dataset_dir: Path, output_dir: Path, *,
+                   predictions: str = "predictions.jsonl", results: str = "official_results.json") -> list[str]:
     identity = f"{os.getuid()}:{os.getgid()}"
     return ["docker", "run", "--rm", "--user", identity,
             "--tmpfs", "/tmp:rw,exec,nosuid,size=1g", "-e", "HOME=/tmp/run-home",
             "--entrypoint", "python",
             "-v", f"{dataset_dir.resolve()}:/data/dataset:ro",
             "-v", f"{output_dir.resolve()}:/run", image, "-m", "evaluate",
-            "--predictions", "/run/predictions.jsonl", "--dataset-dir", "/data/dataset",
-            "--out", "/run/official_results.json", "--quiet"]
+            "--predictions", f"/run/{predictions}", "--dataset-dir", "/data/dataset",
+            "--out", f"/run/{results}", "--quiet"]
 
 
 def _run(command: list[str], log_path: Path) -> None:
@@ -134,15 +135,51 @@ def _stage_blind_dataset(source: Path, target: Path, selected_ids: set[str]) -> 
 
 def _write_analysis(run_root: Path, selection: dict[str, Any]) -> dict[str, Any]:
     metadata = {str(task["id"]): task for task in selection["tasks"]}
-    joined = {
-        arm: join_results(load_internal(run_root / arm),
-                          load_official(run_root / arm / "official_results.json"), metadata)
-        for arm in ARMS
-    }
+    internal = {arm: load_internal(run_root / arm) for arm in ARMS}
+    checkpoint_results = run_root / "D" / "first_mutation_official_results.json"
+    if checkpoint_results.is_file():
+        first = {str(row["id"]): bool(row.get("pass", False))
+                 for row in load_official(checkpoint_results)}
+        for row in internal["D"]:
+            row["first_mutation_pass"] = first.get(str(row["id"]))
+    joined = {arm: join_results(internal[arm], load_official(run_root / arm / "official_results.json"),
+                                metadata) for arm in ARMS}
     report = analyze(joined)
     (run_root / "analysis.json").write_text(json.dumps(report, indent=2, sort_keys=True) + "\n")
     (run_root / "arm_table.md").write_text(markdown_table(report) + "\n")
+    assignments = _failure_assignments(joined, run_root)
+    (run_root / "failure_assignments.json").write_text(
+        json.dumps(assignments, indent=2, sort_keys=True) + "\n")
     return report
+
+
+def _failure_assignments(joined: dict[str, list[dict]], run_root: Path) -> list[dict[str, Any]]:
+    assignments = []
+    for arm in ARMS:
+        for row in joined[arm]:
+            classes = list(row.get("failure_classes") or ())
+            if not classes:
+                continue
+            task_id = row["task_id"]
+            evidence_ids = []
+            runtime_path = run_root / arm / "events" / f"{task_id}.jsonl"
+            if runtime_path.is_file() and runtime_path.stat().st_size:
+                last = json.loads(runtime_path.read_text().splitlines()[-1])
+                evidence_ids.append(f"events/{task_id}.jsonl#sequence={last['sequence']}")
+            broker_path = run_root / arm / "events" / f"{task_id}.broker.jsonl"
+            if broker_path.is_file() and broker_path.stat().st_size:
+                last = json.loads(broker_path.read_text().splitlines()[-1])
+                evidence_ids.append(f"events/{task_id}.broker.jsonl#event={last['id']}")
+            if not evidence_ids:
+                evidence_ids.append(f"official_results.json#task={task_id}")
+            assignments.append({
+                "task_id": task_id, "arm": arm, "classes": classes,
+                "evidence_event_ids": evidence_ids,
+                "rationale": (f"Deterministic post-run classification: internal={row['internal_status']}, "
+                              f"official_pass={row['official_pass']}, artifact_valid={row['artifact_valid']}."),
+                "assigned_by": "deterministic-postscore-classifier-v1",
+            })
+    return assignments
 
 
 def _write_ledger(run_root: Path, manifest_dir: Path, manifests: dict[str, dict[str, Any]],
@@ -190,6 +227,12 @@ def execute(manifest_dir: Path, run_root: Path, dataset_dir: Path, image: str) -
         _verify_arm_termination(run_root / arm, expected)
     for arm in ARMS:
         _run(scorer_command(image, dataset_dir, run_root / arm), run_root / arm / "scorer.log")
+    checkpoint_predictions = run_root / "D" / "first_mutation_predictions.jsonl"
+    if checkpoint_predictions.is_file() and checkpoint_predictions.stat().st_size:
+        _run(scorer_command(image, dataset_dir, run_root / "D",
+                            predictions="first_mutation_predictions.jsonl",
+                            results="first_mutation_official_results.json"),
+             run_root / "D" / "first_mutation_scorer.log")
     report = _write_analysis(run_root, selection)
     _write_ledger(run_root, manifest_dir, manifests, report)
 

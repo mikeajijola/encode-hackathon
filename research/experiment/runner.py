@@ -239,7 +239,7 @@ class ExperimentRunner:
         source = self._source_manifest()
         if self.out_dir.exists() and any(self.out_dir.iterdir()):
             raise FileExistsError("output directory must be empty")
-        for name in ("outputs", "traces", "events", "task_results"):
+        for name in ("outputs", "traces", "events", "task_results", "checkpoints"):
             (self.out_dir / name).mkdir(parents=True, exist_ok=True)
         manifest = {"schema_version": "1.1.0", **asdict(self.config)}
         manifest["arm"] = self.config.arm.value
@@ -252,6 +252,7 @@ class ExperimentRunner:
             (self.out_dir / "input_manifest.json").write_bytes(self.source_manifest_bytes)
         (self.out_dir / "run_manifest.json").write_text(json.dumps(manifest, indent=2, sort_keys=True, default=str) + "\n")
         (self.out_dir / "predictions.jsonl").touch()
+        (self.out_dir / "first_mutation_predictions.jsonl").touch()
         (self.out_dir / "run.log").touch()
 
     def run(self, tasks: list[Task]) -> list[dict[str, Any]]:
@@ -310,6 +311,15 @@ class ExperimentRunner:
             shutil.copy2(task.artifact, destination)
             runtime.event("fallback_projection", {"reason": status})
         after = file_hash(destination)
+        eval_rows = list((evaluation.details if evaluation else {}).get("evals", ()))
+        eval_status = {row.get("eval_id"): row.get("status") for row in eval_rows}
+        artifact_valid = eval_status.get("artifact-valid") == "pass" if evaluation else None
+        constraint_violation = eval_status.get("preservation") not in (None, "pass")
+        failure_classes = _failure_classes(status, termination_reason, evaluation, internal_status)
+        checkpoint = execution.details.get("first_mutation_artifact") if execution else None
+        checkpoint_path = Path(checkpoint) if checkpoint else None
+        checkpoint_relative = (checkpoint_path.relative_to(self.out_dir).as_posix()
+                               if checkpoint_path and checkpoint_path.is_file() else None)
         result = {
             "id": task.id, "arm": self.config.arm.value, "status": status,
             "output": f"outputs/{destination.name}", "input_artifact_hash": before,
@@ -317,14 +327,54 @@ class ExperimentRunner:
             "internal_status": internal_status, "termination_reason": termination_reason,
             "terminal_eval": asdict(evaluation) if evaluation else None, "usage": runtime.usage(),
             "rendered_eval": "delegated_to_adapter",
+            "artifact_valid": artifact_valid, "constraint_violation": constraint_violation,
+            "failure_classes": failure_classes, "first_mutation_output": checkpoint_relative,
+            "first_mutation_pass": None,
         }
         runtime.event("task_finished", result)
         (self.out_dir / "task_results" / f"{task.id}.json").write_text(json.dumps(result, indent=2, sort_keys=True) + "\n")
         with (self.out_dir / "predictions.jsonl").open("a", encoding="utf-8") as stream:
             stream.write(json.dumps({"id": task.id, "output": result["output"], "status": status}) + "\n")
+        if checkpoint_relative:
+            with (self.out_dir / "first_mutation_predictions.jsonl").open("a", encoding="utf-8") as stream:
+                stream.write(json.dumps({"id": task.id, "output": checkpoint_relative,
+                                         "status": "checkpoint"}) + "\n")
         with (self.out_dir / "run.log").open("a", encoding="utf-8") as stream:
             stream.write(f"{task.id} arm={self.config.arm.value} status={status} actions={runtime.actions}\n")
         return result
+
+
+def _failure_classes(status: str, termination_reason: str, evaluation: EvaluationResult | None,
+                     internal_status: str) -> list[str]:
+    """Pre-score failure labels; official-score disagreement is added offline."""
+    labels: set[str] = set()
+    lowered = f"{status} {termination_reason}".lower()
+    if "budget" in lowered:
+        labels.add("budget_failure")
+    if "contract" in lowered or "valueerror" in lowered and "transition" not in lowered:
+        labels.add("specification_failure")
+    if "capability" in lowered:
+        labels.add("capability_failure")
+    if "no_safe_transition" in lowered:
+        labels.add("planning_failure")
+    if "no_progress" in lowered:
+        labels.add("reconciliation_failure")
+    if "execution_error" in lowered:
+        labels.add("execution_failure")
+    details = evaluation.details if evaluation else {}
+    for discrepancy in details.get("discrepancies", ()):
+        kind = discrepancy.get("kind")
+        mapped = {
+            "knowledge_discrepancy": "knowledge_gap",
+            "constraint_violation": "constraint_violation",
+            "artifact_invalid": "artifact_corruption",
+            "capability_failure": "capability_failure",
+        }.get(kind)
+        if mapped:
+            labels.add(mapped)
+    if internal_status != "UNFULFILLED":
+        return []
+    return sorted(labels)
 
 
 def verify_run_manifest(out_dir: Path | str) -> Mapping[str, Any]:

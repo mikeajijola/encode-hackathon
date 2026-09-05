@@ -20,6 +20,7 @@ No official A/B/C/D result is reported because this host has no pinned model cre
 - Static container checks pass, but an actual image build and LibreOffice smoke test have not run.
 - The semantic evaluator is isolated from action output, but uses the same provider/model actor; this limitation must be retained in interpretation.
 - Compact formula fill addresses repeated-formula ranges. Large non-formula transformations above the 400-literal-write bound remain a known capability gap.
+- Registered Arm D runs retain and separately score the first-mutation artifact, so recovery yield is measurable; deterministic pre-score and post-score failure classifications are linked back to runtime evidence.
 
 ## Registered result table
 

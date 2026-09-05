@@ -40,12 +40,15 @@ def join_results(internal: list[dict], official: list[dict], metadata: dict[str,
             declared = "FULFILLED" if terminal and terminal.get("passed") is True else "UNFULFILLED"
         if declared not in {"FULFILLED", "FULFILLED_UNVERIFIED", "UNFULFILLED"}:
             raise ValueError(f"unknown internal_status for task {task_id}: {declared!r}")
+        internal_artifact_valid = internal_row.get("artifact_valid")
+        artifact_valid = (official_row.get("status") == "graded" if internal_artifact_valid is None
+                          else bool(internal_artifact_valid))
         row = {
             "task_id": task_id, "internal_status": declared,
             "official_pass": bool(official_row.get("pass", False)),
             "correct_cells": int(official_row.get("correct", 0)),
             "total_cells": int(official_row.get("cells", 0)),
-            "artifact_valid": bool(internal_row.get("artifact_valid", official_row.get("status") == "graded")),
+            "artifact_valid": artifact_valid,
             "constraint_violation": bool(internal_row.get("constraint_violation", False)),
             "first_mutation_pass": internal_row.get("first_mutation_pass"),
             "actions": internal_row.get("usage", {}).get("actions", 0),
@@ -54,6 +57,13 @@ def join_results(internal: list[dict], official: list[dict], metadata: dict[str,
             "cost_usd": internal_row.get("usage", {}).get("cost", 0),
             "failure_classes": internal_row.get("failure_classes", []),
         }
+        classes = set(row["failure_classes"])
+        terminal = internal_row.get("terminal_eval")
+        if terminal and terminal.get("passed") is True and not row["official_pass"]:
+            classes.add("evaluation_false_positive")
+        if terminal and terminal.get("passed") is False and row["official_pass"]:
+            classes.add("evaluation_false_negative")
+        row["failure_classes"] = sorted(classes)
         for field in BREAKDOWN_FIELDS:
             if field in internal_row:
                 row[field] = internal_row[field]
