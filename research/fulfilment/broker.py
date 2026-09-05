@@ -65,6 +65,9 @@ class Broker:
             raise BrokerError(f"capability already registered: {key}")
         self._capabilities[key] = (manifest, handler)
 
+    def manifests(self) -> tuple[CapabilityManifest, ...]:
+        return tuple(manifest for manifest, _ in self._capabilities.values())
+
     def invoke(self, contract: Contract, request: CapabilityRequest) -> CapabilityResult:
         key = (request.capability_name, request.capability_version)
         if key not in self._capabilities:
