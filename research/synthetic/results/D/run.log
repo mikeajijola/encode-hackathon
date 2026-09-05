@@ -1,0 +1,4 @@
+s1 arm=D status=fulfilled actions=1
+s2 arm=D status=fulfilled actions=1
+s3 arm=D status=fulfilled actions=2
+s4 arm=D status=fulfilled actions=2

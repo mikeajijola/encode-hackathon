@@ -1,0 +1,26 @@
+{
+  "arm": "D",
+  "contract_compiled": true,
+  "id": "s1",
+  "input_artifact_hash": "ac1b5c0961a7269b6a053ee64276ed0e20a7f48aefb9f67519539d23aaf10149",
+  "output": "outputs/s1.txt",
+  "output_artifact_hash": "8ed3f6ad685b959ead7022518e1af76cd816f8e8ec7ccdda1ed4018e8f2223f8",
+  "rendered_eval": "delegated_to_adapter",
+  "status": "fulfilled",
+  "terminal_eval": {
+    "details": {
+      "first_mutation_pass": true
+    },
+    "passed": true,
+    "status": "pass"
+  },
+  "usage": {
+    "actions": 1,
+    "cost": 0.0,
+    "input_tokens": 3,
+    "latency_ms": 1,
+    "model_calls": 1,
+    "output_tokens": 2,
+    "tokens": 5
+  }
+}

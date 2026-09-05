@@ -1,0 +1,23 @@
+{
+  "arm": "A",
+  "created_unix": 1788613864.0326066,
+  "deviations": [
+    "Synthetic scripted services; not benchmark/model evidence."
+  ],
+  "environment_image_digest": "not-built:synthetic",
+  "experiment_id": "SYNTH-INFRA-001",
+  "golden_access": "offline_scoring_only",
+  "max_actions": 4,
+  "max_cost": 0,
+  "max_tokens": 100,
+  "max_wall_time_ms": 10000,
+  "model": "scripted-provider",
+  "model_version": "1.0.0",
+  "recalculation_engine": "not-applicable:text",
+  "retry_policy": {
+    "transport": 0
+  },
+  "schema_version": "1.0.0",
+  "scorer_commit": "synthetic-offline-v1",
+  "temperature": 0
+}

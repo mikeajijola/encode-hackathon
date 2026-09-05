@@ -1,0 +1,86 @@
+[
+  {
+    "task_id": "s2",
+    "arm": "A",
+    "classes": [
+      "execution_failure"
+    ],
+    "evidence_event_ids": [
+      "A/s2:task_finished"
+    ],
+    "rationale": "Scripted fixture assignment backed by the retained task event and offline outcome.",
+    "assigned_by": "synthetic-fixture-rule-v1"
+  },
+  {
+    "task_id": "s3",
+    "arm": "A",
+    "classes": [
+      "execution_failure"
+    ],
+    "evidence_event_ids": [
+      "A/s3:task_finished"
+    ],
+    "rationale": "Scripted fixture assignment backed by the retained task event and offline outcome.",
+    "assigned_by": "synthetic-fixture-rule-v1"
+  },
+  {
+    "task_id": "s4",
+    "arm": "A",
+    "classes": [
+      "execution_failure"
+    ],
+    "evidence_event_ids": [
+      "A/s4:task_finished"
+    ],
+    "rationale": "Scripted fixture assignment backed by the retained task event and offline outcome.",
+    "assigned_by": "synthetic-fixture-rule-v1"
+  },
+  {
+    "task_id": "s3",
+    "arm": "B",
+    "classes": [
+      "execution_failure"
+    ],
+    "evidence_event_ids": [
+      "B/s3:task_finished"
+    ],
+    "rationale": "Scripted fixture assignment backed by the retained task event and offline outcome.",
+    "assigned_by": "synthetic-fixture-rule-v1"
+  },
+  {
+    "task_id": "s4",
+    "arm": "B",
+    "classes": [
+      "execution_failure"
+    ],
+    "evidence_event_ids": [
+      "B/s4:task_finished"
+    ],
+    "rationale": "Scripted fixture assignment backed by the retained task event and offline outcome.",
+    "assigned_by": "synthetic-fixture-rule-v1"
+  },
+  {
+    "task_id": "s3",
+    "arm": "C",
+    "classes": [
+      "evaluation_false_positive"
+    ],
+    "evidence_event_ids": [
+      "C/s3:task_finished"
+    ],
+    "rationale": "Scripted fixture assignment backed by the retained task event and offline outcome.",
+    "assigned_by": "synthetic-fixture-rule-v1"
+  },
+  {
+    "task_id": "s4",
+    "arm": "C",
+    "classes": [
+      "execution_failure"
+    ],
+    "evidence_event_ids": [
+      "C/s4:task_finished"
+    ],
+    "rationale": "Scripted fixture assignment backed by the retained task event and offline outcome.",
+    "assigned_by": "synthetic-fixture-rule-v1"
+  }
+]

@@ -1,0 +1,4 @@
+{"id": "s1", "output": "outputs/s1.txt", "status": "fulfilled"}
+{"id": "s2", "output": "outputs/s2.txt", "status": "fulfilled"}
+{"id": "s3", "output": "outputs/s3.txt", "status": "fulfilled"}
+{"id": "s4", "output": "outputs/s4.txt", "status": "fulfilled"}

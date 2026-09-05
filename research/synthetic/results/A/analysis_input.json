@@ -1,0 +1,111 @@
+[
+  {
+    "arm": "A",
+    "contract_compiled": false,
+    "id": "s1",
+    "input_artifact_hash": "ac1b5c0961a7269b6a053ee64276ed0e20a7f48aefb9f67519539d23aaf10149",
+    "output": "outputs/s1.txt",
+    "output_artifact_hash": "8ed3f6ad685b959ead7022518e1af76cd816f8e8ec7ccdda1ed4018e8f2223f8",
+    "rendered_eval": "delegated_to_adapter",
+    "status": "ok",
+    "terminal_eval": null,
+    "usage": {
+      "actions": 1,
+      "cost": 0.0,
+      "input_tokens": 3,
+      "latency_ms": 1,
+      "model_calls": 1,
+      "output_tokens": 2,
+      "tokens": 5
+    },
+    "internal_status": "UNFULFILLED",
+    "artifact_valid": true,
+    "first_mutation_pass": null,
+    "instruction_type": "Cell-Level Manipulation",
+    "task_family": "value"
+  },
+  {
+    "arm": "A",
+    "contract_compiled": false,
+    "id": "s2",
+    "input_artifact_hash": "ac1b5c0961a7269b6a053ee64276ed0e20a7f48aefb9f67519539d23aaf10149",
+    "output": "outputs/s2.txt",
+    "output_artifact_hash": "8810ad581e59f2bc3928b261707a71308f7e139eb04820366dc4d5c18d980225",
+    "rendered_eval": "delegated_to_adapter",
+    "status": "ok",
+    "terminal_eval": null,
+    "usage": {
+      "actions": 1,
+      "cost": 0.0,
+      "input_tokens": 3,
+      "latency_ms": 0,
+      "model_calls": 1,
+      "output_tokens": 2,
+      "tokens": 5
+    },
+    "internal_status": "UNFULFILLED",
+    "artifact_valid": true,
+    "first_mutation_pass": null,
+    "instruction_type": "Cell-Level Manipulation",
+    "task_family": "value",
+    "failure_classes": [
+      "execution_failure"
+    ]
+  },
+  {
+    "arm": "A",
+    "contract_compiled": false,
+    "id": "s3",
+    "input_artifact_hash": "ac1b5c0961a7269b6a053ee64276ed0e20a7f48aefb9f67519539d23aaf10149",
+    "output": "outputs/s3.txt",
+    "output_artifact_hash": "5d1b92d1633e8fab0bfa5a4289ed82ec0a9a0a8f1b1257673a0b674d060b0f14",
+    "rendered_eval": "delegated_to_adapter",
+    "status": "ok",
+    "terminal_eval": null,
+    "usage": {
+      "actions": 1,
+      "cost": 0.0,
+      "input_tokens": 3,
+      "latency_ms": 0,
+      "model_calls": 1,
+      "output_tokens": 2,
+      "tokens": 5
+    },
+    "internal_status": "UNFULFILLED",
+    "artifact_valid": true,
+    "first_mutation_pass": null,
+    "instruction_type": "Sheet-Level Manipulation",
+    "task_family": "visual",
+    "failure_classes": [
+      "execution_failure"
+    ]
+  },
+  {
+    "arm": "A",
+    "contract_compiled": false,
+    "id": "s4",
+    "input_artifact_hash": "ac1b5c0961a7269b6a053ee64276ed0e20a7f48aefb9f67519539d23aaf10149",
+    "output": "outputs/s4.txt",
+    "output_artifact_hash": "dfa3f141954be32610f50d194bf677a323398719b76b7128b1d3ac7c9cf68759",
+    "rendered_eval": "delegated_to_adapter",
+    "status": "ok",
+    "terminal_eval": null,
+    "usage": {
+      "actions": 1,
+      "cost": 0.0,
+      "input_tokens": 3,
+      "latency_ms": 0,
+      "model_calls": 1,
+      "output_tokens": 2,
+      "tokens": 5
+    },
+    "internal_status": "UNFULFILLED",
+    "artifact_valid": true,
+    "first_mutation_pass": null,
+    "instruction_type": "Sheet-Level Manipulation",
+    "task_family": "formula",
+    "failure_classes": [
+      "execution_failure"
+    ]
+  }
+]

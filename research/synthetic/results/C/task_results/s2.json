@@ -1,0 +1,27 @@
+{
+  "arm": "C",
+  "contract_compiled": true,
+  "id": "s2",
+  "input_artifact_hash": "ac1b5c0961a7269b6a053ee64276ed0e20a7f48aefb9f67519539d23aaf10149",
+  "output": "outputs/s2.txt",
+  "output_artifact_hash": "f44e64e75f3948e9f73f8dfa94721c4ce8cbb4f265c4790c702b2d41cfbf2753",
+  "rendered_eval": "delegated_to_adapter",
+  "status": "ok",
+  "terminal_eval": {
+    "details": {
+      "observed": "beta",
+      "synthetic_blind_spot": false
+    },
+    "passed": true,
+    "status": "pass"
+  },
+  "usage": {
+    "actions": 1,
+    "cost": 0.0,
+    "input_tokens": 6,
+    "latency_ms": 0,
+    "model_calls": 2,
+    "output_tokens": 4,
+    "tokens": 10
+  }
+}

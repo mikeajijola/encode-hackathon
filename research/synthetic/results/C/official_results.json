@@ -1,0 +1,36 @@
+{
+  "summary": {
+    "items": 4,
+    "warning": "synthetic offline scorer"
+  },
+  "items": [
+    {
+      "id": "s1",
+      "status": "graded",
+      "pass": true,
+      "correct": 1,
+      "cells": 1
+    },
+    {
+      "id": "s2",
+      "status": "graded",
+      "pass": true,
+      "correct": 1,
+      "cells": 1
+    },
+    {
+      "id": "s3",
+      "status": "graded",
+      "pass": false,
+      "correct": 0,
+      "cells": 1
+    },
+    {
+      "id": "s4",
+      "status": "graded",
+      "pass": false,
+      "correct": 0,
+      "cells": 1
+    }
+  ]
+}

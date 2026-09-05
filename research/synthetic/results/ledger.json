@@ -1,0 +1,178 @@
+{
+  "budgets": {
+    "actions": 4,
+    "tokens": 100,
+    "wall_clock_seconds": 10
+  },
+  "change": "Run fixed scripted tasks through A/B/C/D and offline analysis.",
+  "confidence_intervals": {
+    "B_minus_A": {
+      "bootstrap": {
+        "confidence": 0.95,
+        "estimate": 0.25,
+        "lower": 0.0,
+        "samples": 1000,
+        "seed": 20260905,
+        "upper": 0.75
+      },
+      "mcnemar": {
+        "control_only": 0,
+        "discordant": 1,
+        "p_value": 1.0,
+        "treatment_only": 1
+      }
+    },
+    "C_minus_B": {
+      "bootstrap": {
+        "confidence": 0.95,
+        "estimate": 0.0,
+        "lower": 0.0,
+        "samples": 1000,
+        "seed": 20260905,
+        "upper": 0.0
+      },
+      "mcnemar": {
+        "control_only": 0,
+        "discordant": 0,
+        "p_value": 1.0,
+        "treatment_only": 0
+      }
+    },
+    "D_minus_A": {
+      "bootstrap": {
+        "confidence": 0.95,
+        "estimate": 0.75,
+        "lower": 0.25,
+        "samples": 1000,
+        "seed": 20260905,
+        "upper": 1.0
+      },
+      "mcnemar": {
+        "control_only": 0,
+        "discordant": 3,
+        "p_value": 0.25,
+        "treatment_only": 3
+      }
+    },
+    "D_minus_C": {
+      "bootstrap": {
+        "confidence": 0.95,
+        "estimate": 0.5,
+        "lower": 0.0,
+        "samples": 1000,
+        "seed": 20260905,
+        "upper": 1.0
+      },
+      "mcnemar": {
+        "control_only": 0,
+        "discordant": 2,
+        "p_value": 0.5,
+        "treatment_only": 2
+      }
+    }
+  },
+  "control": "A",
+  "decision": "inconclusive",
+  "deviations": [
+    {
+      "reason": "Synthetic scripted environment; no benchmark, hosted model, spreadsheet adapter, or official grader."
+    }
+  ],
+  "experiment_id": "SYNTH-INFRA-001",
+  "failure_distribution": {
+    "A": {
+      "execution_failure": 3
+    },
+    "B": {
+      "execution_failure": 2
+    },
+    "C": {
+      "evaluation_false_positive": 1,
+      "execution_failure": 1
+    },
+    "D": {}
+  },
+  "hypothesis": "The runner preserves four treatment boundaries and offline analysis detects an injected false fulfilment and reconciliation recoveries.",
+  "interpretation": "Infrastructure behavior matched construction; this is not evidence for fulfilment reliability.",
+  "model": {
+    "name": "scripted-provider",
+    "temperature": 0,
+    "version": "1.0.0"
+  },
+  "next_experiment": "Run preregistered development tasks with a pinned hosted model.",
+  "protocol_version": "1.0.0",
+  "provenance": {
+    "created_at": "2026-09-05T00:00:00Z",
+    "evidence_root_sha256": "40a18158face2b0cb70f50ff580f46fa125165f121a914786eb539ee1b308c82",
+    "git_commit": "64a595a1a715b2d6f5ccd7124824f44dc682ac8d",
+    "run_manifest_sha256": "83f9bf3b8ee7ac9efba111cfc1650a0301be647c13ec4ea810205e9c76b5e962",
+    "scorer_commit": "synthetic-offline-v1"
+  },
+  "results": {
+    "A": {
+      "actions_mean": 1.0,
+      "artifact_validity_rate": 1.0,
+      "cell_accuracy": 0.25,
+      "constraint_violation_rate": 0.0,
+      "cost_usd_mean": 0.0,
+      "false_fulfilment_rate": null,
+      "internal_eval_precision": null,
+      "internal_eval_recall": 0.0,
+      "latency_ms_mean": 0.25,
+      "pass_rate": 0.25,
+      "recovery_yield": null,
+      "tasks": 4,
+      "tokens_mean": 5.0
+    },
+    "B": {
+      "actions_mean": 1.0,
+      "artifact_validity_rate": 1.0,
+      "cell_accuracy": 0.5,
+      "constraint_violation_rate": 0.0,
+      "cost_usd_mean": 0.0,
+      "false_fulfilment_rate": null,
+      "internal_eval_precision": null,
+      "internal_eval_recall": 0.0,
+      "latency_ms_mean": 0.0,
+      "pass_rate": 0.5,
+      "recovery_yield": null,
+      "tasks": 4,
+      "tokens_mean": 10.0
+    },
+    "C": {
+      "actions_mean": 1.0,
+      "artifact_validity_rate": 1.0,
+      "cell_accuracy": 0.5,
+      "constraint_violation_rate": 0.0,
+      "cost_usd_mean": 0.0,
+      "false_fulfilment_rate": 0.3333333333333333,
+      "internal_eval_precision": 0.6666666666666666,
+      "internal_eval_recall": 1.0,
+      "latency_ms_mean": 0.25,
+      "pass_rate": 0.5,
+      "recovery_yield": null,
+      "tasks": 4,
+      "tokens_mean": 10.0
+    },
+    "D": {
+      "actions_mean": 1.5,
+      "artifact_validity_rate": 1.0,
+      "cell_accuracy": 1.0,
+      "constraint_violation_rate": 0.0,
+      "cost_usd_mean": 0.0,
+      "false_fulfilment_rate": 0.0,
+      "internal_eval_precision": 1.0,
+      "internal_eval_recall": 1.0,
+      "latency_ms_mean": 1.0,
+      "pass_rate": 1.0,
+      "recovery_yield": 1.0,
+      "tasks": 4,
+      "tokens_mean": 5.0
+    }
+  },
+  "task_set": {
+    "manifest_sha256": "8506368f81c3ed231ff7f21d875d18d04f38fbf0c874276d51f37b3736cb355c",
+    "task_count": 4
+  },
+  "treatment": "D"
+}

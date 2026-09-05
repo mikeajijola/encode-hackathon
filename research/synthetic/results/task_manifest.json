@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0.0",
+  "experiment": "SYNTH-INFRA-001",
+  "warning": "NOT BENCHMARK OR MODEL EVIDENCE",
+  "tasks": [
+    {
+      "id": "s1",
+      "intent": "Set the artifact state to alpha.",
+      "instruction_type": "Cell-Level Manipulation",
+      "task_family": "value",
+      "visual": false
+    },
+    {
+      "id": "s2",
+      "intent": "Set the artifact state to exact beta, preserving case.",
+      "instruction_type": "Cell-Level Manipulation",
+      "task_family": "value",
+      "visual": false
+    },
+    {
+      "id": "s3",
+      "intent": "Present gamma without clipping in the rendered region.",
+      "instruction_type": "Sheet-Level Manipulation",
+      "task_family": "visual",
+      "visual": true
+    },
+    {
+      "id": "s4",
+      "intent": "Derive and set the multi-step delta state.",
+      "instruction_type": "Sheet-Level Manipulation",
+      "task_family": "formula",
+      "visual": false
+    }
+  ],
+  "selection_sha256": "8506368f81c3ed231ff7f21d875d18d04f38fbf0c874276d51f37b3736cb355c"
+}

@@ -1,0 +1,1 @@
+{"cost": 0.0, "error": null, "input_tokens": 3, "latency_ms": 0, "model": "scripted-provider", "model_version": "1.0.0", "output_tokens": 2, "prompt": "compile:s4:Derive and set the multi-step delta state.", "provider_request_id": "deterministic-a119d511d5f8", "purpose": "contract", "response": "{\"phase_acknowledged\": \"compile\"}", "step": 1, "temperature": 0}

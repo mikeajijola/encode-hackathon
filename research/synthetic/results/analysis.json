@@ -1,0 +1,980 @@
+{
+  "breakdowns": {
+    "A": {
+      "complexity": {
+        "unknown": {
+          "actions_mean": 1.0,
+          "artifact_validity_rate": 1.0,
+          "cell_accuracy": 0.25,
+          "constraint_violation_rate": 0.0,
+          "cost_usd_mean": 0.0,
+          "false_fulfilment_rate": null,
+          "internal_eval_precision": null,
+          "internal_eval_recall": 0.0,
+          "latency_ms_mean": 0.25,
+          "pass_rate": 0.25,
+          "recovery_yield": null,
+          "tasks": 4,
+          "tokens_mean": 5.0
+        }
+      },
+      "formula_vs_value": {
+        "unknown": {
+          "actions_mean": 1.0,
+          "artifact_validity_rate": 1.0,
+          "cell_accuracy": 0.25,
+          "constraint_violation_rate": 0.0,
+          "cost_usd_mean": 0.0,
+          "false_fulfilment_rate": null,
+          "internal_eval_precision": null,
+          "internal_eval_recall": 0.0,
+          "latency_ms_mean": 0.25,
+          "pass_rate": 0.25,
+          "recovery_yield": null,
+          "tasks": 4,
+          "tokens_mean": 5.0
+        }
+      },
+      "initial_observation_size_bucket": {
+        "unknown": {
+          "actions_mean": 1.0,
+          "artifact_validity_rate": 1.0,
+          "cell_accuracy": 0.25,
+          "constraint_violation_rate": 0.0,
+          "cost_usd_mean": 0.0,
+          "false_fulfilment_rate": null,
+          "internal_eval_precision": null,
+          "internal_eval_recall": 0.0,
+          "latency_ms_mean": 0.25,
+          "pass_rate": 0.25,
+          "recovery_yield": null,
+          "tasks": 4,
+          "tokens_mean": 5.0
+        }
+      },
+      "instruction_type": {
+        "Cell-Level Manipulation": {
+          "actions_mean": 1.0,
+          "artifact_validity_rate": 1.0,
+          "cell_accuracy": 0.5,
+          "constraint_violation_rate": 0.0,
+          "cost_usd_mean": 0.0,
+          "false_fulfilment_rate": null,
+          "internal_eval_precision": null,
+          "internal_eval_recall": 0.0,
+          "latency_ms_mean": 0.5,
+          "pass_rate": 0.5,
+          "recovery_yield": null,
+          "tasks": 2,
+          "tokens_mean": 5.0
+        },
+        "Sheet-Level Manipulation": {
+          "actions_mean": 1.0,
+          "artifact_validity_rate": 1.0,
+          "cell_accuracy": 0.0,
+          "constraint_violation_rate": 0.0,
+          "cost_usd_mean": 0.0,
+          "false_fulfilment_rate": null,
+          "internal_eval_precision": null,
+          "internal_eval_recall": null,
+          "latency_ms_mean": 0.0,
+          "pass_rate": 0.0,
+          "recovery_yield": null,
+          "tasks": 2,
+          "tokens_mean": 5.0
+        }
+      },
+      "mutation_count": {
+        "unknown": {
+          "actions_mean": 1.0,
+          "artifact_validity_rate": 1.0,
+          "cell_accuracy": 0.25,
+          "constraint_violation_rate": 0.0,
+          "cost_usd_mean": 0.0,
+          "false_fulfilment_rate": null,
+          "internal_eval_precision": null,
+          "internal_eval_recall": 0.0,
+          "latency_ms_mean": 0.25,
+          "pass_rate": 0.25,
+          "recovery_yield": null,
+          "tasks": 4,
+          "tokens_mean": 5.0
+        }
+      },
+      "reconciliation_iteration_count": {
+        "unknown": {
+          "actions_mean": 1.0,
+          "artifact_validity_rate": 1.0,
+          "cell_accuracy": 0.25,
+          "constraint_violation_rate": 0.0,
+          "cost_usd_mean": 0.0,
+          "false_fulfilment_rate": null,
+          "internal_eval_precision": null,
+          "internal_eval_recall": 0.0,
+          "latency_ms_mean": 0.25,
+          "pass_rate": 0.25,
+          "recovery_yield": null,
+          "tasks": 4,
+          "tokens_mean": 5.0
+        }
+      },
+      "task_family": {
+        "formula": {
+          "actions_mean": 1.0,
+          "artifact_validity_rate": 1.0,
+          "cell_accuracy": 0.0,
+          "constraint_violation_rate": 0.0,
+          "cost_usd_mean": 0.0,
+          "false_fulfilment_rate": null,
+          "internal_eval_precision": null,
+          "internal_eval_recall": null,
+          "latency_ms_mean": 0.0,
+          "pass_rate": 0.0,
+          "recovery_yield": null,
+          "tasks": 1,
+          "tokens_mean": 5.0
+        },
+        "value": {
+          "actions_mean": 1.0,
+          "artifact_validity_rate": 1.0,
+          "cell_accuracy": 0.5,
+          "constraint_violation_rate": 0.0,
+          "cost_usd_mean": 0.0,
+          "false_fulfilment_rate": null,
+          "internal_eval_precision": null,
+          "internal_eval_recall": 0.0,
+          "latency_ms_mean": 0.5,
+          "pass_rate": 0.5,
+          "recovery_yield": null,
+          "tasks": 2,
+          "tokens_mean": 5.0
+        },
+        "visual": {
+          "actions_mean": 1.0,
+          "artifact_validity_rate": 1.0,
+          "cell_accuracy": 0.0,
+          "constraint_violation_rate": 0.0,
+          "cost_usd_mean": 0.0,
+          "false_fulfilment_rate": null,
+          "internal_eval_precision": null,
+          "internal_eval_recall": null,
+          "latency_ms_mean": 0.0,
+          "pass_rate": 0.0,
+          "recovery_yield": null,
+          "tasks": 1,
+          "tokens_mean": 5.0
+        }
+      }
+    },
+    "B": {
+      "complexity": {
+        "unknown": {
+          "actions_mean": 1.0,
+          "artifact_validity_rate": 1.0,
+          "cell_accuracy": 0.5,
+          "constraint_violation_rate": 0.0,
+          "cost_usd_mean": 0.0,
+          "false_fulfilment_rate": null,
+          "internal_eval_precision": null,
+          "internal_eval_recall": 0.0,
+          "latency_ms_mean": 0.0,
+          "pass_rate": 0.5,
+          "recovery_yield": null,
+          "tasks": 4,
+          "tokens_mean": 10.0
+        }
+      },
+      "formula_vs_value": {
+        "unknown": {
+          "actions_mean": 1.0,
+          "artifact_validity_rate": 1.0,
+          "cell_accuracy": 0.5,
+          "constraint_violation_rate": 0.0,
+          "cost_usd_mean": 0.0,
+          "false_fulfilment_rate": null,
+          "internal_eval_precision": null,
+          "internal_eval_recall": 0.0,
+          "latency_ms_mean": 0.0,
+          "pass_rate": 0.5,
+          "recovery_yield": null,
+          "tasks": 4,
+          "tokens_mean": 10.0
+        }
+      },
+      "initial_observation_size_bucket": {
+        "unknown": {
+          "actions_mean": 1.0,
+          "artifact_validity_rate": 1.0,
+          "cell_accuracy": 0.5,
+          "constraint_violation_rate": 0.0,
+          "cost_usd_mean": 0.0,
+          "false_fulfilment_rate": null,
+          "internal_eval_precision": null,
+          "internal_eval_recall": 0.0,
+          "latency_ms_mean": 0.0,
+          "pass_rate": 0.5,
+          "recovery_yield": null,
+          "tasks": 4,
+          "tokens_mean": 10.0
+        }
+      },
+      "instruction_type": {
+        "Cell-Level Manipulation": {
+          "actions_mean": 1.0,
+          "artifact_validity_rate": 1.0,
+          "cell_accuracy": 1.0,
+          "constraint_violation_rate": 0.0,
+          "cost_usd_mean": 0.0,
+          "false_fulfilment_rate": null,
+          "internal_eval_precision": null,
+          "internal_eval_recall": 0.0,
+          "latency_ms_mean": 0.0,
+          "pass_rate": 1.0,
+          "recovery_yield": null,
+          "tasks": 2,
+          "tokens_mean": 10.0
+        },
+        "Sheet-Level Manipulation": {
+          "actions_mean": 1.0,
+          "artifact_validity_rate": 1.0,
+          "cell_accuracy": 0.0,
+          "constraint_violation_rate": 0.0,
+          "cost_usd_mean": 0.0,
+          "false_fulfilment_rate": null,
+          "internal_eval_precision": null,
+          "internal_eval_recall": null,
+          "latency_ms_mean": 0.0,
+          "pass_rate": 0.0,
+          "recovery_yield": null,
+          "tasks": 2,
+          "tokens_mean": 10.0
+        }
+      },
+      "mutation_count": {
+        "unknown": {
+          "actions_mean": 1.0,
+          "artifact_validity_rate": 1.0,
+          "cell_accuracy": 0.5,
+          "constraint_violation_rate": 0.0,
+          "cost_usd_mean": 0.0,
+          "false_fulfilment_rate": null,
+          "internal_eval_precision": null,
+          "internal_eval_recall": 0.0,
+          "latency_ms_mean": 0.0,
+          "pass_rate": 0.5,
+          "recovery_yield": null,
+          "tasks": 4,
+          "tokens_mean": 10.0
+        }
+      },
+      "reconciliation_iteration_count": {
+        "unknown": {
+          "actions_mean": 1.0,
+          "artifact_validity_rate": 1.0,
+          "cell_accuracy": 0.5,
+          "constraint_violation_rate": 0.0,
+          "cost_usd_mean": 0.0,
+          "false_fulfilment_rate": null,
+          "internal_eval_precision": null,
+          "internal_eval_recall": 0.0,
+          "latency_ms_mean": 0.0,
+          "pass_rate": 0.5,
+          "recovery_yield": null,
+          "tasks": 4,
+          "tokens_mean": 10.0
+        }
+      },
+      "task_family": {
+        "formula": {
+          "actions_mean": 1.0,
+          "artifact_validity_rate": 1.0,
+          "cell_accuracy": 0.0,
+          "constraint_violation_rate": 0.0,
+          "cost_usd_mean": 0.0,
+          "false_fulfilment_rate": null,
+          "internal_eval_precision": null,
+          "internal_eval_recall": null,
+          "latency_ms_mean": 0.0,
+          "pass_rate": 0.0,
+          "recovery_yield": null,
+          "tasks": 1,
+          "tokens_mean": 10.0
+        },
+        "value": {
+          "actions_mean": 1.0,
+          "artifact_validity_rate": 1.0,
+          "cell_accuracy": 1.0,
+          "constraint_violation_rate": 0.0,
+          "cost_usd_mean": 0.0,
+          "false_fulfilment_rate": null,
+          "internal_eval_precision": null,
+          "internal_eval_recall": 0.0,
+          "latency_ms_mean": 0.0,
+          "pass_rate": 1.0,
+          "recovery_yield": null,
+          "tasks": 2,
+          "tokens_mean": 10.0
+        },
+        "visual": {
+          "actions_mean": 1.0,
+          "artifact_validity_rate": 1.0,
+          "cell_accuracy": 0.0,
+          "constraint_violation_rate": 0.0,
+          "cost_usd_mean": 0.0,
+          "false_fulfilment_rate": null,
+          "internal_eval_precision": null,
+          "internal_eval_recall": null,
+          "latency_ms_mean": 0.0,
+          "pass_rate": 0.0,
+          "recovery_yield": null,
+          "tasks": 1,
+          "tokens_mean": 10.0
+        }
+      }
+    },
+    "C": {
+      "complexity": {
+        "unknown": {
+          "actions_mean": 1.0,
+          "artifact_validity_rate": 1.0,
+          "cell_accuracy": 0.5,
+          "constraint_violation_rate": 0.0,
+          "cost_usd_mean": 0.0,
+          "false_fulfilment_rate": 0.3333333333333333,
+          "internal_eval_precision": 0.6666666666666666,
+          "internal_eval_recall": 1.0,
+          "latency_ms_mean": 0.25,
+          "pass_rate": 0.5,
+          "recovery_yield": null,
+          "tasks": 4,
+          "tokens_mean": 10.0
+        }
+      },
+      "formula_vs_value": {
+        "unknown": {
+          "actions_mean": 1.0,
+          "artifact_validity_rate": 1.0,
+          "cell_accuracy": 0.5,
+          "constraint_violation_rate": 0.0,
+          "cost_usd_mean": 0.0,
+          "false_fulfilment_rate": 0.3333333333333333,
+          "internal_eval_precision": 0.6666666666666666,
+          "internal_eval_recall": 1.0,
+          "latency_ms_mean": 0.25,
+          "pass_rate": 0.5,
+          "recovery_yield": null,
+          "tasks": 4,
+          "tokens_mean": 10.0
+        }
+      },
+      "initial_observation_size_bucket": {
+        "unknown": {
+          "actions_mean": 1.0,
+          "artifact_validity_rate": 1.0,
+          "cell_accuracy": 0.5,
+          "constraint_violation_rate": 0.0,
+          "cost_usd_mean": 0.0,
+          "false_fulfilment_rate": 0.3333333333333333,
+          "internal_eval_precision": 0.6666666666666666,
+          "internal_eval_recall": 1.0,
+          "latency_ms_mean": 0.25,
+          "pass_rate": 0.5,
+          "recovery_yield": null,
+          "tasks": 4,
+          "tokens_mean": 10.0
+        }
+      },
+      "instruction_type": {
+        "Cell-Level Manipulation": {
+          "actions_mean": 1.0,
+          "artifact_validity_rate": 1.0,
+          "cell_accuracy": 1.0,
+          "constraint_violation_rate": 0.0,
+          "cost_usd_mean": 0.0,
+          "false_fulfilment_rate": 0.0,
+          "internal_eval_precision": 1.0,
+          "internal_eval_recall": 1.0,
+          "latency_ms_mean": 0.0,
+          "pass_rate": 1.0,
+          "recovery_yield": null,
+          "tasks": 2,
+          "tokens_mean": 10.0
+        },
+        "Sheet-Level Manipulation": {
+          "actions_mean": 1.0,
+          "artifact_validity_rate": 1.0,
+          "cell_accuracy": 0.0,
+          "constraint_violation_rate": 0.0,
+          "cost_usd_mean": 0.0,
+          "false_fulfilment_rate": 1.0,
+          "internal_eval_precision": 0.0,
+          "internal_eval_recall": null,
+          "latency_ms_mean": 0.5,
+          "pass_rate": 0.0,
+          "recovery_yield": null,
+          "tasks": 2,
+          "tokens_mean": 10.0
+        }
+      },
+      "mutation_count": {
+        "unknown": {
+          "actions_mean": 1.0,
+          "artifact_validity_rate": 1.0,
+          "cell_accuracy": 0.5,
+          "constraint_violation_rate": 0.0,
+          "cost_usd_mean": 0.0,
+          "false_fulfilment_rate": 0.3333333333333333,
+          "internal_eval_precision": 0.6666666666666666,
+          "internal_eval_recall": 1.0,
+          "latency_ms_mean": 0.25,
+          "pass_rate": 0.5,
+          "recovery_yield": null,
+          "tasks": 4,
+          "tokens_mean": 10.0
+        }
+      },
+      "reconciliation_iteration_count": {
+        "unknown": {
+          "actions_mean": 1.0,
+          "artifact_validity_rate": 1.0,
+          "cell_accuracy": 0.5,
+          "constraint_violation_rate": 0.0,
+          "cost_usd_mean": 0.0,
+          "false_fulfilment_rate": 0.3333333333333333,
+          "internal_eval_precision": 0.6666666666666666,
+          "internal_eval_recall": 1.0,
+          "latency_ms_mean": 0.25,
+          "pass_rate": 0.5,
+          "recovery_yield": null,
+          "tasks": 4,
+          "tokens_mean": 10.0
+        }
+      },
+      "task_family": {
+        "formula": {
+          "actions_mean": 1.0,
+          "artifact_validity_rate": 1.0,
+          "cell_accuracy": 0.0,
+          "constraint_violation_rate": 0.0,
+          "cost_usd_mean": 0.0,
+          "false_fulfilment_rate": null,
+          "internal_eval_precision": null,
+          "internal_eval_recall": null,
+          "latency_ms_mean": 0.0,
+          "pass_rate": 0.0,
+          "recovery_yield": null,
+          "tasks": 1,
+          "tokens_mean": 10.0
+        },
+        "value": {
+          "actions_mean": 1.0,
+          "artifact_validity_rate": 1.0,
+          "cell_accuracy": 1.0,
+          "constraint_violation_rate": 0.0,
+          "cost_usd_mean": 0.0,
+          "false_fulfilment_rate": 0.0,
+          "internal_eval_precision": 1.0,
+          "internal_eval_recall": 1.0,
+          "latency_ms_mean": 0.0,
+          "pass_rate": 1.0,
+          "recovery_yield": null,
+          "tasks": 2,
+          "tokens_mean": 10.0
+        },
+        "visual": {
+          "actions_mean": 1.0,
+          "artifact_validity_rate": 1.0,
+          "cell_accuracy": 0.0,
+          "constraint_violation_rate": 0.0,
+          "cost_usd_mean": 0.0,
+          "false_fulfilment_rate": 1.0,
+          "internal_eval_precision": 0.0,
+          "internal_eval_recall": null,
+          "latency_ms_mean": 1.0,
+          "pass_rate": 0.0,
+          "recovery_yield": null,
+          "tasks": 1,
+          "tokens_mean": 10.0
+        }
+      }
+    },
+    "D": {
+      "complexity": {
+        "unknown": {
+          "actions_mean": 1.5,
+          "artifact_validity_rate": 1.0,
+          "cell_accuracy": 1.0,
+          "constraint_violation_rate": 0.0,
+          "cost_usd_mean": 0.0,
+          "false_fulfilment_rate": 0.0,
+          "internal_eval_precision": 1.0,
+          "internal_eval_recall": 1.0,
+          "latency_ms_mean": 1.0,
+          "pass_rate": 1.0,
+          "recovery_yield": 1.0,
+          "tasks": 4,
+          "tokens_mean": 5.0
+        }
+      },
+      "formula_vs_value": {
+        "unknown": {
+          "actions_mean": 1.5,
+          "artifact_validity_rate": 1.0,
+          "cell_accuracy": 1.0,
+          "constraint_violation_rate": 0.0,
+          "cost_usd_mean": 0.0,
+          "false_fulfilment_rate": 0.0,
+          "internal_eval_precision": 1.0,
+          "internal_eval_recall": 1.0,
+          "latency_ms_mean": 1.0,
+          "pass_rate": 1.0,
+          "recovery_yield": 1.0,
+          "tasks": 4,
+          "tokens_mean": 5.0
+        }
+      },
+      "initial_observation_size_bucket": {
+        "unknown": {
+          "actions_mean": 1.5,
+          "artifact_validity_rate": 1.0,
+          "cell_accuracy": 1.0,
+          "constraint_violation_rate": 0.0,
+          "cost_usd_mean": 0.0,
+          "false_fulfilment_rate": 0.0,
+          "internal_eval_precision": 1.0,
+          "internal_eval_recall": 1.0,
+          "latency_ms_mean": 1.0,
+          "pass_rate": 1.0,
+          "recovery_yield": 1.0,
+          "tasks": 4,
+          "tokens_mean": 5.0
+        }
+      },
+      "instruction_type": {
+        "Cell-Level Manipulation": {
+          "actions_mean": 1.0,
+          "artifact_validity_rate": 1.0,
+          "cell_accuracy": 1.0,
+          "constraint_violation_rate": 0.0,
+          "cost_usd_mean": 0.0,
+          "false_fulfilment_rate": 0.0,
+          "internal_eval_precision": 1.0,
+          "internal_eval_recall": 1.0,
+          "latency_ms_mean": 1.0,
+          "pass_rate": 1.0,
+          "recovery_yield": null,
+          "tasks": 2,
+          "tokens_mean": 5.0
+        },
+        "Sheet-Level Manipulation": {
+          "actions_mean": 2.0,
+          "artifact_validity_rate": 1.0,
+          "cell_accuracy": 1.0,
+          "constraint_violation_rate": 0.0,
+          "cost_usd_mean": 0.0,
+          "false_fulfilment_rate": 0.0,
+          "internal_eval_precision": 1.0,
+          "internal_eval_recall": 1.0,
+          "latency_ms_mean": 1.0,
+          "pass_rate": 1.0,
+          "recovery_yield": 1.0,
+          "tasks": 2,
+          "tokens_mean": 5.0
+        }
+      },
+      "mutation_count": {
+        "unknown": {
+          "actions_mean": 1.5,
+          "artifact_validity_rate": 1.0,
+          "cell_accuracy": 1.0,
+          "constraint_violation_rate": 0.0,
+          "cost_usd_mean": 0.0,
+          "false_fulfilment_rate": 0.0,
+          "internal_eval_precision": 1.0,
+          "internal_eval_recall": 1.0,
+          "latency_ms_mean": 1.0,
+          "pass_rate": 1.0,
+          "recovery_yield": 1.0,
+          "tasks": 4,
+          "tokens_mean": 5.0
+        }
+      },
+      "reconciliation_iteration_count": {
+        "unknown": {
+          "actions_mean": 1.5,
+          "artifact_validity_rate": 1.0,
+          "cell_accuracy": 1.0,
+          "constraint_violation_rate": 0.0,
+          "cost_usd_mean": 0.0,
+          "false_fulfilment_rate": 0.0,
+          "internal_eval_precision": 1.0,
+          "internal_eval_recall": 1.0,
+          "latency_ms_mean": 1.0,
+          "pass_rate": 1.0,
+          "recovery_yield": 1.0,
+          "tasks": 4,
+          "tokens_mean": 5.0
+        }
+      },
+      "task_family": {
+        "formula": {
+          "actions_mean": 2.0,
+          "artifact_validity_rate": 1.0,
+          "cell_accuracy": 1.0,
+          "constraint_violation_rate": 0.0,
+          "cost_usd_mean": 0.0,
+          "false_fulfilment_rate": 0.0,
+          "internal_eval_precision": 1.0,
+          "internal_eval_recall": 1.0,
+          "latency_ms_mean": 1.0,
+          "pass_rate": 1.0,
+          "recovery_yield": 1.0,
+          "tasks": 1,
+          "tokens_mean": 5.0
+        },
+        "value": {
+          "actions_mean": 1.0,
+          "artifact_validity_rate": 1.0,
+          "cell_accuracy": 1.0,
+          "constraint_violation_rate": 0.0,
+          "cost_usd_mean": 0.0,
+          "false_fulfilment_rate": 0.0,
+          "internal_eval_precision": 1.0,
+          "internal_eval_recall": 1.0,
+          "latency_ms_mean": 1.0,
+          "pass_rate": 1.0,
+          "recovery_yield": null,
+          "tasks": 2,
+          "tokens_mean": 5.0
+        },
+        "visual": {
+          "actions_mean": 2.0,
+          "artifact_validity_rate": 1.0,
+          "cell_accuracy": 1.0,
+          "constraint_violation_rate": 0.0,
+          "cost_usd_mean": 0.0,
+          "false_fulfilment_rate": 0.0,
+          "internal_eval_precision": 1.0,
+          "internal_eval_recall": 1.0,
+          "latency_ms_mean": 1.0,
+          "pass_rate": 1.0,
+          "recovery_yield": 1.0,
+          "tasks": 1,
+          "tokens_mean": 5.0
+        }
+      }
+    }
+  },
+  "failure_distribution": {
+    "A": {
+      "execution_failure": 3
+    },
+    "B": {
+      "execution_failure": 2
+    },
+    "C": {
+      "evaluation_false_positive": 1,
+      "execution_failure": 1
+    },
+    "D": {}
+  },
+  "failure_examples": {
+    "A": {
+      "execution_failure": [
+        "s2",
+        "s3",
+        "s4"
+      ]
+    },
+    "B": {
+      "execution_failure": [
+        "s3",
+        "s4"
+      ]
+    },
+    "C": {
+      "evaluation_false_positive": [
+        "s3"
+      ],
+      "execution_failure": [
+        "s4"
+      ]
+    },
+    "D": {}
+  },
+  "metrics": {
+    "A": {
+      "actions_mean": 1.0,
+      "artifact_validity_rate": 1.0,
+      "cell_accuracy": 0.25,
+      "constraint_violation_rate": 0.0,
+      "cost_usd_mean": 0.0,
+      "false_fulfilment_rate": null,
+      "internal_eval_precision": null,
+      "internal_eval_recall": 0.0,
+      "latency_ms_mean": 0.25,
+      "pass_rate": 0.25,
+      "recovery_yield": null,
+      "tasks": 4,
+      "tokens_mean": 5.0
+    },
+    "B": {
+      "actions_mean": 1.0,
+      "artifact_validity_rate": 1.0,
+      "cell_accuracy": 0.5,
+      "constraint_violation_rate": 0.0,
+      "cost_usd_mean": 0.0,
+      "false_fulfilment_rate": null,
+      "internal_eval_precision": null,
+      "internal_eval_recall": 0.0,
+      "latency_ms_mean": 0.0,
+      "pass_rate": 0.5,
+      "recovery_yield": null,
+      "tasks": 4,
+      "tokens_mean": 10.0
+    },
+    "C": {
+      "actions_mean": 1.0,
+      "artifact_validity_rate": 1.0,
+      "cell_accuracy": 0.5,
+      "constraint_violation_rate": 0.0,
+      "cost_usd_mean": 0.0,
+      "false_fulfilment_rate": 0.3333333333333333,
+      "internal_eval_precision": 0.6666666666666666,
+      "internal_eval_recall": 1.0,
+      "latency_ms_mean": 0.25,
+      "pass_rate": 0.5,
+      "recovery_yield": null,
+      "tasks": 4,
+      "tokens_mean": 10.0
+    },
+    "D": {
+      "actions_mean": 1.5,
+      "artifact_validity_rate": 1.0,
+      "cell_accuracy": 1.0,
+      "constraint_violation_rate": 0.0,
+      "cost_usd_mean": 0.0,
+      "false_fulfilment_rate": 0.0,
+      "internal_eval_precision": 1.0,
+      "internal_eval_recall": 1.0,
+      "latency_ms_mean": 1.0,
+      "pass_rate": 1.0,
+      "recovery_yield": 1.0,
+      "tasks": 4,
+      "tokens_mean": 5.0
+    }
+  },
+  "multimodal": {
+    "rationale": "Analysis records have no rendered semantics; adapter evidence is analyzed by reference.",
+    "status": "not_applicable"
+  },
+  "overhead_vs_A": {
+    "B": {
+      "actions_mean": 0.0,
+      "cost_usd_mean": 0.0,
+      "latency_ms_mean": -0.25,
+      "tokens_mean": 5.0
+    },
+    "C": {
+      "actions_mean": 0.0,
+      "cost_usd_mean": 0.0,
+      "latency_ms_mean": 0.0,
+      "tokens_mean": 5.0
+    },
+    "D": {
+      "actions_mean": 0.5,
+      "cost_usd_mean": 0.0,
+      "latency_ms_mean": 0.75,
+      "tokens_mean": 0.0
+    }
+  },
+  "paired_comparisons": {
+    "B_minus_A": {
+      "bootstrap": {
+        "confidence": 0.95,
+        "estimate": 0.25,
+        "lower": 0.0,
+        "samples": 1000,
+        "seed": 20260905,
+        "upper": 0.75
+      },
+      "mcnemar": {
+        "control_only": 0,
+        "discordant": 1,
+        "p_value": 1.0,
+        "treatment_only": 1
+      }
+    },
+    "C_minus_B": {
+      "bootstrap": {
+        "confidence": 0.95,
+        "estimate": 0.0,
+        "lower": 0.0,
+        "samples": 1000,
+        "seed": 20260905,
+        "upper": 0.0
+      },
+      "mcnemar": {
+        "control_only": 0,
+        "discordant": 0,
+        "p_value": 1.0,
+        "treatment_only": 0
+      }
+    },
+    "D_minus_A": {
+      "bootstrap": {
+        "confidence": 0.95,
+        "estimate": 0.75,
+        "lower": 0.25,
+        "samples": 1000,
+        "seed": 20260905,
+        "upper": 1.0
+      },
+      "mcnemar": {
+        "control_only": 0,
+        "discordant": 3,
+        "p_value": 0.25,
+        "treatment_only": 3
+      }
+    },
+    "D_minus_C": {
+      "bootstrap": {
+        "confidence": 0.95,
+        "estimate": 0.5,
+        "lower": 0.0,
+        "samples": 1000,
+        "seed": 20260905,
+        "upper": 1.0
+      },
+      "mcnemar": {
+        "control_only": 0,
+        "discordant": 2,
+        "p_value": 0.5,
+        "treatment_only": 2
+      }
+    }
+  },
+  "resource_distributions": {
+    "A": {
+      "actions": {
+        "max": 1.0,
+        "mean": 1.0,
+        "median": 1.0,
+        "min": 1.0,
+        "p95": 1.0
+      },
+      "cost_usd": {
+        "max": 0.0,
+        "mean": 0.0,
+        "median": 0.0,
+        "min": 0.0,
+        "p95": 0.0
+      },
+      "latency_ms": {
+        "max": 1.0,
+        "mean": 0.25,
+        "median": 0.0,
+        "min": 0.0,
+        "p95": 0.0
+      },
+      "tokens": {
+        "max": 5.0,
+        "mean": 5.0,
+        "median": 5.0,
+        "min": 5.0,
+        "p95": 5.0
+      }
+    },
+    "B": {
+      "actions": {
+        "max": 1.0,
+        "mean": 1.0,
+        "median": 1.0,
+        "min": 1.0,
+        "p95": 1.0
+      },
+      "cost_usd": {
+        "max": 0.0,
+        "mean": 0.0,
+        "median": 0.0,
+        "min": 0.0,
+        "p95": 0.0
+      },
+      "latency_ms": {
+        "max": 0.0,
+        "mean": 0.0,
+        "median": 0.0,
+        "min": 0.0,
+        "p95": 0.0
+      },
+      "tokens": {
+        "max": 10.0,
+        "mean": 10.0,
+        "median": 10.0,
+        "min": 10.0,
+        "p95": 10.0
+      }
+    },
+    "C": {
+      "actions": {
+        "max": 1.0,
+        "mean": 1.0,
+        "median": 1.0,
+        "min": 1.0,
+        "p95": 1.0
+      },
+      "cost_usd": {
+        "max": 0.0,
+        "mean": 0.0,
+        "median": 0.0,
+        "min": 0.0,
+        "p95": 0.0
+      },
+      "latency_ms": {
+        "max": 1.0,
+        "mean": 0.25,
+        "median": 0.0,
+        "min": 0.0,
+        "p95": 0.0
+      },
+      "tokens": {
+        "max": 10.0,
+        "mean": 10.0,
+        "median": 10.0,
+        "min": 10.0,
+        "p95": 10.0
+      }
+    },
+    "D": {
+      "actions": {
+        "max": 2.0,
+        "mean": 1.5,
+        "median": 1.0,
+        "min": 1.0,
+        "p95": 2.0
+      },
+      "cost_usd": {
+        "max": 0.0,
+        "mean": 0.0,
+        "median": 0.0,
+        "min": 0.0,
+        "p95": 0.0
+      },
+      "latency_ms": {
+        "max": 1.0,
+        "mean": 1.0,
+        "median": 1.0,
+        "min": 1.0,
+        "p95": 1.0
+      },
+      "tokens": {
+        "max": 5.0,
+        "mean": 5.0,
+        "median": 5.0,
+        "min": 5.0,
+        "p95": 5.0
+      }
+    }
+  },
+  "scope_warning": "INFRASTRUCTURE/TREATMENT-SEPARATION TEST ONLY; NOT SPREADSHEETBENCH OR MODEL EVIDENCE"
+}

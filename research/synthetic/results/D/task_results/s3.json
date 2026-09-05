@@ -1,0 +1,26 @@
+{
+  "arm": "D",
+  "contract_compiled": true,
+  "id": "s3",
+  "input_artifact_hash": "ac1b5c0961a7269b6a053ee64276ed0e20a7f48aefb9f67519539d23aaf10149",
+  "output": "outputs/s3.txt",
+  "output_artifact_hash": "be9d587defa1f0c09ef49eb17e206983a5f8f8289e4281860bd0ee5a19592c67",
+  "rendered_eval": "delegated_to_adapter",
+  "status": "fulfilled",
+  "terminal_eval": {
+    "details": {
+      "first_mutation_pass": false
+    },
+    "passed": true,
+    "status": "pass"
+  },
+  "usage": {
+    "actions": 2,
+    "cost": 0.0,
+    "input_tokens": 3,
+    "latency_ms": 1,
+    "model_calls": 1,
+    "output_tokens": 2,
+    "tokens": 5
+  }
+}

@@ -1,0 +1,1 @@
+{"cost": 0.0, "error": null, "input_tokens": 3, "latency_ms": 0, "model": "scripted-provider", "model_version": "1.0.0", "output_tokens": 2, "prompt": "compile:s2:Set the artifact state to exact beta, preserving case.", "provider_request_id": "deterministic-8211f5dbd451", "purpose": "contract", "response": "{\"phase_acknowledged\": \"compile\"}", "step": 1, "temperature": 0}
