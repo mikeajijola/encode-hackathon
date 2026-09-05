@@ -94,14 +94,16 @@ class SpreadsheetServicesE2E(unittest.TestCase):
         td = tempfile.TemporaryDirectory(); self.addCleanup(td.cleanup)
         root = Path(td.name); artifact = self.fixture(root)
         context = {"answer_sheet": "Data", "answer_position": "B1", "expected_type": "number"}
-        out2 = root / "out"; provider2 = QueueProvider([contract])
+        out2 = root / "out"; provider2 = QueueProvider([
+            contract, '{"writes":[{"selector":"Data!B1","value":4}]}', '{"verdict":"pass"}'
+        ])
         uncertain = ExperimentRunner(config(Arm.D), SpreadsheetServices(), provider2, out2).run(
             [Task("u1", "derive an answer", artifact, KIND, context)])[0]
         self.assertEqual(uncertain["status"], "unfulfilled:evaluation_uncertain")
         self.assertFalse(uncertain["terminal_eval"]["passed"])
         discrepancies = uncertain["terminal_eval"]["details"]["discrepancies"]
         self.assertTrue(any(d["kind"] == "evaluation_uncertainty" for d in discrepancies))
-        self.assertEqual(len(provider2.calls), 1)  # no mutation guessed under uncertainty
+        self.assertEqual(len(provider2.calls), 3)  # contract, first action, malformed independent eval
 
     def test_scope_violation_is_rejected_without_mutation(self):
         contract = '{"description":"B1 is populated"}'

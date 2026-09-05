@@ -202,10 +202,16 @@ class SpreadsheetServices:
             expected = task.context["independent_expected"]
             actual = values[0] if len(values) == 1 else values
             results.append(_eval("semantic", observation, actual == expected, "independent computation", expected=expected, observed=actual))
+        elif any(value in (None, "") for value in values):
+            # Missing desired state is already actionable. Asking a semantic
+            # judge before the first mutation adds cost and previously caused D
+            # to terminate uncertain without ever attempting fulfilment.
+            results.append(_eval("semantic", observation, False,
+                "semantic evaluation deferred until target state exists",
+                expected="intent-satisfying target state", observed=values,
+                likely_causes=["target state is missing"], confidence=1.0))
         else:
-            results.append(EvalResult("semantic", observation.id, EvalStatus.UNCERTAIN,
-                "no independent semantic oracle; structural success is not fulfilment",
-                details={"knowledge_gap": True, "confidence": 1.0}))
+            results.append(self._semantic_model_eval(task, session.contract, observation, facts, runtime))
         if task.context.get("visual_intent"):
             request = CapabilityRequest(str(uuid4()), "render_range", VERSION, str(artifact), KIND,
                 {"selector": selectors[0], "output_dir": str(artifact.parent / "renders")}, (), ())
@@ -218,6 +224,47 @@ class SpreadsheetServices:
         for discrepancy in discrepancies:
             runtime.event("discrepancy", _discrepancy_mapping(discrepancy))
         return tuple(results), discrepancies
+
+    def _semantic_model_eval(self, task, contract, observation, target_facts, runtime):
+        """Isolated semantic verdict. Its raw exchange is never planner input."""
+        prompt = {
+            "role": "independent_semantic_evaluator",
+            "instruction": (
+                "Independently solve the user intent from the bounded source observation, then judge the current "
+                "target facts. Do not trust or reconstruct the action response. Return JSON only with exactly: "
+                "verdict (pass|fail|uncertain), expected_state, rationale, confidence (0..1)."
+            ),
+            "intent": task.intent,
+            "accepted_contract": {
+                "id": contract.id, "version": contract.version,
+                "assertions": [a.description for a in contract.assertions],
+                "constraints": list(contract.constraints), "invariants": list(contract.invariants),
+            },
+            "bounded_source_observation": _model_context(task.context).get("workbook_observation", {}),
+            "current_target_facts": target_facts,
+        }
+        provider_request_id = None
+        try:
+            reply = runtime.complete(json.dumps(prompt, default=str), purpose="independent_evaluation")
+            provider_request_id = reply.provider_request_id
+            verdict = _strict_semantic_verdict(reply.text)
+            status = {"pass": EvalStatus.PASS, "fail": EvalStatus.FAIL,
+                      "uncertain": EvalStatus.UNCERTAIN}[verdict["verdict"]]
+            message = verdict["rationale"]
+            details = {"expected": verdict["expected_state"], "observed": target_facts,
+                       "confidence": verdict["confidence"],
+                       "likely_causes": [] if status is EvalStatus.PASS else [message]}
+        except Exception as error:
+            status = EvalStatus.UNCERTAIN
+            message = f"independent evaluator unavailable or malformed: {type(error).__name__}: {error}"
+            details = {"expected": "independently verified intent-satisfying state",
+                       "observed": target_facts, "confidence": 0.0,
+                       "likely_causes": ["semantic evaluator failure"]}
+        runtime.event("semantic_evaluator_verdict", {
+            "role": "independent_semantic_evaluator", "status": status.value,
+            "provider_request_id": provider_request_id,
+        })
+        return EvalResult("semantic", observation.id, status, message, details=details)
 
 
 def _eval(eval_id, observation, passed, message, **details):
@@ -265,6 +312,21 @@ def _json_reply(text):
     if start < 0 or end < start: raise ValueError("model reply has no JSON object")
     value = json.loads(text[start:end + 1])
     if not isinstance(value, dict): raise ValueError("model reply must be object")
+    return value
+
+
+def _strict_semantic_verdict(text):
+    value = _json_reply(text)
+    required = {"verdict", "expected_state", "rationale", "confidence"}
+    if set(value) != required:
+        raise ValueError("semantic verdict must contain exactly the required fields")
+    if value["verdict"] not in {"pass", "fail", "uncertain"}:
+        raise ValueError("semantic verdict is invalid")
+    if not isinstance(value["rationale"], str) or not value["rationale"].strip():
+        raise ValueError("semantic rationale must be nonempty")
+    confidence = value["confidence"]
+    if isinstance(confidence, bool) or not isinstance(confidence, (int, float)) or not 0 <= confidence <= 1:
+        raise ValueError("semantic confidence must be between zero and one")
     return value
 
 

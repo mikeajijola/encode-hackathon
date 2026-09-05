@@ -2,11 +2,13 @@
 
 `SpreadsheetServices` connects the artifact-neutral four-arm experiment runner to generic contract/discrepancy records, the capability broker, and the XLSX adapter. It preserves the runner's treatment boundaries: A acts directly; B compiles then acts once; C additionally evaluates once; D evaluates and iterates over typed discrepancies.
 
-Runtime context accepts benchmark answer location metadata (`answer_sheet`, `answer_position`) and optional non-golden evaluation metadata such as an expected type. Answer ranges are expanded into explicit cell selectors. Golden-like keys are rejected. A trusted `independent_expected` fixture/source-computation value can enable an independent semantic assertion, but it is deliberately removed from compiler and action-model prompts. Without such an independent result, the required semantic eval is `uncertain`, so the service returns unfulfilled even if structural checks pass.
+Runtime context accepts benchmark answer location metadata (`answer_sheet`, `answer_position`) and optional non-golden evaluation metadata such as an expected type. Answer ranges are expanded into explicit cell selectors. Golden-like keys are rejected. A trusted `independent_expected` fixture/source-computation value remains available for deterministic tests and is deliberately removed from compiler and action-model prompts.
+
+Production semantic evaluation uses a separate model call with purpose `independent_evaluation`. It receives only the accepted contract, bounded source observation, and current target facts—not the action response or hidden reasoning. Its strict verdict is `pass`, `fail`, or `uncertain`, with expected state, rationale, and confidence. Malformed output and provider errors become `uncertain` and can never pass. A missing target is an actionable state discrepancy, so D attempts the first bounded mutation before paying for semantic evaluation; C evaluates once after its sole action and never repairs.
 
 Internal checks cover workbook loading, preservation outside authorized cells, nonblank answers, declared types, formula-error values, independent semantics, and rendering for visual intent. Rendering absence is non-passing. Every adapter action passes through broker authorization, hashes, provenance, and evidence; experiment events retain observations, evals, discrepancies, and linked capability effects.
 
-This is an MVP service, not a claim that answer metadata supplies semantic correctness. Real benchmark runs need defensible independent computations/evaluators per task family; otherwise reliable refusal is expected.
+This is an MVP isolated judge, not a claim that model judgment equals deterministic correctness. Its precision and recall must be measured against offline official outcomes, and uncertain cases remain reliable refusals.
 
 ```sh
 cd research
