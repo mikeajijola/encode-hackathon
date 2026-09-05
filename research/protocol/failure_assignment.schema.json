@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Evidence-backed failure taxonomy assignment",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["task_id", "arm", "classes", "evidence_event_ids", "rationale", "assigned_by"],
+  "properties": {
+    "task_id": {"type": "string", "minLength": 1},
+    "arm": {"enum": ["A", "B", "C", "D"]},
+    "classes": {
+      "type": "array", "minItems": 1, "uniqueItems": true,
+      "items": {"enum": ["specification_failure", "observation_failure", "knowledge_gap", "planning_failure", "execution_failure", "capability_failure", "evaluation_false_positive", "evaluation_false_negative", "reconciliation_failure", "constraint_violation", "artifact_corruption", "budget_failure"]}
+    },
+    "evidence_event_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "rationale": {"type": "string", "minLength": 1},
+    "assigned_by": {"type": "string", "minLength": 1}
+  }
+}
