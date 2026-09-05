@@ -9,9 +9,18 @@ Validation performed on 2026-09-05:
   installation below now supplies a verified recalculation engine.
 - All repository unit and integration tests pass.
 
-The Docker executable is unavailable in the current Termux environment, so an
-actual image build and container smoke run remain unexecuted. This is a validation
-blocker, not evidence that the image works. Resolve it on a Docker-capable host:
+Docker CLI 29.1.3 and Buildx were installed inside Ubuntu proot and exposed through
+`/data/data/com.termux/files/usr/bin/docker`. A VFS-backed daemon reached its API,
+but the canonical image build failed while registering a downloaded layer:
+
+```text
+failed to register layer: open .../image/vfs/layerdb/tmp/write-set-.../diff:
+no such file or directory
+```
+
+This is an Android/PRoot filesystem incompatibility. The installed CLI must not be
+mistaken for a functioning build environment. An actual canonical image build and
+container smoke run remain validation blockers. Resolve them on a Docker-capable host:
 
 ```sh
 docker build --pull -t fulfilment-experiment -f Dockerfile .

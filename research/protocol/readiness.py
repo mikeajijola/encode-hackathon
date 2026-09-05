@@ -9,6 +9,7 @@ import json
 import os
 from pathlib import Path
 import shutil
+import subprocess
 from typing import Any
 
 from services.spreadsheet import _answer_selectors
@@ -65,14 +66,43 @@ def build_report(dataset_dir: Path | None = None) -> dict[str, Any]:
     coordinator = (RESEARCH / "protocol" / "registered_run.py").read_text()
     coordinator_execute = coordinator.split("def execute", 1)[1]
     blockers = []
+    docker_cli = shutil.which("docker")
+    docker_engine = "unavailable"
+    if docker_cli:
+        try:
+            probe = subprocess.run(
+                [docker_cli, "info", "--format", "{{.ServerVersion}}"],
+                capture_output=True, text=True, timeout=5, check=False,
+            )
+            if probe.returncode == 0 and probe.stdout.strip():
+                docker_engine = probe.stdout.strip()
+        except (OSError, subprocess.TimeoutExpired):
+            pass
+    smoke_path = RESEARCH / "protocol" / "CONTAINER_SMOKE.json"
+    container_smoke = "missing"
+    if smoke_path.is_file():
+        try:
+            smoke = json.loads(smoke_path.read_text())
+            if smoke.get("status") == "pass" and smoke.get("image_digest"):
+                container_smoke = "pass"
+            else:
+                container_smoke = "invalid"
+        except (OSError, json.JSONDecodeError):
+            container_smoke = "invalid"
     environment = {
         "openrouter_api_key": "present" if os.environ.get("OPENROUTER_API_KEY") else "missing",
-        "docker_cli": shutil.which("docker") or "missing",
+        "docker_cli": docker_cli or "missing",
+        "docker_engine": docker_engine,
+        "canonical_container_smoke": container_smoke,
         "rootless_oci_runner": shutil.which("udocker") or "missing",
         "soffice": shutil.which("soffice") or shutil.which("libreoffice") or "missing",
     }
     environment_blockers = [key for key in ("openrouter_api_key", "docker_cli", "soffice")
                             if environment[key] == "missing"]
+    if docker_engine == "unavailable":
+        environment_blockers.append("docker_engine")
+    if container_smoke != "pass":
+        environment_blockers.append("canonical_container_smoke")
     statuses = {
         "V-01": {"status": "resolved_with_limitation", "evidence": "isolated semantic evaluator role; malformed/error/uncertain verdicts cannot pass; same provider/model actor remains a disclosed limitation"},
         "V-02": {"status": "resolved", "evidence": "production D delegates iteration, transition validation, broker invocation, no-progress, completion and termination to generic FulfilmentAgent"},
