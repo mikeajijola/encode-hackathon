@@ -129,6 +129,15 @@ class SpreadsheetServicesE2E(unittest.TestCase):
         self.assertTrue(result["status"].startswith("error: ValueError"))
         self.assertEqual(len(provider.calls), 0)
 
+    def test_null_answer_sheet_resolves_to_active_sheet(self):
+        td, out, provider, result = self.run_arm(
+            Arm.A,
+            ['{"writes":[{"selector":"Data!B1","value":4}]}'],
+            {"answer_sheet": None},
+        )
+        self.addCleanup(td.cleanup)
+        self.assertEqual(self.value(out, result), (4, "preserve"))
+
 
 if __name__ == "__main__":
     unittest.main()

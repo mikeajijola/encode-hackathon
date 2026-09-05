@@ -10,7 +10,7 @@ from openpyxl import Workbook
 
 from backends.spreadsheetbench import (
     OpenRouterProvider, ProviderConfigurationError, ScriptedProvider,
-    bounded_workbook_context, factory, load_runtime_tasks,
+    _selection_ids, bounded_workbook_context, factory, load_runtime_tasks,
 )
 from experiment.runner import Arm, ExperimentRunner, RunConfig
 from experiment.cli import main as cli_main
@@ -110,6 +110,11 @@ class SpreadsheetBenchBackendTest(unittest.TestCase):
     def test_unknown_selection_is_rejected(self):
         with self.assertRaisesRegex(ValueError, "unknown task"):
             load_runtime_tasks(self.root, selected_ids={"absent"}, max_cells=5, max_chars=1000)
+
+    def test_selection_accepts_golden_blind_task_manifest(self):
+        selection = self.root / "task-selection.json"
+        selection.write_text(json.dumps({"tasks": [{"id": "x", "instruction": "safe metadata"}]}))
+        self.assertEqual(_selection_ids(selection), {"x"})
 
     def test_cli_loads_factory_manifest_and_selected_task(self):
         manifest = self.root / "run.json"; manifest.write_text(json.dumps(self.raw("A")))

@@ -154,6 +154,8 @@ def load_runtime_tasks(dataset_dir: Path, *, selected_ids: set[str] | None,
 def _selection_ids(path: Path) -> set[str]:
     value = json.loads(path.read_text())
     rows = value.get("task_ids") if isinstance(value, dict) else value
+    if rows is None and isinstance(value, dict) and isinstance(value.get("tasks"), list):
+        rows = [row.get("id") if isinstance(row, dict) else row for row in value["tasks"]]
     if not isinstance(rows, list) or not rows:
         raise ValueError("selection manifest must contain a non-empty task_ids list")
     ids = {str(item) for item in rows}

@@ -226,13 +226,18 @@ def _eval(eval_id, observation, passed, message, **details):
 
 def _answer_selectors(context, artifact=None):
     sheet, position = context.get("answer_sheet"), context.get("answer_position")
-    if not isinstance(sheet, str) or not isinstance(position, str):
-        raise ValueError("answer_sheet and answer_position metadata are required")
+    if sheet is not None and not isinstance(sheet, str):
+        raise ValueError("answer_sheet must be a string or null")
+    if not isinstance(position, str):
+        raise ValueError("answer_position metadata is required")
     if artifact is None:
+        if sheet is None:
+            raise ValueError("artifact is required to resolve an active-sheet selector")
         return [f"{sheet}!{position}"]
     wb = load_workbook(artifact, read_only=True)
     synthetic = {"answer_sheet": sheet, "answer_position": position}
-    selectors = [f"{resolved_sheet}!{cell}" for resolved_sheet, cell in answer_cells(synthetic, wb)]
+    selectors = [f"{resolved_sheet or wb.active.title}!{cell}"
+                 for resolved_sheet, cell in answer_cells(synthetic, wb)]
     wb.close()
     return selectors
 
