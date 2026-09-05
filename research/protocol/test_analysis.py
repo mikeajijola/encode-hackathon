@@ -2,7 +2,15 @@ import json
 import unittest
 from pathlib import Path
 
-from analysis import arm_metrics, breakdown, failure_distribution, mcnemar_exact, paired_bootstrap_ci, paired_pass_difference, validate_ledger
+from protocol.analysis import (
+    arm_metrics,
+    breakdown,
+    failure_distribution,
+    mcnemar_exact,
+    paired_bootstrap_ci,
+    paired_pass_difference,
+    validate_ledger,
+)
 
 
 HERE = Path(__file__).parent
