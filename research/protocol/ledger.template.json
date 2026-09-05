@@ -1,0 +1,19 @@
+{
+  "experiment_id": "EXP-000",
+  "protocol_version": "1.0.0",
+  "hypothesis": "State the falsifiable prediction.",
+  "change": "Smallest treatment change.",
+  "control": "A",
+  "treatment": "D",
+  "task_set": {"manifest_sha256": "sha256:REPLACE", "task_count": 1},
+  "model": {"name": "REPLACE", "version": "REPLACE", "temperature": 0},
+  "budgets": {"tokens": 16000, "actions": 12, "wall_clock_seconds": 300},
+  "deviations": [],
+  "results": {},
+  "confidence_intervals": {},
+  "failure_distribution": {},
+  "interpretation": "Pending.",
+  "decision": "inconclusive",
+  "next_experiment": null,
+  "provenance": {"git_commit": "REPLACE", "run_manifest_sha256": "sha256:REPLACE", "evidence_root_sha256": "sha256:REPLACE", "scorer_commit": "REPLACE", "created_at": "2026-09-05T00:00:00Z"}
+}

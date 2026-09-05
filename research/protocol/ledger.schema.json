@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ylookup.example/research-ledger.schema.json",
+  "title": "Research experiment ledger entry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["experiment_id", "protocol_version", "hypothesis", "change", "control", "treatment", "task_set", "model", "budgets", "results", "confidence_intervals", "failure_distribution", "interpretation", "decision", "next_experiment", "provenance"],
+  "properties": {
+    "experiment_id": {"type": "string", "minLength": 1},
+    "protocol_version": {"type": "string", "minLength": 1},
+    "hypothesis": {"type": "string", "minLength": 1},
+    "change": {"type": "string"},
+    "control": {"type": "string", "minLength": 1},
+    "treatment": {"type": "string", "minLength": 1},
+    "task_set": {"type": "object", "required": ["manifest_sha256", "task_count"], "properties": {"manifest_sha256": {"type": "string"}, "task_count": {"type": "integer", "minimum": 1}}, "additionalProperties": true},
+    "model": {"type": "object", "required": ["name", "version", "temperature"], "properties": {"name": {"type": "string"}, "version": {"type": "string"}, "temperature": {"type": "number"}}, "additionalProperties": true},
+    "budgets": {"type": "object", "required": ["tokens", "actions", "wall_clock_seconds"], "properties": {"tokens": {"type": "integer", "minimum": 1}, "actions": {"type": "integer", "minimum": 1}, "wall_clock_seconds": {"type": "integer", "minimum": 1}}, "additionalProperties": false},
+    "deviations": {"type": "array", "items": {"type": "object"}},
+    "results": {"type": "object"},
+    "confidence_intervals": {"type": "object"},
+    "failure_distribution": {"type": "object"},
+    "interpretation": {"type": "string"},
+    "decision": {"enum": ["supported", "unsupported", "inconclusive"]},
+    "next_experiment": {"type": ["string", "null"]},
+    "provenance": {"type": "object", "required": ["git_commit", "run_manifest_sha256", "evidence_root_sha256", "scorer_commit", "created_at"], "properties": {"git_commit": {"type": "string"}, "run_manifest_sha256": {"type": "string"}, "evidence_root_sha256": {"type": "string"}, "scorer_commit": {"type": "string"}, "created_at": {"type": "string", "format": "date-time"}}, "additionalProperties": false}
+  }
+}

@@ -4,6 +4,8 @@ Given a workbook and a plain-English instruction from a real Excel forum post, p
 
 For an artifact-neutral, contract-driven implementation proposal, see [Declarative Fulfilment Architecture](ARCHITECTURE.md).
 
+The frozen four-arm experiment definition, research-ledger schema, and paired statistical utilities are in [protocol/](protocol/README.md).
+
 Dataset: [SpreadsheetBench Verified](https://huggingface.co/datasets/KAKA22/SpreadsheetBench), 400 human-validated tasks. Licence CC-BY-SA-4.0. Paper: [arxiv 2406.14991](https://arxiv.org/abs/2406.14991).
 
 ## Setup

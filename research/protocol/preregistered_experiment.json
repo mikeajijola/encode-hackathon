@@ -1,0 +1,54 @@
+{
+  "protocol_version": "1.0.0",
+  "experiment_id": "four-arm-heldout-v1",
+  "status": "preregistered",
+  "research_hypothesis": "Explicit executable desired-state specifications combined with independent evals and discrepancy-driven reconciliation improve autonomous artifact fulfilment reliability over direct instruction-to-action agents.",
+  "unit_of_analysis": "benchmark task",
+  "pairing_key": "task_id",
+  "task_set": {
+    "name": "SpreadsheetBench Verified held-out split",
+    "selection_manifest_sha256": "TO_BE_RECORDED_BEFORE_RUN",
+    "golden_access": "offline_scoring_only"
+  },
+  "fixed_conditions": {
+    "model": "TO_BE_PINNED_BEFORE_RUN",
+    "model_version": "TO_BE_PINNED_BEFORE_RUN",
+    "temperature": 0,
+    "token_budget": 16000,
+    "action_budget": 12,
+    "wall_clock_seconds": 300,
+    "retry_policy": {"model_transport_retries": 1, "action_retries": 0},
+    "context_sources": ["instruction", "initial_artifact", "capability_manifests"],
+    "environment_image_digest": "TO_BE_PINNED_BEFORE_RUN",
+    "recalculation_engine": "TO_BE_PINNED_BEFORE_RUN",
+    "benchmark_scorer_commit": "TO_BE_PINNED_BEFORE_RUN"
+  },
+  "arms": {
+    "A": {"contract": false, "post_action_evals": false, "reconciliation": false, "max_fulfilment_attempts": 1},
+    "B": {"contract": true, "post_action_evals": false, "reconciliation": false, "max_fulfilment_attempts": 1},
+    "C": {"contract": true, "post_action_evals": true, "reconciliation": false, "max_fulfilment_attempts": 1},
+    "D": {"contract": true, "post_action_evals": true, "reconciliation": true, "max_fulfilment_attempts": 12}
+  },
+  "allowed_deviations": [
+    "Arm A cannot consume contract or eval tokens; unused budget is not transferred to retries.",
+    "Arms without reconciliation terminate after their one permitted fulfilment attempt.",
+    "Any provider or infrastructure deviation must be recorded per run and excluded in a sensitivity analysis."
+  ],
+  "primary_metrics": ["full_task_pass", "false_fulfilment_rate"],
+  "secondary_metrics": ["cell_accuracy", "recovery_yield", "artifact_validity_rate", "constraint_violation_rate", "internal_eval_precision", "internal_eval_recall", "actions", "tokens", "latency_ms", "cost_usd"],
+  "breakdowns": ["instruction_level", "task_family", "mutation_count", "formula_vs_value", "complexity", "initial_observation_size_bucket", "reconciliation_iteration_count"],
+  "success_criteria": {
+    "D_minus_A_pass_rate_points_min": 8,
+    "D_minus_A_bootstrap_95_ci_excludes_zero": true,
+    "broad_ordering": "D > C >= B >= A",
+    "D_recovery_yield_min": 0.20,
+    "D_false_fulfilment_rate_max": 0.05,
+    "D_completion_precision_min": 0.90,
+    "D_artifact_validity_min": 0.99,
+    "fulfilled_runs_known_unauthorized_mutations_max": 0,
+    "fulfilment_decisions_reconstructable": true,
+    "overhead_reported": true
+  },
+  "analysis": {"bootstrap_samples": 10000, "bootstrap_seed": 20260905, "confidence_level": 0.95, "mcnemar": "exact_two_sided"},
+  "multimodal_protocol_eval": {"status": "not_applicable", "rationale": "Protocol and ledger records have no rendered artifact semantics; adapter experiments separately retain rendered/visual evals where task intent requires them."}
+}
