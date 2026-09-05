@@ -9,7 +9,7 @@ from unittest.mock import patch
 from openpyxl import Workbook
 
 from backends.spreadsheetbench import (
-    OpenRouterProvider, ProviderConfigurationError, ScriptedProvider,
+    GeminiProvider, OpenRouterProvider, ProviderConfigurationError, ScriptedProvider,
     _selection_ids, bounded_workbook_context, factory, load_runtime_tasks,
 )
 from experiment.runner import Arm, ExperimentRunner, RunConfig
@@ -109,6 +109,27 @@ class SpreadsheetBenchBackendTest(unittest.TestCase):
         raw = self.raw(); raw["run_config"]["temperature"] = .2
         with self.assertRaisesRegex(ProviderConfigurationError, "temperature 0"):
             factory(raw)
+
+    def test_gemini_provider_selection_and_missing_key_are_typed(self):
+        raw = self.raw(); raw["backend_config"]["provider"] = {"type": "gemini"}
+        _, provider, _ = factory(raw)
+        self.assertIsInstance(provider, GeminiProvider)
+        with patch.dict(os.environ, {}, clear=True):
+            with self.assertRaisesRegex(ProviderConfigurationError, "GEMINI_API_KEY"):
+                GeminiProvider().complete("x", model="gemini-pinned", temperature=0)
+
+    def test_gemini_uses_google_compatible_endpoint_and_maps_usage(self):
+        payload = {"id": "google-1", "choices": [{"message": {"content": "answer"}}],
+                   "usage": {"prompt_tokens": 7, "completion_tokens": 3}}
+        response = unittest.mock.MagicMock()
+        response.__enter__.return_value.read.return_value = json.dumps(payload).encode()
+        with patch("backends.spreadsheetbench.urllib.request.urlopen", return_value=response) as opened:
+            reply = GeminiProvider("secret").complete("hello", model="gemini-pinned", temperature=0)
+        request = opened.call_args.args[0]
+        self.assertEqual(request.full_url, GeminiProvider.endpoint)
+        self.assertEqual(request.headers["Authorization"], "Bearer secret")
+        self.assertEqual(reply.text, "answer")
+        self.assertEqual((reply.input_tokens, reply.output_tokens), (7, 3))
 
     def test_unknown_selection_is_rejected(self):
         with self.assertRaisesRegex(ValueError, "unknown task"):

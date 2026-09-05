@@ -30,6 +30,7 @@ class OpenRouterProvider:
     """Small synchronous OpenAI-compatible provider used by TaskRuntime."""
 
     endpoint = "https://openrouter.ai/api/v1/chat/completions"
+    provider_name = "OpenRouter"
 
     def __init__(self, api_key: str | None = None, *, timeout_seconds: int = 120):
         self.api_key = api_key or os.environ.get("OPENROUTER_API_KEY")
@@ -49,15 +50,31 @@ class OpenRouterProvider:
             with urllib.request.urlopen(request, timeout=self.timeout_seconds) as response:
                 payload = json.loads(response.read())
         except (urllib.error.URLError, TimeoutError, json.JSONDecodeError) as error:
-            raise ProviderRequestError(f"OpenRouter request failed: {error}") from error
+            raise ProviderRequestError(f"{self.provider_name} request failed: {error}") from error
         try:
             text = payload["choices"][0]["message"]["content"]
         except (KeyError, IndexError, TypeError) as error:
-            raise ProviderRequestError("OpenRouter response lacks message content") from error
+            raise ProviderRequestError(f"{self.provider_name} response lacks message content") from error
         usage = payload.get("usage") or {}
         return ModelReply(str(text), int(usage.get("prompt_tokens") or 0),
                           int(usage.get("completion_tokens") or 0), float(usage.get("cost") or 0),
                           payload.get("id"))
+
+
+class GeminiProvider(OpenRouterProvider):
+    """Direct Gemini API through Google's OpenAI-compatible endpoint."""
+
+    endpoint = "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions"
+    provider_name = "Gemini"
+
+    def __init__(self, api_key: str | None = None, *, timeout_seconds: int = 120):
+        self.api_key = api_key or os.environ.get("GEMINI_API_KEY")
+        self.timeout_seconds = timeout_seconds
+
+    def complete(self, prompt: str, *, model: str, temperature: float) -> ModelReply:
+        if not self.api_key:
+            raise ProviderConfigurationError("GEMINI_API_KEY is required")
+        return super().complete(prompt, model=model, temperature=temperature)
 
 
 class ScriptedProvider:
@@ -123,6 +140,8 @@ def factory(raw: Mapping[str, Any]):
     provider_type = provider_config.get("type", "openrouter")
     if provider_type == "openrouter":
         provider = OpenRouterProvider(timeout_seconds=int(provider_config.get("timeout_seconds", 120)))
+    elif provider_type == "gemini":
+        provider = GeminiProvider(timeout_seconds=int(provider_config.get("timeout_seconds", 120)))
     elif provider_type == "scripted":
         provider = ScriptedProvider(list(provider_config.get("replies") or []))
     else:

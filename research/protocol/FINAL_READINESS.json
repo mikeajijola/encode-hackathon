@@ -71,12 +71,12 @@
     "canonical_container_smoke": "missing",
     "docker_cli": "/data/data/com.termux/files/usr/bin/docker",
     "docker_engine": "unavailable",
-    "openrouter_api_key": "missing",
+    "gemini_api_key": "missing",
     "rootless_oci_runner": "/data/data/com.termux/files/usr/bin/udocker",
     "soffice": "/data/data/com.termux/files/usr/bin/soffice"
   },
   "environment_blockers": [
-    "openrouter_api_key",
+    "gemini_api_key",
     "docker_engine",
     "canonical_container_smoke"
   ],

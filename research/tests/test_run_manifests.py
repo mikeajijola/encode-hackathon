@@ -43,6 +43,7 @@ class RunManifestTest(unittest.TestCase):
             self.assertEqual(manifest["backend_config"]["context_limits"],
                              {"max_cells": 400, "max_chars": 30000})
             self.assertEqual(manifest["backend_config"]["provider"]["timeout_seconds"], 120)
+            self.assertEqual(manifest["backend_config"]["provider"]["type"], "gemini")
             self.assertEqual(manifest["task_selection"]["name"], "development")
             self.assertEqual(len(manifest["task_selection"]["tasks"]), 20)
             clone = copy.deepcopy(manifest)

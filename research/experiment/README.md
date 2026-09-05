@@ -13,7 +13,7 @@ From the repository root, run through the one canonical root `Dockerfile` with a
 
 ```sh
 docker build --pull -t fulfilment-experiment -f Dockerfile .
-docker run --rm --env OPENROUTER_API_KEY \
+docker run --rm --env GEMINI_API_KEY \
   --mount type=bind,src="$PWD/run-input",dst=/data,readonly \
   --mount type=bind,src="$PWD/run-output",dst=/out \
   fulfilment-experiment

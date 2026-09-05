@@ -48,7 +48,7 @@ manifests under `run-input/manifests` before mounting:
 IMAGE='fulfilment-experiment@sha256:<same digest recorded above>'
 for ARM in A B C D; do
   docker run --rm \
-    -e OPENROUTER_API_KEY \
+    -e GEMINI_API_KEY \
     -v "$PWD/run-input:/data:ro" \
     -v "$PWD/run-output/development-four-arm-v1/$ARM:/out" \
     "$IMAGE" run --manifest "/data/manifests/$ARM.json" --out-dir /out

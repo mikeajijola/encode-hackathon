@@ -47,6 +47,7 @@ class RegisteredRunTest(unittest.TestCase):
         self.assertIn("/manifests/A.json", fulfil)
         self.assertIn("--user", fulfil)
         self.assertIn("HOME=/tmp/run-home", fulfil)
+        self.assertIn("GEMINI_API_KEY", fulfil)
         self.assertNotIn("--entrypoint", fulfil)
         self.assertIn("--entrypoint", score)
         self.assertIn("/run/official_results.json", score)

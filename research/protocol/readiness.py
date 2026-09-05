@@ -90,14 +90,14 @@ def build_report(dataset_dir: Path | None = None) -> dict[str, Any]:
         except (OSError, json.JSONDecodeError):
             container_smoke = "invalid"
     environment = {
-        "openrouter_api_key": "present" if os.environ.get("OPENROUTER_API_KEY") else "missing",
+        "gemini_api_key": "present" if os.environ.get("GEMINI_API_KEY") else "missing",
         "docker_cli": docker_cli or "missing",
         "docker_engine": docker_engine,
         "canonical_container_smoke": container_smoke,
         "rootless_oci_runner": shutil.which("udocker") or "missing",
         "soffice": shutil.which("soffice") or shutil.which("libreoffice") or "missing",
     }
-    environment_blockers = [key for key in ("openrouter_api_key", "docker_cli", "soffice")
+    environment_blockers = [key for key in ("gemini_api_key", "docker_cli", "soffice")
                             if environment[key] == "missing"]
     if docker_engine == "unavailable":
         environment_blockers.append("docker_engine")

@@ -56,11 +56,19 @@ def preflight(manifest_dir: Path, run_root: Path, dataset_dir: Path, image: str,
         output = run_root / arm
         if not output.is_dir() or any(output.iterdir()):
             raise ValueError(f"run directory must exist and be empty: {output}")
+    provider_types = {value["backend_config"]["provider"]["type"] for value in manifests.values()}
+    if len(provider_types) != 1:
+        raise ValueError("all arms must use the same provider")
+    provider_type = next(iter(provider_types))
+    credential_name = {"gemini": "GEMINI_API_KEY", "openrouter": "OPENROUTER_API_KEY"}.get(provider_type)
+    if credential_name is None:
+        raise ValueError(f"unsupported registered provider: {provider_type}")
     environment = {
         "docker": shutil.which("docker"),
-        "openrouter_api_key": bool(os.environ.get("OPENROUTER_API_KEY")),
+        "provider": provider_type,
+        "provider_api_key": bool(os.environ.get(credential_name)),
     }
-    if require_runtime and (not environment["docker"] or not environment["openrouter_api_key"]):
+    if require_runtime and (not environment["docker"] or not environment["provider_api_key"]):
         missing = [key for key, value in environment.items() if not value]
         raise RuntimeError("registered runtime prerequisites missing: " + ", ".join(missing))
     return {"status": "pass", "arms": list(ARMS), "dataset_sha256": expected_dataset,
@@ -69,10 +77,15 @@ def preflight(manifest_dir: Path, run_root: Path, dataset_dir: Path, image: str,
 
 def fulfilment_command(image: str, manifest_dir: Path, dataset_dir: Path,
                        output_dir: Path, arm: str) -> list[str]:
+    manifest = json.loads((manifest_dir / f"{arm}.json").read_text())
+    provider_type = manifest["backend_config"]["provider"]["type"]
+    credential_name = {"gemini": "GEMINI_API_KEY", "openrouter": "OPENROUTER_API_KEY"}.get(provider_type)
+    if credential_name is None:
+        raise ValueError(f"unsupported registered provider: {provider_type}")
     identity = f"{os.getuid()}:{os.getgid()}"
     return ["docker", "run", "--rm", "--user", identity,
             "--tmpfs", "/tmp:rw,exec,nosuid,size=1g", "-e", "HOME=/tmp/run-home",
-            "-e", "OPENROUTER_API_KEY",
+            "-e", credential_name,
             "-v", f"{dataset_dir.resolve()}:/data/dataset:ro",
             "-v", f"{manifest_dir.resolve()}:/manifests:ro",
             "-v", f"{output_dir.resolve()}:/out", image,

@@ -55,7 +55,7 @@ def build_manifests(
     protocol_path: Path = DEFAULT_PROTOCOL, lock_path: Path = DEFAULT_LOCK,
     context_max_cells: int = 400, context_max_chars: int = 30_000,
     provider_timeout_seconds: int = 120, deviations: Sequence[str] = (),
-    dataset_json: Path | None = None,
+    dataset_json: Path | None = None, provider: str = "gemini",
 ) -> dict[str, dict[str, Any]]:
     protocol, selection = _load_json(protocol_path), _load_json(selection_path)
     validate_selection(selection)
@@ -69,6 +69,8 @@ def build_manifests(
         raise ValueError("context limits and provider timeout must be positive")
     if max_cost < 0:
         raise ValueError("max_cost must be non-negative")
+    if provider not in {"gemini", "openrouter"}:
+        raise ValueError("provider must be gemini or openrouter")
 
     model = _require_pin("model", model)
     model_version = _require_pin("model_version", model_version)
@@ -92,7 +94,7 @@ def build_manifests(
         "backend_config": {
             "dataset_dir": "/data/dataset",
             "context_limits": {"max_cells": context_max_cells, "max_chars": context_max_chars},
-            "provider": {"type": "openrouter", "timeout_seconds": provider_timeout_seconds},
+            "provider": {"type": provider, "timeout_seconds": provider_timeout_seconds},
         },
         "reproducibility": {
             "protocol_sha256": file_hash(protocol_path),
@@ -239,6 +241,7 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--context-max-cells", type=int, default=400)
     parser.add_argument("--context-max-chars", type=int, default=30_000)
     parser.add_argument("--provider-timeout-seconds", type=int, default=120)
+    parser.add_argument("--provider", choices=("gemini", "openrouter"), default="gemini")
     parser.add_argument("--deviation", action="append", default=[])
     args = parser.parse_args(argv)
     if not args.model or not args.model_version:
@@ -257,6 +260,7 @@ def main(argv: Sequence[str] | None = None) -> None:
         environment=args.environment, max_cost=args.max_cost,
         context_max_cells=args.context_max_cells, context_max_chars=args.context_max_chars,
         provider_timeout_seconds=args.provider_timeout_seconds, deviations=args.deviation,
+        provider=args.provider,
     )
     write_manifest_set(manifests, Path(args.manifest_dir), Path(args.run_root))
 

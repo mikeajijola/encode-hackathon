@@ -48,5 +48,6 @@ OCI image execution, but **does not satisfy the registered Docker build gate**: 
 cannot build the repository Dockerfile and is not a Docker daemon. It must not be
 recorded as the pinned canonical image or used to claim the Docker smoke passed.
 
-The funded `OPENROUTER_API_KEY` is account-scoped secret material and cannot be
-installed or generated locally. It remains required for model runs.
+The experiment now defaults to direct Gemini. `GEMINI_API_KEY` is account-scoped
+secret material and cannot be installed or generated locally. It remains required
+for live model runs; OpenRouter is retained as an optional provider.
