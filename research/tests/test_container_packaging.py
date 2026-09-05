@@ -8,6 +8,7 @@ import container_preflight
 
 
 RESEARCH_ROOT = Path(__file__).resolve().parents[1]
+REPOSITORY_ROOT = RESEARCH_ROOT.parent
 
 
 class PreflightTest(unittest.TestCase):
@@ -40,11 +41,16 @@ class PreflightTest(unittest.TestCase):
 class DockerfileStaticTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.dockerfile = (RESEARCH_ROOT / "Dockerfile").read_text(encoding="utf-8")
+        cls.dockerfile = (REPOSITORY_ROOT / "Dockerfile").read_text(encoding="utf-8")
+
+    def test_repository_root_is_the_only_dockerfile(self):
+        candidates = sorted(REPOSITORY_ROOT.rglob("Dockerfile"))
+        self.assertEqual(candidates, [REPOSITORY_ROOT / "Dockerfile"])
+        self.assertTrue((REPOSITORY_ROOT / ".dockerignore").is_file())
 
     def test_locked_dependencies_and_recalculation_engine_are_installed(self):
         self.assertIn("libreoffice-calc", self.dockerfile)
-        self.assertIn("COPY pyproject.toml uv.lock", self.dockerfile)
+        self.assertIn("COPY research/pyproject.toml research/uv.lock", self.dockerfile)
         self.assertIn("uv sync --frozen", self.dockerfile)
 
     def test_runtime_is_non_root_and_has_healthcheck(self):

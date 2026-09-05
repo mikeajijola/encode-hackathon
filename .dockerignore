@@ -1,0 +1,10 @@
+.env
+.git
+.github
+.venv
+**/__pycache__/
+**/*.py[cod]
+research/data/spreadsheetbench_verified_400/
+research/submissions/
+research/synthetic/results/
+Ylookup-hack-worktrees/

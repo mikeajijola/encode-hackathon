@@ -139,12 +139,13 @@ class RegisteredRunBlockerSentinels(unittest.TestCase):
         self.assertIn('"internal_status"', result_projection)
         self.assertIn('"termination_reason"', result_projection)
 
-    def test_two_dockerfiles_are_behaviorally_different(self):
-        root = (REPO / "Dockerfile").read_text()
-        hardened = (RESEARCH / "Dockerfile").read_text()
-        self.assertNotEqual(root, hardened)
-        self.assertNotIn("libreoffice-calc", root)
-        self.assertIn("libreoffice-calc", hardened)
+    def test_root_dockerfile_is_canonical_and_hardened(self):
+        candidates = sorted(REPO.rglob("Dockerfile"))
+        self.assertEqual(candidates, [REPO / "Dockerfile"])
+        root = candidates[0].read_text()
+        self.assertIn("libreoffice-calc", root)
+        self.assertIn("USER runner", root)
+        self.assertIn("container_preflight", root)
 
     def test_official_scorer_is_immutable_at_audited_hash(self):
         digest = sha256((RESEARCH / "evaluate.py").read_bytes()).hexdigest()

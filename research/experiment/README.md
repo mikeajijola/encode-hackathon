@@ -9,11 +9,14 @@
 
 The runner owns common budget accounting, provider traces, input/output hashes, non-destructive output projection, task event logs, prediction rows, and immutable-per-directory run manifests. Semantic implementations must call `runtime.complete` for every model call and `runtime.action` for every tool/capability action. A registered backend must not expose benchmark golden files.
 
-Run through Docker with a mounted JSON manifest whose `backend` is a Python `module:factory` returning `(services, provider, tasks)` and whose `run_config` matches `RunConfig`:
+From the repository root, run through the one canonical root `Dockerfile` with a mounted JSON manifest whose `backend` is a Python `module:factory` returning `(services, provider, tasks)` and whose `run_config` matches `RunConfig`. Place it at `run-input/manifest.json`; paths inside it must resolve beneath the mounted `/data` tree:
 
 ```sh
-docker build -t fulfilment-experiment .
-docker run --rm -v "$PWD/run-input:/data:ro" -v "$PWD/run-output:/out" fulfilment-experiment
+docker build --pull -t fulfilment-experiment -f Dockerfile .
+docker run --rm --env OPENROUTER_API_KEY \
+  --mount type=bind,src="$PWD/run-input",dst=/data,readonly \
+  --mount type=bind,src="$PWD/run-output",dst=/out \
+  fulfilment-experiment
 ```
 
 The image runs as an unprivileged user, installs LibreOffice Calc for headless
@@ -25,7 +28,8 @@ dependency, and `soffice` versions before starting the experiment.
 Run the same dependency check without an experiment:
 
 ```sh
-docker run --rm -v "$PWD/run-input:/data:ro" -v "$PWD/run-output:/out" \
+docker run --rm --mount type=bind,src="$PWD/run-input",dst=/data,readonly \
+  --mount type=bind,src="$PWD/run-output",dst=/out \
   fulfilment-experiment preflight --json
 ```
 
