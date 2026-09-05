@@ -1,0 +1,116 @@
+import json
+import tempfile
+import unittest
+from pathlib import Path
+from unittest.mock import patch
+
+from openpyxl import Workbook, load_workbook
+
+from adapters.spreadsheet import (
+    KIND, VERSION, SelectorError, SpreadsheetCapability, WorkbookSnapshots,
+    manifests, parse_selector, register_spreadsheet_capabilities, scope_for,
+)
+from fulfilment import (
+    Broker, CapabilityRequest, Contract, DesiredAssertion, Discrepancy,
+    DiscrepancyKind, EvalSpec, EvidenceStore, Scope,
+)
+
+
+class SpreadsheetAdapterTest(unittest.TestCase):
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory()
+        root = Path(self.temp.name)
+        self.path = root / "fixture.xlsx"
+        wb = Workbook(); ws = wb.active; ws.title = "Data"
+        ws["A1"] = 2; ws["A2"] = 3; ws["B1"] = "=A1*2"; ws["D1"] = "preserve"
+        wb.create_sheet("Other")["A1"] = "untouched"
+        wb.save(self.path); wb.close()
+        self.snapshots = WorkbookSnapshots()
+        self.store = EvidenceStore(root / "events.jsonl")
+        self.broker = Broker(self.store, self.snapshots)
+        register_spreadsheet_capabilities(self.broker)
+        self.contract = Contract(
+            "c", 1, "fill formulas", (DesiredAssertion("a", "formula values", (Scope("workbook/Data/*"),)),),
+            ("preserve outside scope",), ("valid workbook",), (EvalSpec("e", "a", "independent"),),
+            (Scope("workbook/Data/*"),),
+        )
+
+    def tearDown(self):
+        self.temp.cleanup()
+
+    def request(self, name, inputs, scopes=(), identifier="r"):
+        return CapabilityRequest(identifier, name, VERSION, str(self.path), KIND, inputs, tuple(scopes),
+                                 ("d",) if scopes else ())
+
+    def test_inspection_is_canonical_bounded_and_separates_observation_parts(self):
+        result = self.broker.invoke(self.contract, self.request("inspect_workbook", {"selectors": ["Data!A1:B1"]}))
+        observation = result.output["observation"]
+        self.assertEqual(observation["facts"]["cells"][0]["value"], 2)
+        self.assertEqual(observation["interpretations"], {})
+        self.assertEqual(observation["inspected_scope"], ("workbook/Data/A1:B1",))
+        self.assertIn("workbook/Other/*", observation["omitted_scope"])
+        self.assertNotIn("preserve", json.dumps(observation))
+
+    def test_write_is_scoped_snapshotted_traced_and_preserves_other_state(self):
+        request = self.request("write_cells", {"writes": [{"selector": "Data!A2", "value": 7}]},
+                               (scope_for("Data!A2"),), "write")
+        result = self.broker.invoke(self.contract, request)
+        self.assertTrue(result.succeeded)
+        wb = load_workbook(self.path, data_only=False)
+        self.assertEqual(wb["Data"]["A2"].value, 7)
+        self.assertEqual(wb["Data"]["D1"].value, "preserve")
+        self.assertEqual(wb["Other"]["A1"].value, "untouched")
+        wb.close()
+        self.assertEqual(self.snapshots.diffs["write"], [{"scope": "workbook/Data/A2", "before": 3, "after": 7}])
+        events = self.store.records()
+        self.assertEqual([e.event_type for e in events], ["capability_request", "capability_result"])
+        self.assertEqual(events[-1].payload["provenance"]["adapter_version"], VERSION)
+        self.assertNotEqual(events[-1].payload["before_hash"], events[-1].payload["after_hash"])
+
+    def test_formula_fill_translates_relative_references(self):
+        result = self.broker.invoke(self.contract, self.request(
+            "copy_or_fill_formula", {"source": "Data!B1", "target": "Data!B2:B3"},
+            (scope_for("Data!B2:B3"),), "formula"))
+        self.assertTrue(result.succeeded)
+        wb = load_workbook(self.path, data_only=False)
+        self.assertEqual(wb["Data"]["B2"].value, "=A2*2")
+        self.assertEqual(wb["Data"]["B3"].value, "=A3*2")
+        wb.close()
+
+    def test_handler_rejects_write_not_matching_explicit_requested_scope(self):
+        result = self.broker.invoke(self.contract, self.request(
+            "write_cells", {"writes": [{"selector": "Data!A2", "value": 9}]},
+            (scope_for("Data!A1"),), "bad-scope"))
+        self.assertFalse(result.succeeded)
+        self.assertIn("outside requested mutation scope", result.error)
+        wb = load_workbook(self.path); self.assertEqual(wb["Data"]["A2"].value, 3); wb.close()
+
+    def test_validation_accepts_valid_and_types_corrupt_artifact(self):
+        good = self.broker.invoke(self.contract, self.request("validate_workbook", {}, identifier="valid"))
+        self.assertTrue(good.output["valid"])
+        corrupt = Path(self.temp.name) / "corrupt.xlsx"; corrupt.write_text("not a zip")
+        request = CapabilityRequest("invalid", "validate_workbook", VERSION, str(corrupt), KIND, {}, (), ())
+        bad = self.broker.invoke(self.contract, request)
+        self.assertFalse(bad.succeeded)
+        self.assertTrue(bad.error.startswith("artifact_invalid:"))
+
+    def test_missing_recalculator_and_renderer_are_typed_capability_failures(self):
+        with patch("adapters.spreadsheet.shutil.which", return_value=None):
+            recalc = self.broker.invoke(self.contract, self.request(
+                "recalculate", {}, (Scope("workbook/Data/*"),), "recalc"))
+            render = self.broker.invoke(self.contract, self.request(
+                "render_range", {"selector": "Data!A1:B2", "output_dir": self.temp.name}, identifier="render"))
+        self.assertEqual(recalc.error, "capability_missing:soffice")
+        self.assertEqual(render.error, "capability_missing:renderer")
+
+    def test_selector_and_manifests_are_structurally_strict(self):
+        self.assertEqual(parse_selector("'Data'!a1:b2"), ("Data", "A1:B2"))
+        with self.assertRaises(SelectorError): parse_selector("A1")
+        by_name = {manifest.name: manifest for manifest in manifests()}
+        self.assertEqual(set(by_name), {"inspect_workbook", "write_cells", "copy_or_fill_formula",
+                                       "recalculate", "validate_workbook", "render_range"})
+        self.assertEqual(by_name["write_cells"].possible_mutation_scope, (Scope("workbook/*"),))
+
+
+if __name__ == "__main__":
+    unittest.main()
