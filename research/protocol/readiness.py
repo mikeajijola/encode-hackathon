@@ -51,8 +51,15 @@ def selector_audit(dataset_dir: Path) -> dict[str, Any]:
 
 def build_report(dataset_dir: Path | None = None) -> dict[str, Any]:
     scorer_hash = sha256((RESEARCH / "evaluate.py").read_bytes()).hexdigest()
+    dockerfiles = sorted(path for path in REPO.rglob("Dockerfile")
+                         if ".git" not in path.parts and "Ylookup-hack-worktrees" not in path.parts)
     root_docker = (REPO / "Dockerfile").read_text()
-    research_docker = (RESEARCH / "Dockerfile").read_text()
+    canonical_docker = (
+        dockerfiles == [REPO / "Dockerfile"]
+        and "libreoffice-calc" in root_docker
+        and "USER runner" in root_docker
+        and "container_preflight" in root_docker
+    )
     service = (RESEARCH / "services" / "spreadsheet.py").read_text()
     runner = (RESEARCH / "experiment" / "runner.py").read_text()
     blockers = [
@@ -65,11 +72,6 @@ def build_report(dataset_dir: Path | None = None) -> dict[str, Any]:
             "id": "R-02", "severity": "high", "kind": "evidence",
             "summary": "Runtime output does not retain the complete input run manifest.",
             "evidence": "ExperimentRunner writes RunConfig only; backend, selection, dataset, protocol and lock hashes from the generated input manifest are dropped.",
-        },
-        {
-            "id": "V-06", "severity": "high", "kind": "packaging",
-            "summary": "Two materially different Dockerfiles remain selectable.",
-            "evidence": "Repository-root Dockerfile lacks the hardened research Dockerfile's LibreOffice/preflight/non-root contract and is chosen by docker build .",
         },
         {
             "id": "R-03", "severity": "high", "kind": "capability",
@@ -89,7 +91,8 @@ def build_report(dataset_dir: Path | None = None) -> dict[str, Any]:
         "V-03": {"status": "resolved_as_controlled_deviation", "evidence": "Arm A v2 is frozen and explicitly not equated with the legacy baseline"},
         "V-04": {"status": "resolved", "evidence": "explicit verified/unverified/unfulfilled status and FFR projection"},
         "V-05": {"status": "resolved", "evidence": "shared transport retries are enforced and every attempt traced"},
-        "V-06": {"status": "open", "evidence": "Dockerfiles differ"},
+        "V-06": {"status": "resolved_static_external_smoke_pending",
+                  "evidence": "one hardened repository-root Dockerfile; Docker build/smoke remains environmental"},
     }
     dataset = selector_audit(dataset_dir) if dataset_dir else {"status": "not_run", "reason": "dataset_not_supplied"}
     return {
@@ -114,7 +117,8 @@ def build_report(dataset_dir: Path | None = None) -> dict[str, Any]:
             "custom_reconcile_present": "def reconcile" in service and "FulfilmentAgent" not in service,
             "completion_gate_present": "decide_completion" in service,
             "runtime_manifest_drops_outer_reproducibility": '"reproducibility"' not in runner,
-            "dockerfiles_identical": root_docker == research_docker,
+            "canonical_dockerfile": canonical_docker,
+            "dockerfile_count": len(dockerfiles),
         },
     }
 

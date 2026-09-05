@@ -183,7 +183,11 @@ class RegisteredRunBlockerSentinels(unittest.TestCase):
         report = build_report()
         self.assertFalse(report["registered_run_ready"])
         self.assertEqual(report["decision"], "BLOCKED")
-        self.assertTrue({"R-01", "R-02", "V-06", "R-03"} <= {item["id"] for item in report["blockers"]})
+        self.assertTrue({"R-01", "R-02", "R-03"} <= {item["id"] for item in report["blockers"]})
+        self.assertEqual(
+            report["original_finding_status"]["V-06"]["status"],
+            "resolved_static_external_smoke_pending",
+        )
 
     def test_factory_provides_fresh_session_container_per_run(self):
         from backends.spreadsheetbench import factory

@@ -15,13 +15,6 @@
       "summary": "Runtime output does not retain the complete input run manifest."
     },
     {
-      "evidence": "Repository-root Dockerfile lacks the hardened research Dockerfile's LibreOffice/preflight/non-root contract and is chosen by docker build .",
-      "id": "V-06",
-      "kind": "packaging",
-      "severity": "high",
-      "summary": "Two materially different Dockerfiles remain selectable."
-    },
-    {
       "evidence": "Action proposals accept only a writes list; large target ranges require thousands of literal writes and cannot select formula-fill, recalculate, render, or additional observation transitions.",
       "id": "R-03",
       "kind": "capability",
@@ -120,17 +113,18 @@
       "status": "resolved"
     },
     "V-06": {
-      "evidence": "Dockerfiles differ",
-      "status": "open"
+      "evidence": "one hardened repository-root Dockerfile; Docker build/smoke remains environmental",
+      "status": "resolved_static_external_smoke_pending"
     }
   },
   "registered_run_ready": false,
   "review_date": "2026-09-05",
   "schema_version": "1.0.0",
   "source_assertions": {
+    "canonical_dockerfile": true,
     "completion_gate_present": true,
     "custom_reconcile_present": true,
-    "dockerfiles_identical": false,
+    "dockerfile_count": 1,
     "runtime_manifest_drops_outer_reproducibility": true
   }
 }
