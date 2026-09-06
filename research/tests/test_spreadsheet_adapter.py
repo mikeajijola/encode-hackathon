@@ -1,4 +1,5 @@
 import json
+import shutil
 import tempfile
 import unittest
 from pathlib import Path
@@ -11,7 +12,7 @@ from adapters.spreadsheet import (
     expand_selector_scopes, manifests, parse_selector, register_spreadsheet_capabilities, scope_for,
 )
 from fulfilment import (
-    Broker, CapabilityRequest, Contract, DesiredAssertion, Discrepancy,
+    Broker, BrokerError, CapabilityRequest, Contract, DesiredAssertion, Discrepancy,
     DiscrepancyKind, EvalSpec, EvidenceStore, Scope,
 )
 
@@ -102,6 +103,65 @@ class SpreadsheetAdapterTest(unittest.TestCase):
                 "render_range", {"selector": "Data!A1:B2", "output_dir": self.temp.name}, identifier="render"))
         self.assertEqual(recalc.error, "capability_missing:soffice")
         self.assertEqual(render.error, "capability_missing:renderer")
+
+    def test_recalculation_rolls_back_date_coercion_outside_requested_scope(self):
+        wb = load_workbook(self.path)
+        wb["Data"]["D1"] = 44392
+        wb.save(self.path); wb.close()
+        original = self.path.read_bytes()
+
+        def convert(command, **_kwargs):
+            converted = Path(command[command.index("--outdir") + 1]) / self.path.name
+            shutil.copy2(self.path, converted)
+            book = load_workbook(converted)
+            book["Data"]["A1"] = 4
+            book["Data"]["D1"] = "2021-07-15T00:00:00"
+            book.save(converted); book.close()
+
+        request = self.request("recalculate", {}, (scope_for("Data!A1"),), "recalc-date")
+        with patch("adapters.spreadsheet.shutil.which", return_value="/usr/bin/soffice"), \
+             patch("adapters.spreadsheet.subprocess.run", side_effect=convert):
+            with self.assertRaisesRegex(BrokerError, "outside requested scope"):
+                self.broker.invoke(self.contract, request)
+        self.assertEqual(self.path.read_bytes(), original)
+        event = self.store.records()[-1]
+        self.assertIn("workbook/Data/D1", event.payload["actual_mutation_scope"])
+
+    def test_recalculation_rolls_back_formula_error_outside_requested_scope(self):
+        original = self.path.read_bytes()
+
+        def convert(command, **_kwargs):
+            converted = Path(command[command.index("--outdir") + 1]) / self.path.name
+            shutil.copy2(self.path, converted)
+            book = load_workbook(converted)
+            book["Data"]["A1"] = 4
+            book["Other"]["A1"] = "#NAME?"
+            book.save(converted); book.close()
+
+        request = self.request("recalculate", {}, (scope_for("Data!A1"),), "recalc-error")
+        with patch("adapters.spreadsheet.shutil.which", return_value="/usr/bin/soffice"), \
+             patch("adapters.spreadsheet.subprocess.run", side_effect=convert):
+            with self.assertRaisesRegex(BrokerError, "outside requested scope"):
+                self.broker.invoke(self.contract, request)
+        self.assertEqual(self.path.read_bytes(), original)
+        event = self.store.records()[-1]
+        self.assertIn("workbook/Other/A1", event.payload["actual_mutation_scope"])
+
+    def test_recalculation_commits_when_observed_changes_are_requested(self):
+        def convert(command, **_kwargs):
+            converted = Path(command[command.index("--outdir") + 1]) / self.path.name
+            shutil.copy2(self.path, converted)
+            book = load_workbook(converted)
+            book["Data"]["A1"] = 4
+            book.save(converted); book.close()
+
+        request = self.request("recalculate", {}, (scope_for("Data!A1"),), "recalc-safe")
+        with patch("adapters.spreadsheet.shutil.which", return_value="/usr/bin/soffice"), \
+             patch("adapters.spreadsheet.subprocess.run", side_effect=convert):
+            result = self.broker.invoke(self.contract, request)
+        self.assertTrue(result.succeeded)
+        self.assertEqual(result.actual_mutation_scope, (scope_for("Data!A1"),))
+        wb = load_workbook(self.path); self.assertEqual(wb["Data"]["A1"].value, 4); wb.close()
 
     def test_selector_and_manifests_are_structurally_strict(self):
         self.assertEqual(parse_selector("'Data'!a1:b2"), ("Data", "A1:B2"))

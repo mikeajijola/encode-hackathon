@@ -215,6 +215,13 @@ class SpreadsheetCapability:
         executable = shutil.which("soffice") or shutil.which("libreoffice")
         if not executable:
             return self._result(request, False, {"reason": "missing_soffice"}, error="capability_missing:soffice")
+        # LibreOffice recalculates and rewrites the whole workbook.  Its process
+        # success therefore does not establish that its effect stayed inside the
+        # requested scope (for example, it may coerce unrelated date cells or
+        # replace unsupported dynamic-array results with errors).  Preserve the
+        # exact input bytes until the observed cell-level effect is authorized.
+        original = path.read_bytes()
+        before = _snapshot_cells(path)
         with tempfile.TemporaryDirectory() as directory:
             subprocess.run([executable, "--headless", "--convert-to", "xlsx", "--outdir", directory, str(path)],
                            check=True, capture_output=True, timeout=120)
@@ -222,7 +229,22 @@ class SpreadsheetCapability:
             if not converted.exists():
                 raise OSError("recalculation produced no workbook")
             shutil.copy2(converted, path)
-        return self._result(request, True, {"recalculated": True}, request.requested_mutation_scope)
+        after = _snapshot_cells(path)
+        actual = tuple(Scope(key) for key in sorted(before.keys() | after.keys())
+                       if before.get(key) != after.get(key))
+        requested = request.requested_mutation_scope
+        if not _scopes_authorized(actual, requested):
+            path.write_bytes(original)
+            outside = tuple(scope.resource for scope in actual
+                            if not _scope_authorized(scope, requested))
+            return self._result(
+                request, False,
+                {"recalculated": False, "rolled_back": True,
+                 "outside_requested_scope": outside},
+                actual,
+                error="scope_violation:recalculation_changed_outside_requested_scope",
+            )
+        return self._result(request, True, {"recalculated": True}, actual)
 
     def _render(self, request, path):
         executable = shutil.which("soffice") or shutil.which("libreoffice")
@@ -240,9 +262,21 @@ class SpreadsheetCapability:
 
 
 def _require_requested(actual: tuple[Scope, ...], requested: tuple[Scope, ...]) -> None:
-    allowed = {scope.resource for scope in requested}
-    if any(scope.resource not in allowed for scope in actual):
+    if not _scopes_authorized(actual, requested):
         raise ValueError("selector is outside requested mutation scope")
+
+
+def _scope_authorized(actual: Scope, requested: tuple[Scope, ...]) -> bool:
+    for allowed in requested:
+        if allowed.resource == actual.resource:
+            return True
+        if allowed.resource.endswith("/*") and actual.resource.startswith(allowed.resource[:-1]):
+            return True
+    return False
+
+
+def _scopes_authorized(actual: tuple[Scope, ...], requested: tuple[Scope, ...]) -> bool:
+    return all(_scope_authorized(scope, requested) for scope in actual)
 
 
 def manifests() -> tuple[CapabilityManifest, ...]:
