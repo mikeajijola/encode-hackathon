@@ -1,0 +1,36 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/u0_a394/encode-hackathon/research/protocol/registered_run.py", line 314, in <module>
+    main()
+  File "/home/u0_a394/encode-hackathon/research/protocol/registered_run.py", line 310, in main
+    execute(*paths, args.image)
+  File "/home/u0_a394/encode-hackathon/research/protocol/registered_run.py", line 275, in execute
+    preflight(manifest_dir, run_root, dataset_dir, image)
+  File "/home/u0_a394/encode-hackathon/research/protocol/registered_run.py", line 73, in preflight
+    raise RuntimeError("registered runtime prerequisites missing: " + ", ".join(missing))
+RuntimeError: registered runtime prerequisites missing: provider_api_key
+Command exited with non-zero status 1
+	Command being timed: "env PYTHONPATH=. python3 -m protocol.registered_run --manifest-dir /home/u0_a394/evidence/development-manifests --run-root /home/u0_a394/evidence/development-four-arm-v1 --dataset-dir /home/u0_a394/encode-hackathon/research/data/spreadsheetbench_verified_400 --image fulfilment-experiment@sha256:bde7274371934adcbb145217360ef89997f8471695e50e6e9ff99e56265df217"
+	User time (seconds): 0.21
+	System time (seconds): 0.02
+	Percent of CPU this job got: 99%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:00.24
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 32224
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 4998
+	Voluntary context switches: 2
+	Involuntary context switches: 4
+	Swaps: 0
+	File system inputs: 8
+	File system outputs: 0
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 1

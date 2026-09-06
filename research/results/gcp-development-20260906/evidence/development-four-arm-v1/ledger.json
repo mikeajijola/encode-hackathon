@@ -1,0 +1,147 @@
+{
+  "budgets": {
+    "actions": 12,
+    "tokens": 16000,
+    "wall_clock_seconds": 300
+  },
+  "change": "A through D add declarative state, executable evals, then iterative reconciliation",
+  "confidence_intervals": {
+    "bootstrap": {
+      "confidence": 0.95,
+      "estimate": 0.0,
+      "lower": 0.0,
+      "samples": 10000,
+      "seed": 20260905,
+      "upper": 0.0
+    },
+    "mcnemar": {
+      "control_only": 0,
+      "discordant": 0,
+      "p_value": 1.0,
+      "treatment_only": 0
+    }
+  },
+  "control": "A",
+  "decision": "inconclusive",
+  "deviations": [
+    {
+      "description": "Frozen coordinator rejected /manifests/A.json because canonical entrypoint authorizes manifests only beneath /data; fulfilment was manually sequenced with the same frozen image and treatment code."
+    },
+    {
+      "description": "Canonical entrypoint writes /out/preflight.json before invoking ExperimentRunner, whose empty-output invariant then rejects the run; after a separate passing preflight, experiment.cli was invoked directly in the same image."
+    },
+    {
+      "description": "Official scoring was manually sequenced in fresh digest-pinned containers after all four arms terminated; one initial scorer attempt omitted the host UID and failed to write results before the successful scorer runs."
+    }
+  ],
+  "experiment_id": "development-four-arm-v1",
+  "failure_distribution": {
+    "A": {
+      "budget_failure": 4,
+      "execution_failure": 20,
+      "specification_failure": 16
+    },
+    "B": {
+      "budget_failure": 3,
+      "execution_failure": 20,
+      "specification_failure": 17
+    },
+    "C": {
+      "budget_failure": 3,
+      "execution_failure": 20,
+      "specification_failure": 17
+    },
+    "D": {
+      "budget_failure": 3,
+      "execution_failure": 20,
+      "specification_failure": 17
+    }
+  },
+  "hypothesis": "Explicit executable desired-state specifications combined with independent evals and discrepancy-driven reconciliation improve autonomous artifact fulfilment reliability over direct instruction-to-action agents.",
+  "interpretation": "Development experiment falsified operational readiness: no arm achieved a full-task pass, no task reached mutation, and D provided no reconciliation opportunity. Held-out evaluation was not run.",
+  "model": {
+    "name": "gemini-3.7-flash",
+    "temperature": 0,
+    "version": "3.7-flash-08-2026"
+  },
+  "next_experiment": "Fix only the general JSON response/contract acceptance and canonical orchestration defects, preregister a new development run, and do not open held-out until development machinery functions.",
+  "protocol_version": "1.0.0",
+  "provenance": {
+    "created_at": "2026-09-06T06:37:55.443601+00:00",
+    "evidence_root_sha256": "95b65f578af31c2c3742fc442692c449e759ce56d453e7974ce826a982939531",
+    "git_commit": "966587cd00f8c99bd585da9350f27cbfa5aa4545",
+    "run_manifest_sha256": "60dc5da9d46c7add63e6dcd7f19d8d626ceb7b9e645b14eb4c404794df33309c",
+    "scorer_commit": "966587cd00f8c99bd585da9350f27cbfa5aa4545"
+  },
+  "results": {
+    "A": {
+      "actions_mean": 0.0,
+      "artifact_validity_rate": 1.0,
+      "cell_accuracy": 0.07625880164740269,
+      "completion_claim_precision": null,
+      "constraint_violation_rate": 0.0,
+      "cost_usd_mean": 0.0,
+      "false_fulfilment_rate": null,
+      "internal_eval_precision": null,
+      "internal_eval_recall": null,
+      "latency_ms_mean": 5898.95,
+      "pass_rate": 0.0,
+      "recovery_yield": null,
+      "tasks": 20,
+      "tokens_mean": 13778.05
+    },
+    "B": {
+      "actions_mean": 0.0,
+      "artifact_validity_rate": 1.0,
+      "cell_accuracy": 0.07625880164740269,
+      "completion_claim_precision": null,
+      "constraint_violation_rate": 0.0,
+      "cost_usd_mean": 0.0,
+      "false_fulfilment_rate": null,
+      "internal_eval_precision": null,
+      "internal_eval_recall": null,
+      "latency_ms_mean": 4075.75,
+      "pass_rate": 0.0,
+      "recovery_yield": null,
+      "tasks": 20,
+      "tokens_mean": 10136.45
+    },
+    "C": {
+      "actions_mean": 0.0,
+      "artifact_validity_rate": 1.0,
+      "cell_accuracy": 0.07625880164740269,
+      "completion_claim_precision": null,
+      "constraint_violation_rate": 0.0,
+      "cost_usd_mean": 0.0,
+      "false_fulfilment_rate": null,
+      "internal_eval_precision": null,
+      "internal_eval_recall": null,
+      "latency_ms_mean": 4304.45,
+      "pass_rate": 0.0,
+      "recovery_yield": null,
+      "tasks": 20,
+      "tokens_mean": 10127.85
+    },
+    "D": {
+      "actions_mean": 0.0,
+      "artifact_validity_rate": 1.0,
+      "cell_accuracy": 0.07625880164740269,
+      "completion_claim_precision": null,
+      "constraint_violation_rate": 0.0,
+      "cost_usd_mean": 0.0,
+      "false_fulfilment_rate": null,
+      "internal_eval_precision": null,
+      "internal_eval_recall": null,
+      "latency_ms_mean": 4531.3,
+      "pass_rate": 0.0,
+      "recovery_yield": null,
+      "tasks": 20,
+      "tokens_mean": 10149.9
+    }
+  },
+  "task_set": {
+    "manifest_sha256": "90991785a7b341beaaabb2ba8dc2be76f6860b7945338eae1636fdf70ec638ad",
+    "task_count": 20
+  },
+  "treatment": "D"
+}

@@ -1,0 +1,8 @@
+{
+  "project": "law-needs-fcfa7",
+  "zone": "europe-west2-b",
+  "vm": "encode-fulfilment-exp-20260906",
+  "vm_absent_after_delete": true,
+  "auto_delete_disk_absent_after_delete": true,
+  "verified_at": "2026-09-06T06:41:12Z"
+}

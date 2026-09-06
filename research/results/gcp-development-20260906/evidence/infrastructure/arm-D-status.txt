@@ -1,0 +1,2 @@
+arm=D start=2026-09-06T06:30:50Z
+arm=D verified=2026-09-06T06:32:26Z

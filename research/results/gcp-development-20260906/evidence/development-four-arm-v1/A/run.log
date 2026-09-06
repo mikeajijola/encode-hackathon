@@ -1,0 +1,20 @@
+61-4 arm=A status=error: ValueError: contract proposal must be exactly one JSON object actions=0
+66-24 arm=A status=error: ValueError: contract proposal must be exactly one JSON object actions=0
+105-24 arm=A status=error: ValueError: contract proposal must be exactly one JSON object actions=0
+168-17 arm=A status=error: ValueError: contract proposal must be exactly one JSON object actions=0
+120-24 arm=A status=error: ValueError: contract proposal must be exactly one JSON object actions=0
+141-20 arm=A status=error: ValueError: contract proposal must be exactly one JSON object actions=0
+209-30 arm=A status=error: BudgetExceeded: token_budget_exhausted actions=0
+395-36 arm=A status=error: BudgetExceeded: token_budget_exhausted actions=0
+448-11 arm=A status=error: ValueError: contract proposal must be exactly one JSON object actions=0
+567-21 arm=A status=error: ValueError: contract proposal must be exactly one JSON object actions=0
+47766 arm=A status=error: ValueError: contract proposal must be exactly one JSON object actions=0
+49237 arm=A status=error: ValueError: contract proposal must be exactly one JSON object actions=0
+50526 arm=A status=error: ValueError: contract proposal must be exactly one JSON object actions=0
+31011 arm=A status=error: BudgetExceeded: token_budget_exhausted actions=0
+35742 arm=A status=error: ValueError: contract proposal must be exactly one JSON object actions=0
+37554 arm=A status=error: ValueError: contract proposal must be exactly one JSON object actions=0
+45738 arm=A status=error: BudgetExceeded: token_budget_exhausted actions=0
+50971 arm=A status=error: ValueError: contract proposal must be exactly one JSON object actions=0
+58147 arm=A status=error: ValueError: contract proposal must be exactly one JSON object actions=0
+59794 arm=A status=error: ValueError: contract proposal must be exactly one JSON object actions=0

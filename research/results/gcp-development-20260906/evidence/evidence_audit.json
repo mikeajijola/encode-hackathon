@@ -1,0 +1,38 @@
+{
+  "arms": {
+    "A": {
+      "events": 40,
+      "outputs": 20,
+      "predictions": 20,
+      "task_results": 20,
+      "traces": 20
+    },
+    "B": {
+      "events": 20,
+      "outputs": 20,
+      "predictions": 20,
+      "task_results": 20,
+      "traces": 20
+    },
+    "C": {
+      "events": 20,
+      "outputs": 20,
+      "predictions": 20,
+      "task_results": 20,
+      "traces": 20
+    },
+    "D": {
+      "events": 20,
+      "outputs": 20,
+      "predictions": 20,
+      "task_results": 20,
+      "traces": 20
+    }
+  },
+  "golden_files_in_blind_input": [],
+  "heldout_reason": "development machinery failed before mutation; gate not met",
+  "heldout_run": false,
+  "run_manifest_verification": "pass",
+  "secret_pattern_matches": [],
+  "timestamp_utc": "2026-09-06T06:38:50.346011+00:00"
+}

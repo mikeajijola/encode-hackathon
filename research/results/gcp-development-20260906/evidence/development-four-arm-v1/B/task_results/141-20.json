@@ -1,0 +1,31 @@
+{
+  "arm": "B",
+  "artifact_valid": null,
+  "constraint_violation": false,
+  "contract_compiled": false,
+  "failure_classes": [
+    "execution_failure",
+    "specification_failure"
+  ],
+  "first_mutation_output": null,
+  "first_mutation_pass": null,
+  "id": "141-20",
+  "input_artifact_hash": "422af403dcf91bf0e6e0a58d2856dd0f3e6f27245410c00594e3333fd20f02e4",
+  "internal_status": "UNFULFILLED",
+  "output": "outputs/141-20.xlsx",
+  "output_artifact_hash": "422af403dcf91bf0e6e0a58d2856dd0f3e6f27245410c00594e3333fd20f02e4",
+  "rendered_eval": "delegated_to_adapter",
+  "status": "error: ValueError: contract proposal must be exactly one JSON object",
+  "terminal_eval": null,
+  "termination_reason": "execution_error",
+  "usage": {
+    "actions": 0,
+    "cost": 0.0,
+    "input_tokens": 2993,
+    "latency_ms": 2737,
+    "model_calls": 1,
+    "output_tokens": 604,
+    "successful_model_calls": 1,
+    "tokens": 3597
+  }
+}

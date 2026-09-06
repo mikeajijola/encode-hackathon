@@ -1,0 +1,1042 @@
+[
+  {
+    "arm": "A",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "execution_failure",
+      "specification_failure"
+    ],
+    "evidence_event_ids": [
+      "events/105-24.jsonl#sequence=2"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "105-24"
+  },
+  {
+    "arm": "A",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "execution_failure",
+      "specification_failure"
+    ],
+    "evidence_event_ids": [
+      "events/120-24.jsonl#sequence=2"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "120-24"
+  },
+  {
+    "arm": "A",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "execution_failure",
+      "specification_failure"
+    ],
+    "evidence_event_ids": [
+      "events/141-20.jsonl#sequence=2"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "141-20"
+  },
+  {
+    "arm": "A",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "execution_failure",
+      "specification_failure"
+    ],
+    "evidence_event_ids": [
+      "events/168-17.jsonl#sequence=2"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "168-17"
+  },
+  {
+    "arm": "A",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "budget_failure",
+      "execution_failure"
+    ],
+    "evidence_event_ids": [
+      "events/209-30.jsonl#sequence=2"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "209-30"
+  },
+  {
+    "arm": "A",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "budget_failure",
+      "execution_failure"
+    ],
+    "evidence_event_ids": [
+      "events/31011.jsonl#sequence=2"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "31011"
+  },
+  {
+    "arm": "A",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "execution_failure",
+      "specification_failure"
+    ],
+    "evidence_event_ids": [
+      "events/35742.jsonl#sequence=2"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "35742"
+  },
+  {
+    "arm": "A",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "execution_failure",
+      "specification_failure"
+    ],
+    "evidence_event_ids": [
+      "events/37554.jsonl#sequence=2"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "37554"
+  },
+  {
+    "arm": "A",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "budget_failure",
+      "execution_failure"
+    ],
+    "evidence_event_ids": [
+      "events/395-36.jsonl#sequence=2"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "395-36"
+  },
+  {
+    "arm": "A",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "execution_failure",
+      "specification_failure"
+    ],
+    "evidence_event_ids": [
+      "events/448-11.jsonl#sequence=2"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "448-11"
+  },
+  {
+    "arm": "A",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "budget_failure",
+      "execution_failure"
+    ],
+    "evidence_event_ids": [
+      "events/45738.jsonl#sequence=2"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "45738"
+  },
+  {
+    "arm": "A",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "execution_failure",
+      "specification_failure"
+    ],
+    "evidence_event_ids": [
+      "events/47766.jsonl#sequence=2"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "47766"
+  },
+  {
+    "arm": "A",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "execution_failure",
+      "specification_failure"
+    ],
+    "evidence_event_ids": [
+      "events/49237.jsonl#sequence=2"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "49237"
+  },
+  {
+    "arm": "A",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "execution_failure",
+      "specification_failure"
+    ],
+    "evidence_event_ids": [
+      "events/50526.jsonl#sequence=2"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "50526"
+  },
+  {
+    "arm": "A",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "execution_failure",
+      "specification_failure"
+    ],
+    "evidence_event_ids": [
+      "events/50971.jsonl#sequence=2"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "50971"
+  },
+  {
+    "arm": "A",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "execution_failure",
+      "specification_failure"
+    ],
+    "evidence_event_ids": [
+      "events/567-21.jsonl#sequence=2"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "567-21"
+  },
+  {
+    "arm": "A",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "execution_failure",
+      "specification_failure"
+    ],
+    "evidence_event_ids": [
+      "events/58147.jsonl#sequence=2"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "58147"
+  },
+  {
+    "arm": "A",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "execution_failure",
+      "specification_failure"
+    ],
+    "evidence_event_ids": [
+      "events/59794.jsonl#sequence=2"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "59794"
+  },
+  {
+    "arm": "A",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "execution_failure",
+      "specification_failure"
+    ],
+    "evidence_event_ids": [
+      "events/61-4.jsonl#sequence=2"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "61-4"
+  },
+  {
+    "arm": "A",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "execution_failure",
+      "specification_failure"
+    ],
+    "evidence_event_ids": [
+      "events/66-24.jsonl#sequence=2"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "66-24"
+  },
+  {
+    "arm": "B",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "execution_failure",
+      "specification_failure"
+    ],
+    "evidence_event_ids": [
+      "events/105-24.jsonl#sequence=3"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "105-24"
+  },
+  {
+    "arm": "B",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "execution_failure",
+      "specification_failure"
+    ],
+    "evidence_event_ids": [
+      "events/120-24.jsonl#sequence=3"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "120-24"
+  },
+  {
+    "arm": "B",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "execution_failure",
+      "specification_failure"
+    ],
+    "evidence_event_ids": [
+      "events/141-20.jsonl#sequence=3"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "141-20"
+  },
+  {
+    "arm": "B",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "execution_failure",
+      "specification_failure"
+    ],
+    "evidence_event_ids": [
+      "events/168-17.jsonl#sequence=3"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "168-17"
+  },
+  {
+    "arm": "B",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "execution_failure",
+      "specification_failure"
+    ],
+    "evidence_event_ids": [
+      "events/209-30.jsonl#sequence=3"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "209-30"
+  },
+  {
+    "arm": "B",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "budget_failure",
+      "execution_failure"
+    ],
+    "evidence_event_ids": [
+      "events/31011.jsonl#sequence=3"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "31011"
+  },
+  {
+    "arm": "B",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "execution_failure",
+      "specification_failure"
+    ],
+    "evidence_event_ids": [
+      "events/35742.jsonl#sequence=3"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "35742"
+  },
+  {
+    "arm": "B",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "execution_failure",
+      "specification_failure"
+    ],
+    "evidence_event_ids": [
+      "events/37554.jsonl#sequence=3"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "37554"
+  },
+  {
+    "arm": "B",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "execution_failure",
+      "specification_failure"
+    ],
+    "evidence_event_ids": [
+      "events/395-36.jsonl#sequence=3"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "395-36"
+  },
+  {
+    "arm": "B",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "execution_failure",
+      "specification_failure"
+    ],
+    "evidence_event_ids": [
+      "events/448-11.jsonl#sequence=3"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "448-11"
+  },
+  {
+    "arm": "B",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "budget_failure",
+      "execution_failure"
+    ],
+    "evidence_event_ids": [
+      "events/45738.jsonl#sequence=3"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "45738"
+  },
+  {
+    "arm": "B",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "budget_failure",
+      "execution_failure"
+    ],
+    "evidence_event_ids": [
+      "events/47766.jsonl#sequence=3"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "47766"
+  },
+  {
+    "arm": "B",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "execution_failure",
+      "specification_failure"
+    ],
+    "evidence_event_ids": [
+      "events/49237.jsonl#sequence=3"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "49237"
+  },
+  {
+    "arm": "B",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "execution_failure",
+      "specification_failure"
+    ],
+    "evidence_event_ids": [
+      "events/50526.jsonl#sequence=3"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "50526"
+  },
+  {
+    "arm": "B",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "execution_failure",
+      "specification_failure"
+    ],
+    "evidence_event_ids": [
+      "events/50971.jsonl#sequence=3"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "50971"
+  },
+  {
+    "arm": "B",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "execution_failure",
+      "specification_failure"
+    ],
+    "evidence_event_ids": [
+      "events/567-21.jsonl#sequence=3"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "567-21"
+  },
+  {
+    "arm": "B",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "execution_failure",
+      "specification_failure"
+    ],
+    "evidence_event_ids": [
+      "events/58147.jsonl#sequence=3"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "58147"
+  },
+  {
+    "arm": "B",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "execution_failure",
+      "specification_failure"
+    ],
+    "evidence_event_ids": [
+      "events/59794.jsonl#sequence=3"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "59794"
+  },
+  {
+    "arm": "B",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "execution_failure",
+      "specification_failure"
+    ],
+    "evidence_event_ids": [
+      "events/61-4.jsonl#sequence=3"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "61-4"
+  },
+  {
+    "arm": "B",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "execution_failure",
+      "specification_failure"
+    ],
+    "evidence_event_ids": [
+      "events/66-24.jsonl#sequence=3"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "66-24"
+  },
+  {
+    "arm": "C",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "execution_failure",
+      "specification_failure"
+    ],
+    "evidence_event_ids": [
+      "events/105-24.jsonl#sequence=3"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "105-24"
+  },
+  {
+    "arm": "C",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "execution_failure",
+      "specification_failure"
+    ],
+    "evidence_event_ids": [
+      "events/120-24.jsonl#sequence=3"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "120-24"
+  },
+  {
+    "arm": "C",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "execution_failure",
+      "specification_failure"
+    ],
+    "evidence_event_ids": [
+      "events/141-20.jsonl#sequence=3"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "141-20"
+  },
+  {
+    "arm": "C",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "execution_failure",
+      "specification_failure"
+    ],
+    "evidence_event_ids": [
+      "events/168-17.jsonl#sequence=3"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "168-17"
+  },
+  {
+    "arm": "C",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "execution_failure",
+      "specification_failure"
+    ],
+    "evidence_event_ids": [
+      "events/209-30.jsonl#sequence=3"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "209-30"
+  },
+  {
+    "arm": "C",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "budget_failure",
+      "execution_failure"
+    ],
+    "evidence_event_ids": [
+      "events/31011.jsonl#sequence=3"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "31011"
+  },
+  {
+    "arm": "C",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "execution_failure",
+      "specification_failure"
+    ],
+    "evidence_event_ids": [
+      "events/35742.jsonl#sequence=3"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "35742"
+  },
+  {
+    "arm": "C",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "execution_failure",
+      "specification_failure"
+    ],
+    "evidence_event_ids": [
+      "events/37554.jsonl#sequence=3"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "37554"
+  },
+  {
+    "arm": "C",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "execution_failure",
+      "specification_failure"
+    ],
+    "evidence_event_ids": [
+      "events/395-36.jsonl#sequence=3"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "395-36"
+  },
+  {
+    "arm": "C",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "execution_failure",
+      "specification_failure"
+    ],
+    "evidence_event_ids": [
+      "events/448-11.jsonl#sequence=3"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "448-11"
+  },
+  {
+    "arm": "C",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "budget_failure",
+      "execution_failure"
+    ],
+    "evidence_event_ids": [
+      "events/45738.jsonl#sequence=3"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "45738"
+  },
+  {
+    "arm": "C",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "budget_failure",
+      "execution_failure"
+    ],
+    "evidence_event_ids": [
+      "events/47766.jsonl#sequence=3"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "47766"
+  },
+  {
+    "arm": "C",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "execution_failure",
+      "specification_failure"
+    ],
+    "evidence_event_ids": [
+      "events/49237.jsonl#sequence=3"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "49237"
+  },
+  {
+    "arm": "C",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "execution_failure",
+      "specification_failure"
+    ],
+    "evidence_event_ids": [
+      "events/50526.jsonl#sequence=3"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "50526"
+  },
+  {
+    "arm": "C",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "execution_failure",
+      "specification_failure"
+    ],
+    "evidence_event_ids": [
+      "events/50971.jsonl#sequence=3"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "50971"
+  },
+  {
+    "arm": "C",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "execution_failure",
+      "specification_failure"
+    ],
+    "evidence_event_ids": [
+      "events/567-21.jsonl#sequence=3"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "567-21"
+  },
+  {
+    "arm": "C",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "execution_failure",
+      "specification_failure"
+    ],
+    "evidence_event_ids": [
+      "events/58147.jsonl#sequence=3"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "58147"
+  },
+  {
+    "arm": "C",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "execution_failure",
+      "specification_failure"
+    ],
+    "evidence_event_ids": [
+      "events/59794.jsonl#sequence=3"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "59794"
+  },
+  {
+    "arm": "C",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "execution_failure",
+      "specification_failure"
+    ],
+    "evidence_event_ids": [
+      "events/61-4.jsonl#sequence=3"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "61-4"
+  },
+  {
+    "arm": "C",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "execution_failure",
+      "specification_failure"
+    ],
+    "evidence_event_ids": [
+      "events/66-24.jsonl#sequence=3"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "66-24"
+  },
+  {
+    "arm": "D",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "execution_failure",
+      "specification_failure"
+    ],
+    "evidence_event_ids": [
+      "events/105-24.jsonl#sequence=3"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "105-24"
+  },
+  {
+    "arm": "D",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "execution_failure",
+      "specification_failure"
+    ],
+    "evidence_event_ids": [
+      "events/120-24.jsonl#sequence=3"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "120-24"
+  },
+  {
+    "arm": "D",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "execution_failure",
+      "specification_failure"
+    ],
+    "evidence_event_ids": [
+      "events/141-20.jsonl#sequence=3"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "141-20"
+  },
+  {
+    "arm": "D",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "execution_failure",
+      "specification_failure"
+    ],
+    "evidence_event_ids": [
+      "events/168-17.jsonl#sequence=3"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "168-17"
+  },
+  {
+    "arm": "D",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "execution_failure",
+      "specification_failure"
+    ],
+    "evidence_event_ids": [
+      "events/209-30.jsonl#sequence=3"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "209-30"
+  },
+  {
+    "arm": "D",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "budget_failure",
+      "execution_failure"
+    ],
+    "evidence_event_ids": [
+      "events/31011.jsonl#sequence=3"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "31011"
+  },
+  {
+    "arm": "D",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "execution_failure",
+      "specification_failure"
+    ],
+    "evidence_event_ids": [
+      "events/35742.jsonl#sequence=3"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "35742"
+  },
+  {
+    "arm": "D",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "execution_failure",
+      "specification_failure"
+    ],
+    "evidence_event_ids": [
+      "events/37554.jsonl#sequence=3"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "37554"
+  },
+  {
+    "arm": "D",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "execution_failure",
+      "specification_failure"
+    ],
+    "evidence_event_ids": [
+      "events/395-36.jsonl#sequence=3"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "395-36"
+  },
+  {
+    "arm": "D",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "execution_failure",
+      "specification_failure"
+    ],
+    "evidence_event_ids": [
+      "events/448-11.jsonl#sequence=3"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "448-11"
+  },
+  {
+    "arm": "D",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "budget_failure",
+      "execution_failure"
+    ],
+    "evidence_event_ids": [
+      "events/45738.jsonl#sequence=3"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "45738"
+  },
+  {
+    "arm": "D",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "budget_failure",
+      "execution_failure"
+    ],
+    "evidence_event_ids": [
+      "events/47766.jsonl#sequence=3"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "47766"
+  },
+  {
+    "arm": "D",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "execution_failure",
+      "specification_failure"
+    ],
+    "evidence_event_ids": [
+      "events/49237.jsonl#sequence=3"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "49237"
+  },
+  {
+    "arm": "D",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "execution_failure",
+      "specification_failure"
+    ],
+    "evidence_event_ids": [
+      "events/50526.jsonl#sequence=3"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "50526"
+  },
+  {
+    "arm": "D",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "execution_failure",
+      "specification_failure"
+    ],
+    "evidence_event_ids": [
+      "events/50971.jsonl#sequence=3"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "50971"
+  },
+  {
+    "arm": "D",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "execution_failure",
+      "specification_failure"
+    ],
+    "evidence_event_ids": [
+      "events/567-21.jsonl#sequence=3"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "567-21"
+  },
+  {
+    "arm": "D",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "execution_failure",
+      "specification_failure"
+    ],
+    "evidence_event_ids": [
+      "events/58147.jsonl#sequence=3"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "58147"
+  },
+  {
+    "arm": "D",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "execution_failure",
+      "specification_failure"
+    ],
+    "evidence_event_ids": [
+      "events/59794.jsonl#sequence=3"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "59794"
+  },
+  {
+    "arm": "D",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "execution_failure",
+      "specification_failure"
+    ],
+    "evidence_event_ids": [
+      "events/61-4.jsonl#sequence=3"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "61-4"
+  },
+  {
+    "arm": "D",
+    "assigned_by": "deterministic-postscore-classifier-v1",
+    "classes": [
+      "execution_failure",
+      "specification_failure"
+    ],
+    "evidence_event_ids": [
+      "events/66-24.jsonl#sequence=3"
+    ],
+    "rationale": "Deterministic post-run classification: internal=UNFULFILLED, official_pass=False, artifact_valid=True.",
+    "task_id": "66-24"
+  }
+]

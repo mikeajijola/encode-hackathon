@@ -1,0 +1,31 @@
+{
+  "canonical_image_id": "sha256:bde7274371934adcbb145217360ef89997f8471695e50e6e9ff99e56265df217",
+  "canonical_image_size_bytes": 238064275,
+  "cpu": 4,
+  "created_at": "2026-09-06T00:08:11.679-00:00",
+  "dataset_sha256": "bcecaa89a005bd4e3bbe98da150a86e8062c27f262e575d5e47bd9861b3525e7",
+  "disk": {
+    "auto_delete": true,
+    "size_gb": 80,
+    "type": "pd-balanced"
+  },
+  "docker_version": "29.1.3",
+  "image": "projects/ubuntu-os-cloud/global/images/ubuntu-2404-noble-amd64-v20260903",
+  "libreoffice_version": "LibreOffice 7.4.7.2 40(Build:2)",
+  "machine_type": "e2-standard-4",
+  "memory_gb": 16,
+  "model": "gemini-3.7-flash",
+  "model_version": "3.7-flash-08-2026",
+  "platform": "Linux-6.17.0-1022-gcp-x86_64-with-glibc2.39",
+  "project": "law-needs-fcfa7",
+  "provider": "Google Gemini direct",
+  "provisioning_command": "gcloud compute instances create encode-fulfilment-exp-20260906 --project=law-needs-fcfa7 --zone=europe-west2-b --machine-type=e2-standard-4 --image=projects/ubuntu-os-cloud/global/images/ubuntu-2404-noble-amd64-v20260903 --boot-disk-size=80GB --boot-disk-type=pd-balanced --no-service-account --no-scopes --shielded-secure-boot --shielded-vtpm --shielded-integrity-monitoring --labels=purpose=encode-research,disposable=true,experiment=development-four-arm",
+  "python_version": "3.13.15",
+  "recorded_at": "2026-09-06T06:38:50.383222+00:00",
+  "region": "europe-west2",
+  "repository_commit": "966587cd00f8c99bd585da9350f27cbfa5aa4545",
+  "schema_version": "1.0.0",
+  "service_account": "none",
+  "vm_name": "encode-fulfilment-exp-20260906",
+  "zone": "europe-west2-b"
+}

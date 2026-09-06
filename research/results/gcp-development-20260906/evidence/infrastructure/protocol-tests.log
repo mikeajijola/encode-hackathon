@@ -1,0 +1,36 @@
+test_bootstrap_is_paired_and_reproducible (test_analysis.MetricsTests.test_bootstrap_is_paired_and_reproducible) ... ok
+test_breakdowns_and_failure_taxonomy (test_analysis.MetricsTests.test_breakdowns_and_failure_taxonomy) ... ok
+test_hand_calculable_metrics (test_analysis.MetricsTests.test_hand_calculable_metrics) ... ok
+test_pair_mismatch_rejected (test_analysis.MetricsTests.test_pair_mismatch_rejected) ... ok
+test_paired_effect_and_exact_mcnemar (test_analysis.MetricsTests.test_paired_effect_and_exact_mcnemar) ... ok
+test_invalid_ledger_is_rejected (test_analysis.SchemaTests.test_invalid_ledger_is_rejected) ... ok
+test_preregistration_contains_four_distinct_arms_and_fixed_budgets (test_analysis.SchemaTests.test_preregistration_contains_four_distinct_arms_and_fixed_budgets) ... ok
+test_template_validates_and_schema_has_trace_fields (test_analysis.SchemaTests.test_template_validates_and_schema_has_trace_fields) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.003s
+
+OK
+	Command being timed: "sudo docker run --rm --entrypoint python fulfilment-experiment:966587c -m unittest discover -s protocol -p test_*.py -v"
+	User time (seconds): 0.03
+	System time (seconds): 0.03
+	Percent of CPU this job got: 6%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:00.96
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 28884
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 3353
+	Voluntary context switches: 580
+	Involuntary context switches: 14
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 0
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
