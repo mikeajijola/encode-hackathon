@@ -1,0 +1,12 @@
+{
+  "project": "law-needs-fcfa7",
+  "zone": "europe-west2-b",
+  "instance": "encode-preservation-20260906",
+  "deleted_at": "2026-09-06T10:09:20Z",
+  "delete_confirmation": "subsequent delete returned resource not found",
+  "post_delete_instance_matches": 0,
+  "post_delete_disk_matches": 0,
+  "boot_disk_auto_delete": true,
+  "evidence_retained_commit": "7c26905",
+  "evidence_archive_sha256": "e83a9310714925a565f213baf7809bf0dfd7257608fc9ce87a1e65324e50dea0"
+}
