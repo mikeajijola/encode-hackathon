@@ -1,0 +1,10 @@
+{
+  "auto_delete_boot_disk_absent_after_operation": true,
+  "completed_at": "2026-09-06T00:28:52.724-07:00",
+  "instance": "encode-fulfilment-exp-v2-20260906",
+  "instance_absent_after_operation": true,
+  "operation": "operation-1788679682374-65acb7115ba0a-4ab4a025-5bf21a79",
+  "project": "law-needs-fcfa7",
+  "status": "DONE",
+  "zone": "europe-west2-b"
+}
