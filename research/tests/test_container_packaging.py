@@ -37,6 +37,21 @@ class PreflightTest(unittest.TestCase):
             "--data-dir", "/data", "--out-dir", "/out", "--record", "/tmp/report.json",
         ]), 2)
 
+    def test_run_persists_preflight_only_after_experiment_accepts_empty_output(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory); manifest = root / "manifest.json"; manifest.write_text("{}")
+            out = root / "out"; out.mkdir(); observed = []
+            def fake_main():
+                observed.append(list(out.iterdir()))
+                (out / "results.json").write_text("[]")
+            report = {"status": "ok", "errors": []}
+            with patch.object(container_preflight, "_inside", return_value=True), \
+                 patch.object(container_preflight, "dependency_report", return_value=report), \
+                 patch("experiment.cli.main", side_effect=fake_main):
+                self.assertEqual(container_preflight.run_experiment(manifest, out), 0)
+            self.assertEqual(observed, [[]])
+            self.assertEqual(json.loads((out / "preflight.json").read_text()), report)
+
 
 class DockerfileStaticTest(unittest.TestCase):
     @classmethod

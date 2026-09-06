@@ -7,7 +7,7 @@ from openpyxl import Workbook
 
 from adapters.spreadsheet import KIND
 from experiment.runner import Arm, ExperimentRunner, ModelReply, RunConfig, Task
-from services.spreadsheet import SpreadsheetServices
+from services.spreadsheet import SpreadsheetServices, _strict_contract_reply
 from tests.contract_fixtures import capability_records, contract_reply, transition_reply
 
 
@@ -65,6 +65,14 @@ class ContractCompilerV2Test(unittest.TestCase):
         for reply in cases:
             with self.subTest(reply=reply[:30]), self.assertRaises(ValueError): self.compile(reply)
 
+    def test_single_json_fence_is_accepted_without_accepting_surrounding_prose(self):
+        raw = contract_reply()
+        compiled, _ = self.compile(f"```json\n{raw}\n```")
+        self.assertEqual(compiled["version"], 2)
+        for invalid in (f"Here is the contract:\n```json\n{raw}\n```", f"```json\n{raw}\n```\nthanks"):
+            with self.subTest(invalid=invalid[:30]), self.assertRaises(ValueError):
+                _strict_contract_reply(invalid)
+
     def test_missing_required_capability_or_evaluator_is_rejected(self):
         with self.assertRaisesRegex(ValueError, "capability unavailable"):
             self.compile(contract_reply(), self.task(manifests=()))
@@ -92,6 +100,8 @@ class ContractCompilerV2Test(unittest.TestCase):
         prompt = json.loads(runtime.prompts[0][1])
         self.assertEqual(prompt["capability_manifests"], json.loads(json.dumps(task.capability_manifests, default=str)))
         self.assertTrue(all("name" in item and "version" in item for item in prompt["capability_manifests"]))
+        self.assertEqual(prompt["required_output_shape"], "scalar")
+        self.assertIn("exactly ONE desired_state assertion", prompt["instruction"])
 
     def test_action_and_eval_use_accepted_state_not_raw_compiler_response(self):
         raw = contract_reply("B1 is a numeric doubled result", property="computed_value")

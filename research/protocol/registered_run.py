@@ -87,9 +87,9 @@ def fulfilment_command(image: str, manifest_dir: Path, dataset_dir: Path,
             "--tmpfs", "/tmp:rw,exec,nosuid,size=1g", "-e", "HOME=/tmp/run-home",
             "-e", credential_name,
             "-v", f"{dataset_dir.resolve()}:/data/dataset:ro",
-            "-v", f"{manifest_dir.resolve()}:/manifests:ro",
+            "-v", f"{manifest_dir.resolve()}:/data/manifests:ro",
             "-v", f"{output_dir.resolve()}:/out", image,
-            "run", "--manifest", f"/manifests/{arm}.json", "--out-dir", "/out"]
+            "run", "--manifest", f"/data/manifests/{arm}.json", "--out-dir", "/out"]
 
 
 def scorer_command(image: str, dataset_dir: Path, output_dir: Path, *,
@@ -279,9 +279,11 @@ def execute(manifest_dir: Path, run_root: Path, dataset_dir: Path, image: str) -
     _stage_blind_dataset(dataset_dir, blind_dataset, expected)
     # Goldens are inaccessible to all fulfilment processes by protocol and chronology:
     # scoring does not begin until each arm has a complete terminal output set.
+    orchestration_logs = run_root / "orchestration_logs"
+    orchestration_logs.mkdir()
     for arm in ARMS:
         _run(fulfilment_command(image, manifest_dir, blind_dataset, run_root / arm, arm),
-             run_root / arm / "container.log")
+             orchestration_logs / f"{arm}.container.log")
         _verify_arm_termination(run_root / arm, expected)
     for arm in ARMS:
         _run(scorer_command(image, dataset_dir, run_root / arm), run_root / arm / "scorer.log")

@@ -68,6 +68,14 @@ class CapabilityPlanningTest(unittest.TestCase):
         self.assertEqual(len(capability["payload"]["actual_scope"]), 99)
         self.assertEqual(capability["payload"]["provenance"]["adapter_version"], "1.0.0")
 
+    def test_transition_accepts_one_json_fence_and_prompt_requires_versioned_capability_object(self):
+        transition = transition_reply(inputs={"writes": [{"selector": "Data!B2", "value": 4}]})
+        _, provider, result = self.run_case(Arm.A, [f"```json\n{transition}\n```"], answer="B2")
+        self.assertEqual(result["status"], "ok")
+        prompt = json.loads(provider.prompts[0])
+        self.assertEqual(set(prompt["required_output_schema"]), {"capability", "inputs", "rationale"})
+        self.assertIn("never return capability as a string", prompt["instruction"])
+
     def test_compact_range_cannot_expand_beyond_contract_scope(self):
         transition = transition_reply("copy_or_fill_formula",
             {"source": "Data!B1", "target": "Data!B2:B101"})

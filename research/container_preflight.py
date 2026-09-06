@@ -101,7 +101,9 @@ def run_experiment(manifest: Path, out_dir: Path) -> int:
         print(json.dumps({"status": "error", "errors": ["output_outside_out"]}), file=sys.stderr)
         return 2
     report = dependency_report(data_dir=data_root, out_dir=output_root)
-    code = emit_report(report, output_root / "preflight.json")
+    # ExperimentRunner requires an empty output directory. Validate and print
+    # before execution, then persist the same report after the runner prepares it.
+    code = emit_report(report)
     if code:
         return code
     if not manifest.is_file():
@@ -110,6 +112,8 @@ def run_experiment(manifest: Path, out_dir: Path) -> int:
     from experiment.cli import main as experiment_main
     sys.argv = ["experiment.cli", "--manifest", str(manifest), "--out-dir", str(out_dir)]
     experiment_main()
+    (out_dir / "preflight.json").write_text(
+        json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     return 0
 
 

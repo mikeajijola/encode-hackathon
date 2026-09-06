@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import re
 import shutil
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
@@ -242,9 +243,12 @@ class SpreadsheetServices:
         compiler_input = {
             "contract_schema_version": CONTRACT_SCHEMA_VERSION,
             "instruction": (
-                "Return JSON only. Describe required state/properties, never actions or steps. "
-                "Use exactly the declared schema fields; cite only supplied capability name/version pairs "
-                "and evaluator identifiers. Do not guess hidden expected values."
+                "Return exactly one JSON object, optionally enclosed by one ```json code fence. "
+                "Describe required state/properties, never actions or steps. Use exactly the declared "
+                "schema fields and exactly ONE desired_state assertion. The assertion output.shape MUST "
+                "equal required_output_shape. Include semantic-independent in evaluator_intents and also "
+                "render when visual_intent is true. Cite only supplied capability name/version pairs and "
+                "evaluator identifiers. Do not guess hidden expected values."
             ),
             "schema": {
                 "schema_version": CONTRACT_SCHEMA_VERSION,
@@ -257,6 +261,8 @@ class SpreadsheetServices:
                 "required_capabilities": [{"name": "manifest name", "version": "manifest version"}],
             },
             "intent": task.intent,
+            "required_output_shape": "scalar" if _selector_cell_count(selectors) == 1 else "range",
+            "visual_intent": bool(task.context.get("visual_intent")),
             "observed_context": _model_context(task.context),
             "capability_manifests": task.capability_manifests,
         }
@@ -407,10 +413,17 @@ class SpreadsheetServices:
         prompt = {
             "role": "bounded_transition_planner",
             "instruction": (
-                "Return exactly one declarative capability transition as JSON with fields capability, inputs, "
-                "and rationale. Select an exact supplied name/version. Never emit code or execute commands. "
-                "Prefer copy_or_fill_formula for large repeated formula ranges instead of literal cell writes."
+                "Return exactly one JSON object, optionally enclosed by one ```json code fence. It must have "
+                "exactly fields capability, inputs, and rationale. capability MUST be an object with exactly "
+                "name and version, for example {\"name\":\"write_cells\",\"version\":\"1.0.0\"}; never "
+                "return capability as a string. Select an exact supplied name/version. Never emit code or "
+                "execute commands. Prefer copy_or_fill_formula for large repeated formula ranges instead of "
+                "literal cell writes."
             ),
+            "required_output_schema": {
+                "capability": {"name": "supplied capability name", "version": "supplied capability version"},
+                "inputs": "the exact inputs object for that capability", "rationale": "non-empty string",
+            },
             "transition_schemas": {
                 "write_cells": {"inputs": {"writes": [{"selector": "Sheet!A1", "value": "JSON value"}]},
                                 "max_writes": MAX_LITERAL_WRITES},
@@ -820,8 +833,12 @@ def _strict_contract_reply(text):
                 raise ValueError(f"duplicate contract field: {key}")
             value[key] = item
         return value
+    stripped = text.strip()
+    fenced = re.fullmatch(r"```(?:json)?\s*\n?(\{.*\})\s*```", stripped,
+                          flags=re.IGNORECASE | re.DOTALL)
+    candidate = fenced.group(1) if fenced else stripped
     try:
-        value = json.loads(text.strip(), object_pairs_hook=object_without_duplicates)
+        value = json.loads(candidate, object_pairs_hook=object_without_duplicates)
     except json.JSONDecodeError as error:
         raise ValueError("contract proposal must be exactly one JSON object") from error
     if not isinstance(value, dict):
