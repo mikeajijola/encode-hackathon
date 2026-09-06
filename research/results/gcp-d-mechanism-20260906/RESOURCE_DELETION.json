@@ -1,0 +1,10 @@
+{
+  "checked_at_utc": "2026-09-06T08:23:12Z",
+  "disk": "encode-d-mechanism-20260906",
+  "disk_absent_after_delete": true,
+  "project": "law-needs-fcfa7",
+  "verification": "gcloud compute instances describe and disks describe both returned not found",
+  "vm": "encode-d-mechanism-20260906",
+  "vm_absent_after_delete": true,
+  "zone": "europe-west2-b"
+}
