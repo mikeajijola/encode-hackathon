@@ -1,0 +1,69 @@
+{
+  "experiment_id": "development-d-completion-calibration-v1",
+  "protocol_version": "completion-calibration-1.0.0",
+  "hypothesis": "Coverage-aware three-valued completion improves trustworthiness of FULFILLED claims without reducing official state-production success.",
+  "change": "Terminal completion aggregation only: FULFILLED, UNFULFILLED, UNKNOWN plus gold-free source-coverage and formula-representation evidence adequacy.",
+  "control": "Prior uncapped Arm D development run",
+  "treatment": "Arm D with coverage-aware three-valued completion",
+  "task_set": {
+    "manifest_sha256": "90991785a7b341beaaabb2ba8dc2be76f6860b7945338eae1636fdf70ec638ad",
+    "task_count": 20
+  },
+  "model": {
+    "name": "gemini-3.7-flash",
+    "version": "3.7-flash-08-2026",
+    "temperature": 0
+  },
+  "budgets": {
+    "tokens": 250000,
+    "actions": 12,
+    "wall_clock_seconds": 300
+  },
+  "deviations": [
+    {
+      "description": "250,000 tokens is an operational emergency ceiling, not a research token budget."
+    },
+    {
+      "description": "Provider nondeterminism produced three paired official gains and three paired losses despite temperature zero and stable aggregate pass rate."
+    }
+  ],
+  "results": {
+    "official_pass_rate": 0.4,
+    "cell_accuracy": 0.1602,
+    "fulfilled_precision": 1.0,
+    "fulfilled_recall": 0.25,
+    "false_fulfilment_rate": 0.0,
+    "false_unfulfilment_rate": 0.21428571428571427,
+    "unknown_rate": 0.2,
+    "unknown_external_pass": 3,
+    "unknown_external_fail": 1,
+    "recovery_yield": 0.3333333333333333,
+    "artifact_validity_rate": 1.0,
+    "constraint_violations": 2,
+    "tokens": 1743803,
+    "actions": 36,
+    "iterations": 45,
+    "latency_ms": 495020,
+    "estimated_cost_usd": 1.39746525
+  },
+  "confidence_intervals": {
+    "status": "not_estimated_for_single_20-task_completion-policy_rerun"
+  },
+  "failure_distribution": {
+    "no_progress": 7,
+    "contract_rejection": 4,
+    "no_safe_transition": 2,
+    "artifact_or_capability_execution_error": 2,
+    "operational_emergency_ceiling": 1
+  },
+  "interpretation": "Completion recognition improved materially while aggregate state production remained stable. Observation coverage and evaluation calibration were a real bottleneck, but contract specification, production variance, and no-progress remain substantial.",
+  "decision": "supported",
+  "next_experiment": "Do not run full A/B/C/D yet: investigate the increase from one to two detected preservation violations and improve independent source coverage without goldens.",
+  "provenance": {
+    "git_commit": "d50d93fee405c6e816af12ab564e53b62ff13c39",
+    "run_manifest_sha256": "fc86e61048b44bee9b4140c8a88357e415d6f6a4e04af86a966f1e7b86954e2c",
+    "evidence_root_sha256": "5e8e2d26c9d313bb4d894c2e8b5c742ea3f81c624e40827afbc647838ce56a07",
+    "scorer_commit": "d50d93fee405c6e816af12ab564e53b62ff13c39",
+    "created_at": "2026-09-06T09:25:00Z"
+  }
+}

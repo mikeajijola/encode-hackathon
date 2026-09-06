@@ -1,0 +1,308 @@
+{
+  "current": {
+    "actions_per_success": 3.125,
+    "artifact_validity_rate_external": 1.0,
+    "cell_accuracy": 0.1602,
+    "estimated_cost_per_success": 0.08053415625,
+    "false_fulfilment_rate": 0.0,
+    "false_unfulfilment_rate": 0.21428571428571427,
+    "fulfilled_claims": 2,
+    "fulfilled_precision": 1.0,
+    "fulfilled_recall": 0.25,
+    "iterations_per_success": 3.5,
+    "latency_ms_per_success": 37361.625,
+    "median_actions_per_cycle": 1.0,
+    "median_cycles_per_task": 1.0,
+    "median_tokens_per_cycle": 20742.0,
+    "median_tokens_per_task": 28310.0,
+    "official_pass_rate": 0.4,
+    "operational_emergency_ceiling_terminations": 1,
+    "recoverable_first_attempt_failures": 6,
+    "recovery_yield": 0.3333333333333333,
+    "successful_recoveries": 2,
+    "task_count": 20,
+    "tasks_completing_ge_1_cycle": 12,
+    "tasks_completing_ge_2_cycles": 7,
+    "tasks_completing_ge_3_cycles": 3,
+    "tokens_per_recovery": 63152.5,
+    "tokens_per_success": 99866.875,
+    "unknown_official_fail": 1,
+    "unknown_official_pass": 3,
+    "unknown_rate": 0.2
+  },
+  "decision_gate": {
+    "completion_reconstructable": true,
+    "false_unfulfilment_improved_or_unknown": true,
+    "fulfilled_precision_materially_improved": true,
+    "generic_and_gold_free": true,
+    "no_corruption_or_unauthorized_mutation_increase": false,
+    "official_performance_stable_or_improved": true
+  },
+  "gained_tasks": [
+    "49237",
+    "50526",
+    "58147"
+  ],
+  "lost_tasks": [
+    "168-17",
+    "35742",
+    "37554"
+  ],
+  "paired_tasks": [
+    {
+      "current_completion": "UNKNOWN",
+      "current_official": "PASS",
+      "current_termination": "unknown:no_safe_transition",
+      "official_transition": "unchanged",
+      "prior_completion": "UNFULFILLED",
+      "prior_official": "PASS",
+      "prior_termination": "unfulfilled:no_progress",
+      "task_id": "105-24"
+    },
+    {
+      "current_completion": "UNFULFILLED",
+      "current_official": "PASS",
+      "current_termination": "unfulfilled:no_progress",
+      "official_transition": "unchanged",
+      "prior_completion": "UNFULFILLED",
+      "prior_official": "PASS",
+      "prior_termination": "unfulfilled:no_progress",
+      "task_id": "120-24"
+    },
+    {
+      "current_completion": "UNFULFILLED",
+      "current_official": "FAIL",
+      "current_termination": "unfulfilled:no_progress",
+      "official_transition": "unchanged",
+      "prior_completion": "UNFULFILLED",
+      "prior_official": "FAIL",
+      "prior_termination": "unfulfilled:no_progress",
+      "task_id": "141-20"
+    },
+    {
+      "current_completion": "UNFULFILLED",
+      "current_official": "FAIL",
+      "current_termination": "unfulfilled:no_safe_transition",
+      "official_transition": "lost",
+      "prior_completion": "UNFULFILLED",
+      "prior_official": "PASS",
+      "prior_termination": "unfulfilled:no_safe_transition",
+      "task_id": "168-17"
+    },
+    {
+      "current_completion": "UNFULFILLED",
+      "current_official": "FAIL",
+      "current_termination": "error: BudgetExceeded: operational_emergency_token_ceiling",
+      "official_transition": "unchanged",
+      "prior_completion": "UNFULFILLED",
+      "prior_official": "FAIL",
+      "prior_termination": "error: BudgetExceeded: operational_emergency_token_ceiling",
+      "task_id": "209-30"
+    },
+    {
+      "current_completion": "UNKNOWN",
+      "current_official": "PASS",
+      "current_termination": "unknown:no_progress",
+      "official_transition": "unchanged",
+      "prior_completion": "UNFULFILLED",
+      "prior_official": "PASS",
+      "prior_termination": "unfulfilled:no_progress",
+      "task_id": "31011"
+    },
+    {
+      "current_completion": "UNFULFILLED",
+      "current_official": "FAIL",
+      "current_termination": "error: ValueError: contract must contain exactly ['constraints', 'desired_state', 'evaluator_intents', 'invariants', 'required_capabilities', 'schema_version']",
+      "official_transition": "lost",
+      "prior_completion": "UNFULFILLED",
+      "prior_official": "PASS",
+      "prior_termination": "unfulfilled:no_safe_transition",
+      "task_id": "35742"
+    },
+    {
+      "current_completion": "UNFULFILLED",
+      "current_official": "FAIL",
+      "current_termination": "error: ValueError: contract must contain exactly ['constraints', 'desired_state', 'evaluator_intents', 'invariants', 'required_capabilities', 'schema_version']",
+      "official_transition": "lost",
+      "prior_completion": "UNFULFILLED",
+      "prior_official": "PASS",
+      "prior_termination": "unfulfilled:no_safe_transition",
+      "task_id": "37554"
+    },
+    {
+      "current_completion": "UNFULFILLED",
+      "current_official": "FAIL",
+      "current_termination": "error: KeyError: 'Worksheet MyResult does not exist.'",
+      "official_transition": "unchanged",
+      "prior_completion": "UNFULFILLED",
+      "prior_official": "FAIL",
+      "prior_termination": "error: KeyError: 'Worksheet MyResult does not exist.'",
+      "task_id": "395-36"
+    },
+    {
+      "current_completion": "UNFULFILLED",
+      "current_official": "FAIL",
+      "current_termination": "error: ValueError: procedural contract proposal rejected at invariants[]",
+      "official_transition": "unchanged",
+      "prior_completion": "UNFULFILLED",
+      "prior_official": "FAIL",
+      "prior_termination": "error: ValueError: procedural contract proposal rejected at invariants[]",
+      "task_id": "448-11"
+    },
+    {
+      "current_completion": "UNKNOWN",
+      "current_official": "FAIL",
+      "current_termination": "unknown:evaluation_uncertain",
+      "official_transition": "unchanged",
+      "prior_completion": "FULFILLED",
+      "prior_official": "FAIL",
+      "prior_termination": "fulfilled",
+      "task_id": "45738"
+    },
+    {
+      "current_completion": "UNFULFILLED",
+      "current_official": "PASS",
+      "current_termination": "unfulfilled:no_progress",
+      "official_transition": "unchanged",
+      "prior_completion": "UNFULFILLED",
+      "prior_official": "PASS",
+      "prior_termination": "unfulfilled:no_safe_transition",
+      "task_id": "47766"
+    },
+    {
+      "current_completion": "UNKNOWN",
+      "current_official": "PASS",
+      "current_termination": "unknown:no_progress",
+      "official_transition": "gained",
+      "prior_completion": "UNFULFILLED",
+      "prior_official": "FAIL",
+      "prior_termination": "unfulfilled:no_safe_transition",
+      "task_id": "49237"
+    },
+    {
+      "current_completion": "FULFILLED",
+      "current_official": "PASS",
+      "current_termination": "fulfilled",
+      "official_transition": "gained",
+      "prior_completion": "UNFULFILLED",
+      "prior_official": "FAIL",
+      "prior_termination": "unfulfilled:no_safe_transition",
+      "task_id": "50526"
+    },
+    {
+      "current_completion": "UNFULFILLED",
+      "current_official": "FAIL",
+      "current_termination": "unfulfilled:no_progress",
+      "official_transition": "unchanged",
+      "prior_completion": "UNFULFILLED",
+      "prior_official": "FAIL",
+      "prior_termination": "unfulfilled:no_safe_transition",
+      "task_id": "50971"
+    },
+    {
+      "current_completion": "UNFULFILLED",
+      "current_official": "FAIL",
+      "current_termination": "unfulfilled:no_progress",
+      "official_transition": "unchanged",
+      "prior_completion": "UNFULFILLED",
+      "prior_official": "FAIL",
+      "prior_termination": "unfulfilled:no_progress",
+      "task_id": "567-21"
+    },
+    {
+      "current_completion": "UNFULFILLED",
+      "current_official": "PASS",
+      "current_termination": "error: ValueError: transition.inputs must contain exactly ['selector']",
+      "official_transition": "gained",
+      "prior_completion": "UNFULFILLED",
+      "prior_official": "FAIL",
+      "prior_termination": "error: ValueError: contract must contain exactly ['constraints', 'desired_state', 'evaluator_intents', 'invariants', 'required_capabilities', 'schema_version']",
+      "task_id": "58147"
+    },
+    {
+      "current_completion": "FULFILLED",
+      "current_official": "PASS",
+      "current_termination": "fulfilled",
+      "official_transition": "unchanged",
+      "prior_completion": "FULFILLED",
+      "prior_official": "PASS",
+      "prior_termination": "fulfilled",
+      "task_id": "59794"
+    },
+    {
+      "current_completion": "UNFULFILLED",
+      "current_official": "FAIL",
+      "current_termination": "error: ValueError: procedural contract proposal rejected at constraints[]",
+      "official_transition": "unchanged",
+      "prior_completion": "UNFULFILLED",
+      "prior_official": "FAIL",
+      "prior_termination": "unfulfilled:no_progress",
+      "task_id": "61-4"
+    },
+    {
+      "current_completion": "UNFULFILLED",
+      "current_official": "FAIL",
+      "current_termination": "unfulfilled:no_safe_transition",
+      "official_transition": "unchanged",
+      "prior_completion": "UNFULFILLED",
+      "prior_official": "FAIL",
+      "prior_termination": "unfulfilled:no_safe_transition",
+      "task_id": "66-24"
+    }
+  ],
+  "prior": {
+    "actions_per_success": 2.375,
+    "artifact_validity_rate_external": 0.95,
+    "cell_accuracy": 0.1674,
+    "estimated_cost_per_success": 0.06123,
+    "false_fulfilment_rate": 0.5,
+    "false_unfulfilment_rate": 0.3888888888888889,
+    "fulfilled_claims": 2,
+    "fulfilled_precision": 0.5,
+    "fulfilled_recall": 0.125,
+    "iterations_per_success": 3.0,
+    "latency_ms_per_success": 27667.875,
+    "median_actions_per_cycle": 1,
+    "median_cycles_per_task": 1.0,
+    "median_tokens_per_cycle": 23384,
+    "median_tokens_per_task": 47400.5,
+    "official_pass_rate": 0.4,
+    "operational_emergency_ceiling_terminations": 1,
+    "recoverable_first_attempt_failures": 8,
+    "recovery_yield": 0.25,
+    "successful_recoveries": 2,
+    "task_count": 20,
+    "tasks_completing_ge_1_cycle": 14,
+    "tasks_completing_ge_2_cycles": 4,
+    "tasks_completing_ge_3_cycles": 1,
+    "tokens_per_recovery": 70841.0,
+    "tokens_per_success": 74597.5
+  },
+  "resource_totals": {
+    "current": {
+      "actions": 36,
+      "estimated_cost": 1.39746525,
+      "iterations": 45,
+      "latency_ms": 495020,
+      "tokens": 1743803
+    },
+    "prior": {
+      "actions": 34,
+      "estimated_cost": 1.30007625,
+      "iterations": 45,
+      "latency_ms": 436649,
+      "tokens": 1607987
+    }
+  },
+  "unauthorized_mutation_findings": {
+    "current": 2,
+    "prior": 1
+  },
+  "unchanged_pass_tasks": [
+    "105-24",
+    "120-24",
+    "31011",
+    "47766",
+    "59794"
+  ]
+}

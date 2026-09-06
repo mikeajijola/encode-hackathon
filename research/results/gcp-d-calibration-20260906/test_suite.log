@@ -1,0 +1,11 @@
+debconf: delaying package configuration, since apt-utils is not installed
+........................................................ [ 35%]
+................................................................ [ 75%]
+......................................                                   [100%]
+=============================== warnings summary ===============================
+../../app/.venv/lib/python3.13/site-packages/_pytest/cacheprovider.py:469
+  /app/.venv/lib/python3.13/site-packages/_pytest/cacheprovider.py:469: PytestCacheWarning: could not create cache path /workspace/research/.pytest_cache/v/cache/nodeids: [Errno 30] Read-only file system: '/workspace/research/pytest-cache-files-3bkwa_77'
+    config.cache.set("cache/nodeids", sorted(self.cached_nodeids))
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+158 passed, 1 warning, 24 subtests passed in 21.95s
