@@ -1,0 +1,1077 @@
+{
+  "parent_commit": "c70e0b5",
+  "before": {
+    "actions_per_success": 2.111111111111111,
+    "estimated_cost_per_success": 0.06460433333333333,
+    "false_fulfilment_rate": 0.0,
+    "false_unfulfilment_rate": 0.3333333333333333,
+    "iterations_per_success": 2.888888888888889,
+    "latency_ms_per_success": 26471.88888888889,
+    "median_actions_per_cycle": 1.0,
+    "median_cycles_per_task": 1.0,
+    "median_tokens_per_cycle": 21822.0,
+    "median_tokens_per_task": 55721.5,
+    "official_pass_rate": 0.45,
+    "operational_emergency_ceiling_terminations": 1,
+    "recoverable_first_attempt_failures": 7,
+    "recovery_yield": 0.14285714285714285,
+    "successful_recoveries": 1,
+    "task_count": 20,
+    "tasks_completing_ge_1_cycle": 16,
+    "tasks_completing_ge_2_cycles": 5,
+    "tasks_completing_ge_3_cycles": 2,
+    "tokens_per_recovery": 79107.0,
+    "tokens_per_success": 78572.44444444444,
+    "unknown_official_fail": 1,
+    "unknown_official_pass": 3,
+    "unknown_rate": 0.2,
+    "cell_accuracy": 0.1675,
+    "fulfilled_precision": 1.0,
+    "fulfilled_recall": 0.1111111111111111,
+    "fulfilled_claims": 1,
+    "valid_artifacts": 20,
+    "runtime_positive_validity_flags": 17,
+    "runtime_unknown_validity_flags": 3,
+    "preservation_violations": 2,
+    "mean_resources": {
+      "actions": 1.95,
+      "iterations": 2.55,
+      "tokens": 89386.45,
+      "latency_ms": 25661.85,
+      "estimated_cost": 0.0732355875
+    },
+    "total_resources": {
+      "actions": 39,
+      "iterations": 51,
+      "tokens": 1787729,
+      "latency_ms": 513237,
+      "estimated_cost": 1.46471175
+    }
+  },
+  "after": {
+    "actions_per_success": 2.5,
+    "estimated_cost_per_success": 0.07165225,
+    "false_fulfilment_rate": 0.0,
+    "false_unfulfilment_rate": 0.1875,
+    "iterations_per_success": 3.1666666666666665,
+    "latency_ms_per_success": 40388.833333333336,
+    "median_actions_per_cycle": 1,
+    "median_cycles_per_task": 1.0,
+    "median_tokens_per_cycle": 27220,
+    "median_tokens_per_task": 35851.5,
+    "official_pass_rate": 0.3,
+    "operational_emergency_ceiling_terminations": 1,
+    "recoverable_first_attempt_failures": 6,
+    "recovery_yield": 0.0,
+    "successful_recoveries": 0,
+    "task_count": 20,
+    "tasks_completing_ge_1_cycle": 12,
+    "tasks_completing_ge_2_cycles": 5,
+    "tasks_completing_ge_3_cycles": 3,
+    "tokens_per_recovery": null,
+    "tokens_per_success": 88767.0,
+    "unknown_official_fail": 1,
+    "unknown_official_pass": 2,
+    "unknown_rate": 0.15,
+    "cell_accuracy": 0.1545,
+    "fulfilled_precision": 1.0,
+    "fulfilled_recall": 0.16666666666666666,
+    "fulfilled_claims": 1,
+    "valid_artifacts": 20,
+    "runtime_positive_validity_flags": 14,
+    "runtime_unknown_validity_flags": 6,
+    "preservation_violations": 0,
+    "mean_resources": {
+      "actions": 1.85,
+      "iterations": 2.4,
+      "tokens": 84231.85,
+      "latency_ms": 25361.2,
+      "estimated_cost": 0.0672373875
+    },
+    "total_resources": {
+      "actions": 37,
+      "iterations": 48,
+      "tokens": 1684637,
+      "latency_ms": 507224,
+      "estimated_cost": 1.34474775
+    }
+  },
+  "paired": [
+    {
+      "task_id": "105-24",
+      "before": {
+        "task_id": "105-24",
+        "official_pass": true,
+        "internal_status": "UNKNOWN",
+        "constraint_violation": false,
+        "runtime_validity_flag": true,
+        "artifact_valid": true,
+        "actions": 2,
+        "iterations": 3,
+        "tokens": 122564,
+        "latency_ms": 29147,
+        "estimated_cost": 0.098589,
+        "recovered": false,
+        "termination": "unknown:no_safe_transition",
+        "failure_classes": [
+          "planning_failure"
+        ]
+      },
+      "after": {
+        "task_id": "105-24",
+        "official_pass": false,
+        "internal_status": "UNFULFILLED",
+        "constraint_violation": false,
+        "runtime_validity_flag": null,
+        "artifact_valid": true,
+        "actions": 0,
+        "iterations": 0,
+        "tokens": 15601,
+        "latency_ms": 4427,
+        "estimated_cost": 0.01407975,
+        "recovered": false,
+        "termination": "error: ValueError: contract must contain exactly ['constraints', 'desired_state', 'evaluator_intents', 'invariants', 'required_capabilities', 'schema_version']",
+        "failure_classes": [
+          "execution_failure",
+          "specification_failure"
+        ]
+      }
+    },
+    {
+      "task_id": "120-24",
+      "before": {
+        "task_id": "120-24",
+        "official_pass": true,
+        "internal_status": "UNFULFILLED",
+        "constraint_violation": false,
+        "runtime_validity_flag": true,
+        "artifact_valid": true,
+        "actions": 3,
+        "iterations": 4,
+        "tokens": 79107,
+        "latency_ms": 29618,
+        "estimated_cost": 0.06618225,
+        "recovered": true,
+        "termination": "unfulfilled:no_progress",
+        "failure_classes": [
+          "reconciliation_failure"
+        ]
+      },
+      "after": {
+        "task_id": "120-24",
+        "official_pass": false,
+        "internal_status": "UNFULFILLED",
+        "constraint_violation": false,
+        "runtime_validity_flag": true,
+        "artifact_valid": true,
+        "actions": 5,
+        "iterations": 6,
+        "tokens": 132315,
+        "latency_ms": 51609,
+        "estimated_cost": 0.10734525,
+        "recovered": false,
+        "termination": "unfulfilled:no_progress",
+        "failure_classes": [
+          "reconciliation_failure"
+        ]
+      }
+    },
+    {
+      "task_id": "141-20",
+      "before": {
+        "task_id": "141-20",
+        "official_pass": false,
+        "internal_status": "UNFULFILLED",
+        "constraint_violation": false,
+        "runtime_validity_flag": true,
+        "artifact_valid": true,
+        "actions": 3,
+        "iterations": 3,
+        "tokens": 21648,
+        "latency_ms": 34575,
+        "estimated_cost": 0.020184,
+        "recovered": false,
+        "termination": "unfulfilled:no_safe_transition",
+        "failure_classes": [
+          "planning_failure"
+        ]
+      },
+      "after": {
+        "task_id": "141-20",
+        "official_pass": false,
+        "internal_status": "UNFULFILLED",
+        "constraint_violation": false,
+        "runtime_validity_flag": true,
+        "artifact_valid": true,
+        "actions": 2,
+        "iterations": 3,
+        "tokens": 21714,
+        "latency_ms": 22688,
+        "estimated_cost": 0.0207045,
+        "recovered": false,
+        "termination": "unfulfilled:no_progress",
+        "failure_classes": [
+          "reconciliation_failure"
+        ]
+      }
+    },
+    {
+      "task_id": "168-17",
+      "before": {
+        "task_id": "168-17",
+        "official_pass": true,
+        "internal_status": "UNFULFILLED",
+        "constraint_violation": false,
+        "runtime_validity_flag": true,
+        "artifact_valid": true,
+        "actions": 1,
+        "iterations": 2,
+        "tokens": 16264,
+        "latency_ms": 28497,
+        "estimated_cost": 0.016584,
+        "recovered": false,
+        "termination": "unfulfilled:no_safe_transition",
+        "failure_classes": [
+          "planning_failure"
+        ]
+      },
+      "after": {
+        "task_id": "168-17",
+        "official_pass": false,
+        "internal_status": "UNFULFILLED",
+        "constraint_violation": false,
+        "runtime_validity_flag": true,
+        "artifact_valid": true,
+        "actions": 0,
+        "iterations": 1,
+        "tokens": 9696,
+        "latency_ms": 13359,
+        "estimated_cost": 0.010446,
+        "recovered": false,
+        "termination": "unfulfilled:no_safe_transition",
+        "failure_classes": [
+          "planning_failure"
+        ]
+      }
+    },
+    {
+      "task_id": "209-30",
+      "before": {
+        "task_id": "209-30",
+        "official_pass": false,
+        "internal_status": "UNFULFILLED",
+        "constraint_violation": false,
+        "runtime_validity_flag": null,
+        "artifact_valid": true,
+        "actions": 0,
+        "iterations": 0,
+        "tokens": 552006,
+        "latency_ms": 28258,
+        "estimated_cost": 0.4165305,
+        "recovered": false,
+        "termination": "error: BudgetExceeded: operational_emergency_token_ceiling",
+        "failure_classes": [
+          "budget_failure"
+        ]
+      },
+      "after": {
+        "task_id": "209-30",
+        "official_pass": false,
+        "internal_status": "UNFULFILLED",
+        "constraint_violation": false,
+        "runtime_validity_flag": null,
+        "artifact_valid": true,
+        "actions": 0,
+        "iterations": 0,
+        "tokens": 551983,
+        "latency_ms": 25773,
+        "estimated_cost": 0.41657625,
+        "recovered": false,
+        "termination": "error: BudgetExceeded: operational_emergency_token_ceiling",
+        "failure_classes": [
+          "budget_failure"
+        ]
+      }
+    },
+    {
+      "task_id": "31011",
+      "before": {
+        "task_id": "31011",
+        "official_pass": true,
+        "internal_status": "UNKNOWN",
+        "constraint_violation": false,
+        "runtime_validity_flag": true,
+        "artifact_valid": true,
+        "actions": 2,
+        "iterations": 3,
+        "tokens": 98390,
+        "latency_ms": 20657,
+        "estimated_cost": 0.0787635,
+        "recovered": false,
+        "termination": "unknown:no_progress",
+        "failure_classes": [
+          "reconciliation_failure"
+        ]
+      },
+      "after": {
+        "task_id": "31011",
+        "official_pass": true,
+        "internal_status": "UNKNOWN",
+        "constraint_violation": false,
+        "runtime_validity_flag": true,
+        "artifact_valid": true,
+        "actions": 1,
+        "iterations": 2,
+        "tokens": 66100,
+        "latency_ms": 15184,
+        "estimated_cost": 0.053571,
+        "recovered": false,
+        "termination": "unknown:no_progress",
+        "failure_classes": [
+          "reconciliation_failure"
+        ]
+      }
+    },
+    {
+      "task_id": "35742",
+      "before": {
+        "task_id": "35742",
+        "official_pass": false,
+        "internal_status": "UNFULFILLED",
+        "constraint_violation": false,
+        "runtime_validity_flag": null,
+        "artifact_valid": true,
+        "actions": 0,
+        "iterations": 0,
+        "tokens": 14947,
+        "latency_ms": 5851,
+        "estimated_cost": 0.01303425,
+        "recovered": false,
+        "termination": "error: ValueError: contract must contain exactly ['constraints', 'desired_state', 'evaluator_intents', 'invariants', 'required_capabilities', 'schema_version']",
+        "failure_classes": [
+          "execution_failure",
+          "specification_failure"
+        ]
+      },
+      "after": {
+        "task_id": "35742",
+        "official_pass": true,
+        "internal_status": "UNKNOWN",
+        "constraint_violation": false,
+        "runtime_validity_flag": true,
+        "artifact_valid": true,
+        "actions": 5,
+        "iterations": 6,
+        "tokens": 178100,
+        "latency_ms": 81848,
+        "estimated_cost": 0.140961,
+        "recovered": false,
+        "termination": "unknown:no_progress",
+        "failure_classes": [
+          "reconciliation_failure"
+        ]
+      }
+    },
+    {
+      "task_id": "37554",
+      "before": {
+        "task_id": "37554",
+        "official_pass": true,
+        "internal_status": "UNKNOWN",
+        "constraint_violation": false,
+        "runtime_validity_flag": true,
+        "artifact_valid": true,
+        "actions": 1,
+        "iterations": 2,
+        "tokens": 41521,
+        "latency_ms": 24765,
+        "estimated_cost": 0.04007775,
+        "recovered": false,
+        "termination": "unknown:no_progress",
+        "failure_classes": [
+          "reconciliation_failure"
+        ]
+      },
+      "after": {
+        "task_id": "37554",
+        "official_pass": false,
+        "internal_status": "UNFULFILLED",
+        "constraint_violation": false,
+        "runtime_validity_flag": null,
+        "artifact_valid": true,
+        "actions": 0,
+        "iterations": 0,
+        "tokens": 7540,
+        "latency_ms": 2647,
+        "estimated_cost": 0.007176,
+        "recovered": false,
+        "termination": "error: ValueError: contract must contain exactly ['constraints', 'desired_state', 'evaluator_intents', 'invariants', 'required_capabilities', 'schema_version']",
+        "failure_classes": [
+          "execution_failure",
+          "specification_failure"
+        ]
+      }
+    },
+    {
+      "task_id": "395-36",
+      "before": {
+        "task_id": "395-36",
+        "official_pass": false,
+        "internal_status": "UNFULFILLED",
+        "constraint_violation": false,
+        "runtime_validity_flag": null,
+        "artifact_valid": true,
+        "actions": 0,
+        "iterations": 0,
+        "tokens": 12473,
+        "latency_ms": 3388,
+        "estimated_cost": 0.01124475,
+        "recovered": false,
+        "termination": "error: KeyError: 'Worksheet MyResult does not exist.'",
+        "failure_classes": [
+          "execution_failure"
+        ]
+      },
+      "after": {
+        "task_id": "395-36",
+        "official_pass": false,
+        "internal_status": "UNFULFILLED",
+        "constraint_violation": false,
+        "runtime_validity_flag": null,
+        "artifact_valid": true,
+        "actions": 0,
+        "iterations": 0,
+        "tokens": 12385,
+        "latency_ms": 2702,
+        "estimated_cost": 0.01091475,
+        "recovered": false,
+        "termination": "error: KeyError: 'Worksheet MyResult does not exist.'",
+        "failure_classes": [
+          "execution_failure"
+        ]
+      }
+    },
+    {
+      "task_id": "448-11",
+      "before": {
+        "task_id": "448-11",
+        "official_pass": true,
+        "internal_status": "UNFULFILLED",
+        "constraint_violation": false,
+        "runtime_validity_flag": true,
+        "artifact_valid": true,
+        "actions": 3,
+        "iterations": 4,
+        "tokens": 105359,
+        "latency_ms": 26534,
+        "estimated_cost": 0.08472525,
+        "recovered": false,
+        "termination": "unfulfilled:no_progress",
+        "failure_classes": [
+          "reconciliation_failure"
+        ]
+      },
+      "after": {
+        "task_id": "448-11",
+        "official_pass": true,
+        "internal_status": "UNFULFILLED",
+        "constraint_violation": false,
+        "runtime_validity_flag": true,
+        "artifact_valid": true,
+        "actions": 3,
+        "iterations": 4,
+        "tokens": 95512,
+        "latency_ms": 44606,
+        "estimated_cost": 0.077985,
+        "recovered": false,
+        "termination": "unfulfilled:no_progress",
+        "failure_classes": [
+          "reconciliation_failure"
+        ]
+      }
+    },
+    {
+      "task_id": "45738",
+      "before": {
+        "task_id": "45738",
+        "official_pass": false,
+        "internal_status": "UNKNOWN",
+        "constraint_violation": false,
+        "runtime_validity_flag": true,
+        "artifact_valid": true,
+        "actions": 2,
+        "iterations": 3,
+        "tokens": 148414,
+        "latency_ms": 18286,
+        "estimated_cost": 0.1148325,
+        "recovered": false,
+        "termination": "unknown:evaluation_uncertain",
+        "failure_classes": []
+      },
+      "after": {
+        "task_id": "45738",
+        "official_pass": false,
+        "internal_status": "UNKNOWN",
+        "constraint_violation": false,
+        "runtime_validity_flag": true,
+        "artifact_valid": true,
+        "actions": 2,
+        "iterations": 3,
+        "tokens": 148290,
+        "latency_ms": 24167,
+        "estimated_cost": 0.1147215,
+        "recovered": false,
+        "termination": "unknown:evaluation_uncertain",
+        "failure_classes": []
+      }
+    },
+    {
+      "task_id": "47766",
+      "before": {
+        "task_id": "47766",
+        "official_pass": true,
+        "internal_status": "UNFULFILLED",
+        "constraint_violation": false,
+        "runtime_validity_flag": true,
+        "artifact_valid": true,
+        "actions": 4,
+        "iterations": 4,
+        "tokens": 172685,
+        "latency_ms": 41741,
+        "estimated_cost": 0.13405875,
+        "recovered": false,
+        "termination": "unfulfilled:no_safe_transition",
+        "failure_classes": [
+          "planning_failure"
+        ]
+      },
+      "after": {
+        "task_id": "47766",
+        "official_pass": true,
+        "internal_status": "UNFULFILLED",
+        "constraint_violation": false,
+        "runtime_validity_flag": true,
+        "artifact_valid": true,
+        "actions": 3,
+        "iterations": 3,
+        "tokens": 123135,
+        "latency_ms": 57215,
+        "estimated_cost": 0.09610725,
+        "recovered": false,
+        "termination": "unfulfilled:no_safe_transition",
+        "failure_classes": [
+          "planning_failure"
+        ]
+      }
+    },
+    {
+      "task_id": "49237",
+      "before": {
+        "task_id": "49237",
+        "official_pass": false,
+        "internal_status": "UNFULFILLED",
+        "constraint_violation": false,
+        "runtime_validity_flag": true,
+        "artifact_valid": true,
+        "actions": 4,
+        "iterations": 5,
+        "tokens": 52039,
+        "latency_ms": 28571,
+        "estimated_cost": 0.04491225,
+        "recovered": false,
+        "termination": "unfulfilled:no_progress",
+        "failure_classes": [
+          "reconciliation_failure"
+        ]
+      },
+      "after": {
+        "task_id": "49237",
+        "official_pass": false,
+        "internal_status": "UNFULFILLED",
+        "constraint_violation": false,
+        "runtime_validity_flag": null,
+        "artifact_valid": true,
+        "actions": 0,
+        "iterations": 0,
+        "tokens": 5014,
+        "latency_ms": 4142,
+        "estimated_cost": 0.0053445,
+        "recovered": false,
+        "termination": "error: ValueError: contract must contain exactly ['constraints', 'desired_state', 'evaluator_intents', 'invariants', 'required_capabilities', 'schema_version']",
+        "failure_classes": [
+          "execution_failure",
+          "specification_failure"
+        ]
+      }
+    },
+    {
+      "task_id": "50526",
+      "before": {
+        "task_id": "50526",
+        "official_pass": false,
+        "internal_status": "UNFULFILLED",
+        "constraint_violation": false,
+        "runtime_validity_flag": true,
+        "artifact_valid": true,
+        "actions": 2,
+        "iterations": 2,
+        "tokens": 12357,
+        "latency_ms": 14521,
+        "estimated_cost": 0.01259175,
+        "recovered": false,
+        "termination": "unfulfilled:no_safe_transition",
+        "failure_classes": [
+          "planning_failure"
+        ]
+      },
+      "after": {
+        "task_id": "50526",
+        "official_pass": false,
+        "internal_status": "UNFULFILLED",
+        "constraint_violation": false,
+        "runtime_validity_flag": true,
+        "artifact_valid": true,
+        "actions": 6,
+        "iterations": 7,
+        "tokens": 41642,
+        "latency_ms": 39996,
+        "estimated_cost": 0.0388425,
+        "recovered": false,
+        "termination": "unfulfilled:no_progress",
+        "failure_classes": [
+          "reconciliation_failure"
+        ]
+      }
+    },
+    {
+      "task_id": "50971",
+      "before": {
+        "task_id": "50971",
+        "official_pass": false,
+        "internal_status": "UNFULFILLED",
+        "constraint_violation": false,
+        "runtime_validity_flag": true,
+        "artifact_valid": true,
+        "actions": 2,
+        "iterations": 2,
+        "tokens": 23869,
+        "latency_ms": 16029,
+        "estimated_cost": 0.02227275,
+        "recovered": false,
+        "termination": "unfulfilled:no_safe_transition",
+        "failure_classes": [
+          "planning_failure"
+        ]
+      },
+      "after": {
+        "task_id": "50971",
+        "official_pass": false,
+        "internal_status": "UNFULFILLED",
+        "constraint_violation": false,
+        "runtime_validity_flag": true,
+        "artifact_valid": true,
+        "actions": 3,
+        "iterations": 3,
+        "tokens": 30061,
+        "latency_ms": 19408,
+        "estimated_cost": 0.02556675,
+        "recovered": false,
+        "termination": "unfulfilled:no_safe_transition",
+        "failure_classes": [
+          "planning_failure"
+        ]
+      }
+    },
+    {
+      "task_id": "567-21",
+      "before": {
+        "task_id": "567-21",
+        "official_pass": false,
+        "internal_status": "UNFULFILLED",
+        "constraint_violation": false,
+        "runtime_validity_flag": true,
+        "artifact_valid": true,
+        "actions": 3,
+        "iterations": 4,
+        "tokens": 99327,
+        "latency_ms": 75758,
+        "estimated_cost": 0.11022525,
+        "recovered": false,
+        "termination": "unfulfilled:no_progress",
+        "failure_classes": [
+          "reconciliation_failure"
+        ]
+      },
+      "after": {
+        "task_id": "567-21",
+        "official_pass": false,
+        "internal_status": "UNFULFILLED",
+        "constraint_violation": false,
+        "runtime_validity_flag": null,
+        "artifact_valid": true,
+        "actions": 0,
+        "iterations": 0,
+        "tokens": 9073,
+        "latency_ms": 5876,
+        "estimated_cost": 0.00851775,
+        "recovered": false,
+        "termination": "error: ValueError: contract must contain exactly ['constraints', 'desired_state', 'evaluator_intents', 'invariants', 'required_capabilities', 'schema_version']",
+        "failure_classes": [
+          "execution_failure",
+          "specification_failure"
+        ]
+      }
+    },
+    {
+      "task_id": "58147",
+      "before": {
+        "task_id": "58147",
+        "official_pass": true,
+        "internal_status": "UNFULFILLED",
+        "constraint_violation": true,
+        "runtime_validity_flag": true,
+        "artifact_valid": true,
+        "actions": 2,
+        "iterations": 2,
+        "tokens": 59404,
+        "latency_ms": 25464,
+        "estimated_cost": 0.049044,
+        "recovered": false,
+        "termination": "unfulfilled:no_safe_transition",
+        "failure_classes": [
+          "constraint_violation",
+          "planning_failure"
+        ]
+      },
+      "after": {
+        "task_id": "58147",
+        "official_pass": true,
+        "internal_status": "UNFULFILLED",
+        "constraint_violation": false,
+        "runtime_validity_flag": true,
+        "artifact_valid": true,
+        "actions": 2,
+        "iterations": 2,
+        "tokens": 57894,
+        "latency_ms": 31043,
+        "estimated_cost": 0.0478785,
+        "recovered": false,
+        "termination": "unfulfilled:no_safe_transition",
+        "failure_classes": [
+          "planning_failure"
+        ]
+      }
+    },
+    {
+      "task_id": "59794",
+      "before": {
+        "task_id": "59794",
+        "official_pass": true,
+        "internal_status": "FULFILLED",
+        "constraint_violation": false,
+        "runtime_validity_flag": true,
+        "artifact_valid": true,
+        "actions": 1,
+        "iterations": 2,
+        "tokens": 11858,
+        "latency_ms": 11824,
+        "estimated_cost": 0.0134145,
+        "recovered": false,
+        "termination": "fulfilled",
+        "failure_classes": []
+      },
+      "after": {
+        "task_id": "59794",
+        "official_pass": true,
+        "internal_status": "FULFILLED",
+        "constraint_violation": false,
+        "runtime_validity_flag": true,
+        "artifact_valid": true,
+        "actions": 1,
+        "iterations": 2,
+        "tokens": 11861,
+        "latency_ms": 12437,
+        "estimated_cost": 0.01341075,
+        "recovered": false,
+        "termination": "fulfilled",
+        "failure_classes": []
+      }
+    },
+    {
+      "task_id": "61-4",
+      "before": {
+        "task_id": "61-4",
+        "official_pass": false,
+        "internal_status": "UNFULFILLED",
+        "constraint_violation": true,
+        "runtime_validity_flag": true,
+        "artifact_valid": true,
+        "actions": 3,
+        "iterations": 4,
+        "tokens": 119094,
+        "latency_ms": 37832,
+        "estimated_cost": 0.0948225,
+        "recovered": false,
+        "termination": "unfulfilled:no_progress",
+        "failure_classes": [
+          "constraint_violation",
+          "reconciliation_failure"
+        ]
+      },
+      "after": {
+        "task_id": "61-4",
+        "official_pass": false,
+        "internal_status": "UNFULFILLED",
+        "constraint_violation": false,
+        "runtime_validity_flag": true,
+        "artifact_valid": true,
+        "actions": 4,
+        "iterations": 5,
+        "tokens": 153821,
+        "latency_ms": 34763,
+        "estimated_cost": 0.12102075,
+        "recovered": false,
+        "termination": "unfulfilled:no_progress",
+        "failure_classes": [
+          "reconciliation_failure"
+        ]
+      }
+    },
+    {
+      "task_id": "66-24",
+      "before": {
+        "task_id": "66-24",
+        "official_pass": false,
+        "internal_status": "UNFULFILLED",
+        "constraint_violation": false,
+        "runtime_validity_flag": true,
+        "artifact_valid": true,
+        "actions": 1,
+        "iterations": 2,
+        "tokens": 24403,
+        "latency_ms": 11921,
+        "estimated_cost": 0.02262225,
+        "recovered": false,
+        "termination": "unfulfilled:no_safe_transition",
+        "failure_classes": [
+          "planning_failure"
+        ]
+      },
+      "after": {
+        "task_id": "66-24",
+        "official_pass": false,
+        "internal_status": "UNFULFILLED",
+        "constraint_violation": false,
+        "runtime_validity_flag": true,
+        "artifact_valid": true,
+        "actions": 0,
+        "iterations": 1,
+        "tokens": 12900,
+        "latency_ms": 13334,
+        "estimated_cost": 0.013578,
+        "recovered": false,
+        "termination": "unfulfilled:no_safe_transition",
+        "failure_classes": [
+          "planning_failure"
+        ]
+      }
+    }
+  ],
+  "paired_pass_difference_ci95": {
+    "estimate": -0.15,
+    "lower": -0.35,
+    "upper": 0.05,
+    "confidence": 0.95,
+    "samples": 10000,
+    "seed": 20260906
+  },
+  "mcnemar": {
+    "control_only": 4,
+    "treatment_only": 1,
+    "discordant": 5,
+    "p_value": 0.375
+  },
+  "decision_gate": {
+    "preservation_at_most_prior_baseline_one": true,
+    "original_fixed_cases_remain_fixed": true,
+    "FFR_zero": true,
+    "precision_100_percent_nonvacuous": true,
+    "valid_artifacts_100_percent": true,
+    "official_pass_rate_at_least_parent": false,
+    "evidence_integrity": true
+  },
+  "proceed_ABCD": false,
+  "hash_verification": [
+    {
+      "task_id": "49237",
+      "matches": true
+    },
+    {
+      "task_id": "395-36",
+      "matches": true
+    },
+    {
+      "task_id": "50526",
+      "matches": true
+    },
+    {
+      "task_id": "567-21",
+      "matches": true
+    },
+    {
+      "task_id": "66-24",
+      "matches": true
+    },
+    {
+      "task_id": "45738",
+      "matches": true
+    },
+    {
+      "task_id": "50971",
+      "matches": true
+    },
+    {
+      "task_id": "448-11",
+      "matches": true
+    },
+    {
+      "task_id": "120-24",
+      "matches": true
+    },
+    {
+      "task_id": "37554",
+      "matches": true
+    },
+    {
+      "task_id": "58147",
+      "matches": true
+    },
+    {
+      "task_id": "105-24",
+      "matches": true
+    },
+    {
+      "task_id": "31011",
+      "matches": true
+    },
+    {
+      "task_id": "168-17",
+      "matches": true
+    },
+    {
+      "task_id": "61-4",
+      "matches": true
+    },
+    {
+      "task_id": "209-30",
+      "matches": true
+    },
+    {
+      "task_id": "47766",
+      "matches": true
+    },
+    {
+      "task_id": "35742",
+      "matches": true
+    },
+    {
+      "task_id": "59794",
+      "matches": true
+    },
+    {
+      "task_id": "141-20",
+      "matches": true
+    }
+  ],
+  "evidence_verification": [
+    {
+      "file": "45738.broker.jsonl",
+      "events": 38,
+      "verified": true
+    },
+    {
+      "file": "59794.broker.jsonl",
+      "events": 25,
+      "verified": true
+    },
+    {
+      "file": "141-20.broker.jsonl",
+      "events": 39,
+      "verified": true
+    },
+    {
+      "file": "50526.broker.jsonl",
+      "events": 92,
+      "verified": true
+    },
+    {
+      "file": "58147.broker.jsonl",
+      "events": 29,
+      "verified": true
+    },
+    {
+      "file": "395-36.broker.jsonl",
+      "events": 0,
+      "verified": true
+    },
+    {
+      "file": "47766.broker.jsonl",
+      "events": 41,
+      "verified": true
+    },
+    {
+      "file": "66-24.broker.jsonl",
+      "events": 12,
+      "verified": true
+    },
+    {
+      "file": "35742.broker.jsonl",
+      "events": 76,
+      "verified": true
+    },
+    {
+      "file": "61-4.broker.jsonl",
+      "events": 65,
+      "verified": true
+    },
+    {
+      "file": "31011.broker.jsonl",
+      "events": 26,
+      "verified": true
+    },
+    {
+      "file": "209-30.broker.jsonl",
+      "events": 10,
+      "verified": true
+    },
+    {
+      "file": "120-24.broker.jsonl",
+      "events": 86,
+      "verified": true
+    },
+    {
+      "file": "168-17.broker.jsonl",
+      "events": 13,
+      "verified": true
+    },
+    {
+      "file": "50971.broker.jsonl",
+      "events": 44,
+      "verified": true
+    },
+    {
+      "file": "448-11.broker.jsonl",
+      "events": 51,
+      "verified": true
+    }
+  ],
+  "false_fulfilments": [],
+  "recoveries": [],
+  "failure_distribution": {
+    "execution_failure": 5,
+    "specification_failure": 4,
+    "reconciliation_failure": 7,
+    "planning_failure": 5,
+    "budget_failure": 1
+  }
+}

@@ -1,0 +1,343 @@
+{
+  "tasks": [
+    {
+      "task_id": "105-24",
+      "byte_identical_to_initial": true,
+      "accepted_contract_present": false,
+      "outside_scope": [],
+      "package_parts_changed": [],
+      "checkpoints": []
+    },
+    {
+      "task_id": "120-24",
+      "byte_identical_to_initial": false,
+      "accepted_contract_present": true,
+      "outside_scope": [],
+      "package_parts_changed": [
+        "xl/worksheets/sheet1.xml"
+      ],
+      "checkpoints": [
+        {
+          "path": "checkpoints/120-24.first_mutation.xlsx",
+          "hash_matches": true
+        },
+        {
+          "path": "checkpoints/120-24/mutation-01.xlsx",
+          "hash_matches": true
+        },
+        {
+          "path": "checkpoints/120-24/mutation-02.xlsx",
+          "hash_matches": true
+        },
+        {
+          "path": "checkpoints/120-24/mutation-03.xlsx",
+          "hash_matches": true
+        },
+        {
+          "path": "checkpoints/120-24/mutation-04.xlsx",
+          "hash_matches": true
+        },
+        {
+          "path": "checkpoints/120-24/mutation-05.xlsx",
+          "hash_matches": true
+        }
+      ]
+    },
+    {
+      "task_id": "141-20",
+      "byte_identical_to_initial": false,
+      "accepted_contract_present": true,
+      "outside_scope": [],
+      "package_parts_changed": [
+        "xl/worksheets/sheet1.xml",
+        "xl/worksheets/sheet2.xml"
+      ],
+      "checkpoints": [
+        {
+          "path": "checkpoints/141-20.first_mutation.xlsx",
+          "hash_matches": true
+        },
+        {
+          "path": "checkpoints/141-20/mutation-01.xlsx",
+          "hash_matches": true
+        }
+      ]
+    },
+    {
+      "task_id": "168-17",
+      "byte_identical_to_initial": true,
+      "accepted_contract_present": true,
+      "outside_scope": [],
+      "package_parts_changed": [],
+      "checkpoints": []
+    },
+    {
+      "task_id": "209-30",
+      "byte_identical_to_initial": true,
+      "accepted_contract_present": true,
+      "outside_scope": [],
+      "package_parts_changed": [],
+      "checkpoints": []
+    },
+    {
+      "task_id": "31011",
+      "byte_identical_to_initial": false,
+      "accepted_contract_present": true,
+      "outside_scope": [],
+      "package_parts_changed": [
+        "xl/worksheets/sheet1.xml"
+      ],
+      "checkpoints": [
+        {
+          "path": "checkpoints/31011.first_mutation.xlsx",
+          "hash_matches": true
+        },
+        {
+          "path": "checkpoints/31011/mutation-01.xlsx",
+          "hash_matches": true
+        }
+      ]
+    },
+    {
+      "task_id": "35742",
+      "byte_identical_to_initial": false,
+      "accepted_contract_present": true,
+      "outside_scope": [],
+      "package_parts_changed": [
+        "xl/worksheets/sheet1.xml"
+      ],
+      "checkpoints": [
+        {
+          "path": "checkpoints/35742.first_mutation.xlsx",
+          "hash_matches": true
+        },
+        {
+          "path": "checkpoints/35742/mutation-01.xlsx",
+          "hash_matches": true
+        },
+        {
+          "path": "checkpoints/35742/mutation-02.xlsx",
+          "hash_matches": true
+        },
+        {
+          "path": "checkpoints/35742/mutation-03.xlsx",
+          "hash_matches": true
+        }
+      ]
+    },
+    {
+      "task_id": "37554",
+      "byte_identical_to_initial": true,
+      "accepted_contract_present": false,
+      "outside_scope": [],
+      "package_parts_changed": [],
+      "checkpoints": []
+    },
+    {
+      "task_id": "395-36",
+      "byte_identical_to_initial": true,
+      "accepted_contract_present": true,
+      "outside_scope": [],
+      "package_parts_changed": [],
+      "checkpoints": []
+    },
+    {
+      "task_id": "448-11",
+      "byte_identical_to_initial": false,
+      "accepted_contract_present": true,
+      "outside_scope": [],
+      "package_parts_changed": [
+        "xl/worksheets/sheet1.xml"
+      ],
+      "checkpoints": [
+        {
+          "path": "checkpoints/448-11.first_mutation.xlsx",
+          "hash_matches": true
+        },
+        {
+          "path": "checkpoints/448-11/mutation-01.xlsx",
+          "hash_matches": true
+        }
+      ]
+    },
+    {
+      "task_id": "45738",
+      "byte_identical_to_initial": false,
+      "accepted_contract_present": true,
+      "outside_scope": [],
+      "package_parts_changed": [
+        "xl/worksheets/sheet1.xml"
+      ],
+      "checkpoints": [
+        {
+          "path": "checkpoints/45738.first_mutation.xlsx",
+          "hash_matches": true
+        },
+        {
+          "path": "checkpoints/45738/mutation-01.xlsx",
+          "hash_matches": true
+        },
+        {
+          "path": "checkpoints/45738/mutation-02.xlsx",
+          "hash_matches": true
+        }
+      ]
+    },
+    {
+      "task_id": "47766",
+      "byte_identical_to_initial": false,
+      "accepted_contract_present": true,
+      "outside_scope": [],
+      "package_parts_changed": [
+        "xl/worksheets/sheet1.xml"
+      ],
+      "checkpoints": [
+        {
+          "path": "checkpoints/47766.first_mutation.xlsx",
+          "hash_matches": true
+        },
+        {
+          "path": "checkpoints/47766/mutation-01.xlsx",
+          "hash_matches": true
+        }
+      ]
+    },
+    {
+      "task_id": "49237",
+      "byte_identical_to_initial": true,
+      "accepted_contract_present": false,
+      "outside_scope": [],
+      "package_parts_changed": [],
+      "checkpoints": []
+    },
+    {
+      "task_id": "50526",
+      "byte_identical_to_initial": false,
+      "accepted_contract_present": true,
+      "outside_scope": [],
+      "package_parts_changed": [
+        "xl/worksheets/sheet1.xml"
+      ],
+      "checkpoints": [
+        {
+          "path": "checkpoints/50526.first_mutation.xlsx",
+          "hash_matches": true
+        },
+        {
+          "path": "checkpoints/50526/mutation-01.xlsx",
+          "hash_matches": true
+        },
+        {
+          "path": "checkpoints/50526/mutation-02.xlsx",
+          "hash_matches": true
+        },
+        {
+          "path": "checkpoints/50526/mutation-03.xlsx",
+          "hash_matches": true
+        },
+        {
+          "path": "checkpoints/50526/mutation-04.xlsx",
+          "hash_matches": true
+        }
+      ]
+    },
+    {
+      "task_id": "50971",
+      "byte_identical_to_initial": false,
+      "accepted_contract_present": true,
+      "outside_scope": [],
+      "package_parts_changed": [
+        "xl/worksheets/sheet1.xml"
+      ],
+      "checkpoints": [
+        {
+          "path": "checkpoints/50971.first_mutation.xlsx",
+          "hash_matches": true
+        },
+        {
+          "path": "checkpoints/50971/mutation-01.xlsx",
+          "hash_matches": true
+        },
+        {
+          "path": "checkpoints/50971/mutation-02.xlsx",
+          "hash_matches": true
+        }
+      ]
+    },
+    {
+      "task_id": "567-21",
+      "byte_identical_to_initial": true,
+      "accepted_contract_present": false,
+      "outside_scope": [],
+      "package_parts_changed": [],
+      "checkpoints": []
+    },
+    {
+      "task_id": "58147",
+      "byte_identical_to_initial": false,
+      "accepted_contract_present": true,
+      "outside_scope": [],
+      "package_parts_changed": [
+        "xl/worksheets/sheet2.xml"
+      ],
+      "checkpoints": [
+        {
+          "path": "checkpoints/58147.first_mutation.xlsx",
+          "hash_matches": true
+        },
+        {
+          "path": "checkpoints/58147/mutation-01.xlsx",
+          "hash_matches": true
+        }
+      ]
+    },
+    {
+      "task_id": "59794",
+      "byte_identical_to_initial": false,
+      "accepted_contract_present": true,
+      "outside_scope": [],
+      "package_parts_changed": [
+        "xl/worksheets/sheet1.xml"
+      ],
+      "checkpoints": [
+        {
+          "path": "checkpoints/59794.first_mutation.xlsx",
+          "hash_matches": true
+        },
+        {
+          "path": "checkpoints/59794/mutation-01.xlsx",
+          "hash_matches": true
+        }
+      ]
+    },
+    {
+      "task_id": "61-4",
+      "byte_identical_to_initial": false,
+      "accepted_contract_present": true,
+      "outside_scope": [],
+      "package_parts_changed": [
+        "xl/worksheets/sheet2.xml"
+      ],
+      "checkpoints": [
+        {
+          "path": "checkpoints/61-4.first_mutation.xlsx",
+          "hash_matches": true
+        },
+        {
+          "path": "checkpoints/61-4/mutation-01.xlsx",
+          "hash_matches": true
+        }
+      ]
+    },
+    {
+      "task_id": "66-24",
+      "byte_identical_to_initial": true,
+      "accepted_contract_present": true,
+      "outside_scope": [],
+      "package_parts_changed": [],
+      "checkpoints": []
+    }
+  ],
+  "preservation_violations": 0,
+  "all_checkpoint_hashes_match": true
+}

@@ -1,0 +1,1145 @@
+{
+  "compiler_comparison": [
+    {
+      "task_id": "105-24",
+      "identical_prompt": true,
+      "before_prompt_sha256": "e5c5732514d91536cbff54eaf0a3ada05dafb303f7191bbc0c3d1299096fe106",
+      "after_prompt_sha256": "e5c5732514d91536cbff54eaf0a3ada05dafb303f7191bbc0c3d1299096fe106",
+      "before_response_sha256": "c3141523d892c120a018aecbcbcf5590a1ef285573094b0186c1f9ee33559a8d",
+      "after_response_sha256": "c57b43f532e5d156d35f235179c8a5b7b0a3decd7b1d72e4a531d9b14f6c0ab2",
+      "termination": "error: ValueError: contract must contain exactly ['constraints', 'desired_state', 'evaluator_intents', 'invariants', 'required_capabilities', 'schema_version']",
+      "actions": 0
+    },
+    {
+      "task_id": "120-24",
+      "identical_prompt": true,
+      "before_prompt_sha256": "af155525d1d8382307e51294c51e26f7da5adabd1801ca706457b971d60971a4",
+      "after_prompt_sha256": "af155525d1d8382307e51294c51e26f7da5adabd1801ca706457b971d60971a4",
+      "before_response_sha256": "285449fcf7ad21a5972080a5e7945a41d902bf2ecfdd5675f48877a93be114aa",
+      "after_response_sha256": "5fab847219c8f889ceb33b692905efcaef96ca1fb9a0b7241e73c3c44151cd87",
+      "termination": "unfulfilled:no_progress",
+      "actions": 5
+    },
+    {
+      "task_id": "141-20",
+      "identical_prompt": true,
+      "before_prompt_sha256": "0e44496435fe61872e0633171c4b87f092b2aefc0d9b24b7b27fd8c10c377848",
+      "after_prompt_sha256": "0e44496435fe61872e0633171c4b87f092b2aefc0d9b24b7b27fd8c10c377848",
+      "before_response_sha256": "b71a53bdb1a87598052bd577b9db3ba901d9bfba62cb89c2e307024188b4b2ba",
+      "after_response_sha256": "03365de6e50f684efe317ab53de3ea267022acff8844f35a7be657a7a2289493",
+      "termination": "unfulfilled:no_progress",
+      "actions": 2
+    },
+    {
+      "task_id": "168-17",
+      "identical_prompt": true,
+      "before_prompt_sha256": "2022dba5a1786ffc02725f35ce03d29b1f2b768c8dbc70c671617580a84f72df",
+      "after_prompt_sha256": "2022dba5a1786ffc02725f35ce03d29b1f2b768c8dbc70c671617580a84f72df",
+      "before_response_sha256": "5cb103a74e7f05530a33dc9897f9eafed4c2410fa613fa4a1c3ba05ab2c34cb3",
+      "after_response_sha256": "f8c290df54dbfe4b66d86365d4c4bb0307308afa35cd2c01c97cf5ec72964257",
+      "termination": "unfulfilled:no_safe_transition",
+      "actions": 0
+    },
+    {
+      "task_id": "209-30",
+      "identical_prompt": true,
+      "before_prompt_sha256": "5bc3e8624516d0def4c93912c427b5c61398a53db814d370c5e6e29dd870c20b",
+      "after_prompt_sha256": "5bc3e8624516d0def4c93912c427b5c61398a53db814d370c5e6e29dd870c20b",
+      "before_response_sha256": "cd0200f6f343870264d3fd58beca237ea62f4c6fdf4c0030e7c4dd462df092b3",
+      "after_response_sha256": "820f7aa68f3c7ee8ab39c807a559221fb16c76eddb384435a98a12a339f0de8d",
+      "termination": "error: BudgetExceeded: operational_emergency_token_ceiling",
+      "actions": 0
+    },
+    {
+      "task_id": "31011",
+      "identical_prompt": true,
+      "before_prompt_sha256": "4b6c878a91ddf96a5bf79fe1182d4cceb1b8655159e3df973005edbfe7274af9",
+      "after_prompt_sha256": "4b6c878a91ddf96a5bf79fe1182d4cceb1b8655159e3df973005edbfe7274af9",
+      "before_response_sha256": "9c1821065fd2891a0ace0e36b2533de606c77cf28d86c4c8b6cd812d8cf156f6",
+      "after_response_sha256": "bb513e657a2b67a55e473ff3c78ef5b08880f875a83aff4845e81838971796b4",
+      "termination": "unknown:no_progress",
+      "actions": 1
+    },
+    {
+      "task_id": "35742",
+      "identical_prompt": true,
+      "before_prompt_sha256": "14f66fded6b31fa59f27b93260e7ce433d92f9c6f265157d189172a5fa8313dc",
+      "after_prompt_sha256": "14f66fded6b31fa59f27b93260e7ce433d92f9c6f265157d189172a5fa8313dc",
+      "before_response_sha256": "ff41eb35c439ad3d62b979e822087ddb8b6fbb131fb3ea0a53ce976767cc4f91",
+      "after_response_sha256": "508d771dee1e020a0e8ec776297318844e223d987744a59eadba95e3de327d32",
+      "termination": "unknown:no_progress",
+      "actions": 5
+    },
+    {
+      "task_id": "37554",
+      "identical_prompt": true,
+      "before_prompt_sha256": "2295767c9fda7a34c285b3a4631bf606b5bd6dcd117d2bc2961cf8060eb0260e",
+      "after_prompt_sha256": "2295767c9fda7a34c285b3a4631bf606b5bd6dcd117d2bc2961cf8060eb0260e",
+      "before_response_sha256": "3868f0eca5a3cf238fae0cfc6744cb1ed43cf832737a3cdd705d9a1667df0845",
+      "after_response_sha256": "30e666bab3352106f23d0ffe1d63189357a8a38aa3dd7d7bdb109508eba3ec9c",
+      "termination": "error: ValueError: contract must contain exactly ['constraints', 'desired_state', 'evaluator_intents', 'invariants', 'required_capabilities', 'schema_version']",
+      "actions": 0
+    },
+    {
+      "task_id": "395-36",
+      "identical_prompt": true,
+      "before_prompt_sha256": "153a239854bc55162c96719ee9da4fb20efb4f274682a0fc32de375cada4ed7a",
+      "after_prompt_sha256": "153a239854bc55162c96719ee9da4fb20efb4f274682a0fc32de375cada4ed7a",
+      "before_response_sha256": "cfe688cb4c3de201285867e14abcbe31a6d6727ea2e2242588eba12f4271eadf",
+      "after_response_sha256": "cf2a307d6a69ec669cd7c8a79181beac045684312441e0897b1f2d8e5a25ecb8",
+      "termination": "error: KeyError: 'Worksheet MyResult does not exist.'",
+      "actions": 0
+    },
+    {
+      "task_id": "448-11",
+      "identical_prompt": true,
+      "before_prompt_sha256": "821e9c54b20b8c6ee2c6cf4bab1278486ba0c3c2d776505b7db64ff770b59bd5",
+      "after_prompt_sha256": "821e9c54b20b8c6ee2c6cf4bab1278486ba0c3c2d776505b7db64ff770b59bd5",
+      "before_response_sha256": "03829d9eb965f9ab6cf16c2a70d1bac72344eb1329796fc5b379aaa83817219f",
+      "after_response_sha256": "1a023ed00d47d3e47a6095a691292fb426c6098f1dc449a0935217eefe81ee69",
+      "termination": "unfulfilled:no_progress",
+      "actions": 3
+    },
+    {
+      "task_id": "45738",
+      "identical_prompt": true,
+      "before_prompt_sha256": "7baa3492eaf97200582ccbf582fc3bd690cf279e82b41b961f8c3858e473a2cf",
+      "after_prompt_sha256": "7baa3492eaf97200582ccbf582fc3bd690cf279e82b41b961f8c3858e473a2cf",
+      "before_response_sha256": "482fa2c6b3f1947086df734bd2118df47e97f5995fd8514beae48a96fc9cb5d6",
+      "after_response_sha256": "0cf44dd5404082af26d5ab41eba3a3d7db06bd38c9b6d0d5714b1c6ca042ad94",
+      "termination": "unknown:evaluation_uncertain",
+      "actions": 2
+    },
+    {
+      "task_id": "47766",
+      "identical_prompt": true,
+      "before_prompt_sha256": "041d90825e80a6a528c3c5c107b7ca0309260e5f9c826f114536cd3e7cefc921",
+      "after_prompt_sha256": "041d90825e80a6a528c3c5c107b7ca0309260e5f9c826f114536cd3e7cefc921",
+      "before_response_sha256": "a58885e663c2b38fa1c97fd6d4981b68f2b86bb6f498decf160d184594bf08de",
+      "after_response_sha256": "2e9949c1fe093e4463f2c62b261ee4d570f747c70865579938767dcafd9c51e0",
+      "termination": "unfulfilled:no_safe_transition",
+      "actions": 3
+    },
+    {
+      "task_id": "49237",
+      "identical_prompt": true,
+      "before_prompt_sha256": "27894aabcc9a30b73c11e168064ca36c901eee27ffe84510bb804a599887daf0",
+      "after_prompt_sha256": "27894aabcc9a30b73c11e168064ca36c901eee27ffe84510bb804a599887daf0",
+      "before_response_sha256": "14677488d737e5ad120aa0f386ef5d378d457881ca7e83ca8184874d2b779bc6",
+      "after_response_sha256": "22af730ebfea0e687a6b5f5cdd27a0deb5a9677dfd259dc9b4df5c090e645c14",
+      "termination": "error: ValueError: contract must contain exactly ['constraints', 'desired_state', 'evaluator_intents', 'invariants', 'required_capabilities', 'schema_version']",
+      "actions": 0
+    },
+    {
+      "task_id": "50526",
+      "identical_prompt": true,
+      "before_prompt_sha256": "daa84366cad00d3dfbd4082acdd3400191fe45d890d120f07ef00b70cb6c0486",
+      "after_prompt_sha256": "daa84366cad00d3dfbd4082acdd3400191fe45d890d120f07ef00b70cb6c0486",
+      "before_response_sha256": "d0bf58b1cf706b4bb395d4902cc3e4fc8ee78747962a786122bdfde7665e50fd",
+      "after_response_sha256": "e78d283d0212dd2f82423bfef7f49fd5cb7f54d300028c05f4d04cacbc741054",
+      "termination": "unfulfilled:no_progress",
+      "actions": 6
+    },
+    {
+      "task_id": "50971",
+      "identical_prompt": true,
+      "before_prompt_sha256": "32cf8be42dffffba8203af8cd77591e710d4ebe918584b28950cba567480f9cb",
+      "after_prompt_sha256": "32cf8be42dffffba8203af8cd77591e710d4ebe918584b28950cba567480f9cb",
+      "before_response_sha256": "2f3ab1cab7be8119e4895cbc147fc494752ab5af7f1e22580f8fce0520c154e5",
+      "after_response_sha256": "0480f6ba2ed1f82a29d4035eb3c8c5962c6fb4e55122a0c39048de6e956e7961",
+      "termination": "unfulfilled:no_safe_transition",
+      "actions": 3
+    },
+    {
+      "task_id": "567-21",
+      "identical_prompt": true,
+      "before_prompt_sha256": "e9a43ea7c5697548ac28bdf40ab7b3d559ff502aeceaab918c830e4b91a54368",
+      "after_prompt_sha256": "e9a43ea7c5697548ac28bdf40ab7b3d559ff502aeceaab918c830e4b91a54368",
+      "before_response_sha256": "f4204c7c2af4925bce5a21eb779858eb673e9d956f8b02cd253925d8d6576805",
+      "after_response_sha256": "2c0f1625f6448ddb5e75b1f873cec56caac47f3b576fe162d45057de1b4cb20b",
+      "termination": "error: ValueError: contract must contain exactly ['constraints', 'desired_state', 'evaluator_intents', 'invariants', 'required_capabilities', 'schema_version']",
+      "actions": 0
+    },
+    {
+      "task_id": "58147",
+      "identical_prompt": true,
+      "before_prompt_sha256": "b04f759b0b08bb0260e988b5f2df35e6e24462ab78f44b04b029a5c8d7d0bd8f",
+      "after_prompt_sha256": "b04f759b0b08bb0260e988b5f2df35e6e24462ab78f44b04b029a5c8d7d0bd8f",
+      "before_response_sha256": "e75c1ae3d780dd116b2ad3baf6799bc865ab3c5731d2c8728a8b0c96c1467b58",
+      "after_response_sha256": "e2712d29a76edb59f70ad3455e217d08bc79ba6d0de802dd31e5aaf96815f171",
+      "termination": "unfulfilled:no_safe_transition",
+      "actions": 2
+    },
+    {
+      "task_id": "59794",
+      "identical_prompt": true,
+      "before_prompt_sha256": "406f8ebd470fa1525817c9541a36bcbb4c8f94005c2aea53fba33ab240929c87",
+      "after_prompt_sha256": "406f8ebd470fa1525817c9541a36bcbb4c8f94005c2aea53fba33ab240929c87",
+      "before_response_sha256": "c11aac5315dd0a670da0128e8ed94b1ae3478d7db8c8b4b9207bc8251146a4c6",
+      "after_response_sha256": "5a6957cb588b2d2a0c5e8e23d7d1af27c966a408bffb97c95c0b778964cdab42",
+      "termination": "fulfilled",
+      "actions": 1
+    },
+    {
+      "task_id": "61-4",
+      "identical_prompt": true,
+      "before_prompt_sha256": "5e1ef3262a187e91f78391abcaf943f28bd77f9a8639173a277ed2bde172734d",
+      "after_prompt_sha256": "5e1ef3262a187e91f78391abcaf943f28bd77f9a8639173a277ed2bde172734d",
+      "before_response_sha256": "fa67b6f0493cfea113cf3d67e46f5decf02aab974778ba648f2cae0a70620e27",
+      "after_response_sha256": "ac3e9ccaac55d683b89d1602e394040875356e37b0eb2420e19de1416f6f220c",
+      "termination": "unfulfilled:no_progress",
+      "actions": 4
+    },
+    {
+      "task_id": "66-24",
+      "identical_prompt": true,
+      "before_prompt_sha256": "7c218c4ed43e36e43a2c0cb68fef23d67572ef051ca26c77db8a4765b711d968",
+      "after_prompt_sha256": "7c218c4ed43e36e43a2c0cb68fef23d67572ef051ca26c77db8a4765b711d968",
+      "before_response_sha256": "801ab337aefd7fa5622cc40bb2f90f6f9d5c946d2ed82fbfcd2d3331f3fba45a",
+      "after_response_sha256": "0a613e273dddb2a842b6eaa115567fb0d6c041cbcb75acf8821a77412b7c5d15",
+      "termination": "unfulfilled:no_safe_transition",
+      "actions": 0
+    }
+  ],
+  "120-24_checkpoint_trajectory": [
+    {
+      "checkpoint": "mutation-01.official.json",
+      "official_pass": false,
+      "correct_cells": 33,
+      "total_cells": 44
+    },
+    {
+      "checkpoint": "mutation-02.official.json",
+      "official_pass": true,
+      "correct_cells": 44,
+      "total_cells": 44
+    },
+    {
+      "checkpoint": "mutation-03.official.json",
+      "official_pass": true,
+      "correct_cells": 44,
+      "total_cells": 44
+    },
+    {
+      "checkpoint": "mutation-04.official.json",
+      "official_pass": true,
+      "correct_cells": 44,
+      "total_cells": 44
+    },
+    {
+      "checkpoint": "mutation-05.official.json",
+      "official_pass": false,
+      "correct_cells": 43,
+      "total_cells": 44
+    }
+  ],
+  "120-24_correct_state_to_regression_evidence": [
+    {
+      "event_type": "observation",
+      "payload": {
+        "artifact_hash": "19fd7e472f6da56db7af9d3390f9da754188487adbe9cb61e1ecd9661818bc8c",
+        "evidence_event_id": "2ac6d83a-34d0-46bd-8eab-1a3ba9da5f45",
+        "inspected_scope": [
+          "workbook/Sheet1/BN2",
+          "workbook/Sheet1/BN3",
+          "workbook/Sheet1/BN4",
+          "workbook/Sheet1/BN5",
+          "workbook/Sheet1/BN6",
+          "workbook/Sheet1/BN7",
+          "workbook/Sheet1/BN8",
+          "workbook/Sheet1/BN9",
+          "workbook/Sheet1/BN10",
+          "workbook/Sheet1/BN11",
+          "workbook/Sheet1/BN12",
+          "workbook/Sheet1/BN13",
+          "workbook/Sheet1/BN14",
+          "workbook/Sheet1/BN15",
+          "workbook/Sheet1/BN16",
+          "workbook/Sheet1/BN17",
+          "workbook/Sheet1/BN18",
+          "workbook/Sheet1/BN19",
+          "workbook/Sheet1/BN20",
+          "workbook/Sheet1/BN21",
+          "workbook/Sheet1/BN22",
+          "workbook/Sheet1/BN23",
+          "workbook/Sheet1/BN24",
+          "workbook/Sheet1/BN25",
+          "workbook/Sheet1/BN26",
+          "workbook/Sheet1/BN27",
+          "workbook/Sheet1/BN28",
+          "workbook/Sheet1/BN29",
+          "workbook/Sheet1/BN30",
+          "workbook/Sheet1/BN31",
+          "workbook/Sheet1/BN32",
+          "workbook/Sheet1/BN33",
+          "workbook/Sheet1/BN34",
+          "workbook/Sheet1/BN35",
+          "workbook/Sheet1/BN36",
+          "workbook/Sheet1/BN37",
+          "workbook/Sheet1/BN38",
+          "workbook/Sheet1/BN39",
+          "workbook/Sheet1/BN40",
+          "workbook/Sheet1/BN41",
+          "workbook/Sheet1/BN42",
+          "workbook/Sheet1/BN43",
+          "workbook/Sheet1/BN44",
+          "workbook/Sheet1/BN45"
+        ],
+        "observation_id": "5320128c-b819-4544-a24a-250567146667",
+        "omitted_scope": [
+          "workbook/__omitted__/A1"
+        ],
+        "usage": {
+          "actions": 4,
+          "cost": 0.0,
+          "input_tokens": 100851,
+          "latency_ms": 35164,
+          "model_calls": 7,
+          "output_tokens": 2374,
+          "successful_model_calls": 7,
+          "tokens": 103225
+        }
+      },
+      "sequence": 100,
+      "timestamp_unix": 1788692985.9100277
+    },
+    {
+      "event_type": "eval_result",
+      "payload": {
+        "details": {
+          "kind": "artifact_invalid"
+        },
+        "eval_id": "artifact-valid",
+        "message": "workbook loads",
+        "status": "pass"
+      },
+      "sequence": 101,
+      "timestamp_unix": 1788692985.9228086
+    },
+    {
+      "event_type": "eval_result",
+      "payload": {
+        "details": {
+          "kind": "artifact_invalid"
+        },
+        "eval_id": "artifact-valid",
+        "evidence_event_id": "2f233011-2fa6-4bf8-a31d-35cf0a0be2a6",
+        "message": "workbook loads",
+        "observation_id": "5320128c-b819-4544-a24a-250567146667",
+        "status": "pass",
+        "usage": {
+          "actions": 4,
+          "cost": 0.0,
+          "input_tokens": 100851,
+          "latency_ms": 35190,
+          "model_calls": 7,
+          "output_tokens": 2374,
+          "successful_model_calls": 7,
+          "tokens": 103225
+        }
+      },
+      "sequence": 102,
+      "timestamp_unix": 1788692985.9366236
+    },
+    {
+      "event_type": "eval_result",
+      "payload": {
+        "details": {
+          "kind": "constraint_violation",
+          "observed": []
+        },
+        "eval_id": "preservation",
+        "message": "outside scope preserved",
+        "status": "pass"
+      },
+      "sequence": 103,
+      "timestamp_unix": 1788692985.957414
+    },
+    {
+      "event_type": "eval_result",
+      "payload": {
+        "details": {
+          "kind": "constraint_violation",
+          "observed": []
+        },
+        "eval_id": "preservation",
+        "evidence_event_id": "4ef5e751-ce09-48d2-af5a-a94808c7c189",
+        "message": "outside scope preserved",
+        "observation_id": "5320128c-b819-4544-a24a-250567146667",
+        "status": "pass",
+        "usage": {
+          "actions": 4,
+          "cost": 0.0,
+          "input_tokens": 100851,
+          "latency_ms": 35223,
+          "model_calls": 7,
+          "output_tokens": 2374,
+          "successful_model_calls": 7,
+          "tokens": 103225
+        }
+      },
+      "sequence": 104,
+      "timestamp_unix": 1788692985.968906
+    },
+    {
+      "event_type": "eval_result",
+      "payload": {
+        "details": {
+          "observed": [
+            null,
+            null,
+            null,
+            null,
+            "OCOGS - Spares - Transfer Price Overhead",
+            "OCOGS - Spares - Transfer Price Overhead",
+            null,
+            "OFSS - ORCL Consulting Prod Cost I/C",
+            "OFSS - ORCL Consulting Prod Cost I/C",
+            null,
+            null,
+            "OCOGS - Spares - Transfer Price Overhead",
+            "OCOGS - Spares - Transfer Price Overhead",
+            null,
+            "OFSS - ORCL Consulting Prod Cost I/C",
+            "OFSS - ORCL Consulting Prod Cost I/C",
+            null,
+            null,
+            null,
+            null,
+            null,
+            "OCOGS - Spares - Transfer Price Overhead",
+            "OCOGS - Spares - Transfer Price Overhead",
+            "OCOGS - Spares - Transfer Price Overhead",
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ]
+        },
+        "eval_id": "nonblank",
+        "message": "answers nonblank",
+        "status": "fail"
+      },
+      "sequence": 105,
+      "timestamp_unix": 1788692985.9698293
+    },
+    {
+      "event_type": "eval_result",
+      "payload": {
+        "details": {
+          "observed": [
+            null,
+            null,
+            null,
+            null,
+            "OCOGS - Spares - Transfer Price Overhead",
+            "OCOGS - Spares - Transfer Price Overhead",
+            null,
+            "OFSS - ORCL Consulting Prod Cost I/C",
+            "OFSS - ORCL Consulting Prod Cost I/C",
+            null,
+            null,
+            "OCOGS - Spares - Transfer Price Overhead",
+            "OCOGS - Spares - Transfer Price Overhead",
+            null,
+            "OFSS - ORCL Consulting Prod Cost I/C",
+            "OFSS - ORCL Consulting Prod Cost I/C",
+            null,
+            null,
+            null,
+            null,
+            null,
+            "OCOGS - Spares - Transfer Price Overhead",
+            "OCOGS - Spares - Transfer Price Overhead",
+            "OCOGS - Spares - Transfer Price Overhead",
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ]
+        },
+        "eval_id": "nonblank",
+        "evidence_event_id": "f82b8dd8-bdfc-460d-b18c-b98a9ac8735b",
+        "message": "answers nonblank",
+        "observation_id": "5320128c-b819-4544-a24a-250567146667",
+        "status": "fail",
+        "usage": {
+          "actions": 4,
+          "cost": 0.0,
+          "input_tokens": 100851,
+          "latency_ms": 35234,
+          "model_calls": 7,
+          "output_tokens": 2374,
+          "successful_model_calls": 7,
+          "tokens": 103225
+        }
+      },
+      "sequence": 106,
+      "timestamp_unix": 1788692985.9803855
+    },
+    {
+      "event_type": "eval_result",
+      "payload": {
+        "details": {
+          "expected": "text",
+          "observed": [
+            "blank",
+            "blank",
+            "blank",
+            "blank",
+            "text",
+            "text",
+            "blank",
+            "text",
+            "text",
+            "blank",
+            "blank",
+            "text",
+            "text",
+            "blank",
+            "text",
+            "text",
+            "blank",
+            "blank",
+            "blank",
+            "blank",
+            "blank",
+            "text",
+            "text",
+            "text",
+            "blank",
+            "blank",
+            "blank",
+            "blank",
+            "blank",
+            "blank",
+            "blank",
+            "blank",
+            "blank",
+            "blank",
+            "blank",
+            "blank",
+            "blank",
+            "blank",
+            "blank",
+            "blank",
+            "blank",
+            "blank",
+            "blank",
+            "blank"
+          ]
+        },
+        "eval_id": "type",
+        "message": "answer types",
+        "status": "fail"
+      },
+      "sequence": 107,
+      "timestamp_unix": 1788692985.9813824
+    },
+    {
+      "event_type": "eval_result",
+      "payload": {
+        "details": {
+          "expected": "text",
+          "observed": [
+            "blank",
+            "blank",
+            "blank",
+            "blank",
+            "text",
+            "text",
+            "blank",
+            "text",
+            "text",
+            "blank",
+            "blank",
+            "text",
+            "text",
+            "blank",
+            "text",
+            "text",
+            "blank",
+            "blank",
+            "blank",
+            "blank",
+            "blank",
+            "text",
+            "text",
+            "text",
+            "blank",
+            "blank",
+            "blank",
+            "blank",
+            "blank",
+            "blank",
+            "blank",
+            "blank",
+            "blank",
+            "blank",
+            "blank",
+            "blank",
+            "blank",
+            "blank",
+            "blank",
+            "blank",
+            "blank",
+            "blank",
+            "blank",
+            "blank"
+          ]
+        },
+        "eval_id": "type",
+        "evidence_event_id": "9ee95bc0-d60a-4fba-b15e-1870881af5c0",
+        "message": "answer types",
+        "observation_id": "5320128c-b819-4544-a24a-250567146667",
+        "status": "fail",
+        "usage": {
+          "actions": 4,
+          "cost": 0.0,
+          "input_tokens": 100851,
+          "latency_ms": 35247,
+          "model_calls": 7,
+          "output_tokens": 2374,
+          "successful_model_calls": 7,
+          "tokens": 103225
+        }
+      },
+      "sequence": 108,
+      "timestamp_unix": 1788692985.9931011
+    },
+    {
+      "event_type": "eval_result",
+      "payload": {
+        "details": {
+          "expected": "range",
+          "observed": "range"
+        },
+        "eval_id": "output-shape",
+        "message": "answer shape",
+        "status": "pass"
+      },
+      "sequence": 109,
+      "timestamp_unix": 1788692985.9941676
+    },
+    {
+      "event_type": "eval_result",
+      "payload": {
+        "details": {
+          "expected": "range",
+          "observed": "range"
+        },
+        "eval_id": "output-shape",
+        "evidence_event_id": "53021035-2b1e-4280-a3e0-7ee0f3c3bcb4",
+        "message": "answer shape",
+        "observation_id": "5320128c-b819-4544-a24a-250567146667",
+        "status": "pass",
+        "usage": {
+          "actions": 4,
+          "cost": 0.0,
+          "input_tokens": 100851,
+          "latency_ms": 35260,
+          "model_calls": 7,
+          "output_tokens": 2374,
+          "successful_model_calls": 7,
+          "tokens": 103225
+        }
+      },
+      "sequence": 110,
+      "timestamp_unix": 1788692986.006108
+    },
+    {
+      "event_type": "eval_result",
+      "payload": {
+        "details": {
+          "observed": []
+        },
+        "eval_id": "formula-errors",
+        "message": "no new formula errors",
+        "status": "pass"
+      },
+      "sequence": 111,
+      "timestamp_unix": 1788692986.0328438
+    },
+    {
+      "event_type": "eval_result",
+      "payload": {
+        "details": {
+          "observed": []
+        },
+        "eval_id": "formula-errors",
+        "evidence_event_id": "decd9bbc-0402-4701-9d28-a2c8313f2803",
+        "message": "no new formula errors",
+        "observation_id": "5320128c-b819-4544-a24a-250567146667",
+        "status": "pass",
+        "usage": {
+          "actions": 4,
+          "cost": 0.0,
+          "input_tokens": 100851,
+          "latency_ms": 35298,
+          "model_calls": 7,
+          "output_tokens": 2374,
+          "successful_model_calls": 7,
+          "tokens": 103225
+        }
+      },
+      "sequence": 112,
+      "timestamp_unix": 1788692986.043668
+    },
+    {
+      "event_type": "eval_result",
+      "payload": {
+        "details": {
+          "confidence": 1.0,
+          "expected": "intent-satisfying target state",
+          "likely_causes": [
+            "target state is missing"
+          ],
+          "observed": [
+            null,
+            null,
+            null,
+            null,
+            "OCOGS - Spares - Transfer Price Overhead",
+            "OCOGS - Spares - Transfer Price Overhead",
+            null,
+            "OFSS - ORCL Consulting Prod Cost I/C",
+            "OFSS - ORCL Consulting Prod Cost I/C",
+            null,
+            null,
+            "OCOGS - Spares - Transfer Price Overhead",
+            "OCOGS - Spares - Transfer Price Overhead",
+            null,
+            "OFSS - ORCL Consulting Prod Cost I/C",
+            "OFSS - ORCL Consulting Prod Cost I/C",
+            null,
+            null,
+            null,
+            null,
+            null,
+            "OCOGS - Spares - Transfer Price Overhead",
+            "OCOGS - Spares - Transfer Price Overhead",
+            "OCOGS - Spares - Transfer Price Overhead",
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ]
+        },
+        "eval_id": "semantic",
+        "message": "semantic evaluation deferred until target exists",
+        "status": "fail"
+      },
+      "sequence": 113,
+      "timestamp_unix": 1788692986.0448618
+    },
+    {
+      "event_type": "eval_result",
+      "payload": {
+        "details": {
+          "confidence": 1.0,
+          "expected": "intent-satisfying target state",
+          "likely_causes": [
+            "target state is missing"
+          ],
+          "observed": [
+            null,
+            null,
+            null,
+            null,
+            "OCOGS - Spares - Transfer Price Overhead",
+            "OCOGS - Spares - Transfer Price Overhead",
+            null,
+            "OFSS - ORCL Consulting Prod Cost I/C",
+            "OFSS - ORCL Consulting Prod Cost I/C",
+            null,
+            null,
+            "OCOGS - Spares - Transfer Price Overhead",
+            "OCOGS - Spares - Transfer Price Overhead",
+            null,
+            "OFSS - ORCL Consulting Prod Cost I/C",
+            "OFSS - ORCL Consulting Prod Cost I/C",
+            null,
+            null,
+            null,
+            null,
+            null,
+            "OCOGS - Spares - Transfer Price Overhead",
+            "OCOGS - Spares - Transfer Price Overhead",
+            "OCOGS - Spares - Transfer Price Overhead",
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ]
+        },
+        "eval_id": "semantic",
+        "evidence_event_id": "669cab53-b814-425b-9b45-4f7f0773d67d",
+        "message": "semantic evaluation deferred until target exists",
+        "observation_id": "5320128c-b819-4544-a24a-250567146667",
+        "status": "fail",
+        "usage": {
+          "actions": 4,
+          "cost": 0.0,
+          "input_tokens": 100851,
+          "latency_ms": 35310,
+          "model_calls": 7,
+          "output_tokens": 2374,
+          "successful_model_calls": 7,
+          "tokens": 103225
+        }
+      },
+      "sequence": 114,
+      "timestamp_unix": 1788692986.0559437
+    },
+    {
+      "event_type": "discrepancy",
+      "payload": {
+        "discrepancy_id": "d-0fc4a49c-7d96-412a-addf-189057abe842",
+        "evidence_event_id": "38023eaa-e074-4ff6-80e7-7c9ba9e4cbf6",
+        "failed_eval_id": "nonblank",
+        "kind": "state_discrepancy",
+        "observation_event_id": "2ac6d83a-34d0-46bd-8eab-1a3ba9da5f45",
+        "permissible_mutation_scope": [
+          "workbook/Sheet1/BN2",
+          "workbook/Sheet1/BN3",
+          "workbook/Sheet1/BN4",
+          "workbook/Sheet1/BN5",
+          "workbook/Sheet1/BN6",
+          "workbook/Sheet1/BN7",
+          "workbook/Sheet1/BN8",
+          "workbook/Sheet1/BN9",
+          "workbook/Sheet1/BN10",
+          "workbook/Sheet1/BN11",
+          "workbook/Sheet1/BN12",
+          "workbook/Sheet1/BN13",
+          "workbook/Sheet1/BN14",
+          "workbook/Sheet1/BN15",
+          "workbook/Sheet1/BN16",
+          "workbook/Sheet1/BN17",
+          "workbook/Sheet1/BN18",
+          "workbook/Sheet1/BN19",
+          "workbook/Sheet1/BN20",
+          "workbook/Sheet1/BN21",
+          "workbook/Sheet1/BN22",
+          "workbook/Sheet1/BN23",
+          "workbook/Sheet1/BN24",
+          "workbook/Sheet1/BN25",
+          "workbook/Sheet1/BN26",
+          "workbook/Sheet1/BN27",
+          "workbook/Sheet1/BN28",
+          "workbook/Sheet1/BN29",
+          "workbook/Sheet1/BN30",
+          "workbook/Sheet1/BN31",
+          "workbook/Sheet1/BN32",
+          "workbook/Sheet1/BN33",
+          "workbook/Sheet1/BN34",
+          "workbook/Sheet1/BN35",
+          "workbook/Sheet1/BN36",
+          "workbook/Sheet1/BN37",
+          "workbook/Sheet1/BN38",
+          "workbook/Sheet1/BN39",
+          "workbook/Sheet1/BN40",
+          "workbook/Sheet1/BN41",
+          "workbook/Sheet1/BN42",
+          "workbook/Sheet1/BN43",
+          "workbook/Sheet1/BN44",
+          "workbook/Sheet1/BN45"
+        ],
+        "usage": {
+          "actions": 4,
+          "cost": 0.0,
+          "input_tokens": 100851,
+          "latency_ms": 35321,
+          "model_calls": 7,
+          "output_tokens": 2374,
+          "successful_model_calls": 7,
+          "tokens": 103225
+        }
+      },
+      "sequence": 115,
+      "timestamp_unix": 1788692986.0671968
+    },
+    {
+      "event_type": "discrepancy",
+      "payload": {
+        "discrepancy_id": "d-60a17b83-83ff-48f7-9166-60ee967c0b39",
+        "evidence_event_id": "de51fad7-a11b-4463-8b59-07a0b99f6f93",
+        "failed_eval_id": "type",
+        "kind": "state_discrepancy",
+        "observation_event_id": "2ac6d83a-34d0-46bd-8eab-1a3ba9da5f45",
+        "permissible_mutation_scope": [
+          "workbook/Sheet1/BN2",
+          "workbook/Sheet1/BN3",
+          "workbook/Sheet1/BN4",
+          "workbook/Sheet1/BN5",
+          "workbook/Sheet1/BN6",
+          "workbook/Sheet1/BN7",
+          "workbook/Sheet1/BN8",
+          "workbook/Sheet1/BN9",
+          "workbook/Sheet1/BN10",
+          "workbook/Sheet1/BN11",
+          "workbook/Sheet1/BN12",
+          "workbook/Sheet1/BN13",
+          "workbook/Sheet1/BN14",
+          "workbook/Sheet1/BN15",
+          "workbook/Sheet1/BN16",
+          "workbook/Sheet1/BN17",
+          "workbook/Sheet1/BN18",
+          "workbook/Sheet1/BN19",
+          "workbook/Sheet1/BN20",
+          "workbook/Sheet1/BN21",
+          "workbook/Sheet1/BN22",
+          "workbook/Sheet1/BN23",
+          "workbook/Sheet1/BN24",
+          "workbook/Sheet1/BN25",
+          "workbook/Sheet1/BN26",
+          "workbook/Sheet1/BN27",
+          "workbook/Sheet1/BN28",
+          "workbook/Sheet1/BN29",
+          "workbook/Sheet1/BN30",
+          "workbook/Sheet1/BN31",
+          "workbook/Sheet1/BN32",
+          "workbook/Sheet1/BN33",
+          "workbook/Sheet1/BN34",
+          "workbook/Sheet1/BN35",
+          "workbook/Sheet1/BN36",
+          "workbook/Sheet1/BN37",
+          "workbook/Sheet1/BN38",
+          "workbook/Sheet1/BN39",
+          "workbook/Sheet1/BN40",
+          "workbook/Sheet1/BN41",
+          "workbook/Sheet1/BN42",
+          "workbook/Sheet1/BN43",
+          "workbook/Sheet1/BN44",
+          "workbook/Sheet1/BN45"
+        ],
+        "usage": {
+          "actions": 4,
+          "cost": 0.0,
+          "input_tokens": 100851,
+          "latency_ms": 35332,
+          "model_calls": 7,
+          "output_tokens": 2374,
+          "successful_model_calls": 7,
+          "tokens": 103225
+        }
+      },
+      "sequence": 116,
+      "timestamp_unix": 1788692986.0780432
+    },
+    {
+      "event_type": "discrepancy",
+      "payload": {
+        "discrepancy_id": "d-3f0ba6e5-fde1-4f97-8d23-fd40d6776d48",
+        "evidence_event_id": "6cdf33b0-cece-4bf5-96a6-82e01e8e7d3c",
+        "failed_eval_id": "semantic",
+        "kind": "state_discrepancy",
+        "observation_event_id": "2ac6d83a-34d0-46bd-8eab-1a3ba9da5f45",
+        "permissible_mutation_scope": [
+          "workbook/Sheet1/BN2",
+          "workbook/Sheet1/BN3",
+          "workbook/Sheet1/BN4",
+          "workbook/Sheet1/BN5",
+          "workbook/Sheet1/BN6",
+          "workbook/Sheet1/BN7",
+          "workbook/Sheet1/BN8",
+          "workbook/Sheet1/BN9",
+          "workbook/Sheet1/BN10",
+          "workbook/Sheet1/BN11",
+          "workbook/Sheet1/BN12",
+          "workbook/Sheet1/BN13",
+          "workbook/Sheet1/BN14",
+          "workbook/Sheet1/BN15",
+          "workbook/Sheet1/BN16",
+          "workbook/Sheet1/BN17",
+          "workbook/Sheet1/BN18",
+          "workbook/Sheet1/BN19",
+          "workbook/Sheet1/BN20",
+          "workbook/Sheet1/BN21",
+          "workbook/Sheet1/BN22",
+          "workbook/Sheet1/BN23",
+          "workbook/Sheet1/BN24",
+          "workbook/Sheet1/BN25",
+          "workbook/Sheet1/BN26",
+          "workbook/Sheet1/BN27",
+          "workbook/Sheet1/BN28",
+          "workbook/Sheet1/BN29",
+          "workbook/Sheet1/BN30",
+          "workbook/Sheet1/BN31",
+          "workbook/Sheet1/BN32",
+          "workbook/Sheet1/BN33",
+          "workbook/Sheet1/BN34",
+          "workbook/Sheet1/BN35",
+          "workbook/Sheet1/BN36",
+          "workbook/Sheet1/BN37",
+          "workbook/Sheet1/BN38",
+          "workbook/Sheet1/BN39",
+          "workbook/Sheet1/BN40",
+          "workbook/Sheet1/BN41",
+          "workbook/Sheet1/BN42",
+          "workbook/Sheet1/BN43",
+          "workbook/Sheet1/BN44",
+          "workbook/Sheet1/BN45"
+        ],
+        "usage": {
+          "actions": 4,
+          "cost": 0.0,
+          "input_tokens": 100851,
+          "latency_ms": 35343,
+          "model_calls": 7,
+          "output_tokens": 2374,
+          "successful_model_calls": 7,
+          "tokens": 103225
+        }
+      },
+      "sequence": 117,
+      "timestamp_unix": 1788692986.0889897
+    },
+    {
+      "event_type": "reconciliation_cycle",
+      "payload": {
+        "artifact_hash_after": "19fd7e472f6da56db7af9d3390f9da754188487adbe9cb61e1ecd9661818bc8c",
+        "artifact_hash_before": "5688b0479e30fcbeaa3df28b74926ac464e0783f8a46f761aad0c66fc84caafd",
+        "capability": "write_cells",
+        "changed_state": true,
+        "cycle_number": 4,
+        "discrepancy_ids_after": [
+          "d-0fc4a49c-7d96-412a-addf-189057abe842",
+          "d-60a17b83-83ff-48f7-9166-60ee967c0b39",
+          "d-3f0ba6e5-fde1-4f97-8d23-fd40d6776d48"
+        ],
+        "discrepancy_ids_before": [
+          "d-dc222620-cc9e-445a-a941-e7d49d5e0c01",
+          "d-7e535881-ddf7-4171-8bab-11fd17174c83"
+        ],
+        "evidence_event_id": "dea80ea9-5323-42f6-8cbb-32fcc1a505cf",
+        "failed_evals_after": [
+          "nonblank",
+          "type",
+          "semantic"
+        ],
+        "failed_evals_before": [
+          "type",
+          "semantic"
+        ],
+        "genuine_cycle": true,
+        "transition_id": "c91ff283-6cc5-416b-ae7b-1bc46e3fd9e4",
+        "usage": {
+          "actions": 4,
+          "cost": 0.0,
+          "input_tokens": 100851,
+          "latency_ms": 35354,
+          "model_calls": 7,
+          "output_tokens": 2374,
+          "successful_model_calls": 7,
+          "tokens": 103225
+        }
+      },
+      "sequence": 118,
+      "timestamp_unix": 1788692986.0998633
+    },
+    {
+      "event_type": "transition_decision",
+      "payload": {
+        "discrepancy_ids": [
+          "d-0fc4a49c-7d96-412a-addf-189057abe842",
+          "d-60a17b83-83ff-48f7-9166-60ee967c0b39",
+          "d-3f0ba6e5-fde1-4f97-8d23-fd40d6776d48"
+        ],
+        "evidence_event_id": "049b5bb3-e4ab-4e32-a9a3-8e142f9fddbd",
+        "kind": "capability",
+        "rationale": "Write the conditional transformation formula into Sheet1!BN2, which replaces values based on the required conditions and retains the original BG2 value otherwise.",
+        "transition_id": "bc228991-ebe3-4352-b75b-b54af29224d4",
+        "usage": {
+          "actions": 4,
+          "cost": 0.0,
+          "input_tokens": 115088,
+          "latency_ms": 44201,
+          "model_calls": 8,
+          "output_tokens": 2585,
+          "successful_model_calls": 8,
+          "tokens": 117673
+        }
+      },
+      "sequence": 119,
+      "timestamp_unix": 1788692994.947064
+    }
+  ],
+  "excluded_operational_trial": {
+    "completed_model_calls": 17,
+    "input_tokens": 259903,
+    "output_tokens": 7901,
+    "completed_task_records": 3,
+    "reason_excluded": "independent live LibreOffice profile failure; aborted before official scoring"
+  },
+  "remaining_failure_mechanisms": {
+    "105-24": "compiler emitted contract_schema_version instead of schema_version before mutation",
+    "37554": "compiler emitted contract_schema_version instead of schema_version before mutation",
+    "168-17": "proposed A1:E1 mutation exceeds A2:E12 authorization; no broker invocation",
+    "120-24": "correct states at mutations 2-4 followed by an in-scope regression at mutation 5; nonblank/type and deferred semantic gates supplied discrepancies"
+  }
+}
