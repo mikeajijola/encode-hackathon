@@ -35,7 +35,7 @@ run)
     test -f evidence/prepare-complete
     test -n "${GEMINI_API_KEY:-}"
     date -u +%FT%TZ > evidence/run_started.txt
-    sudo --preserve-env=GEMINI_API_KEY docker run --rm --name encode-serialization-d -e GEMINI_API_KEY -v /srv/serialization/data:/data:ro -v /srv/serialization/results:/out encode-serialization run --manifest /data/manifest.json --out-dir /out/D > evidence/D.run.log 2>&1
+    sudo --preserve-env=GEMINI_API_KEY docker run --rm --name encode-serialization-d --user "$(id -u):$(id -g)" --tmpfs /tmp:rw,exec,nosuid,size=1g -e HOME=/tmp/run-home -e GEMINI_API_KEY -v /srv/serialization/data:/data:ro -v /srv/serialization/results:/out encode-serialization run --manifest /data/manifest.json --out-dir /out/D > evidence/D.run.log 2>&1
     date -u +%FT%TZ > evidence/run_finished.txt
     ;;
 score)
