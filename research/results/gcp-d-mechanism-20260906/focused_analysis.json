@@ -1,0 +1,66 @@
+{
+  "experiment": "focused-formula-result-type-v1",
+  "false_fulfilled": 2,
+  "fulfilled": 6,
+  "single_change": "formula-result type evaluation delegated to independent semantic evaluator",
+  "summary": {
+    "cell_accuracy": 0.6286,
+    "errors": 0,
+    "graded": 6,
+    "items": 6,
+    "missing": 0,
+    "pass_rate": 0.6667,
+    "pass_rate_cell_level": 0.6667,
+    "pass_rate_sheet_level": null
+  },
+  "tasks": [
+    {
+      "actions": 2,
+      "internal": "FULFILLED",
+      "official_pass": true,
+      "task_id": "47766",
+      "termination": "fulfilled",
+      "tokens": 101328
+    },
+    {
+      "actions": 1,
+      "internal": "FULFILLED",
+      "official_pass": false,
+      "task_id": "50526",
+      "termination": "fulfilled",
+      "tokens": 9262
+    },
+    {
+      "actions": 1,
+      "internal": "FULFILLED",
+      "official_pass": true,
+      "task_id": "31011",
+      "termination": "fulfilled",
+      "tokens": 49054
+    },
+    {
+      "actions": 1,
+      "internal": "FULFILLED",
+      "official_pass": true,
+      "task_id": "35742",
+      "termination": "fulfilled",
+      "tokens": 44632
+    },
+    {
+      "actions": 2,
+      "internal": "FULFILLED",
+      "official_pass": true,
+      "task_id": "37554",
+      "termination": "fulfilled",
+      "tokens": 48099
+    },
+    {
+      "actions": 1,
+      "internal": "FULFILLED",
+      "official_pass": false,
+      "task_id": "50971",
+      "termination": "fulfilled",
+      "tokens": 17843
+    }
+  ]
+}

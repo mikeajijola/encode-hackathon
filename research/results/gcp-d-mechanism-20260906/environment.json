@@ -1,0 +1,27 @@
+{
+  "disk": {
+    "auto_delete": true,
+    "size_gb": 80,
+    "type": "pd-balanced"
+  },
+  "evidence_chains_verified": 18,
+  "image": "ubuntu-2404-lts-amd64 current family resolution at creation",
+  "machine_type": "e2-standard-4",
+  "no_progress_counts": {
+    "repeated_same_transition": 6
+  },
+  "project": "law-needs-fcfa7",
+  "region": "europe-west2",
+  "repository_commit": "5c169b1b1ba8b2bd15e94eda36984d232e6a5b96",
+  "termination_counts": {
+    "error: BudgetExceeded: operational_emergency_token_ceiling": 1,
+    "error: KeyError: 'Worksheet MyResult does not exist.'": 1,
+    "error: ValueError: contract must contain exactly ['constraints', 'desired_state', 'evaluator_intents', 'invariants', 'required_capabilities', 'schema_version']": 1,
+    "error: ValueError: procedural contract proposal rejected at invariants[]": 1,
+    "fulfilled": 2,
+    "unfulfilled:no_progress": 6,
+    "unfulfilled:no_safe_transition": 8
+  },
+  "vm": "encode-d-mechanism-20260906",
+  "zone": "europe-west2-b"
+}

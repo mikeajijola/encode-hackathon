@@ -8,12 +8,15 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 from pathlib import Path
 from statistics import median
 from typing import Any
 
 
 DEFAULT_EMERGENCY_TOKENS = 250_000
+GEMINI_37_FLASH_INPUT_PER_MILLION = 0.75
+GEMINI_37_FLASH_OUTPUT_PER_MILLION = 3.75
 
 
 def revise_d_manifest(base: dict[str, Any], experiment_id: str,
@@ -77,7 +80,9 @@ def write_checkpoint_predictions(run_dir: Path, output_dir: Path) -> None:
         result = json.loads(path.read_text())
         for number, output in enumerate(result.get("mutation_outputs", ()), 1):
             by_mutation.setdefault(number, []).append({
-                "id": str(result["id"]), "output": output, "status": "offline_checkpoint",
+                "id": str(result["id"]),
+                "output": os.path.relpath(run_dir / output, output_dir),
+                "status": "offline_checkpoint",
             })
     for number, rows in by_mutation.items():
         path = output_dir / f"mutation-{number:02d}.jsonl"
@@ -164,6 +169,10 @@ def summarize(run_dir: Path, official_path: Path,
             prior_tokens = end_tokens
             cycle.pop("usage_at_cycle_end", None)
         item = official.get(task_id, {})
+        input_tokens = int(result["usage"]["input_tokens"])
+        output_tokens = int(result["usage"]["output_tokens"])
+        estimated_cost = (input_tokens * GEMINI_37_FLASH_INPUT_PER_MILLION +
+                          output_tokens * GEMINI_37_FLASH_OUTPUT_PER_MILLION) / 1_000_000
         checkpoint_events = [event["payload"] for event in events
                              if event["event_type"] == "mutation_checkpoint"]
         first_correct = next((event for event in checkpoint_events
@@ -188,10 +197,13 @@ def summarize(run_dir: Path, official_path: Path,
             "initial_evaluation_tokens": initial_evaluation_tokens,
             "reconciliation_cycles": cycles,
             "total_tokens_to_termination": result["usage"]["tokens"],
+            "input_tokens_to_termination": input_tokens,
+            "output_tokens_to_termination": output_tokens,
             "total_actions_to_termination": result["usage"]["actions"],
             "total_iterations_to_termination": (result.get("terminal_eval") or {}).get("details", {}).get("iteration", 0),
             "wall_time_to_termination_ms": result["usage"]["latency_ms"],
-            "estimated_cost_to_termination": result["usage"]["cost"],
+            "provider_reported_cost_to_termination": result["usage"]["cost"],
+            "estimated_cost_to_termination": estimated_cost,
             "termination_reason": result["status"],
             "internal_completion": result["internal_status"],
             "official_benchmark_result": "PASS" if item.get("pass") else "FAIL",
@@ -217,6 +229,12 @@ def summarize(run_dir: Path, official_path: Path,
     recoverable = [task for task in tasks if task["first_mutation_official_pass"] is False]
     recoveries = [task for task in tasks if task["recovered"]]
     ceiling = [task for task in tasks if "operational_emergency" in task["termination_reason"]]
+    success_tokens = [task["total_tokens_to_termination"] for task in official_passes]
+    success_actions = [task["total_actions_to_termination"] for task in official_passes]
+    success_iterations = [task["total_iterations_to_termination"] for task in official_passes]
+    success_latency = [task["wall_time_to_termination_ms"] for task in official_passes]
+    success_cost = [task["estimated_cost_to_termination"] for task in official_passes]
+    recovered_tokens = [task["total_tokens_to_termination"] for task in recoveries]
     return {
         "experiment_kind": "d_only_uncapped_token_mechanism_validation",
         "tasks": tasks,
@@ -235,6 +253,19 @@ def summarize(run_dir: Path, official_path: Path,
             "successful_recoveries": len(recoveries),
             "recovery_yield": len(recoveries) / len(recoverable) if recoverable else 0,
             "operational_emergency_ceiling_terminations": len(ceiling),
+            "median_tokens_per_task": median([task["total_tokens_to_termination"] for task in tasks]) if tasks else 0,
+            "tokens_per_success": sum(success_tokens) / len(success_tokens) if success_tokens else None,
+            "tokens_per_recovery": sum(recovered_tokens) / len(recovered_tokens) if recovered_tokens else None,
+            "actions_per_success": sum(success_actions) / len(success_actions) if success_actions else None,
+            "iterations_per_success": sum(success_iterations) / len(success_iterations) if success_iterations else None,
+            "latency_ms_per_success": sum(success_latency) / len(success_latency) if success_latency else None,
+            "estimated_cost_per_success": sum(success_cost) / len(success_cost) if success_cost else None,
+        },
+        "pricing": {
+            "basis": "Gemini Developer API paid-tier introductory pricing through 2026-12-31",
+            "input_usd_per_million": GEMINI_37_FLASH_INPUT_PER_MILLION,
+            "output_usd_per_million_including_thinking": GEMINI_37_FLASH_OUTPUT_PER_MILLION,
+            "provider_reported_cost_note": "API responses reported zero; estimates use recorded input/output tokens",
         },
     }
 
