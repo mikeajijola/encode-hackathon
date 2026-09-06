@@ -1,0 +1,39 @@
+{
+  "experiment_id": "development-d-preservation-firewall-v1",
+  "timestamp_date": "2026-09-06",
+  "hypothesis": "Observed-scope validation and byte rollback at recalculation removes the two calibrated-run preservation violations without degrading three-valued completion calibration.",
+  "change": "Transactional scope enforcement in spreadsheet recalculate only (commit a63b5b1).",
+  "control": "Arm D completion-calibration run retained at commit 9892ff1.",
+  "treatment": "Calibrated Arm D with unchanged model, task set, prompts, completion policy, budgets, and scorer; recalculation adapter change only.",
+  "task_set": "frozen 20-task development selection, seed 20260905",
+  "model": "gemini-3.7-flash",
+  "model_version": "3.7-flash-08-2026",
+  "budgets": {
+    "research_tokens_per_task": null,
+    "operational_emergency_tokens": 250000,
+    "actions": 12,
+    "wall_time_ms": 300000
+  },
+  "results": {
+    "official_pass_rate": 0.45,
+    "cell_accuracy": 0.1675,
+    "false_fulfilment_rate": 0.0,
+    "fulfilled_precision": 1.0,
+    "fulfilled_recall": 0.1111111111,
+    "false_unfulfilment_rate": 0.3333333333,
+    "unknown_rate": 0.2,
+    "recovery_yield": 0.1428571429,
+    "preservation_violations": 2,
+    "valid_official_artifacts": 20
+  },
+  "failure_distribution": {
+    "target_recalculation_violations_remaining": 0,
+    "new_write_serialization_violations": 2,
+    "operational_emergency_ceiling": 1
+  },
+  "interpretation": "The focused causal hypothesis is supported for both target cases, but the programme decision gate fails because a separate serialization side-effect mechanism produced two violations.",
+  "decision": "STOP; do not run A/B/C/D and do not broaden the intervention post hoc.",
+  "next_experiment": "Pre-register semantic-versus-representational preservation equivalence, then test generic observed-scope enforcement and byte rollback for every mutating capability.",
+  "golden_isolation": "Official data was unavailable to fulfilment and mounted only for post-termination scoring.",
+  "archive_sha256": "e83a9310714925a565f213baf7809bf0dfd7257608fc9ce87a1e65324e50dea0"
+}

@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.0.0",
+  "baseline_commit": "9892ff1630b2a2d7decddd29c1d8be00682b85ef",
+  "treatment_commit": "a63b5b10ef8eb5bf30a501a2d051faf9a6c0e94c",
+  "baseline": {
+    "official_passes": 8,
+    "official_pass_rate": 0.4,
+    "cell_accuracy": 0.1602,
+    "fulfilled_claims": 2,
+    "fulfilled_precision": 1.0,
+    "fulfilled_recall": 0.25,
+    "false_fulfilment_rate": 0.0,
+    "false_unfulfilment_rate": 0.2142857143,
+    "unknown_rate": 0.2,
+    "recovery_yield": 0.3333333333,
+    "preservation_violations": ["47766", "50971"],
+    "valid_official_artifacts": 20,
+    "actions": 36,
+    "tokens": 1743803,
+    "latency_ms": 495020,
+    "estimated_cost_usd": 1.39746525
+  },
+  "treatment": {
+    "official_passes": 9,
+    "official_pass_rate": 0.45,
+    "cell_accuracy": 0.1675,
+    "fulfilled_claims": 1,
+    "fulfilled_precision": 1.0,
+    "fulfilled_recall": 0.1111111111,
+    "false_fulfilment_rate": 0.0,
+    "false_unfulfilment_rate": 0.3333333333,
+    "unknown_rate": 0.2,
+    "recovery_yield": 0.1428571429,
+    "preservation_violations": ["58147", "61-4"],
+    "valid_official_artifacts": 20,
+    "actions": 39,
+    "tokens": 1787729,
+    "latency_ms": 513237,
+    "estimated_cost_usd": 1.46471175
+  },
+  "paired_official": {
+    "newly_passing": ["168-17", "37554", "448-11"],
+    "newly_failing": ["49237", "50526"],
+    "unchanged_pass": ["105-24", "120-24", "31011", "47766", "58147", "59794"],
+    "target_preservation_fixed": ["47766", "50971"],
+    "new_preservation_violations": ["58147", "61-4"]
+  },
+  "decision_gate": {
+    "passed": false,
+    "failed_conditions": ["preservation_violations_lte_1"],
+    "full_four_arm_rerun_performed": false
+  }
+}

@@ -1,0 +1,126 @@
+{
+  "status": "pass",
+  "artifacts": [
+    {
+      "task_id": "105-24",
+      "expected": "7821fdc5b7cb1c040f6d9c2439abe911f3a2e3ce9b3a3ac285152cc7396bfe02",
+      "actual": "7821fdc5b7cb1c040f6d9c2439abe911f3a2e3ce9b3a3ac285152cc7396bfe02",
+      "match": true
+    },
+    {
+      "task_id": "120-24",
+      "expected": "ef9d0706c0bcecdc0e392356f367e5dafedf755875f4460d6fb44e0b5284ed6a",
+      "actual": "ef9d0706c0bcecdc0e392356f367e5dafedf755875f4460d6fb44e0b5284ed6a",
+      "match": true
+    },
+    {
+      "task_id": "141-20",
+      "expected": "437b23d2ed34b7ad5059f52d35d2840bf8b8b3523f328049dcc5876c670b32cb",
+      "actual": "437b23d2ed34b7ad5059f52d35d2840bf8b8b3523f328049dcc5876c670b32cb",
+      "match": true
+    },
+    {
+      "task_id": "168-17",
+      "expected": "665fd9ef13d0d3f10a67bb6c484249ec473f6add5e07666c9a1e97643a524815",
+      "actual": "665fd9ef13d0d3f10a67bb6c484249ec473f6add5e07666c9a1e97643a524815",
+      "match": true
+    },
+    {
+      "task_id": "209-30",
+      "expected": "1017b645453e077944bc286fb19f88c9e4803c95cd854a562f01ad5a7440640d",
+      "actual": "1017b645453e077944bc286fb19f88c9e4803c95cd854a562f01ad5a7440640d",
+      "match": true
+    },
+    {
+      "task_id": "31011",
+      "expected": "aa04d0bc33f7dc25e4daf1ca07154b8220254156a8d0269accdec07f06afd1d9",
+      "actual": "aa04d0bc33f7dc25e4daf1ca07154b8220254156a8d0269accdec07f06afd1d9",
+      "match": true
+    },
+    {
+      "task_id": "35742",
+      "expected": "5363e0009be1c9a8c6adee147524037058847c2b362b7af3faf972561a08f7bc",
+      "actual": "5363e0009be1c9a8c6adee147524037058847c2b362b7af3faf972561a08f7bc",
+      "match": true
+    },
+    {
+      "task_id": "37554",
+      "expected": "47e6996bfd9b5c21e170e9bad3d87374e53dcfd50a465aa704dcf9ea73d5b41a",
+      "actual": "47e6996bfd9b5c21e170e9bad3d87374e53dcfd50a465aa704dcf9ea73d5b41a",
+      "match": true
+    },
+    {
+      "task_id": "395-36",
+      "expected": "318312b69f6e9a9d5d9178e741311d4664c1b58f8c8ee388a4d3929f0d816c10",
+      "actual": "318312b69f6e9a9d5d9178e741311d4664c1b58f8c8ee388a4d3929f0d816c10",
+      "match": true
+    },
+    {
+      "task_id": "448-11",
+      "expected": "a0ba742793a22e468c6477130eb411110e2d328238881688db96a2354ea3f2f0",
+      "actual": "a0ba742793a22e468c6477130eb411110e2d328238881688db96a2354ea3f2f0",
+      "match": true
+    },
+    {
+      "task_id": "45738",
+      "expected": "326cf570d7ebecc71a3a0bd2f571e6caf39d6464602d3d873845acac1885dd47",
+      "actual": "326cf570d7ebecc71a3a0bd2f571e6caf39d6464602d3d873845acac1885dd47",
+      "match": true
+    },
+    {
+      "task_id": "47766",
+      "expected": "887087d1e457f3807c0f71870e0a9cb179ad6dbd38d954f307166df332034ca9",
+      "actual": "887087d1e457f3807c0f71870e0a9cb179ad6dbd38d954f307166df332034ca9",
+      "match": true
+    },
+    {
+      "task_id": "49237",
+      "expected": "4303b8efbb3dc3f33d22c60ebea360f28ea87ded7b559c4255420ad415079548",
+      "actual": "4303b8efbb3dc3f33d22c60ebea360f28ea87ded7b559c4255420ad415079548",
+      "match": true
+    },
+    {
+      "task_id": "50526",
+      "expected": "e35cfcb407afe61fea13e25addf0a4a02cdb6da286d786c4d63396f88167b724",
+      "actual": "e35cfcb407afe61fea13e25addf0a4a02cdb6da286d786c4d63396f88167b724",
+      "match": true
+    },
+    {
+      "task_id": "50971",
+      "expected": "ca08f3f6fadbd6aab310d88c1532f6e1a5c275e2eb260c1acbc6eb070bfea7d5",
+      "actual": "ca08f3f6fadbd6aab310d88c1532f6e1a5c275e2eb260c1acbc6eb070bfea7d5",
+      "match": true
+    },
+    {
+      "task_id": "567-21",
+      "expected": "baef141a4ed282185f97ffbb926c2d07e9ca6f764808de67a3af4955716cf269",
+      "actual": "baef141a4ed282185f97ffbb926c2d07e9ca6f764808de67a3af4955716cf269",
+      "match": true
+    },
+    {
+      "task_id": "58147",
+      "expected": "35a4916bf5b4f9e31d82aedd4a974abcfc2df35a44c0852b404c61020eec74ec",
+      "actual": "35a4916bf5b4f9e31d82aedd4a974abcfc2df35a44c0852b404c61020eec74ec",
+      "match": true
+    },
+    {
+      "task_id": "59794",
+      "expected": "735fd77c6e46aeb1f7252865e8a2ff18796a3b2180fec9fd3a1f6ed358219b9d",
+      "actual": "735fd77c6e46aeb1f7252865e8a2ff18796a3b2180fec9fd3a1f6ed358219b9d",
+      "match": true
+    },
+    {
+      "task_id": "61-4",
+      "expected": "05d7a3a04dc497f2792bcdd49b20e4923106229ef0d24eccc9b3146f03a5cbac",
+      "actual": "05d7a3a04dc497f2792bcdd49b20e4923106229ef0d24eccc9b3146f03a5cbac",
+      "match": true
+    },
+    {
+      "task_id": "66-24",
+      "expected": "39ebccfbd4d7d667d7a049842874cab3c10ec5f4416d5c81225e5f88ae1cef29",
+      "actual": "39ebccfbd4d7d667d7a049842874cab3c10ec5f4416d5c81225e5f88ae1cef29",
+      "match": true
+    }
+  ],
+  "errors": []
+}
