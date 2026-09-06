@@ -23,6 +23,15 @@ class SnapshotHooks(Protocol):
     def after_mutation(self, request: CapabilityRequest) -> str: ...
 
 
+class TransactionHooks(Protocol):
+    """Artifact-neutral transactional extension implemented by capable adapters."""
+
+    def stage_mutation(self, request: CapabilityRequest) -> CapabilityRequest: ...
+    def inspect_mutation(self, request: CapabilityRequest, staged: CapabilityRequest) -> Any: ...
+    def commit_mutation(self, request: CapabilityRequest, staged: CapabilityRequest) -> None: ...
+    def rollback_mutation(self, request: CapabilityRequest, staged: CapabilityRequest) -> None: ...
+
+
 def _covers(parent: Scope, child: Scope) -> bool:
     prefix = parent.resource[:-2] if parent.resource.endswith("/*") else parent.resource
     return child.resource == prefix or (parent.resource.endswith("/*") and child.resource.startswith(prefix + "/"))
@@ -100,6 +109,11 @@ class Broker:
 
         started = monotonic()
         before_hash = self.snapshots.before_mutation(request) if mutating else None
+        execution_request = request
+        transactional = mutating and all(hasattr(self.snapshots, name) for name in (
+            "stage_mutation", "inspect_mutation", "commit_mutation", "rollback_mutation"))
+        if transactional:
+            execution_request = self.snapshots.stage_mutation(request)
         requested = self.evidence.append("capability_request", {
             "request_id": request.id, "capability": request.capability_name,
             "discrepancy_ids": request.discrepancy_ids, "before_hash": before_hash,
@@ -108,10 +122,17 @@ class Broker:
         result = None
         invocation_error = None
         try:
-            result = handler.invoke(request)
+            result = handler.invoke(execution_request)
         except Exception as error:
             invocation_error = f"{type(error).__name__}: {error}"
-        after_hash = self.snapshots.after_mutation(request) if mutating else None
+        mutation_diff = None
+        if transactional and result is not None and result.succeeded and not invocation_error:
+            try:
+                mutation_diff = self.snapshots.inspect_mutation(request, execution_request)
+            except Exception as error:
+                invocation_error = f"transaction_inspection_failed:{type(error).__name__}: {error}"
+        if result is not None and mutation_diff is not None:
+            result = replace(result, actual_mutation_scope=mutation_diff.semantic_scopes)
         elapsed = int((monotonic() - started) * 1000)
         tokens = int(result.provenance.get("tokens", 0)) if result else 0
         self.usage = replace(projected, tokens=projected.tokens + tokens, wall_time_ms=projected.wall_time_ms + elapsed)
@@ -124,13 +145,29 @@ class Broker:
             missing_provenance = set(manifest.provenance_requirements) - set(result.provenance)
             if missing_provenance:
                 validation_error = f"missing required provenance: {sorted(missing_provenance)}"
+        if transactional:
+            if invocation_error or validation_error or result is None or not result.succeeded:
+                self.snapshots.rollback_mutation(request, execution_request)
+            else:
+                try:
+                    self.snapshots.commit_mutation(request, execution_request)
+                except Exception as error:
+                    invocation_error = f"transaction_commit_failed:{type(error).__name__}: {error}"
+                    self.snapshots.rollback_mutation(request, execution_request)
+        after_hash = self.snapshots.after_mutation(request) if mutating else None
+        if transactional and result is not None:
+            result = replace(result, provenance={**result.provenance,
+                             "artifact_sha256": after_hash})
         self.evidence.append("capability_result", {
             "request_event_id": requested.id, "request_id": request.id,
-            "succeeded": result.succeeded if result else False,
+            "succeeded": bool(result and result.succeeded and not invocation_error and not validation_error),
             "actual_mutation_scope": [s.resource for s in result.actual_mutation_scope] if result else [],
             "before_hash": before_hash, "after_hash": after_hash,
             "provenance": result.provenance if result else {},
             "error": invocation_error or validation_error or (result.error if result else None),
+            "mutation_diff": mutation_diff.evidence() if mutation_diff is not None else None,
+            "transaction": ("rolled_back" if invocation_error or validation_error or not result or not result.succeeded
+                            else "committed") if transactional else None,
             "usage": {"actions": self.usage.actions, "tokens": self.usage.tokens,
                       "wall_time_ms": self.usage.wall_time_ms, "cost": self.usage.cost},
         })

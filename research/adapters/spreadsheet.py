@@ -6,6 +6,7 @@ import hashlib
 import shutil
 import subprocess
 import tempfile
+from dataclasses import replace
 from pathlib import Path
 from typing import Any
 
@@ -15,6 +16,8 @@ from openpyxl.worksheet.formula import ArrayFormula
 from openpyxl.utils.cell import get_column_letter, range_boundaries
 
 from fulfilment.models import CapabilityEffect, CapabilityManifest, CapabilityRequest, CapabilityResult, Scope
+from adapters.spreadsheet_diff import diff_workbooks
+from adapters.spreadsheet_ooxml import patch_cell_values_raw
 
 KIND = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
 VERSION = "1.0.0"
@@ -80,6 +83,8 @@ class WorkbookSnapshots:
     def __init__(self):
         self.before: dict[str, dict[str, Any]] = {}
         self.diffs: dict[str, list[dict[str, Any]]] = {}
+        self.originals: dict[str, Path] = {}
+        self.staged: dict[str, Path] = {}
 
     def before_mutation(self, request: CapabilityRequest) -> str:
         path = Path(request.artifact_id)
@@ -96,6 +101,41 @@ class WorkbookSnapshots:
             for key in keys if before.get(key) != after.get(key)
         ]
         return _hash(path)
+
+    def stage_mutation(self, request: CapabilityRequest) -> CapabilityRequest:
+        original = Path(request.artifact_id)
+        staged = original.with_name(f".{original.stem}.transaction-{request.id}{original.suffix}")
+        shutil.copy2(original, staged)
+        self.originals[request.id] = original
+        self.staged[request.id] = staged
+        return replace(request, artifact_id=str(staged))
+
+    def inspect_mutation(self, request: CapabilityRequest, staged: CapabilityRequest):
+        original, candidate = Path(request.artifact_id), Path(staged.artifact_id)
+        attempted = diff_workbooks(original, candidate, request.requested_mutation_scope)
+        # A mutator may have produced useful in-scope state while its serializer
+        # also changed unrelated state. Rebuild from the exact original package,
+        # transplanting only authorized cell nodes, then re-inspect what will be
+        # committed. This adapter hook implements the artifact-specific repair;
+        # authorization and transaction control remain generic in the broker.
+        reconstructed = candidate.with_name(f".{candidate.stem}.reconstructed{candidate.suffix}")
+        patch_cell_values_raw(original, candidate, reconstructed,
+                              request.requested_mutation_scope)
+        reconstructed.replace(candidate)
+        committed = diff_workbooks(original, candidate, request.requested_mutation_scope)
+        return replace(committed,
+                       attempted_semantic_scopes=attempted.semantic_scopes,
+                       reconstruction_applied=True)
+
+    def commit_mutation(self, request: CapabilityRequest, staged: CapabilityRequest) -> None:
+        Path(staged.artifact_id).replace(request.artifact_id)
+        self.originals.pop(request.id, None); self.staged.pop(request.id, None)
+
+    def rollback_mutation(self, request: CapabilityRequest, staged: CapabilityRequest) -> None:
+        Path(staged.artifact_id).unlink(missing_ok=True)
+        candidate = Path(staged.artifact_id)
+        candidate.with_name(f".{candidate.stem}.reconstructed{candidate.suffix}").unlink(missing_ok=True)
+        self.originals.pop(request.id, None); self.staged.pop(request.id, None)
 
 
 def _snapshot_cells(path: Path) -> dict[str, Any]:

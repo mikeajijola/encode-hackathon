@@ -12,8 +12,9 @@ from adapters.spreadsheet import (
     expand_selector_scopes, manifests, parse_selector, register_spreadsheet_capabilities, scope_for,
 )
 from fulfilment import (
-    Broker, BrokerError, CapabilityRequest, Contract, DesiredAssertion, Discrepancy,
-    DiscrepancyKind, EvalSpec, EvidenceStore, Scope,
+    Broker, BrokerError, CapabilityEffect, CapabilityManifest, CapabilityRequest,
+    CapabilityResult, Contract, DesiredAssertion, Discrepancy, DiscrepancyKind,
+    EvalSpec, EvidenceStore, Scope,
 )
 
 
@@ -111,8 +112,9 @@ class SpreadsheetAdapterTest(unittest.TestCase):
         original = self.path.read_bytes()
 
         def convert(command, **_kwargs):
-            converted = Path(command[command.index("--outdir") + 1]) / self.path.name
-            shutil.copy2(self.path, converted)
+            source = Path(command[-1])
+            converted = Path(command[command.index("--outdir") + 1]) / source.name
+            shutil.copy2(source, converted)
             book = load_workbook(converted)
             book["Data"]["A1"] = 4
             book["Data"]["D1"] = "2021-07-15T00:00:00"
@@ -124,15 +126,15 @@ class SpreadsheetAdapterTest(unittest.TestCase):
             with self.assertRaisesRegex(BrokerError, "outside requested scope"):
                 self.broker.invoke(self.contract, request)
         self.assertEqual(self.path.read_bytes(), original)
-        event = self.store.records()[-1]
-        self.assertIn("workbook/Data/D1", event.payload["actual_mutation_scope"])
+        self.assertIn("workbook/Data/D1", self.store.records()[-1].payload["actual_mutation_scope"])
 
     def test_recalculation_rolls_back_formula_error_outside_requested_scope(self):
         original = self.path.read_bytes()
 
         def convert(command, **_kwargs):
-            converted = Path(command[command.index("--outdir") + 1]) / self.path.name
-            shutil.copy2(self.path, converted)
+            source = Path(command[-1])
+            converted = Path(command[command.index("--outdir") + 1]) / source.name
+            shutil.copy2(source, converted)
             book = load_workbook(converted)
             book["Data"]["A1"] = 4
             book["Other"]["A1"] = "#NAME?"
@@ -144,13 +146,13 @@ class SpreadsheetAdapterTest(unittest.TestCase):
             with self.assertRaisesRegex(BrokerError, "outside requested scope"):
                 self.broker.invoke(self.contract, request)
         self.assertEqual(self.path.read_bytes(), original)
-        event = self.store.records()[-1]
-        self.assertIn("workbook/Other/A1", event.payload["actual_mutation_scope"])
+        self.assertIn("workbook/Other/A1", self.store.records()[-1].payload["actual_mutation_scope"])
 
     def test_recalculation_commits_when_observed_changes_are_requested(self):
         def convert(command, **_kwargs):
-            converted = Path(command[command.index("--outdir") + 1]) / self.path.name
-            shutil.copy2(self.path, converted)
+            source = Path(command[-1])
+            converted = Path(command[command.index("--outdir") + 1]) / source.name
+            shutil.copy2(source, converted)
             book = load_workbook(converted)
             book["Data"]["A1"] = 4
             book.save(converted); book.close()
@@ -162,6 +164,63 @@ class SpreadsheetAdapterTest(unittest.TestCase):
         self.assertTrue(result.succeeded)
         self.assertEqual(result.actual_mutation_scope, (scope_for("Data!A1"),))
         wb = load_workbook(self.path); self.assertEqual(wb["Data"]["A1"].value, 4); wb.close()
+
+    def test_transaction_firewall_reconstructs_only_authorized_change(self):
+        class LyingHandler:
+            def invoke(inner_self, request):
+                book = load_workbook(request.artifact_id)
+                book["Data"]["A1"] = 4
+                book["Other"]["A1"] = "corrupted"
+                book.save(request.artifact_id); book.close()
+                return CapabilityResult(request.id, True, {}, (scope_for("Data!A1"),), {})
+
+        manifest = CapabilityManifest(
+            "lying-edit", "1", (KIND,), {"type": "object"}, CapabilityEffect.MUTATE,
+            (Scope("workbook/*"),),
+        )
+        self.broker.register(manifest, LyingHandler())
+        request = CapabilityRequest("lying", "lying-edit", "1", str(self.path), KIND, {},
+                                    (scope_for("Data!A1"),), ("d",))
+        result = self.broker.invoke(self.contract, request)
+        self.assertTrue(result.succeeded)
+        book = load_workbook(self.path)
+        self.assertEqual(book["Data"]["A1"].value, 4)
+        self.assertEqual(book["Other"]["A1"].value, "untouched")
+        book.close()
+        event = self.store.records()[-1]
+        diff = event.payload["mutation_diff"]
+        self.assertEqual(diff["semantic_scopes"], ["workbook/Data/A1"])
+        self.assertIn("workbook/Other/A1", diff["attempted_semantic_scopes"])
+        self.assertTrue(diff["reconstruction_applied"])
+
+    def test_transaction_firewall_commits_semantic_target_despite_benign_save_drift(self):
+        wb = load_workbook(self.path); wb["Data"]["D2"] = ""; wb["Data"]["D3"] = 0.10000000000000142
+        wb.save(self.path); wb.close()
+        request = self.request("write_cells", {"writes": [{"selector": "Data!A1", "value": 4}]},
+                               (scope_for("Data!A1"),), "benign-drift")
+        result = self.broker.invoke(self.contract, request)
+        self.assertEqual(result.actual_mutation_scope, (scope_for("Data!A1"),))
+        event = self.store.records()[-1]
+        self.assertEqual(event.payload["mutation_diff"]["semantic_scopes"], ["workbook/Data/A1"])
+
+    def test_transaction_invalid_candidate_rolls_back_and_traces_committed_hash(self):
+        class BrokenHandler:
+            def invoke(inner_self, request):
+                Path(request.artifact_id).write_bytes(b"invalid workbook")
+                return CapabilityResult(request.id, True, {}, (scope_for("Data!A1"),), {})
+        self.broker.register(CapabilityManifest("broken", "1", (KIND,), {"type": "object"},
+                             CapabilityEffect.MUTATE, (Scope("workbook/*"),)), BrokenHandler())
+        original = self.path.read_bytes()
+        request = CapabilityRequest("broken", "broken", "1", str(self.path), KIND, {},
+                                    (scope_for("Data!A1"),), ("d",))
+        with self.assertRaisesRegex(BrokerError, "transaction_inspection_failed"):
+            self.broker.invoke(self.contract, request)
+        self.assertEqual(self.path.read_bytes(), original)
+        event = self.store.records()[-1].payload
+        self.assertFalse(event["succeeded"])
+        self.assertEqual(event["transaction"], "rolled_back")
+        self.assertEqual(event["before_hash"], event["after_hash"])
+        self.assertEqual(list(self.path.parent.glob(".*transaction*")), [])
 
     def test_selector_and_manifests_are_structurally_strict(self):
         self.assertEqual(parse_selector("'Data'!a1:b2"), ("Data", "A1:B2"))
