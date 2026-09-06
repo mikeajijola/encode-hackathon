@@ -1,0 +1,172 @@
+[
+  {
+    "eval_id": "preservation",
+    "independence": "independent_deterministic",
+    "passes": 15,
+    "failures": 1,
+    "errors": 0,
+    "not_applicable": 4,
+    "coverage": 0.8,
+    "p_external_pass_given_eval_pass": 0.5333333333333333,
+    "p_external_fail_given_eval_fail": 1.0,
+    "false_positive_contribution": 7,
+    "false_negative_contribution": 0,
+    "discrimination_delta": 0.5333333333333333,
+    "confidence_samples": []
+  },
+  {
+    "eval_id": "artifact-valid",
+    "independence": "structurally_independent",
+    "passes": 16,
+    "failures": 0,
+    "errors": 0,
+    "not_applicable": 4,
+    "coverage": 0.8,
+    "p_external_pass_given_eval_pass": 0.5,
+    "p_external_fail_given_eval_fail": null,
+    "false_positive_contribution": 8,
+    "false_negative_contribution": 0,
+    "discrimination_delta": 0.5,
+    "confidence_samples": []
+  },
+  {
+    "eval_id": "formula-errors",
+    "independence": "structurally_independent",
+    "passes": 16,
+    "failures": 0,
+    "errors": 0,
+    "not_applicable": 4,
+    "coverage": 0.8,
+    "p_external_pass_given_eval_pass": 0.5,
+    "p_external_fail_given_eval_fail": null,
+    "false_positive_contribution": 8,
+    "false_negative_contribution": 0,
+    "discrimination_delta": 0.5,
+    "confidence_samples": []
+  },
+  {
+    "eval_id": "output-shape",
+    "independence": "structurally_independent",
+    "passes": 16,
+    "failures": 0,
+    "errors": 0,
+    "not_applicable": 4,
+    "coverage": 0.8,
+    "p_external_pass_given_eval_pass": 0.5,
+    "p_external_fail_given_eval_fail": null,
+    "false_positive_contribution": 8,
+    "false_negative_contribution": 0,
+    "discrimination_delta": 0.5,
+    "confidence_samples": []
+  },
+  {
+    "eval_id": "nonblank",
+    "independence": "structurally_independent",
+    "passes": 10,
+    "failures": 6,
+    "errors": 0,
+    "not_applicable": 4,
+    "coverage": 0.8,
+    "p_external_pass_given_eval_pass": 0.6,
+    "p_external_fail_given_eval_fail": 0.6666666666666666,
+    "false_positive_contribution": 4,
+    "false_negative_contribution": 2,
+    "discrimination_delta": 0.4,
+    "confidence_samples": []
+  },
+  {
+    "eval_id": "semantic",
+    "independence": "independent_semantic",
+    "passes": 8,
+    "failures": 7,
+    "errors": 0,
+    "not_applicable": 4,
+    "coverage": 0.8,
+    "p_external_pass_given_eval_pass": 0.625,
+    "p_external_fail_given_eval_fail": 0.5714285714285714,
+    "false_positive_contribution": 3,
+    "false_negative_contribution": 3,
+    "discrimination_delta": 0.29166666666666663,
+    "confidence_samples": [
+      {
+        "confidence": 1.0,
+        "external_pass": true
+      },
+      {
+        "confidence": 1.0,
+        "external_pass": true
+      },
+      {
+        "confidence": 1.0,
+        "external_pass": false
+      },
+      {
+        "confidence": 1.0,
+        "external_pass": true
+      },
+      {
+        "confidence": 1.0,
+        "external_pass": true
+      },
+      {
+        "confidence": 1.0,
+        "external_pass": true
+      },
+      {
+        "confidence": 1.0,
+        "external_pass": true
+      },
+      {
+        "confidence": 1.0,
+        "external_pass": false
+      },
+      {
+        "confidence": 1.0,
+        "external_pass": true
+      },
+      {
+        "confidence": 0.0,
+        "external_pass": false
+      },
+      {
+        "confidence": 1.0,
+        "external_pass": false
+      },
+      {
+        "confidence": 1.0,
+        "external_pass": false
+      },
+      {
+        "confidence": 1.0,
+        "external_pass": false
+      },
+      {
+        "confidence": 1.0,
+        "external_pass": true
+      },
+      {
+        "confidence": 1.0,
+        "external_pass": false
+      },
+      {
+        "confidence": 1.0,
+        "external_pass": false
+      }
+    ]
+  },
+  {
+    "eval_id": "type",
+    "independence": "structurally_independent",
+    "passes": 6,
+    "failures": 10,
+    "errors": 0,
+    "not_applicable": 4,
+    "coverage": 0.8,
+    "p_external_pass_given_eval_pass": 0.16666666666666666,
+    "p_external_fail_given_eval_fail": 0.3,
+    "false_positive_contribution": 5,
+    "false_negative_contribution": 7,
+    "discrimination_delta": -0.33333333333333337,
+    "confidence_samples": []
+  }
+]

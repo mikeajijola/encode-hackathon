@@ -1,0 +1,933 @@
+{
+  "final_candidates": 20,
+  "intermediate_candidates": 17,
+  "labelled_candidates": 37,
+  "policies": [
+    {
+      "policy": "legacy_strict_binary",
+      "hypothesis": "Control: every required eval must pass; every other result is negative.",
+      "fulfilled_precision": 0.5,
+      "fulfilled_recall": 0.125,
+      "false_fulfilment_rate": 0.5,
+      "false_unfulfilment_rate": 0.3888888888888889,
+      "unknown_rate": 0.0,
+      "unknown_official_pass": 0,
+      "unknown_official_fail": 0,
+      "official_passes_captured": 1,
+      "official_failures_accepted": 1,
+      "evaluator_coverage": 0.8,
+      "confusion_matrix": {
+        "FULFILLED": {
+          "official_pass": 1,
+          "official_fail": 1
+        },
+        "UNFULFILLED": {
+          "official_pass": 7,
+          "official_fail": 11
+        },
+        "UNKNOWN": {
+          "official_pass": 0,
+          "official_fail": 0
+        }
+      },
+      "task_decisions": [
+        {
+          "candidate_id": "105-24:final",
+          "decision": "UNFULFILLED",
+          "external_pass": true
+        },
+        {
+          "candidate_id": "120-24:final",
+          "decision": "UNFULFILLED",
+          "external_pass": true
+        },
+        {
+          "candidate_id": "141-20:final",
+          "decision": "UNFULFILLED",
+          "external_pass": false
+        },
+        {
+          "candidate_id": "168-17:final",
+          "decision": "UNFULFILLED",
+          "external_pass": true
+        },
+        {
+          "candidate_id": "209-30:final",
+          "decision": "UNFULFILLED",
+          "external_pass": false
+        },
+        {
+          "candidate_id": "31011:final",
+          "decision": "UNFULFILLED",
+          "external_pass": true
+        },
+        {
+          "candidate_id": "35742:final",
+          "decision": "UNFULFILLED",
+          "external_pass": true
+        },
+        {
+          "candidate_id": "37554:final",
+          "decision": "UNFULFILLED",
+          "external_pass": true
+        },
+        {
+          "candidate_id": "395-36:final",
+          "decision": "UNFULFILLED",
+          "external_pass": false
+        },
+        {
+          "candidate_id": "448-11:final",
+          "decision": "UNFULFILLED",
+          "external_pass": false
+        },
+        {
+          "candidate_id": "45738:final",
+          "decision": "FULFILLED",
+          "external_pass": false
+        },
+        {
+          "candidate_id": "47766:final",
+          "decision": "UNFULFILLED",
+          "external_pass": true
+        },
+        {
+          "candidate_id": "49237:final",
+          "decision": "UNFULFILLED",
+          "external_pass": false
+        },
+        {
+          "candidate_id": "50526:final",
+          "decision": "UNFULFILLED",
+          "external_pass": false
+        },
+        {
+          "candidate_id": "50971:final",
+          "decision": "UNFULFILLED",
+          "external_pass": false
+        },
+        {
+          "candidate_id": "567-21:final",
+          "decision": "UNFULFILLED",
+          "external_pass": false
+        },
+        {
+          "candidate_id": "58147:final",
+          "decision": "UNFULFILLED",
+          "external_pass": false
+        },
+        {
+          "candidate_id": "59794:final",
+          "decision": "FULFILLED",
+          "external_pass": true
+        },
+        {
+          "candidate_id": "61-4:final",
+          "decision": "UNFULFILLED",
+          "external_pass": false
+        },
+        {
+          "candidate_id": "66-24:final",
+          "decision": "UNFULFILLED",
+          "external_pass": false
+        }
+      ]
+    },
+    {
+      "policy": "strict_three_valued",
+      "hypothesis": "Separate absent/error evidence from established failure.",
+      "fulfilled_precision": 0.5,
+      "fulfilled_recall": 0.125,
+      "false_fulfilment_rate": 0.5,
+      "false_unfulfilment_rate": 0.5384615384615384,
+      "unknown_rate": 0.25,
+      "unknown_official_pass": 0,
+      "unknown_official_fail": 5,
+      "official_passes_captured": 1,
+      "official_failures_accepted": 1,
+      "evaluator_coverage": 0.8,
+      "confusion_matrix": {
+        "FULFILLED": {
+          "official_pass": 1,
+          "official_fail": 1
+        },
+        "UNFULFILLED": {
+          "official_pass": 7,
+          "official_fail": 6
+        },
+        "UNKNOWN": {
+          "official_pass": 0,
+          "official_fail": 5
+        }
+      },
+      "task_decisions": [
+        {
+          "candidate_id": "105-24:final",
+          "decision": "UNFULFILLED",
+          "external_pass": true
+        },
+        {
+          "candidate_id": "120-24:final",
+          "decision": "UNFULFILLED",
+          "external_pass": true
+        },
+        {
+          "candidate_id": "141-20:final",
+          "decision": "UNFULFILLED",
+          "external_pass": false
+        },
+        {
+          "candidate_id": "168-17:final",
+          "decision": "UNFULFILLED",
+          "external_pass": true
+        },
+        {
+          "candidate_id": "209-30:final",
+          "decision": "UNKNOWN",
+          "external_pass": false
+        },
+        {
+          "candidate_id": "31011:final",
+          "decision": "UNFULFILLED",
+          "external_pass": true
+        },
+        {
+          "candidate_id": "35742:final",
+          "decision": "UNFULFILLED",
+          "external_pass": true
+        },
+        {
+          "candidate_id": "37554:final",
+          "decision": "UNFULFILLED",
+          "external_pass": true
+        },
+        {
+          "candidate_id": "395-36:final",
+          "decision": "UNKNOWN",
+          "external_pass": false
+        },
+        {
+          "candidate_id": "448-11:final",
+          "decision": "UNKNOWN",
+          "external_pass": false
+        },
+        {
+          "candidate_id": "45738:final",
+          "decision": "FULFILLED",
+          "external_pass": false
+        },
+        {
+          "candidate_id": "47766:final",
+          "decision": "UNFULFILLED",
+          "external_pass": true
+        },
+        {
+          "candidate_id": "49237:final",
+          "decision": "UNKNOWN",
+          "external_pass": false
+        },
+        {
+          "candidate_id": "50526:final",
+          "decision": "UNFULFILLED",
+          "external_pass": false
+        },
+        {
+          "candidate_id": "50971:final",
+          "decision": "UNFULFILLED",
+          "external_pass": false
+        },
+        {
+          "candidate_id": "567-21:final",
+          "decision": "UNFULFILLED",
+          "external_pass": false
+        },
+        {
+          "candidate_id": "58147:final",
+          "decision": "UNKNOWN",
+          "external_pass": false
+        },
+        {
+          "candidate_id": "59794:final",
+          "decision": "FULFILLED",
+          "external_pass": true
+        },
+        {
+          "candidate_id": "61-4:final",
+          "decision": "UNFULFILLED",
+          "external_pass": false
+        },
+        {
+          "candidate_id": "66-24:final",
+          "decision": "UNFULFILLED",
+          "external_pass": false
+        }
+      ]
+    },
+    {
+      "policy": "coverage_aware_three_valued",
+      "hypothesis": "A positive semantic claim requires complete observed context and independent evidence.",
+      "fulfilled_precision": 1.0,
+      "fulfilled_recall": 0.125,
+      "false_fulfilment_rate": 0.0,
+      "false_unfulfilment_rate": 0.3333333333333333,
+      "unknown_rate": 0.65,
+      "unknown_official_pass": 5,
+      "unknown_official_fail": 8,
+      "official_passes_captured": 1,
+      "official_failures_accepted": 0,
+      "evaluator_coverage": 0.8,
+      "confusion_matrix": {
+        "FULFILLED": {
+          "official_pass": 1,
+          "official_fail": 0
+        },
+        "UNFULFILLED": {
+          "official_pass": 2,
+          "official_fail": 4
+        },
+        "UNKNOWN": {
+          "official_pass": 5,
+          "official_fail": 8
+        }
+      },
+      "task_decisions": [
+        {
+          "candidate_id": "105-24:final",
+          "decision": "UNKNOWN",
+          "external_pass": true
+        },
+        {
+          "candidate_id": "120-24:final",
+          "decision": "UNFULFILLED",
+          "external_pass": true
+        },
+        {
+          "candidate_id": "141-20:final",
+          "decision": "UNFULFILLED",
+          "external_pass": false
+        },
+        {
+          "candidate_id": "168-17:final",
+          "decision": "UNFULFILLED",
+          "external_pass": true
+        },
+        {
+          "candidate_id": "209-30:final",
+          "decision": "UNKNOWN",
+          "external_pass": false
+        },
+        {
+          "candidate_id": "31011:final",
+          "decision": "UNKNOWN",
+          "external_pass": true
+        },
+        {
+          "candidate_id": "35742:final",
+          "decision": "UNKNOWN",
+          "external_pass": true
+        },
+        {
+          "candidate_id": "37554:final",
+          "decision": "UNKNOWN",
+          "external_pass": true
+        },
+        {
+          "candidate_id": "395-36:final",
+          "decision": "UNKNOWN",
+          "external_pass": false
+        },
+        {
+          "candidate_id": "448-11:final",
+          "decision": "UNKNOWN",
+          "external_pass": false
+        },
+        {
+          "candidate_id": "45738:final",
+          "decision": "UNKNOWN",
+          "external_pass": false
+        },
+        {
+          "candidate_id": "47766:final",
+          "decision": "UNKNOWN",
+          "external_pass": true
+        },
+        {
+          "candidate_id": "49237:final",
+          "decision": "UNKNOWN",
+          "external_pass": false
+        },
+        {
+          "candidate_id": "50526:final",
+          "decision": "UNKNOWN",
+          "external_pass": false
+        },
+        {
+          "candidate_id": "50971:final",
+          "decision": "UNKNOWN",
+          "external_pass": false
+        },
+        {
+          "candidate_id": "567-21:final",
+          "decision": "UNFULFILLED",
+          "external_pass": false
+        },
+        {
+          "candidate_id": "58147:final",
+          "decision": "UNKNOWN",
+          "external_pass": false
+        },
+        {
+          "candidate_id": "59794:final",
+          "decision": "FULFILLED",
+          "external_pass": true
+        },
+        {
+          "candidate_id": "61-4:final",
+          "decision": "UNFULFILLED",
+          "external_pass": false
+        },
+        {
+          "candidate_id": "66-24:final",
+          "decision": "UNFULFILLED",
+          "external_pass": false
+        }
+      ]
+    },
+    {
+      "policy": "independent_semantic_primary",
+      "hypothesis": "Semantic evidence plus safety gates may dominate weak descriptive gates.",
+      "fulfilled_precision": 0.5,
+      "fulfilled_recall": 0.25,
+      "false_fulfilment_rate": 0.5,
+      "false_unfulfilment_rate": 0.3333333333333333,
+      "unknown_rate": 0.5,
+      "unknown_official_pass": 4,
+      "unknown_official_fail": 6,
+      "official_passes_captured": 2,
+      "official_failures_accepted": 2,
+      "evaluator_coverage": 0.8,
+      "confusion_matrix": {
+        "FULFILLED": {
+          "official_pass": 2,
+          "official_fail": 2
+        },
+        "UNFULFILLED": {
+          "official_pass": 2,
+          "official_fail": 4
+        },
+        "UNKNOWN": {
+          "official_pass": 4,
+          "official_fail": 6
+        }
+      },
+      "task_decisions": [
+        {
+          "candidate_id": "105-24:final",
+          "decision": "UNKNOWN",
+          "external_pass": true
+        },
+        {
+          "candidate_id": "120-24:final",
+          "decision": "UNFULFILLED",
+          "external_pass": true
+        },
+        {
+          "candidate_id": "141-20:final",
+          "decision": "UNFULFILLED",
+          "external_pass": false
+        },
+        {
+          "candidate_id": "168-17:final",
+          "decision": "UNFULFILLED",
+          "external_pass": true
+        },
+        {
+          "candidate_id": "209-30:final",
+          "decision": "UNKNOWN",
+          "external_pass": false
+        },
+        {
+          "candidate_id": "31011:final",
+          "decision": "UNKNOWN",
+          "external_pass": true
+        },
+        {
+          "candidate_id": "35742:final",
+          "decision": "UNKNOWN",
+          "external_pass": true
+        },
+        {
+          "candidate_id": "37554:final",
+          "decision": "FULFILLED",
+          "external_pass": true
+        },
+        {
+          "candidate_id": "395-36:final",
+          "decision": "UNKNOWN",
+          "external_pass": false
+        },
+        {
+          "candidate_id": "448-11:final",
+          "decision": "UNKNOWN",
+          "external_pass": false
+        },
+        {
+          "candidate_id": "45738:final",
+          "decision": "UNKNOWN",
+          "external_pass": false
+        },
+        {
+          "candidate_id": "47766:final",
+          "decision": "UNKNOWN",
+          "external_pass": true
+        },
+        {
+          "candidate_id": "49237:final",
+          "decision": "UNKNOWN",
+          "external_pass": false
+        },
+        {
+          "candidate_id": "50526:final",
+          "decision": "FULFILLED",
+          "external_pass": false
+        },
+        {
+          "candidate_id": "50971:final",
+          "decision": "FULFILLED",
+          "external_pass": false
+        },
+        {
+          "candidate_id": "567-21:final",
+          "decision": "UNFULFILLED",
+          "external_pass": false
+        },
+        {
+          "candidate_id": "58147:final",
+          "decision": "UNKNOWN",
+          "external_pass": false
+        },
+        {
+          "candidate_id": "59794:final",
+          "decision": "FULFILLED",
+          "external_pass": true
+        },
+        {
+          "candidate_id": "61-4:final",
+          "decision": "UNFULFILLED",
+          "external_pass": false
+        },
+        {
+          "candidate_id": "66-24:final",
+          "decision": "UNFULFILLED",
+          "external_pass": false
+        }
+      ]
+    },
+    {
+      "policy": "required_eval_quorum",
+      "hypothesis": "One weak required gate may dissent when semantic and safety gates agree.",
+      "fulfilled_precision": 0.625,
+      "fulfilled_recall": 0.625,
+      "false_fulfilment_rate": 0.375,
+      "false_unfulfilment_rate": 0.0,
+      "unknown_rate": 0.55,
+      "unknown_official_pass": 3,
+      "unknown_official_fail": 8,
+      "official_passes_captured": 5,
+      "official_failures_accepted": 3,
+      "evaluator_coverage": 0.8,
+      "confusion_matrix": {
+        "FULFILLED": {
+          "official_pass": 5,
+          "official_fail": 3
+        },
+        "UNFULFILLED": {
+          "official_pass": 0,
+          "official_fail": 1
+        },
+        "UNKNOWN": {
+          "official_pass": 3,
+          "official_fail": 8
+        }
+      },
+      "task_decisions": [
+        {
+          "candidate_id": "105-24:final",
+          "decision": "UNKNOWN",
+          "external_pass": true
+        },
+        {
+          "candidate_id": "120-24:final",
+          "decision": "UNKNOWN",
+          "external_pass": true
+        },
+        {
+          "candidate_id": "141-20:final",
+          "decision": "UNKNOWN",
+          "external_pass": false
+        },
+        {
+          "candidate_id": "168-17:final",
+          "decision": "UNKNOWN",
+          "external_pass": true
+        },
+        {
+          "candidate_id": "209-30:final",
+          "decision": "UNKNOWN",
+          "external_pass": false
+        },
+        {
+          "candidate_id": "31011:final",
+          "decision": "FULFILLED",
+          "external_pass": true
+        },
+        {
+          "candidate_id": "35742:final",
+          "decision": "FULFILLED",
+          "external_pass": true
+        },
+        {
+          "candidate_id": "37554:final",
+          "decision": "FULFILLED",
+          "external_pass": true
+        },
+        {
+          "candidate_id": "395-36:final",
+          "decision": "UNKNOWN",
+          "external_pass": false
+        },
+        {
+          "candidate_id": "448-11:final",
+          "decision": "UNKNOWN",
+          "external_pass": false
+        },
+        {
+          "candidate_id": "45738:final",
+          "decision": "FULFILLED",
+          "external_pass": false
+        },
+        {
+          "candidate_id": "47766:final",
+          "decision": "FULFILLED",
+          "external_pass": true
+        },
+        {
+          "candidate_id": "49237:final",
+          "decision": "UNKNOWN",
+          "external_pass": false
+        },
+        {
+          "candidate_id": "50526:final",
+          "decision": "FULFILLED",
+          "external_pass": false
+        },
+        {
+          "candidate_id": "50971:final",
+          "decision": "FULFILLED",
+          "external_pass": false
+        },
+        {
+          "candidate_id": "567-21:final",
+          "decision": "UNKNOWN",
+          "external_pass": false
+        },
+        {
+          "candidate_id": "58147:final",
+          "decision": "UNKNOWN",
+          "external_pass": false
+        },
+        {
+          "candidate_id": "59794:final",
+          "decision": "FULFILLED",
+          "external_pass": true
+        },
+        {
+          "candidate_id": "61-4:final",
+          "decision": "UNFULFILLED",
+          "external_pass": false
+        },
+        {
+          "candidate_id": "66-24:final",
+          "decision": "UNKNOWN",
+          "external_pass": false
+        }
+      ]
+    }
+  ],
+  "diagnostics": [
+    {
+      "eval_id": "preservation",
+      "independence": "independent_deterministic",
+      "passes": 15,
+      "failures": 1,
+      "errors": 0,
+      "not_applicable": 4,
+      "coverage": 0.8,
+      "p_external_pass_given_eval_pass": 0.5333333333333333,
+      "p_external_fail_given_eval_fail": 1.0,
+      "false_positive_contribution": 7,
+      "false_negative_contribution": 0,
+      "discrimination_delta": 0.5333333333333333,
+      "confidence_samples": []
+    },
+    {
+      "eval_id": "artifact-valid",
+      "independence": "structurally_independent",
+      "passes": 16,
+      "failures": 0,
+      "errors": 0,
+      "not_applicable": 4,
+      "coverage": 0.8,
+      "p_external_pass_given_eval_pass": 0.5,
+      "p_external_fail_given_eval_fail": null,
+      "false_positive_contribution": 8,
+      "false_negative_contribution": 0,
+      "discrimination_delta": 0.5,
+      "confidence_samples": []
+    },
+    {
+      "eval_id": "formula-errors",
+      "independence": "structurally_independent",
+      "passes": 16,
+      "failures": 0,
+      "errors": 0,
+      "not_applicable": 4,
+      "coverage": 0.8,
+      "p_external_pass_given_eval_pass": 0.5,
+      "p_external_fail_given_eval_fail": null,
+      "false_positive_contribution": 8,
+      "false_negative_contribution": 0,
+      "discrimination_delta": 0.5,
+      "confidence_samples": []
+    },
+    {
+      "eval_id": "output-shape",
+      "independence": "structurally_independent",
+      "passes": 16,
+      "failures": 0,
+      "errors": 0,
+      "not_applicable": 4,
+      "coverage": 0.8,
+      "p_external_pass_given_eval_pass": 0.5,
+      "p_external_fail_given_eval_fail": null,
+      "false_positive_contribution": 8,
+      "false_negative_contribution": 0,
+      "discrimination_delta": 0.5,
+      "confidence_samples": []
+    },
+    {
+      "eval_id": "nonblank",
+      "independence": "structurally_independent",
+      "passes": 10,
+      "failures": 6,
+      "errors": 0,
+      "not_applicable": 4,
+      "coverage": 0.8,
+      "p_external_pass_given_eval_pass": 0.6,
+      "p_external_fail_given_eval_fail": 0.6666666666666666,
+      "false_positive_contribution": 4,
+      "false_negative_contribution": 2,
+      "discrimination_delta": 0.4,
+      "confidence_samples": []
+    },
+    {
+      "eval_id": "semantic",
+      "independence": "independent_semantic",
+      "passes": 8,
+      "failures": 7,
+      "errors": 0,
+      "not_applicable": 4,
+      "coverage": 0.8,
+      "p_external_pass_given_eval_pass": 0.625,
+      "p_external_fail_given_eval_fail": 0.5714285714285714,
+      "false_positive_contribution": 3,
+      "false_negative_contribution": 3,
+      "discrimination_delta": 0.29166666666666663,
+      "confidence_samples": [
+        {
+          "confidence": 1.0,
+          "external_pass": true
+        },
+        {
+          "confidence": 1.0,
+          "external_pass": true
+        },
+        {
+          "confidence": 1.0,
+          "external_pass": false
+        },
+        {
+          "confidence": 1.0,
+          "external_pass": true
+        },
+        {
+          "confidence": 1.0,
+          "external_pass": true
+        },
+        {
+          "confidence": 1.0,
+          "external_pass": true
+        },
+        {
+          "confidence": 1.0,
+          "external_pass": true
+        },
+        {
+          "confidence": 1.0,
+          "external_pass": false
+        },
+        {
+          "confidence": 1.0,
+          "external_pass": true
+        },
+        {
+          "confidence": 0.0,
+          "external_pass": false
+        },
+        {
+          "confidence": 1.0,
+          "external_pass": false
+        },
+        {
+          "confidence": 1.0,
+          "external_pass": false
+        },
+        {
+          "confidence": 1.0,
+          "external_pass": false
+        },
+        {
+          "confidence": 1.0,
+          "external_pass": true
+        },
+        {
+          "confidence": 1.0,
+          "external_pass": false
+        },
+        {
+          "confidence": 1.0,
+          "external_pass": false
+        }
+      ]
+    },
+    {
+      "eval_id": "type",
+      "independence": "structurally_independent",
+      "passes": 6,
+      "failures": 10,
+      "errors": 0,
+      "not_applicable": 4,
+      "coverage": 0.8,
+      "p_external_pass_given_eval_pass": 0.16666666666666666,
+      "p_external_fail_given_eval_fail": 0.3,
+      "false_positive_contribution": 5,
+      "false_negative_contribution": 7,
+      "discrimination_delta": -0.33333333333333337,
+      "confidence_samples": []
+    }
+  ],
+  "cases": {
+    "false_fulfilment": [
+      {
+        "task_id": "45738",
+        "passing_gates": [
+          "artifact-valid",
+          "preservation",
+          "nonblank",
+          "type",
+          "output-shape",
+          "formula-errors",
+          "semantic"
+        ],
+        "source_observation": {
+          "truncated": true,
+          "serialized_cells": 177,
+          "omitted_nonempty_cells": 915,
+          "serialized_chars": 29921,
+          "inspected_scope_present": true
+        },
+        "independence": {
+          "artifact-valid": "structurally_independent",
+          "preservation": "independent_deterministic",
+          "nonblank": "structurally_independent",
+          "type": "structurally_independent",
+          "output-shape": "structurally_independent",
+          "formula-errors": "structurally_independent",
+          "semantic": "partially_coupled"
+        },
+        "diagnosis": "semantic pass lacked complete source coverage; formula-text inspection did not independently establish computed correctness"
+      }
+    ],
+    "false_unfulfilment": [
+      {
+        "task_id": "105-24",
+        "blocking_gates": [
+          "type",
+          "semantic"
+        ],
+        "missing_evidence": true,
+        "formula_representation_ambiguous": false,
+        "termination_reason": "internal_eval_no_progress"
+      },
+      {
+        "task_id": "120-24",
+        "blocking_gates": [
+          "nonblank",
+          "type",
+          "semantic"
+        ],
+        "missing_evidence": false,
+        "formula_representation_ambiguous": false,
+        "termination_reason": "internal_eval_no_progress"
+      },
+      {
+        "task_id": "168-17",
+        "blocking_gates": [
+          "nonblank",
+          "type",
+          "semantic"
+        ],
+        "missing_evidence": false,
+        "formula_representation_ambiguous": false,
+        "termination_reason": "internal_eval_no_safe_transition"
+      },
+      {
+        "task_id": "31011",
+        "blocking_gates": [
+          "type"
+        ],
+        "missing_evidence": true,
+        "formula_representation_ambiguous": true,
+        "termination_reason": "internal_eval_no_progress"
+      },
+      {
+        "task_id": "35742",
+        "blocking_gates": [
+          "type"
+        ],
+        "missing_evidence": true,
+        "formula_representation_ambiguous": true,
+        "termination_reason": "internal_eval_no_safe_transition"
+      },
+      {
+        "task_id": "37554",
+        "blocking_gates": [
+          "type"
+        ],
+        "missing_evidence": false,
+        "formula_representation_ambiguous": true,
+        "termination_reason": "internal_eval_no_safe_transition"
+      },
+      {
+        "task_id": "47766",
+        "blocking_gates": [
+          "type"
+        ],
+        "missing_evidence": true,
+        "formula_representation_ambiguous": true,
+        "termination_reason": "internal_eval_no_safe_transition"
+      }
+    ]
+  },
+  "selected_policy": "coverage_aware_three_valued"
+}

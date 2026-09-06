@@ -1,0 +1,103 @@
+{
+  "false_fulfilment": [
+    {
+      "task_id": "45738",
+      "passing_gates": [
+        "artifact-valid",
+        "preservation",
+        "nonblank",
+        "type",
+        "output-shape",
+        "formula-errors",
+        "semantic"
+      ],
+      "source_observation": {
+        "truncated": true,
+        "serialized_cells": 177,
+        "omitted_nonempty_cells": 915,
+        "serialized_chars": 29921,
+        "inspected_scope_present": true
+      },
+      "independence": {
+        "artifact-valid": "structurally_independent",
+        "preservation": "independent_deterministic",
+        "nonblank": "structurally_independent",
+        "type": "structurally_independent",
+        "output-shape": "structurally_independent",
+        "formula-errors": "structurally_independent",
+        "semantic": "partially_coupled"
+      },
+      "diagnosis": "semantic pass lacked complete source coverage; formula-text inspection did not independently establish computed correctness"
+    }
+  ],
+  "false_unfulfilment": [
+    {
+      "task_id": "105-24",
+      "blocking_gates": [
+        "type",
+        "semantic"
+      ],
+      "missing_evidence": true,
+      "formula_representation_ambiguous": false,
+      "termination_reason": "internal_eval_no_progress"
+    },
+    {
+      "task_id": "120-24",
+      "blocking_gates": [
+        "nonblank",
+        "type",
+        "semantic"
+      ],
+      "missing_evidence": false,
+      "formula_representation_ambiguous": false,
+      "termination_reason": "internal_eval_no_progress"
+    },
+    {
+      "task_id": "168-17",
+      "blocking_gates": [
+        "nonblank",
+        "type",
+        "semantic"
+      ],
+      "missing_evidence": false,
+      "formula_representation_ambiguous": false,
+      "termination_reason": "internal_eval_no_safe_transition"
+    },
+    {
+      "task_id": "31011",
+      "blocking_gates": [
+        "type"
+      ],
+      "missing_evidence": true,
+      "formula_representation_ambiguous": true,
+      "termination_reason": "internal_eval_no_progress"
+    },
+    {
+      "task_id": "35742",
+      "blocking_gates": [
+        "type"
+      ],
+      "missing_evidence": true,
+      "formula_representation_ambiguous": true,
+      "termination_reason": "internal_eval_no_safe_transition"
+    },
+    {
+      "task_id": "37554",
+      "blocking_gates": [
+        "type"
+      ],
+      "missing_evidence": false,
+      "formula_representation_ambiguous": true,
+      "termination_reason": "internal_eval_no_safe_transition"
+    },
+    {
+      "task_id": "47766",
+      "blocking_gates": [
+        "type"
+      ],
+      "missing_evidence": true,
+      "formula_representation_ambiguous": true,
+      "termination_reason": "internal_eval_no_safe_transition"
+    }
+  ]
+}
