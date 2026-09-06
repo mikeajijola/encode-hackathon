@@ -1,0 +1,275 @@
+{
+  "arm": "C",
+  "artifact_valid": true,
+  "constraint_violation": false,
+  "contract_compiled": true,
+  "failure_classes": [],
+  "first_mutation_output": null,
+  "first_mutation_pass": null,
+  "id": "50971",
+  "input_artifact_hash": "0a36c54937af403064ae0272a35d6debd50819ab5c65d8f0f2b89e424b7d0abc",
+  "internal_status": "UNFULFILLED",
+  "output": "outputs/50971.xlsx",
+  "output_artifact_hash": "e440c2f1a081abc8f4b10b77bc78b3a9b3f504fca55cf3aeb4bfe9d0fa2a119d",
+  "rendered_eval": "delegated_to_adapter",
+  "status": "ok",
+  "terminal_eval": {
+    "details": {
+      "completion": {
+        "failed_conditions": [
+          "desired_state_unsatisfied",
+          "required_evals_not_passed"
+        ],
+        "fulfilled": false,
+        "reason": "unfulfilled"
+      },
+      "discrepancies": [
+        {
+          "expected": "text",
+          "failed_eval": "type",
+          "id": "d-b8c2a9d6-20df-4a87-9d8b-63075c4cc663",
+          "kind": "state_discrepancy",
+          "observed": [
+            "formula",
+            "formula",
+            "formula",
+            "formula",
+            "formula",
+            "formula",
+            "formula",
+            "formula",
+            "formula",
+            "formula",
+            "formula"
+          ],
+          "permissible_mutation_scope": [
+            "workbook/Sheet1/G3",
+            "workbook/Sheet1/G4",
+            "workbook/Sheet1/G5",
+            "workbook/Sheet1/G6",
+            "workbook/Sheet1/G7",
+            "workbook/Sheet1/G8",
+            "workbook/Sheet1/G9",
+            "workbook/Sheet1/G10",
+            "workbook/Sheet1/G11",
+            "workbook/Sheet1/G12",
+            "workbook/Sheet1/G13"
+          ]
+        },
+        {
+          "expected": "independently verified intent-satisfying state",
+          "failed_eval": "semantic",
+          "id": "d-9e319e50-0038-4fec-8120-641a5d952758",
+          "kind": "evaluation_uncertainty",
+          "observed": [
+            {
+              "selector": "Sheet1!G3",
+              "value": "=TRANSPOSE(FILTER($B$2:$B$19,$A$2:$A$19=F3))"
+            },
+            {
+              "selector": "Sheet1!G4",
+              "value": "=TRANSPOSE(FILTER($B$2:$B$19,$A$2:$A$19=F4))"
+            },
+            {
+              "selector": "Sheet1!G5",
+              "value": "=TRANSPOSE(FILTER($B$2:$B$19,$A$2:$A$19=F5))"
+            },
+            {
+              "selector": "Sheet1!G6",
+              "value": "=TRANSPOSE(FILTER($B$2:$B$19,$A$2:$A$19=F6))"
+            },
+            {
+              "selector": "Sheet1!G7",
+              "value": "=TRANSPOSE(FILTER($B$2:$B$19,$A$2:$A$19=F7))"
+            },
+            {
+              "selector": "Sheet1!G8",
+              "value": "=TRANSPOSE(FILTER($B$2:$B$19,$A$2:$A$19=F8))"
+            },
+            {
+              "selector": "Sheet1!G9",
+              "value": "=TRANSPOSE(FILTER($B$2:$B$19,$A$2:$A$19=F9))"
+            },
+            {
+              "selector": "Sheet1!G10",
+              "value": "=TRANSPOSE(FILTER($B$2:$B$19,$A$2:$A$19=F10))"
+            },
+            {
+              "selector": "Sheet1!G11",
+              "value": "=TRANSPOSE(FILTER($B$2:$B$19,$A$2:$A$19=F11))"
+            },
+            {
+              "selector": "Sheet1!G12",
+              "value": "=TRANSPOSE(FILTER($B$2:$B$19,$A$2:$A$19=F12))"
+            },
+            {
+              "selector": "Sheet1!G13",
+              "value": "=TRANSPOSE(FILTER($B$2:$B$19,$A$2:$A$19=F13))"
+            }
+          ],
+          "permissible_mutation_scope": [
+            "workbook/Sheet1/G3",
+            "workbook/Sheet1/G4",
+            "workbook/Sheet1/G5",
+            "workbook/Sheet1/G6",
+            "workbook/Sheet1/G7",
+            "workbook/Sheet1/G8",
+            "workbook/Sheet1/G9",
+            "workbook/Sheet1/G10",
+            "workbook/Sheet1/G11",
+            "workbook/Sheet1/G12",
+            "workbook/Sheet1/G13"
+          ]
+        }
+      ],
+      "evals": [
+        {
+          "details": {
+            "kind": "artifact_invalid"
+          },
+          "eval_id": "artifact-valid",
+          "message": "workbook loads",
+          "status": "pass"
+        },
+        {
+          "details": {
+            "kind": "constraint_violation",
+            "observed": []
+          },
+          "eval_id": "preservation",
+          "message": "outside scope preserved",
+          "status": "pass"
+        },
+        {
+          "details": {
+            "observed": [
+              "=TRANSPOSE(FILTER($B$2:$B$19,$A$2:$A$19=F3))",
+              "=TRANSPOSE(FILTER($B$2:$B$19,$A$2:$A$19=F4))",
+              "=TRANSPOSE(FILTER($B$2:$B$19,$A$2:$A$19=F5))",
+              "=TRANSPOSE(FILTER($B$2:$B$19,$A$2:$A$19=F6))",
+              "=TRANSPOSE(FILTER($B$2:$B$19,$A$2:$A$19=F7))",
+              "=TRANSPOSE(FILTER($B$2:$B$19,$A$2:$A$19=F8))",
+              "=TRANSPOSE(FILTER($B$2:$B$19,$A$2:$A$19=F9))",
+              "=TRANSPOSE(FILTER($B$2:$B$19,$A$2:$A$19=F10))",
+              "=TRANSPOSE(FILTER($B$2:$B$19,$A$2:$A$19=F11))",
+              "=TRANSPOSE(FILTER($B$2:$B$19,$A$2:$A$19=F12))",
+              "=TRANSPOSE(FILTER($B$2:$B$19,$A$2:$A$19=F13))"
+            ]
+          },
+          "eval_id": "nonblank",
+          "message": "answers nonblank",
+          "status": "pass"
+        },
+        {
+          "details": {
+            "expected": "text",
+            "observed": [
+              "formula",
+              "formula",
+              "formula",
+              "formula",
+              "formula",
+              "formula",
+              "formula",
+              "formula",
+              "formula",
+              "formula",
+              "formula"
+            ]
+          },
+          "eval_id": "type",
+          "message": "answer types",
+          "status": "fail"
+        },
+        {
+          "details": {
+            "expected": "range",
+            "observed": "range"
+          },
+          "eval_id": "output-shape",
+          "message": "answer shape",
+          "status": "pass"
+        },
+        {
+          "details": {
+            "observed": []
+          },
+          "eval_id": "formula-errors",
+          "message": "no new formula errors",
+          "status": "pass"
+        },
+        {
+          "details": {
+            "confidence": 0.0,
+            "expected": "independently verified intent-satisfying state",
+            "likely_causes": [
+              "semantic evaluator failure"
+            ],
+            "observed": [
+              {
+                "selector": "Sheet1!G3",
+                "value": "=TRANSPOSE(FILTER($B$2:$B$19,$A$2:$A$19=F3))"
+              },
+              {
+                "selector": "Sheet1!G4",
+                "value": "=TRANSPOSE(FILTER($B$2:$B$19,$A$2:$A$19=F4))"
+              },
+              {
+                "selector": "Sheet1!G5",
+                "value": "=TRANSPOSE(FILTER($B$2:$B$19,$A$2:$A$19=F5))"
+              },
+              {
+                "selector": "Sheet1!G6",
+                "value": "=TRANSPOSE(FILTER($B$2:$B$19,$A$2:$A$19=F6))"
+              },
+              {
+                "selector": "Sheet1!G7",
+                "value": "=TRANSPOSE(FILTER($B$2:$B$19,$A$2:$A$19=F7))"
+              },
+              {
+                "selector": "Sheet1!G8",
+                "value": "=TRANSPOSE(FILTER($B$2:$B$19,$A$2:$A$19=F8))"
+              },
+              {
+                "selector": "Sheet1!G9",
+                "value": "=TRANSPOSE(FILTER($B$2:$B$19,$A$2:$A$19=F9))"
+              },
+              {
+                "selector": "Sheet1!G10",
+                "value": "=TRANSPOSE(FILTER($B$2:$B$19,$A$2:$A$19=F10))"
+              },
+              {
+                "selector": "Sheet1!G11",
+                "value": "=TRANSPOSE(FILTER($B$2:$B$19,$A$2:$A$19=F11))"
+              },
+              {
+                "selector": "Sheet1!G12",
+                "value": "=TRANSPOSE(FILTER($B$2:$B$19,$A$2:$A$19=F12))"
+              },
+              {
+                "selector": "Sheet1!G13",
+                "value": "=TRANSPOSE(FILTER($B$2:$B$19,$A$2:$A$19=F13))"
+              }
+            ]
+          },
+          "eval_id": "semantic",
+          "message": "independent evaluator unavailable or malformed: BudgetExceeded: token_budget_exhausted",
+          "status": "uncertain"
+        }
+      ]
+    },
+    "passed": false,
+    "status": "uncertain"
+  },
+  "termination_reason": "internal_eval_uncertain",
+  "usage": {
+    "actions": 2,
+    "cost": 0.0,
+    "input_tokens": 15038,
+    "latency_ms": 11137,
+    "model_calls": 3,
+    "output_tokens": 1477,
+    "successful_model_calls": 3,
+    "tokens": 16515
+  }
+}

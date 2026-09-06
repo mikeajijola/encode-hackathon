@@ -1,0 +1,28 @@
+{
+  "arm": "B",
+  "artifact_valid": null,
+  "constraint_violation": false,
+  "contract_compiled": true,
+  "failure_classes": [],
+  "first_mutation_output": null,
+  "first_mutation_pass": null,
+  "id": "50526",
+  "input_artifact_hash": "e4bd7b98a878b924f796044389eef3c5f3f1cfaf34034c820940a6db5a0d2fb6",
+  "internal_status": "FULFILLED_UNVERIFIED",
+  "output": "outputs/50526.xlsx",
+  "output_artifact_hash": "d35019c70cfce4f6fcd17c82dfa15290187256c2f38c6f30f191dcdece5a4671",
+  "rendered_eval": "delegated_to_adapter",
+  "status": "ok",
+  "terminal_eval": null,
+  "termination_reason": "one_shot_completed_unverified",
+  "usage": {
+    "actions": 2,
+    "cost": 0.0,
+    "input_tokens": 6002,
+    "latency_ms": 8216,
+    "model_calls": 2,
+    "output_tokens": 736,
+    "successful_model_calls": 2,
+    "tokens": 6738
+  }
+}

@@ -1,0 +1,20 @@
+61-4 arm=B status=error: ValueError: contract must contain exactly ['constraints', 'desired_state', 'evaluator_intents', 'invariants', 'required_capabilities', 'schema_version'] actions=0
+66-24 arm=B status=ok actions=2
+105-24 arm=B status=ok actions=2
+168-17 arm=B status=action_failed actions=1
+120-24 arm=B status=ok actions=2
+141-20 arm=B status=ok actions=2
+209-30 arm=B status=error: BudgetExceeded: token_budget_exhausted actions=1
+395-36 arm=B status=error: KeyError: 'observation' actions=1
+448-11 arm=B status=ok actions=2
+567-21 arm=B status=error: BudgetExceeded: token_budget_exhausted actions=1
+47766 arm=B status=ok actions=2
+49237 arm=B status=ok actions=2
+50526 arm=B status=ok actions=2
+31011 arm=B status=ok actions=2
+35742 arm=B status=ok actions=2
+37554 arm=B status=error: ValueError: contract must contain exactly ['constraints', 'desired_state', 'evaluator_intents', 'invariants', 'required_capabilities', 'schema_version'] actions=0
+45738 arm=B status=error: BudgetExceeded: token_budget_exhausted actions=1
+50971 arm=B status=ok actions=2
+58147 arm=B status=ok actions=2
+59794 arm=B status=ok actions=2

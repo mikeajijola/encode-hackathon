@@ -1,0 +1,151 @@
+{
+  "arm": "C",
+  "artifact_valid": true,
+  "constraint_violation": false,
+  "contract_compiled": true,
+  "failure_classes": [],
+  "first_mutation_output": null,
+  "first_mutation_pass": null,
+  "id": "31011",
+  "input_artifact_hash": "2886b55028c1be02dfb969c0e7ac54bfc37e9e8f59f1c1f225d6405324e7e8b1",
+  "internal_status": "UNFULFILLED",
+  "output": "outputs/31011.xlsx",
+  "output_artifact_hash": "2886b55028c1be02dfb969c0e7ac54bfc37e9e8f59f1c1f225d6405324e7e8b1",
+  "rendered_eval": "delegated_to_adapter",
+  "status": "ok",
+  "terminal_eval": {
+    "details": {
+      "completion": {
+        "failed_conditions": [
+          "desired_state_unsatisfied",
+          "required_evals_not_passed"
+        ],
+        "fulfilled": false,
+        "reason": "unfulfilled"
+      },
+      "discrepancies": [
+        {
+          "expected": "Cell R6 contains a formula that sums the values in the table where column A dates are between P6 and Q6, and row 1 times are between R3 and R4.",
+          "failed_eval": "nonblank",
+          "id": "d-4ca97dbc-1ac0-44b5-b2b8-3e18bd976f35",
+          "kind": "state_discrepancy",
+          "observed": [
+            null
+          ],
+          "permissible_mutation_scope": [
+            "workbook/Sheet1/R6"
+          ]
+        },
+        {
+          "expected": "number",
+          "failed_eval": "type",
+          "id": "d-29712bbd-719d-49f3-9626-093610273c65",
+          "kind": "state_discrepancy",
+          "observed": [
+            "blank"
+          ],
+          "permissible_mutation_scope": [
+            "workbook/Sheet1/R6"
+          ]
+        },
+        {
+          "expected": "intent-satisfying target state",
+          "failed_eval": "semantic",
+          "id": "d-8c3ed0d3-dd16-4e62-a5b4-fd8ce15eed89",
+          "kind": "state_discrepancy",
+          "observed": [
+            null
+          ],
+          "permissible_mutation_scope": [
+            "workbook/Sheet1/R6"
+          ]
+        }
+      ],
+      "evals": [
+        {
+          "details": {
+            "kind": "artifact_invalid"
+          },
+          "eval_id": "artifact-valid",
+          "message": "workbook loads",
+          "status": "pass"
+        },
+        {
+          "details": {
+            "kind": "constraint_violation",
+            "observed": []
+          },
+          "eval_id": "preservation",
+          "message": "outside scope preserved",
+          "status": "pass"
+        },
+        {
+          "details": {
+            "observed": [
+              null
+            ]
+          },
+          "eval_id": "nonblank",
+          "message": "answers nonblank",
+          "status": "fail"
+        },
+        {
+          "details": {
+            "expected": "number",
+            "observed": [
+              "blank"
+            ]
+          },
+          "eval_id": "type",
+          "message": "answer types",
+          "status": "fail"
+        },
+        {
+          "details": {
+            "expected": "scalar",
+            "observed": "scalar"
+          },
+          "eval_id": "output-shape",
+          "message": "answer shape",
+          "status": "pass"
+        },
+        {
+          "details": {
+            "observed": []
+          },
+          "eval_id": "formula-errors",
+          "message": "no new formula errors",
+          "status": "pass"
+        },
+        {
+          "details": {
+            "confidence": 1.0,
+            "expected": "intent-satisfying target state",
+            "likely_causes": [
+              "target state is missing"
+            ],
+            "observed": [
+              null
+            ]
+          },
+          "eval_id": "semantic",
+          "message": "semantic evaluation deferred until target state exists",
+          "status": "fail"
+        }
+      ]
+    },
+    "passed": false,
+    "status": "completion_gate_failed"
+  },
+  "termination_reason": "internal_eval_completion_gate_failed",
+  "usage": {
+    "actions": 2,
+    "cost": 0.0,
+    "input_tokens": 11176,
+    "latency_ms": 5963,
+    "model_calls": 2,
+    "output_tokens": 627,
+    "successful_model_calls": 2,
+    "tokens": 11803
+  }
+}

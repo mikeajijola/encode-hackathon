@@ -1,0 +1,31 @@
+{
+  "arm": "D",
+  "artifact_valid": null,
+  "constraint_violation": false,
+  "contract_compiled": false,
+  "failure_classes": [
+    "execution_failure",
+    "specification_failure"
+  ],
+  "first_mutation_output": null,
+  "first_mutation_pass": null,
+  "id": "120-24",
+  "input_artifact_hash": "c73d3555c8f72a7c2d811e01f7aea6e7cc20440891a134fd15750e6876da3fc6",
+  "internal_status": "UNFULFILLED",
+  "output": "outputs/120-24.xlsx",
+  "output_artifact_hash": "c73d3555c8f72a7c2d811e01f7aea6e7cc20440891a134fd15750e6876da3fc6",
+  "rendered_eval": "delegated_to_adapter",
+  "status": "error: ValueError: contract must contain exactly ['constraints', 'desired_state', 'evaluator_intents', 'invariants', 'required_capabilities', 'schema_version']",
+  "terminal_eval": null,
+  "termination_reason": "execution_error",
+  "usage": {
+    "actions": 0,
+    "cost": 0.0,
+    "input_tokens": 4831,
+    "latency_ms": 5080,
+    "model_calls": 1,
+    "output_tokens": 689,
+    "successful_model_calls": 1,
+    "tokens": 5520
+  }
+}

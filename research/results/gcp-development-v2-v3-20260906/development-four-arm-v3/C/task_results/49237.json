@@ -1,0 +1,128 @@
+{
+  "arm": "C",
+  "artifact_valid": true,
+  "constraint_violation": false,
+  "contract_compiled": true,
+  "failure_classes": [],
+  "first_mutation_output": null,
+  "first_mutation_pass": null,
+  "id": "49237",
+  "input_artifact_hash": "d41f7f0145787c57b22a9a5f4696eabe18cf935f005b8c8dc476fa6f572cb41a",
+  "internal_status": "UNFULFILLED",
+  "output": "outputs/49237.xlsx",
+  "output_artifact_hash": "66b9f7ba692a24ba43ce9a50200c928353800137e5dbf7f651437dbbc839ce26",
+  "rendered_eval": "delegated_to_adapter",
+  "status": "ok",
+  "terminal_eval": {
+    "details": {
+      "completion": {
+        "failed_conditions": [
+          "desired_state_unsatisfied",
+          "required_evals_not_passed"
+        ],
+        "fulfilled": false,
+        "reason": "unfulfilled"
+      },
+      "discrepancies": [
+        {
+          "expected": "text",
+          "failed_eval": "type",
+          "id": "d-92ca5039-d045-4576-bf15-bac71791f26f",
+          "kind": "state_discrepancy",
+          "observed": [
+            "formula"
+          ],
+          "permissible_mutation_scope": [
+            "workbook/Sheet1/F7"
+          ]
+        }
+      ],
+      "evals": [
+        {
+          "details": {
+            "kind": "artifact_invalid"
+          },
+          "eval_id": "artifact-valid",
+          "message": "workbook loads",
+          "status": "pass"
+        },
+        {
+          "details": {
+            "kind": "constraint_violation",
+            "observed": []
+          },
+          "eval_id": "preservation",
+          "message": "outside scope preserved",
+          "status": "pass"
+        },
+        {
+          "details": {
+            "observed": [
+              "=IF(F10=\"\",\"\",LEFT(F10,1)&\".\")"
+            ]
+          },
+          "eval_id": "nonblank",
+          "message": "answers nonblank",
+          "status": "pass"
+        },
+        {
+          "details": {
+            "expected": "text",
+            "observed": [
+              "formula"
+            ]
+          },
+          "eval_id": "type",
+          "message": "answer types",
+          "status": "fail"
+        },
+        {
+          "details": {
+            "expected": "scalar",
+            "observed": "scalar"
+          },
+          "eval_id": "output-shape",
+          "message": "answer shape",
+          "status": "pass"
+        },
+        {
+          "details": {
+            "observed": []
+          },
+          "eval_id": "formula-errors",
+          "message": "no new formula errors",
+          "status": "pass"
+        },
+        {
+          "details": {
+            "confidence": 1.0,
+            "expected": "Cell Sheet1!F7 contains a formula such as `=IF(F10=\"\",\"\",LEFT(F10,1)&\".\")` or `=IF(F10=\"\",\"\",LEFT(F10)&\".\")` that appends a period after the initial if F10 is not empty, and returns an empty string otherwise.",
+            "likely_causes": [],
+            "observed": [
+              {
+                "selector": "Sheet1!F7",
+                "value": "=IF(F10=\"\",\"\",LEFT(F10,1)&\".\")"
+              }
+            ]
+          },
+          "eval_id": "semantic",
+          "message": "Cell Sheet1!F7 was updated with `=IF(F10=\"\",\"\",LEFT(F10,1)&\".\")`, which correctly extracts the first letter of F10 and appends a period when F10 is present, while returning an empty string when F10 is blank. All constraints and contracts are satisfied without introducing errors.",
+          "status": "pass"
+        }
+      ]
+    },
+    "passed": false,
+    "status": "completion_gate_failed"
+  },
+  "termination_reason": "internal_eval_completion_gate_failed",
+  "usage": {
+    "actions": 2,
+    "cost": 0.0,
+    "input_tokens": 13501,
+    "latency_ms": 9455,
+    "model_calls": 3,
+    "output_tokens": 861,
+    "successful_model_calls": 3,
+    "tokens": 14362
+  }
+}

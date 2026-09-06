@@ -1,0 +1,20 @@
+61-4 arm=A status=error: ValueError: inspection transition exceeds bounded selector limit actions=0
+66-24 arm=A status=ok actions=1
+105-24 arm=A status=ok actions=1
+168-17 arm=A status=action_failed actions=0
+120-24 arm=A status=ok actions=1
+141-20 arm=A status=ok actions=1
+209-30 arm=A status=error: BudgetExceeded: token_budget_exhausted actions=0
+395-36 arm=A status=ok actions=1
+448-11 arm=A status=ok actions=1
+567-21 arm=A status=ok actions=1
+47766 arm=A status=ok actions=1
+49237 arm=A status=ok actions=1
+50526 arm=A status=ok actions=1
+31011 arm=A status=ok actions=1
+35742 arm=A status=ok actions=1
+37554 arm=A status=ok actions=1
+45738 arm=A status=ok actions=1
+50971 arm=A status=ok actions=1
+58147 arm=A status=ok actions=1
+59794 arm=A status=action_failed actions=0

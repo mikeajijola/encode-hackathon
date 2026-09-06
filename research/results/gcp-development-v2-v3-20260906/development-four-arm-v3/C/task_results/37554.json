@@ -1,0 +1,340 @@
+{
+  "arm": "C",
+  "artifact_valid": true,
+  "constraint_violation": false,
+  "contract_compiled": true,
+  "failure_classes": [],
+  "first_mutation_output": null,
+  "first_mutation_pass": null,
+  "id": "37554",
+  "input_artifact_hash": "f63c29126dbaab03973d5e0b76b88d432e4c2fdee6e088f07523ef7f99b22de5",
+  "internal_status": "UNFULFILLED",
+  "output": "outputs/37554.xlsx",
+  "output_artifact_hash": "463a091a955e9d1c962d25068529be1282e4e0db0e0979bf5291422a7df702f7",
+  "rendered_eval": "delegated_to_adapter",
+  "status": "ok",
+  "terminal_eval": {
+    "details": {
+      "completion": {
+        "failed_conditions": [
+          "desired_state_unsatisfied",
+          "required_evals_not_passed"
+        ],
+        "fulfilled": false,
+        "reason": "unfulfilled"
+      },
+      "discrepancies": [
+        {
+          "expected": "number",
+          "failed_eval": "type",
+          "id": "d-3704082a-ecfd-452d-9501-92d99a4bc7f3",
+          "kind": "state_discrepancy",
+          "observed": [
+            "formula",
+            "formula",
+            "formula",
+            "formula",
+            "formula",
+            "formula",
+            "formula",
+            "formula",
+            "formula",
+            "formula",
+            "formula",
+            "formula",
+            "formula",
+            "formula",
+            "formula",
+            "formula"
+          ],
+          "permissible_mutation_scope": [
+            "workbook/Sheet1/F2",
+            "workbook/Sheet1/F3",
+            "workbook/Sheet1/F4",
+            "workbook/Sheet1/F5",
+            "workbook/Sheet1/F6",
+            "workbook/Sheet1/F7",
+            "workbook/Sheet1/F8",
+            "workbook/Sheet1/F9",
+            "workbook/Sheet1/F10",
+            "workbook/Sheet1/F11",
+            "workbook/Sheet1/F12",
+            "workbook/Sheet1/F13",
+            "workbook/Sheet1/F14",
+            "workbook/Sheet1/F15",
+            "workbook/Sheet1/F16",
+            "workbook/Sheet1/F17"
+          ]
+        },
+        {
+          "expected": "independently verified intent-satisfying state",
+          "failed_eval": "semantic",
+          "id": "d-62d32957-c623-4085-bcb4-59f16f7bda7c",
+          "kind": "evaluation_uncertainty",
+          "observed": [
+            {
+              "selector": "Sheet1!F2",
+              "value": "=IF(D2=\"\",\"\",SUMPRODUCT(($A$2:$A$17=D2)*$B$2:$B$17))"
+            },
+            {
+              "selector": "Sheet1!F3",
+              "value": "=IF(D3=\"\",\"\",SUMPRODUCT(ISNUMBER(SEARCH(D3,$A$2:$A$17))*$B$2:$B$17))"
+            },
+            {
+              "selector": "Sheet1!F4",
+              "value": "=IF(D4=\"\",\"\",SUMPRODUCT(ISNUMBER(SEARCH(D4,$A$2:$A$17))*$B$2:$B$17))"
+            },
+            {
+              "selector": "Sheet1!F5",
+              "value": "=IF(D5=\"\",\"\",SUMPRODUCT(ISNUMBER(SEARCH(D5,$A$2:$A$17))*$B$2:$B$17))"
+            },
+            {
+              "selector": "Sheet1!F6",
+              "value": "=IF(D6=\"\",\"\",SUMPRODUCT(ISNUMBER(SEARCH(D6,$A$2:$A$17))*$B$2:$B$17))"
+            },
+            {
+              "selector": "Sheet1!F7",
+              "value": "=IF(D7=\"\",\"\",SUMPRODUCT(ISNUMBER(SEARCH(D7,$A$2:$A$17))*$B$2:$B$17))"
+            },
+            {
+              "selector": "Sheet1!F8",
+              "value": "=IF(D8=\"\",\"\",SUMPRODUCT(ISNUMBER(SEARCH(D8,$A$2:$A$17))*$B$2:$B$17))"
+            },
+            {
+              "selector": "Sheet1!F9",
+              "value": "=IF(D9=\"\",\"\",SUMPRODUCT(ISNUMBER(SEARCH(D9,$A$2:$A$17))*$B$2:$B$17))"
+            },
+            {
+              "selector": "Sheet1!F10",
+              "value": "=IF(D10=\"\",\"\",SUMPRODUCT(ISNUMBER(SEARCH(D10,$A$2:$A$17))*$B$2:$B$17))"
+            },
+            {
+              "selector": "Sheet1!F11",
+              "value": "=IF(D11=\"\",\"\",SUMPRODUCT(ISNUMBER(SEARCH(D11,$A$2:$A$17))*$B$2:$B$17))"
+            },
+            {
+              "selector": "Sheet1!F12",
+              "value": "=IF(D12=\"\",\"\",SUMPRODUCT(ISNUMBER(SEARCH(D12,$A$2:$A$17))*$B$2:$B$17))"
+            },
+            {
+              "selector": "Sheet1!F13",
+              "value": "=IF(D13=\"\",\"\",SUMPRODUCT(ISNUMBER(SEARCH(D13,$A$2:$A$17))*$B$2:$B$17))"
+            },
+            {
+              "selector": "Sheet1!F14",
+              "value": "=IF(D14=\"\",\"\",SUMPRODUCT(ISNUMBER(SEARCH(D14,$A$2:$A$17))*$B$2:$B$17))"
+            },
+            {
+              "selector": "Sheet1!F15",
+              "value": "=IF(D15=\"\",\"\",SUMPRODUCT(ISNUMBER(SEARCH(D15,$A$2:$A$17))*$B$2:$B$17))"
+            },
+            {
+              "selector": "Sheet1!F16",
+              "value": "=IF(D16=\"\",\"\",SUMPRODUCT(ISNUMBER(SEARCH(D16,$A$2:$A$17))*$B$2:$B$17))"
+            },
+            {
+              "selector": "Sheet1!F17",
+              "value": "=IF(D17=\"\",\"\",SUMPRODUCT(ISNUMBER(SEARCH(D17,$A$2:$A$17))*$B$2:$B$17))"
+            }
+          ],
+          "permissible_mutation_scope": [
+            "workbook/Sheet1/F2",
+            "workbook/Sheet1/F3",
+            "workbook/Sheet1/F4",
+            "workbook/Sheet1/F5",
+            "workbook/Sheet1/F6",
+            "workbook/Sheet1/F7",
+            "workbook/Sheet1/F8",
+            "workbook/Sheet1/F9",
+            "workbook/Sheet1/F10",
+            "workbook/Sheet1/F11",
+            "workbook/Sheet1/F12",
+            "workbook/Sheet1/F13",
+            "workbook/Sheet1/F14",
+            "workbook/Sheet1/F15",
+            "workbook/Sheet1/F16",
+            "workbook/Sheet1/F17"
+          ]
+        }
+      ],
+      "evals": [
+        {
+          "details": {
+            "kind": "artifact_invalid"
+          },
+          "eval_id": "artifact-valid",
+          "message": "workbook loads",
+          "status": "pass"
+        },
+        {
+          "details": {
+            "kind": "constraint_violation",
+            "observed": []
+          },
+          "eval_id": "preservation",
+          "message": "outside scope preserved",
+          "status": "pass"
+        },
+        {
+          "details": {
+            "observed": [
+              "=IF(D2=\"\",\"\",SUMPRODUCT(($A$2:$A$17=D2)*$B$2:$B$17))",
+              "=IF(D3=\"\",\"\",SUMPRODUCT(ISNUMBER(SEARCH(D3,$A$2:$A$17))*$B$2:$B$17))",
+              "=IF(D4=\"\",\"\",SUMPRODUCT(ISNUMBER(SEARCH(D4,$A$2:$A$17))*$B$2:$B$17))",
+              "=IF(D5=\"\",\"\",SUMPRODUCT(ISNUMBER(SEARCH(D5,$A$2:$A$17))*$B$2:$B$17))",
+              "=IF(D6=\"\",\"\",SUMPRODUCT(ISNUMBER(SEARCH(D6,$A$2:$A$17))*$B$2:$B$17))",
+              "=IF(D7=\"\",\"\",SUMPRODUCT(ISNUMBER(SEARCH(D7,$A$2:$A$17))*$B$2:$B$17))",
+              "=IF(D8=\"\",\"\",SUMPRODUCT(ISNUMBER(SEARCH(D8,$A$2:$A$17))*$B$2:$B$17))",
+              "=IF(D9=\"\",\"\",SUMPRODUCT(ISNUMBER(SEARCH(D9,$A$2:$A$17))*$B$2:$B$17))",
+              "=IF(D10=\"\",\"\",SUMPRODUCT(ISNUMBER(SEARCH(D10,$A$2:$A$17))*$B$2:$B$17))",
+              "=IF(D11=\"\",\"\",SUMPRODUCT(ISNUMBER(SEARCH(D11,$A$2:$A$17))*$B$2:$B$17))",
+              "=IF(D12=\"\",\"\",SUMPRODUCT(ISNUMBER(SEARCH(D12,$A$2:$A$17))*$B$2:$B$17))",
+              "=IF(D13=\"\",\"\",SUMPRODUCT(ISNUMBER(SEARCH(D13,$A$2:$A$17))*$B$2:$B$17))",
+              "=IF(D14=\"\",\"\",SUMPRODUCT(ISNUMBER(SEARCH(D14,$A$2:$A$17))*$B$2:$B$17))",
+              "=IF(D15=\"\",\"\",SUMPRODUCT(ISNUMBER(SEARCH(D15,$A$2:$A$17))*$B$2:$B$17))",
+              "=IF(D16=\"\",\"\",SUMPRODUCT(ISNUMBER(SEARCH(D16,$A$2:$A$17))*$B$2:$B$17))",
+              "=IF(D17=\"\",\"\",SUMPRODUCT(ISNUMBER(SEARCH(D17,$A$2:$A$17))*$B$2:$B$17))"
+            ]
+          },
+          "eval_id": "nonblank",
+          "message": "answers nonblank",
+          "status": "pass"
+        },
+        {
+          "details": {
+            "expected": "number",
+            "observed": [
+              "formula",
+              "formula",
+              "formula",
+              "formula",
+              "formula",
+              "formula",
+              "formula",
+              "formula",
+              "formula",
+              "formula",
+              "formula",
+              "formula",
+              "formula",
+              "formula",
+              "formula",
+              "formula"
+            ]
+          },
+          "eval_id": "type",
+          "message": "answer types",
+          "status": "fail"
+        },
+        {
+          "details": {
+            "expected": "range",
+            "observed": "range"
+          },
+          "eval_id": "output-shape",
+          "message": "answer shape",
+          "status": "pass"
+        },
+        {
+          "details": {
+            "observed": []
+          },
+          "eval_id": "formula-errors",
+          "message": "no new formula errors",
+          "status": "pass"
+        },
+        {
+          "details": {
+            "confidence": 0.0,
+            "expected": "independently verified intent-satisfying state",
+            "likely_causes": [
+              "semantic evaluator failure"
+            ],
+            "observed": [
+              {
+                "selector": "Sheet1!F2",
+                "value": "=IF(D2=\"\",\"\",SUMPRODUCT(($A$2:$A$17=D2)*$B$2:$B$17))"
+              },
+              {
+                "selector": "Sheet1!F3",
+                "value": "=IF(D3=\"\",\"\",SUMPRODUCT(ISNUMBER(SEARCH(D3,$A$2:$A$17))*$B$2:$B$17))"
+              },
+              {
+                "selector": "Sheet1!F4",
+                "value": "=IF(D4=\"\",\"\",SUMPRODUCT(ISNUMBER(SEARCH(D4,$A$2:$A$17))*$B$2:$B$17))"
+              },
+              {
+                "selector": "Sheet1!F5",
+                "value": "=IF(D5=\"\",\"\",SUMPRODUCT(ISNUMBER(SEARCH(D5,$A$2:$A$17))*$B$2:$B$17))"
+              },
+              {
+                "selector": "Sheet1!F6",
+                "value": "=IF(D6=\"\",\"\",SUMPRODUCT(ISNUMBER(SEARCH(D6,$A$2:$A$17))*$B$2:$B$17))"
+              },
+              {
+                "selector": "Sheet1!F7",
+                "value": "=IF(D7=\"\",\"\",SUMPRODUCT(ISNUMBER(SEARCH(D7,$A$2:$A$17))*$B$2:$B$17))"
+              },
+              {
+                "selector": "Sheet1!F8",
+                "value": "=IF(D8=\"\",\"\",SUMPRODUCT(ISNUMBER(SEARCH(D8,$A$2:$A$17))*$B$2:$B$17))"
+              },
+              {
+                "selector": "Sheet1!F9",
+                "value": "=IF(D9=\"\",\"\",SUMPRODUCT(ISNUMBER(SEARCH(D9,$A$2:$A$17))*$B$2:$B$17))"
+              },
+              {
+                "selector": "Sheet1!F10",
+                "value": "=IF(D10=\"\",\"\",SUMPRODUCT(ISNUMBER(SEARCH(D10,$A$2:$A$17))*$B$2:$B$17))"
+              },
+              {
+                "selector": "Sheet1!F11",
+                "value": "=IF(D11=\"\",\"\",SUMPRODUCT(ISNUMBER(SEARCH(D11,$A$2:$A$17))*$B$2:$B$17))"
+              },
+              {
+                "selector": "Sheet1!F12",
+                "value": "=IF(D12=\"\",\"\",SUMPRODUCT(ISNUMBER(SEARCH(D12,$A$2:$A$17))*$B$2:$B$17))"
+              },
+              {
+                "selector": "Sheet1!F13",
+                "value": "=IF(D13=\"\",\"\",SUMPRODUCT(ISNUMBER(SEARCH(D13,$A$2:$A$17))*$B$2:$B$17))"
+              },
+              {
+                "selector": "Sheet1!F14",
+                "value": "=IF(D14=\"\",\"\",SUMPRODUCT(ISNUMBER(SEARCH(D14,$A$2:$A$17))*$B$2:$B$17))"
+              },
+              {
+                "selector": "Sheet1!F15",
+                "value": "=IF(D15=\"\",\"\",SUMPRODUCT(ISNUMBER(SEARCH(D15,$A$2:$A$17))*$B$2:$B$17))"
+              },
+              {
+                "selector": "Sheet1!F16",
+                "value": "=IF(D16=\"\",\"\",SUMPRODUCT(ISNUMBER(SEARCH(D16,$A$2:$A$17))*$B$2:$B$17))"
+              },
+              {
+                "selector": "Sheet1!F17",
+                "value": "=IF(D17=\"\",\"\",SUMPRODUCT(ISNUMBER(SEARCH(D17,$A$2:$A$17))*$B$2:$B$17))"
+              }
+            ]
+          },
+          "eval_id": "semantic",
+          "message": "independent evaluator unavailable or malformed: BudgetExceeded: token_budget_exhausted",
+          "status": "uncertain"
+        }
+      ]
+    },
+    "passed": false,
+    "status": "uncertain"
+  },
+  "termination_reason": "internal_eval_uncertain",
+  "usage": {
+    "actions": 2,
+    "cost": 0.0,
+    "input_tokens": 15789,
+    "latency_ms": 13938,
+    "model_calls": 3,
+    "output_tokens": 929,
+    "successful_model_calls": 3,
+    "tokens": 16718
+  }
+}

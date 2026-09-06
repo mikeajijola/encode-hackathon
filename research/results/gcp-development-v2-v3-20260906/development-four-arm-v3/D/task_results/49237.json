@@ -1,0 +1,140 @@
+{
+  "arm": "D",
+  "artifact_valid": true,
+  "constraint_violation": false,
+  "contract_compiled": true,
+  "failure_classes": [
+    "planning_failure"
+  ],
+  "first_mutation_output": "checkpoints/49237.first_mutation.xlsx",
+  "first_mutation_pass": null,
+  "id": "49237",
+  "input_artifact_hash": "d41f7f0145787c57b22a9a5f4696eabe18cf935f005b8c8dc476fa6f572cb41a",
+  "internal_status": "UNFULFILLED",
+  "output": "outputs/49237.xlsx",
+  "output_artifact_hash": "d79d9e779b10867072e24d7c2804543ca9f3ddcca26b6ffd350b875a2b9ab6cf",
+  "rendered_eval": "delegated_to_adapter",
+  "status": "unfulfilled:no_safe_transition",
+  "terminal_eval": {
+    "details": {
+      "discrepancies": [
+        {
+          "expected": "text",
+          "failed_eval": "type",
+          "id": "d-bc7e64ac-c25d-4364-ad2e-cbc0889e30f3",
+          "kind": "state_discrepancy",
+          "observed": [
+            "formula"
+          ],
+          "permissible_mutation_scope": [
+            "workbook/Sheet1/F7"
+          ]
+        },
+        {
+          "expected": "independently verified intent-satisfying state",
+          "failed_eval": "semantic",
+          "id": "d-aac7dda5-1ac9-410e-9274-6ca25955c75f",
+          "kind": "evaluation_uncertainty",
+          "observed": [
+            {
+              "selector": "Sheet1!F7",
+              "value": "=IF(F10=\"\",\"\",LEFT(F10)&\".\")"
+            }
+          ],
+          "permissible_mutation_scope": [
+            "workbook/Sheet1/F7"
+          ]
+        }
+      ],
+      "evals": [
+        {
+          "details": {
+            "kind": "artifact_invalid"
+          },
+          "eval_id": "artifact-valid",
+          "message": "workbook loads",
+          "status": "pass"
+        },
+        {
+          "details": {
+            "kind": "constraint_violation",
+            "observed": []
+          },
+          "eval_id": "preservation",
+          "message": "outside scope preserved",
+          "status": "pass"
+        },
+        {
+          "details": {
+            "observed": [
+              "=IF(F10=\"\",\"\",LEFT(F10)&\".\")"
+            ]
+          },
+          "eval_id": "nonblank",
+          "message": "answers nonblank",
+          "status": "pass"
+        },
+        {
+          "details": {
+            "expected": "text",
+            "observed": [
+              "formula"
+            ]
+          },
+          "eval_id": "type",
+          "message": "answer types",
+          "status": "fail"
+        },
+        {
+          "details": {
+            "expected": "scalar",
+            "observed": "scalar"
+          },
+          "eval_id": "output-shape",
+          "message": "answer shape",
+          "status": "pass"
+        },
+        {
+          "details": {
+            "observed": []
+          },
+          "eval_id": "formula-errors",
+          "message": "no new formula errors",
+          "status": "pass"
+        },
+        {
+          "details": {
+            "confidence": 0.0,
+            "expected": "independently verified intent-satisfying state",
+            "likely_causes": [
+              "semantic evaluator failure"
+            ],
+            "observed": [
+              {
+                "selector": "Sheet1!F7",
+                "value": "=IF(F10=\"\",\"\",LEFT(F10)&\".\")"
+              }
+            ]
+          },
+          "eval_id": "semantic",
+          "message": "independent evaluator unavailable or malformed: BudgetExceeded: token_budget_exhausted",
+          "status": "uncertain"
+        }
+      ],
+      "iteration": 2
+    },
+    "passed": false,
+    "status": "no_safe_transition"
+  },
+  "termination_reason": "internal_eval_no_safe_transition",
+  "usage": {
+    "actions": 1,
+    "cost": 0.0,
+    "input_tokens": 17213,
+    "latency_ms": 10823,
+    "model_calls": 4,
+    "output_tokens": 1064,
+    "successful_model_calls": 4,
+    "tokens": 18277
+  }
+}

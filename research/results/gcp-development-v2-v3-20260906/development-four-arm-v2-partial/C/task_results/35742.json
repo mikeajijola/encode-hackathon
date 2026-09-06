@@ -1,0 +1,157 @@
+{
+  "arm": "C",
+  "artifact_valid": true,
+  "constraint_violation": false,
+  "contract_compiled": true,
+  "failure_classes": [],
+  "first_mutation_output": null,
+  "first_mutation_pass": null,
+  "id": "35742",
+  "input_artifact_hash": "5363e0009be1c9a8c6adee147524037058847c2b362b7af3faf972561a08f7bc",
+  "internal_status": "UNFULFILLED",
+  "output": "outputs/35742.xlsx",
+  "output_artifact_hash": "6a28252c9cda0504ee1a7c96e500677b83642fd2a80999bbe8c957a75742e6d8",
+  "rendered_eval": "delegated_to_adapter",
+  "status": "ok",
+  "terminal_eval": {
+    "details": {
+      "completion": {
+        "failed_conditions": [
+          "desired_state_unsatisfied",
+          "required_evals_not_passed"
+        ],
+        "fulfilled": false,
+        "reason": "unfulfilled"
+      },
+      "discrepancies": [
+        {
+          "expected": "number",
+          "failed_eval": "type",
+          "id": "d-472a23dc-93ba-4b22-96bb-94cce879c360",
+          "kind": "state_discrepancy",
+          "observed": [
+            "formula",
+            "formula",
+            "formula",
+            "formula"
+          ],
+          "permissible_mutation_scope": [
+            "workbook/SANDBOX /O4",
+            "workbook/SANDBOX /O5",
+            "workbook/SANDBOX /O6",
+            "workbook/SANDBOX /O7"
+          ]
+        }
+      ],
+      "evals": [
+        {
+          "details": {
+            "kind": "artifact_invalid"
+          },
+          "eval_id": "artifact-valid",
+          "message": "workbook loads",
+          "status": "pass"
+        },
+        {
+          "details": {
+            "kind": "constraint_violation",
+            "observed": []
+          },
+          "eval_id": "preservation",
+          "message": "outside scope preserved",
+          "status": "pass"
+        },
+        {
+          "details": {
+            "observed": [
+              "=IFERROR(--F4,0)+IFERROR(--H4,0)+IFERROR(--J4,0)+IFERROR(--L4,0)+IFERROR(--N4,0)",
+              "=IFERROR(--F5,0)+IFERROR(--H5,0)+IFERROR(--J5,0)+IFERROR(--L5,0)+IFERROR(--N5,0)",
+              "=IFERROR(--F6,0)+IFERROR(--H6,0)+IFERROR(--J6,0)+IFERROR(--L6,0)+IFERROR(--N6,0)",
+              "=IFERROR(--F7,0)+IFERROR(--H7,0)+IFERROR(--J7,0)+IFERROR(--L7,0)+IFERROR(--N7,0)"
+            ]
+          },
+          "eval_id": "nonblank",
+          "message": "answers nonblank",
+          "status": "pass"
+        },
+        {
+          "details": {
+            "expected": "number",
+            "observed": [
+              "formula",
+              "formula",
+              "formula",
+              "formula"
+            ]
+          },
+          "eval_id": "type",
+          "message": "answer types",
+          "status": "fail"
+        },
+        {
+          "details": {
+            "expected": "range",
+            "observed": "range"
+          },
+          "eval_id": "output-shape",
+          "message": "answer shape",
+          "status": "pass"
+        },
+        {
+          "details": {
+            "observed": []
+          },
+          "eval_id": "formula-errors",
+          "message": "no new formula errors",
+          "status": "pass"
+        },
+        {
+          "details": {
+            "confidence": 1.0,
+            "expected": {
+              "SANDBOX !O4": "=IFERROR(--F4,0)+IFERROR(--H4,0)+IFERROR(--J4,0)+IFERROR(--L4,0)+IFERROR(--N4,0)",
+              "SANDBOX !O5": "=IFERROR(--F5,0)+IFERROR(--H5,0)+IFERROR(--J5,0)+IFERROR(--L5,0)+IFERROR(--N5,0)",
+              "SANDBOX !O6": "=IFERROR(--F6,0)+IFERROR(--H6,0)+IFERROR(--J6,0)+IFERROR(--L6,0)+IFERROR(--N6,0)",
+              "SANDBOX !O7": "=IFERROR(--F7,0)+IFERROR(--H7,0)+IFERROR(--J7,0)+IFERROR(--L7,0)+IFERROR(--N7,0)"
+            },
+            "likely_causes": [],
+            "observed": [
+              {
+                "selector": "SANDBOX !O4",
+                "value": "=IFERROR(--F4,0)+IFERROR(--H4,0)+IFERROR(--J4,0)+IFERROR(--L4,0)+IFERROR(--N4,0)"
+              },
+              {
+                "selector": "SANDBOX !O5",
+                "value": "=IFERROR(--F5,0)+IFERROR(--H5,0)+IFERROR(--J5,0)+IFERROR(--L5,0)+IFERROR(--N5,0)"
+              },
+              {
+                "selector": "SANDBOX !O6",
+                "value": "=IFERROR(--F6,0)+IFERROR(--H6,0)+IFERROR(--J6,0)+IFERROR(--L6,0)+IFERROR(--N6,0)"
+              },
+              {
+                "selector": "SANDBOX !O7",
+                "value": "=IFERROR(--F7,0)+IFERROR(--H7,0)+IFERROR(--J7,0)+IFERROR(--L7,0)+IFERROR(--N7,0)"
+              }
+            ]
+          },
+          "eval_id": "semantic",
+          "message": "The formulas in O4:O7 correctly convert the text-formatted numeric results from Events 1 to 5 into numbers using unary negation with IFERROR fallbacks for blank/text cells, accurately computing the section point totals across each row.",
+          "status": "pass"
+        }
+      ]
+    },
+    "passed": false,
+    "status": "completion_gate_failed"
+  },
+  "termination_reason": "internal_eval_completion_gate_failed",
+  "usage": {
+    "actions": 2,
+    "cost": 0.0,
+    "input_tokens": 14283,
+    "latency_ms": 15865,
+    "model_calls": 3,
+    "output_tokens": 1219,
+    "successful_model_calls": 3,
+    "tokens": 15502
+  }
+}

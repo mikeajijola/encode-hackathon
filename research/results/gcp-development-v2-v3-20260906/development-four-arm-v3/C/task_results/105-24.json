@@ -1,0 +1,364 @@
+{
+  "arm": "C",
+  "artifact_valid": true,
+  "constraint_violation": false,
+  "contract_compiled": true,
+  "failure_classes": [],
+  "first_mutation_output": null,
+  "first_mutation_pass": null,
+  "id": "105-24",
+  "input_artifact_hash": "a05e86bd943665abdb294cfdf881cf49323716a5e124a90e9f461a95961cb612",
+  "internal_status": "UNFULFILLED",
+  "output": "outputs/105-24.xlsx",
+  "output_artifact_hash": "a05e86bd943665abdb294cfdf881cf49323716a5e124a90e9f461a95961cb612",
+  "rendered_eval": "delegated_to_adapter",
+  "status": "ok",
+  "terminal_eval": {
+    "details": {
+      "completion": {
+        "failed_conditions": [
+          "desired_state_unsatisfied",
+          "required_evals_not_passed"
+        ],
+        "fulfilled": false,
+        "reason": "unfulfilled"
+      },
+      "discrepancies": [
+        {
+          "expected": "independently verified intent-satisfying state",
+          "failed_eval": "semantic",
+          "id": "d-72525e0b-f3ca-472e-815d-91a6c2e840ef",
+          "kind": "evaluation_uncertainty",
+          "observed": [
+            {
+              "selector": "Open!C2",
+              "value": "Last Extract:"
+            },
+            {
+              "selector": "Open!C3",
+              "value": "Author"
+            },
+            {
+              "selector": "Open!C4",
+              "value": "am427825"
+            },
+            {
+              "selector": "Open!C5",
+              "value": "br690118"
+            },
+            {
+              "selector": "Open!C6",
+              "value": "cb832551"
+            },
+            {
+              "selector": "Open!C7",
+              "value": "dvr95541"
+            },
+            {
+              "selector": "Open!C8",
+              "value": "gsj65824"
+            },
+            {
+              "selector": "Open!C9",
+              "value": "om209107"
+            },
+            {
+              "selector": "Open!C10",
+              "value": "ms550164"
+            },
+            {
+              "selector": "Open!C11",
+              "value": "mg104360"
+            },
+            {
+              "selector": "Open!C12",
+              "value": "nm846496"
+            },
+            {
+              "selector": "Open!C13",
+              "value": "rn545895"
+            },
+            {
+              "selector": "Open!C14",
+              "value": "rk440576"
+            },
+            {
+              "selector": "Open!C15",
+              "value": "rh294814"
+            },
+            {
+              "selector": "Open!C16",
+              "value": "spk12633"
+            },
+            {
+              "selector": "Open!C17",
+              "value": "sr463655"
+            },
+            {
+              "selector": "Open!C18",
+              "value": "sp128618"
+            },
+            {
+              "selector": "Open!C19",
+              "value": "sb641236"
+            },
+            {
+              "selector": "Open!C20",
+              "value": "txs21997"
+            },
+            {
+              "selector": "Open!C21",
+              "value": "nm846496"
+            },
+            {
+              "selector": "Open!C22",
+              "value": "rn545895"
+            },
+            {
+              "selector": "Open!C23",
+              "value": "spk12633"
+            }
+          ],
+          "permissible_mutation_scope": [
+            "workbook/Open/C2",
+            "workbook/Open/C3",
+            "workbook/Open/C4",
+            "workbook/Open/C5",
+            "workbook/Open/C6",
+            "workbook/Open/C7",
+            "workbook/Open/C8",
+            "workbook/Open/C9",
+            "workbook/Open/C10",
+            "workbook/Open/C11",
+            "workbook/Open/C12",
+            "workbook/Open/C13",
+            "workbook/Open/C14",
+            "workbook/Open/C15",
+            "workbook/Open/C16",
+            "workbook/Open/C17",
+            "workbook/Open/C18",
+            "workbook/Open/C19",
+            "workbook/Open/C20",
+            "workbook/Open/C21",
+            "workbook/Open/C22",
+            "workbook/Open/C23"
+          ]
+        }
+      ],
+      "evals": [
+        {
+          "details": {
+            "kind": "artifact_invalid"
+          },
+          "eval_id": "artifact-valid",
+          "message": "workbook loads",
+          "status": "pass"
+        },
+        {
+          "details": {
+            "kind": "constraint_violation",
+            "observed": []
+          },
+          "eval_id": "preservation",
+          "message": "outside scope preserved",
+          "status": "pass"
+        },
+        {
+          "details": {
+            "observed": [
+              "Last Extract:",
+              "Author",
+              "am427825",
+              "br690118",
+              "cb832551",
+              "dvr95541",
+              "gsj65824",
+              "om209107",
+              "ms550164",
+              "mg104360",
+              "nm846496",
+              "rn545895",
+              "rk440576",
+              "rh294814",
+              "spk12633",
+              "sr463655",
+              "sp128618",
+              "sb641236",
+              "txs21997",
+              "nm846496",
+              "rn545895",
+              "spk12633"
+            ]
+          },
+          "eval_id": "nonblank",
+          "message": "answers nonblank",
+          "status": "pass"
+        },
+        {
+          "details": {
+            "expected": "text",
+            "observed": [
+              "text",
+              "text",
+              "text",
+              "text",
+              "text",
+              "text",
+              "text",
+              "text",
+              "text",
+              "text",
+              "text",
+              "text",
+              "text",
+              "text",
+              "text",
+              "text",
+              "text",
+              "text",
+              "text",
+              "text",
+              "text",
+              "text"
+            ]
+          },
+          "eval_id": "type",
+          "message": "answer types",
+          "status": "pass"
+        },
+        {
+          "details": {
+            "expected": "range",
+            "observed": "range"
+          },
+          "eval_id": "output-shape",
+          "message": "answer shape",
+          "status": "pass"
+        },
+        {
+          "details": {
+            "observed": []
+          },
+          "eval_id": "formula-errors",
+          "message": "no new formula errors",
+          "status": "pass"
+        },
+        {
+          "details": {
+            "confidence": 0.0,
+            "expected": "independently verified intent-satisfying state",
+            "likely_causes": [
+              "semantic evaluator failure"
+            ],
+            "observed": [
+              {
+                "selector": "Open!C2",
+                "value": "Last Extract:"
+              },
+              {
+                "selector": "Open!C3",
+                "value": "Author"
+              },
+              {
+                "selector": "Open!C4",
+                "value": "am427825"
+              },
+              {
+                "selector": "Open!C5",
+                "value": "br690118"
+              },
+              {
+                "selector": "Open!C6",
+                "value": "cb832551"
+              },
+              {
+                "selector": "Open!C7",
+                "value": "dvr95541"
+              },
+              {
+                "selector": "Open!C8",
+                "value": "gsj65824"
+              },
+              {
+                "selector": "Open!C9",
+                "value": "om209107"
+              },
+              {
+                "selector": "Open!C10",
+                "value": "ms550164"
+              },
+              {
+                "selector": "Open!C11",
+                "value": "mg104360"
+              },
+              {
+                "selector": "Open!C12",
+                "value": "nm846496"
+              },
+              {
+                "selector": "Open!C13",
+                "value": "rn545895"
+              },
+              {
+                "selector": "Open!C14",
+                "value": "rk440576"
+              },
+              {
+                "selector": "Open!C15",
+                "value": "rh294814"
+              },
+              {
+                "selector": "Open!C16",
+                "value": "spk12633"
+              },
+              {
+                "selector": "Open!C17",
+                "value": "sr463655"
+              },
+              {
+                "selector": "Open!C18",
+                "value": "sp128618"
+              },
+              {
+                "selector": "Open!C19",
+                "value": "sb641236"
+              },
+              {
+                "selector": "Open!C20",
+                "value": "txs21997"
+              },
+              {
+                "selector": "Open!C21",
+                "value": "nm846496"
+              },
+              {
+                "selector": "Open!C22",
+                "value": "rn545895"
+              },
+              {
+                "selector": "Open!C23",
+                "value": "spk12633"
+              }
+            ]
+          },
+          "eval_id": "semantic",
+          "message": "independent evaluator unavailable or malformed: BudgetExceeded: token_budget_exhausted",
+          "status": "uncertain"
+        }
+      ]
+    },
+    "passed": false,
+    "status": "uncertain"
+  },
+  "termination_reason": "internal_eval_uncertain",
+  "usage": {
+    "actions": 2,
+    "cost": 0.0,
+    "input_tokens": 16010,
+    "latency_ms": 7287,
+    "model_calls": 3,
+    "output_tokens": 938,
+    "successful_model_calls": 3,
+    "tokens": 16948
+  }
+}

@@ -1,0 +1,965 @@
+{
+  "breakdowns": {
+    "A": {
+      "complexity": {
+        "unknown": {
+          "actions_mean": 0.8,
+          "artifact_validity_rate": 1.0,
+          "cell_accuracy": 0.07798591736415571,
+          "completion_claim_precision": 0.0625,
+          "constraint_violation_rate": 0.0,
+          "cost_usd_mean": 0.0,
+          "false_fulfilment_rate": 0.9375,
+          "internal_eval_precision": null,
+          "internal_eval_recall": 0.0,
+          "latency_ms_mean": 4049.55,
+          "pass_rate": 0.05,
+          "recovery_yield": null,
+          "tasks": 20,
+          "tokens_mean": 8528.8
+        }
+      },
+      "formula_vs_value": {
+        "unknown": {
+          "actions_mean": 0.8,
+          "artifact_validity_rate": 1.0,
+          "cell_accuracy": 0.07798591736415571,
+          "completion_claim_precision": 0.0625,
+          "constraint_violation_rate": 0.0,
+          "cost_usd_mean": 0.0,
+          "false_fulfilment_rate": 0.9375,
+          "internal_eval_precision": null,
+          "internal_eval_recall": 0.0,
+          "latency_ms_mean": 4049.55,
+          "pass_rate": 0.05,
+          "recovery_yield": null,
+          "tasks": 20,
+          "tokens_mean": 8528.8
+        }
+      },
+      "initial_observation_size_bucket": {
+        "unknown": {
+          "actions_mean": 0.8,
+          "artifact_validity_rate": 1.0,
+          "cell_accuracy": 0.07798591736415571,
+          "completion_claim_precision": 0.0625,
+          "constraint_violation_rate": 0.0,
+          "cost_usd_mean": 0.0,
+          "false_fulfilment_rate": 0.9375,
+          "internal_eval_precision": null,
+          "internal_eval_recall": 0.0,
+          "latency_ms_mean": 4049.55,
+          "pass_rate": 0.05,
+          "recovery_yield": null,
+          "tasks": 20,
+          "tokens_mean": 8528.8
+        }
+      },
+      "instruction_type": {
+        "Cell-Level Manipulation": {
+          "actions_mean": 0.9,
+          "artifact_validity_rate": 1.0,
+          "cell_accuracy": 0.10469314079422383,
+          "completion_claim_precision": 0.1111111111111111,
+          "constraint_violation_rate": 0.0,
+          "cost_usd_mean": 0.0,
+          "false_fulfilment_rate": 0.8888888888888888,
+          "internal_eval_precision": null,
+          "internal_eval_recall": 0.0,
+          "latency_ms_mean": 4518.3,
+          "pass_rate": 0.1,
+          "recovery_yield": null,
+          "tasks": 10,
+          "tokens_mean": 5104.4
+        },
+        "Sheet-Level Manipulation": {
+          "actions_mean": 0.7,
+          "artifact_validity_rate": 1.0,
+          "cell_accuracy": 0.07586404703857737,
+          "completion_claim_precision": 0.0,
+          "constraint_violation_rate": 0.0,
+          "cost_usd_mean": 0.0,
+          "false_fulfilment_rate": 1.0,
+          "internal_eval_precision": null,
+          "internal_eval_recall": null,
+          "latency_ms_mean": 3580.8,
+          "pass_rate": 0.0,
+          "recovery_yield": null,
+          "tasks": 10,
+          "tokens_mean": 11953.2
+        }
+      },
+      "mutation_count": {
+        "unknown": {
+          "actions_mean": 0.8,
+          "artifact_validity_rate": 1.0,
+          "cell_accuracy": 0.07798591736415571,
+          "completion_claim_precision": 0.0625,
+          "constraint_violation_rate": 0.0,
+          "cost_usd_mean": 0.0,
+          "false_fulfilment_rate": 0.9375,
+          "internal_eval_precision": null,
+          "internal_eval_recall": 0.0,
+          "latency_ms_mean": 4049.55,
+          "pass_rate": 0.05,
+          "recovery_yield": null,
+          "tasks": 20,
+          "tokens_mean": 8528.8
+        }
+      },
+      "reconciliation_iteration_count": {
+        "unknown": {
+          "actions_mean": 0.8,
+          "artifact_validity_rate": 1.0,
+          "cell_accuracy": 0.07798591736415571,
+          "completion_claim_precision": 0.0625,
+          "constraint_violation_rate": 0.0,
+          "cost_usd_mean": 0.0,
+          "false_fulfilment_rate": 0.9375,
+          "internal_eval_precision": null,
+          "internal_eval_recall": 0.0,
+          "latency_ms_mean": 4049.55,
+          "pass_rate": 0.05,
+          "recovery_yield": null,
+          "tasks": 20,
+          "tokens_mean": 8528.8
+        }
+      },
+      "task_family": {
+        "unknown": {
+          "actions_mean": 0.8,
+          "artifact_validity_rate": 1.0,
+          "cell_accuracy": 0.07798591736415571,
+          "completion_claim_precision": 0.0625,
+          "constraint_violation_rate": 0.0,
+          "cost_usd_mean": 0.0,
+          "false_fulfilment_rate": 0.9375,
+          "internal_eval_precision": null,
+          "internal_eval_recall": 0.0,
+          "latency_ms_mean": 4049.55,
+          "pass_rate": 0.05,
+          "recovery_yield": null,
+          "tasks": 20,
+          "tokens_mean": 8528.8
+        }
+      }
+    },
+    "B": {
+      "complexity": {
+        "unknown": {
+          "actions_mean": 1.45,
+          "artifact_validity_rate": 1.0,
+          "cell_accuracy": 0.0807758735219875,
+          "completion_claim_precision": 0.25,
+          "constraint_violation_rate": 0.0,
+          "cost_usd_mean": 0.0,
+          "false_fulfilment_rate": 0.75,
+          "internal_eval_precision": null,
+          "internal_eval_recall": 0.0,
+          "latency_ms_mean": 7233.9,
+          "pass_rate": 0.15,
+          "recovery_yield": null,
+          "tasks": 20,
+          "tokens_mean": 21732.35
+        }
+      },
+      "formula_vs_value": {
+        "unknown": {
+          "actions_mean": 1.45,
+          "artifact_validity_rate": 1.0,
+          "cell_accuracy": 0.0807758735219875,
+          "completion_claim_precision": 0.25,
+          "constraint_violation_rate": 0.0,
+          "cost_usd_mean": 0.0,
+          "false_fulfilment_rate": 0.75,
+          "internal_eval_precision": null,
+          "internal_eval_recall": 0.0,
+          "latency_ms_mean": 7233.9,
+          "pass_rate": 0.15,
+          "recovery_yield": null,
+          "tasks": 20,
+          "tokens_mean": 21732.35
+        }
+      },
+      "initial_observation_size_bucket": {
+        "unknown": {
+          "actions_mean": 1.45,
+          "artifact_validity_rate": 1.0,
+          "cell_accuracy": 0.0807758735219875,
+          "completion_claim_precision": 0.25,
+          "constraint_violation_rate": 0.0,
+          "cost_usd_mean": 0.0,
+          "false_fulfilment_rate": 0.75,
+          "internal_eval_precision": null,
+          "internal_eval_recall": 0.0,
+          "latency_ms_mean": 7233.9,
+          "pass_rate": 0.15,
+          "recovery_yield": null,
+          "tasks": 20,
+          "tokens_mean": 21732.35
+        }
+      },
+      "instruction_type": {
+        "Cell-Level Manipulation": {
+          "actions_mean": 1.7,
+          "artifact_validity_rate": 1.0,
+          "cell_accuracy": 0.14259927797833935,
+          "completion_claim_precision": 0.375,
+          "constraint_violation_rate": 0.0,
+          "cost_usd_mean": 0.0,
+          "false_fulfilment_rate": 0.625,
+          "internal_eval_precision": null,
+          "internal_eval_recall": 0.0,
+          "latency_ms_mean": 7867.2,
+          "pass_rate": 0.3,
+          "recovery_yield": null,
+          "tasks": 10,
+          "tokens_mean": 11488.5
+        },
+        "Sheet-Level Manipulation": {
+          "actions_mean": 1.2,
+          "artifact_validity_rate": 1.0,
+          "cell_accuracy": 0.07586404703857737,
+          "completion_claim_precision": 0.0,
+          "constraint_violation_rate": 0.0,
+          "cost_usd_mean": 0.0,
+          "false_fulfilment_rate": 1.0,
+          "internal_eval_precision": null,
+          "internal_eval_recall": null,
+          "latency_ms_mean": 6600.6,
+          "pass_rate": 0.0,
+          "recovery_yield": null,
+          "tasks": 10,
+          "tokens_mean": 31976.2
+        }
+      },
+      "mutation_count": {
+        "unknown": {
+          "actions_mean": 1.45,
+          "artifact_validity_rate": 1.0,
+          "cell_accuracy": 0.0807758735219875,
+          "completion_claim_precision": 0.25,
+          "constraint_violation_rate": 0.0,
+          "cost_usd_mean": 0.0,
+          "false_fulfilment_rate": 0.75,
+          "internal_eval_precision": null,
+          "internal_eval_recall": 0.0,
+          "latency_ms_mean": 7233.9,
+          "pass_rate": 0.15,
+          "recovery_yield": null,
+          "tasks": 20,
+          "tokens_mean": 21732.35
+        }
+      },
+      "reconciliation_iteration_count": {
+        "unknown": {
+          "actions_mean": 1.45,
+          "artifact_validity_rate": 1.0,
+          "cell_accuracy": 0.0807758735219875,
+          "completion_claim_precision": 0.25,
+          "constraint_violation_rate": 0.0,
+          "cost_usd_mean": 0.0,
+          "false_fulfilment_rate": 0.75,
+          "internal_eval_precision": null,
+          "internal_eval_recall": 0.0,
+          "latency_ms_mean": 7233.9,
+          "pass_rate": 0.15,
+          "recovery_yield": null,
+          "tasks": 20,
+          "tokens_mean": 21732.35
+        }
+      },
+      "task_family": {
+        "unknown": {
+          "actions_mean": 1.45,
+          "artifact_validity_rate": 1.0,
+          "cell_accuracy": 0.0807758735219875,
+          "completion_claim_precision": 0.25,
+          "constraint_violation_rate": 0.0,
+          "cost_usd_mean": 0.0,
+          "false_fulfilment_rate": 0.75,
+          "internal_eval_precision": null,
+          "internal_eval_recall": 0.0,
+          "latency_ms_mean": 7233.9,
+          "pass_rate": 0.15,
+          "recovery_yield": null,
+          "tasks": 20,
+          "tokens_mean": 21732.35
+        }
+      }
+    },
+    "C": {
+      "complexity": {
+        "unknown": {
+          "actions_mean": 1.7,
+          "artifact_validity_rate": 1.0,
+          "cell_accuracy": 0.08051016341171782,
+          "completion_claim_precision": 1.0,
+          "constraint_violation_rate": 0.0,
+          "cost_usd_mean": 0.0,
+          "false_fulfilment_rate": 0.0,
+          "internal_eval_precision": 1.0,
+          "internal_eval_recall": 0.5,
+          "latency_ms_mean": 9041.35,
+          "pass_rate": 0.1,
+          "recovery_yield": null,
+          "tasks": 20,
+          "tokens_mean": 24662.75
+        }
+      },
+      "formula_vs_value": {
+        "unknown": {
+          "actions_mean": 1.7,
+          "artifact_validity_rate": 1.0,
+          "cell_accuracy": 0.08051016341171782,
+          "completion_claim_precision": 1.0,
+          "constraint_violation_rate": 0.0,
+          "cost_usd_mean": 0.0,
+          "false_fulfilment_rate": 0.0,
+          "internal_eval_precision": 1.0,
+          "internal_eval_recall": 0.5,
+          "latency_ms_mean": 9041.35,
+          "pass_rate": 0.1,
+          "recovery_yield": null,
+          "tasks": 20,
+          "tokens_mean": 24662.75
+        }
+      },
+      "initial_observation_size_bucket": {
+        "unknown": {
+          "actions_mean": 1.7,
+          "artifact_validity_rate": 1.0,
+          "cell_accuracy": 0.08051016341171782,
+          "completion_claim_precision": 1.0,
+          "constraint_violation_rate": 0.0,
+          "cost_usd_mean": 0.0,
+          "false_fulfilment_rate": 0.0,
+          "internal_eval_precision": 1.0,
+          "internal_eval_recall": 0.5,
+          "latency_ms_mean": 9041.35,
+          "pass_rate": 0.1,
+          "recovery_yield": null,
+          "tasks": 20,
+          "tokens_mean": 24662.75
+        }
+      },
+      "instruction_type": {
+        "Cell-Level Manipulation": {
+          "actions_mean": 1.9,
+          "artifact_validity_rate": 1.0,
+          "cell_accuracy": 0.13898916967509026,
+          "completion_claim_precision": 1.0,
+          "constraint_violation_rate": 0.0,
+          "cost_usd_mean": 0.0,
+          "false_fulfilment_rate": 0.0,
+          "internal_eval_precision": 1.0,
+          "internal_eval_recall": 0.5,
+          "latency_ms_mean": 10316.7,
+          "pass_rate": 0.2,
+          "recovery_yield": null,
+          "tasks": 10,
+          "tokens_mean": 14455.7
+        },
+        "Sheet-Level Manipulation": {
+          "actions_mean": 1.5,
+          "artifact_validity_rate": 1.0,
+          "cell_accuracy": 0.07586404703857737,
+          "completion_claim_precision": null,
+          "constraint_violation_rate": 0.0,
+          "cost_usd_mean": 0.0,
+          "false_fulfilment_rate": null,
+          "internal_eval_precision": null,
+          "internal_eval_recall": null,
+          "latency_ms_mean": 7766.0,
+          "pass_rate": 0.0,
+          "recovery_yield": null,
+          "tasks": 10,
+          "tokens_mean": 34869.8
+        }
+      },
+      "mutation_count": {
+        "unknown": {
+          "actions_mean": 1.7,
+          "artifact_validity_rate": 1.0,
+          "cell_accuracy": 0.08051016341171782,
+          "completion_claim_precision": 1.0,
+          "constraint_violation_rate": 0.0,
+          "cost_usd_mean": 0.0,
+          "false_fulfilment_rate": 0.0,
+          "internal_eval_precision": 1.0,
+          "internal_eval_recall": 0.5,
+          "latency_ms_mean": 9041.35,
+          "pass_rate": 0.1,
+          "recovery_yield": null,
+          "tasks": 20,
+          "tokens_mean": 24662.75
+        }
+      },
+      "reconciliation_iteration_count": {
+        "unknown": {
+          "actions_mean": 1.7,
+          "artifact_validity_rate": 1.0,
+          "cell_accuracy": 0.08051016341171782,
+          "completion_claim_precision": 1.0,
+          "constraint_violation_rate": 0.0,
+          "cost_usd_mean": 0.0,
+          "false_fulfilment_rate": 0.0,
+          "internal_eval_precision": 1.0,
+          "internal_eval_recall": 0.5,
+          "latency_ms_mean": 9041.35,
+          "pass_rate": 0.1,
+          "recovery_yield": null,
+          "tasks": 20,
+          "tokens_mean": 24662.75
+        }
+      },
+      "task_family": {
+        "unknown": {
+          "actions_mean": 1.7,
+          "artifact_validity_rate": 1.0,
+          "cell_accuracy": 0.08051016341171782,
+          "completion_claim_precision": 1.0,
+          "constraint_violation_rate": 0.0,
+          "cost_usd_mean": 0.0,
+          "false_fulfilment_rate": 0.0,
+          "internal_eval_precision": 1.0,
+          "internal_eval_recall": 0.5,
+          "latency_ms_mean": 9041.35,
+          "pass_rate": 0.1,
+          "recovery_yield": null,
+          "tasks": 20,
+          "tokens_mean": 24662.75
+        }
+      }
+    },
+    "D": {
+      "complexity": {
+        "unknown": {
+          "actions_mean": 0.6,
+          "artifact_validity_rate": 1.0,
+          "cell_accuracy": 0.07811877241929055,
+          "completion_claim_precision": null,
+          "constraint_violation_rate": 0.0,
+          "cost_usd_mean": 0.0,
+          "false_fulfilment_rate": null,
+          "internal_eval_precision": null,
+          "internal_eval_recall": 0.0,
+          "latency_ms_mean": 11914.25,
+          "pass_rate": 0.1,
+          "recovery_yield": null,
+          "tasks": 20,
+          "tokens_mean": 25606.4
+        }
+      },
+      "formula_vs_value": {
+        "unknown": {
+          "actions_mean": 0.6,
+          "artifact_validity_rate": 1.0,
+          "cell_accuracy": 0.07811877241929055,
+          "completion_claim_precision": null,
+          "constraint_violation_rate": 0.0,
+          "cost_usd_mean": 0.0,
+          "false_fulfilment_rate": null,
+          "internal_eval_precision": null,
+          "internal_eval_recall": 0.0,
+          "latency_ms_mean": 11914.25,
+          "pass_rate": 0.1,
+          "recovery_yield": null,
+          "tasks": 20,
+          "tokens_mean": 25606.4
+        }
+      },
+      "initial_observation_size_bucket": {
+        "unknown": {
+          "actions_mean": 0.6,
+          "artifact_validity_rate": 1.0,
+          "cell_accuracy": 0.07811877241929055,
+          "completion_claim_precision": null,
+          "constraint_violation_rate": 0.0,
+          "cost_usd_mean": 0.0,
+          "false_fulfilment_rate": null,
+          "internal_eval_precision": null,
+          "internal_eval_recall": 0.0,
+          "latency_ms_mean": 11914.25,
+          "pass_rate": 0.1,
+          "recovery_yield": null,
+          "tasks": 20,
+          "tokens_mean": 25606.4
+        }
+      },
+      "instruction_type": {
+        "Cell-Level Manipulation": {
+          "actions_mean": 0.7,
+          "artifact_validity_rate": 1.0,
+          "cell_accuracy": 0.10649819494584838,
+          "completion_claim_precision": null,
+          "constraint_violation_rate": 0.0,
+          "cost_usd_mean": 0.0,
+          "false_fulfilment_rate": null,
+          "internal_eval_precision": null,
+          "internal_eval_recall": 0.0,
+          "latency_ms_mean": 10999.8,
+          "pass_rate": 0.2,
+          "recovery_yield": null,
+          "tasks": 10,
+          "tokens_mean": 18338.7
+        },
+        "Sheet-Level Manipulation": {
+          "actions_mean": 0.5,
+          "artifact_validity_rate": 1.0,
+          "cell_accuracy": 0.07586404703857737,
+          "completion_claim_precision": null,
+          "constraint_violation_rate": 0.0,
+          "cost_usd_mean": 0.0,
+          "false_fulfilment_rate": null,
+          "internal_eval_precision": null,
+          "internal_eval_recall": null,
+          "latency_ms_mean": 12828.7,
+          "pass_rate": 0.0,
+          "recovery_yield": null,
+          "tasks": 10,
+          "tokens_mean": 32874.1
+        }
+      },
+      "mutation_count": {
+        "unknown": {
+          "actions_mean": 0.6,
+          "artifact_validity_rate": 1.0,
+          "cell_accuracy": 0.07811877241929055,
+          "completion_claim_precision": null,
+          "constraint_violation_rate": 0.0,
+          "cost_usd_mean": 0.0,
+          "false_fulfilment_rate": null,
+          "internal_eval_precision": null,
+          "internal_eval_recall": 0.0,
+          "latency_ms_mean": 11914.25,
+          "pass_rate": 0.1,
+          "recovery_yield": null,
+          "tasks": 20,
+          "tokens_mean": 25606.4
+        }
+      },
+      "reconciliation_iteration_count": {
+        "unknown": {
+          "actions_mean": 0.6,
+          "artifact_validity_rate": 1.0,
+          "cell_accuracy": 0.07811877241929055,
+          "completion_claim_precision": null,
+          "constraint_violation_rate": 0.0,
+          "cost_usd_mean": 0.0,
+          "false_fulfilment_rate": null,
+          "internal_eval_precision": null,
+          "internal_eval_recall": 0.0,
+          "latency_ms_mean": 11914.25,
+          "pass_rate": 0.1,
+          "recovery_yield": null,
+          "tasks": 20,
+          "tokens_mean": 25606.4
+        }
+      },
+      "task_family": {
+        "unknown": {
+          "actions_mean": 0.6,
+          "artifact_validity_rate": 1.0,
+          "cell_accuracy": 0.07811877241929055,
+          "completion_claim_precision": null,
+          "constraint_violation_rate": 0.0,
+          "cost_usd_mean": 0.0,
+          "false_fulfilment_rate": null,
+          "internal_eval_precision": null,
+          "internal_eval_recall": 0.0,
+          "latency_ms_mean": 11914.25,
+          "pass_rate": 0.1,
+          "recovery_yield": null,
+          "tasks": 20,
+          "tokens_mean": 25606.4
+        }
+      }
+    }
+  },
+  "failure_distribution": {
+    "A": {
+      "budget_failure": 1,
+      "execution_failure": 2
+    },
+    "B": {
+      "budget_failure": 3,
+      "execution_failure": 8,
+      "specification_failure": 3
+    },
+    "C": {
+      "budget_failure": 3,
+      "evaluation_false_negative": 1,
+      "execution_failure": 5
+    },
+    "D": {
+      "budget_failure": 14,
+      "evaluation_false_negative": 1,
+      "execution_failure": 17,
+      "planning_failure": 2,
+      "specification_failure": 2
+    }
+  },
+  "failure_examples": {
+    "A": {
+      "budget_failure": [
+        "209-30"
+      ],
+      "execution_failure": [
+        "209-30",
+        "61-4"
+      ]
+    },
+    "B": {
+      "budget_failure": [
+        "209-30",
+        "45738",
+        "567-21"
+      ],
+      "execution_failure": [
+        "105-24",
+        "209-30",
+        "395-36"
+      ],
+      "specification_failure": [
+        "105-24",
+        "448-11",
+        "47766"
+      ]
+    },
+    "C": {
+      "budget_failure": [
+        "209-30",
+        "45738",
+        "567-21"
+      ],
+      "evaluation_false_negative": [
+        "49237"
+      ],
+      "execution_failure": [
+        "209-30",
+        "395-36",
+        "45738"
+      ]
+    },
+    "D": {
+      "budget_failure": [
+        "105-24",
+        "141-20",
+        "168-17"
+      ],
+      "evaluation_false_negative": [
+        "49237"
+      ],
+      "execution_failure": [
+        "105-24",
+        "120-24",
+        "141-20"
+      ],
+      "planning_failure": [
+        "49237",
+        "59794"
+      ],
+      "specification_failure": [
+        "120-24",
+        "47766"
+      ]
+    }
+  },
+  "metrics": {
+    "A": {
+      "actions_mean": 0.8,
+      "artifact_validity_rate": 1.0,
+      "cell_accuracy": 0.07798591736415571,
+      "completion_claim_precision": 0.0625,
+      "constraint_violation_rate": 0.0,
+      "cost_usd_mean": 0.0,
+      "false_fulfilment_rate": 0.9375,
+      "internal_eval_precision": null,
+      "internal_eval_recall": 0.0,
+      "latency_ms_mean": 4049.55,
+      "pass_rate": 0.05,
+      "recovery_yield": null,
+      "tasks": 20,
+      "tokens_mean": 8528.8
+    },
+    "B": {
+      "actions_mean": 1.45,
+      "artifact_validity_rate": 1.0,
+      "cell_accuracy": 0.0807758735219875,
+      "completion_claim_precision": 0.25,
+      "constraint_violation_rate": 0.0,
+      "cost_usd_mean": 0.0,
+      "false_fulfilment_rate": 0.75,
+      "internal_eval_precision": null,
+      "internal_eval_recall": 0.0,
+      "latency_ms_mean": 7233.9,
+      "pass_rate": 0.15,
+      "recovery_yield": null,
+      "tasks": 20,
+      "tokens_mean": 21732.35
+    },
+    "C": {
+      "actions_mean": 1.7,
+      "artifact_validity_rate": 1.0,
+      "cell_accuracy": 0.08051016341171782,
+      "completion_claim_precision": 1.0,
+      "constraint_violation_rate": 0.0,
+      "cost_usd_mean": 0.0,
+      "false_fulfilment_rate": 0.0,
+      "internal_eval_precision": 1.0,
+      "internal_eval_recall": 0.5,
+      "latency_ms_mean": 9041.35,
+      "pass_rate": 0.1,
+      "recovery_yield": null,
+      "tasks": 20,
+      "tokens_mean": 24662.75
+    },
+    "D": {
+      "actions_mean": 0.6,
+      "artifact_validity_rate": 1.0,
+      "cell_accuracy": 0.07811877241929055,
+      "completion_claim_precision": null,
+      "constraint_violation_rate": 0.0,
+      "cost_usd_mean": 0.0,
+      "false_fulfilment_rate": null,
+      "internal_eval_precision": null,
+      "internal_eval_recall": 0.0,
+      "latency_ms_mean": 11914.25,
+      "pass_rate": 0.1,
+      "recovery_yield": null,
+      "tasks": 20,
+      "tokens_mean": 25606.4
+    }
+  },
+  "multimodal": {
+    "rationale": "Analysis records have no rendered semantics; adapter evidence is analyzed by reference.",
+    "status": "not_applicable"
+  },
+  "overhead_vs_A": {
+    "B": {
+      "actions_mean": 0.6499999999999999,
+      "cost_usd_mean": 0.0,
+      "latency_ms_mean": 3184.3499999999995,
+      "tokens_mean": 13203.55
+    },
+    "C": {
+      "actions_mean": 0.8999999999999999,
+      "cost_usd_mean": 0.0,
+      "latency_ms_mean": 4991.8,
+      "tokens_mean": 16133.95
+    },
+    "D": {
+      "actions_mean": -0.20000000000000007,
+      "cost_usd_mean": 0.0,
+      "latency_ms_mean": 7864.7,
+      "tokens_mean": 17077.600000000002
+    }
+  },
+  "paired_comparisons": {
+    "B_minus_A": {
+      "bootstrap": {
+        "confidence": 0.95,
+        "estimate": 0.1,
+        "lower": 0.0,
+        "samples": 10000,
+        "seed": 20260905,
+        "upper": 0.25
+      },
+      "mcnemar": {
+        "control_only": 0,
+        "discordant": 2,
+        "p_value": 0.5,
+        "treatment_only": 2
+      }
+    },
+    "C_minus_B": {
+      "bootstrap": {
+        "confidence": 0.95,
+        "estimate": -0.05,
+        "lower": -0.15,
+        "samples": 10000,
+        "seed": 20260905,
+        "upper": 0.0
+      },
+      "mcnemar": {
+        "control_only": 1,
+        "discordant": 1,
+        "p_value": 1.0,
+        "treatment_only": 0
+      }
+    },
+    "D_minus_A": {
+      "bootstrap": {
+        "confidence": 0.95,
+        "estimate": 0.05,
+        "lower": 0.0,
+        "samples": 10000,
+        "seed": 20260905,
+        "upper": 0.15
+      },
+      "mcnemar": {
+        "control_only": 0,
+        "discordant": 1,
+        "p_value": 1.0,
+        "treatment_only": 1
+      }
+    },
+    "D_minus_C": {
+      "bootstrap": {
+        "confidence": 0.95,
+        "estimate": 0.0,
+        "lower": -0.15,
+        "samples": 10000,
+        "seed": 20260905,
+        "upper": 0.15
+      },
+      "mcnemar": {
+        "control_only": 1,
+        "discordant": 2,
+        "p_value": 1.0,
+        "treatment_only": 1
+      }
+    }
+  },
+  "preregistered_assessment": {
+    "criteria": {
+      "D_artifact_validity_at_least_99_percent": true,
+      "D_completion_precision_at_least_90_percent": false,
+      "D_false_fulfilment_below_5_percent": false,
+      "D_minus_A_95_ci_excludes_zero": false,
+      "D_minus_A_at_least_8_points": false,
+      "D_no_known_constraint_violation": true,
+      "D_recovery_yield_at_least_20_percent": false,
+      "ordering_D_gt_C_gte_B_gte_A": false,
+      "overhead_reported": true
+    },
+    "manual_gates": {
+      "all_fulfilment_decisions_reconstructable": "pass",
+      "latency_token_cost_overhead_defensible": "requires_reported_judgment"
+    },
+    "result": "not_supported_by_preregistered_primary_threshold"
+  },
+  "resource_distributions": {
+    "A": {
+      "actions": {
+        "max": 1.0,
+        "mean": 0.8,
+        "median": 1.0,
+        "min": 0.0,
+        "p95": 1.0
+      },
+      "cost_usd": {
+        "max": 0.0,
+        "mean": 0.0,
+        "median": 0.0,
+        "min": 0.0,
+        "p95": 0.0
+      },
+      "latency_ms": {
+        "max": 12006.0,
+        "mean": 4049.55,
+        "median": 2790.0,
+        "min": 1159.0,
+        "p95": 8934.0
+      },
+      "tokens": {
+        "max": 70553.0,
+        "mean": 8528.8,
+        "median": 5144.0,
+        "min": 2859.0,
+        "p95": 9332.0
+      }
+    },
+    "B": {
+      "actions": {
+        "max": 2.0,
+        "mean": 1.45,
+        "median": 2.0,
+        "min": 0.0,
+        "p95": 2.0
+      },
+      "cost_usd": {
+        "max": 0.0,
+        "mean": 0.0,
+        "median": 0.0,
+        "min": 0.0,
+        "p95": 0.0
+      },
+      "latency_ms": {
+        "max": 12815.0,
+        "mean": 7233.9,
+        "median": 6396.0,
+        "min": 2605.0,
+        "p95": 11805.0
+      },
+      "tokens": {
+        "max": 232178.0,
+        "mean": 21732.35,
+        "median": 10981.0,
+        "min": 5053.0,
+        "p95": 26040.0
+      }
+    },
+    "C": {
+      "actions": {
+        "max": 2.0,
+        "mean": 1.7,
+        "median": 2.0,
+        "min": 1.0,
+        "p95": 2.0
+      },
+      "cost_usd": {
+        "max": 0.0,
+        "mean": 0.0,
+        "median": 0.0,
+        "min": 0.0,
+        "p95": 0.0
+      },
+      "latency_ms": {
+        "max": 15758.0,
+        "mean": 9041.35,
+        "median": 8422.0,
+        "min": 3237.0,
+        "p95": 13938.0
+      },
+      "tokens": {
+        "max": 232248.0,
+        "mean": 24662.75,
+        "median": 12689.0,
+        "min": 5094.0,
+        "p95": 25775.0
+      }
+    },
+    "D": {
+      "actions": {
+        "max": 2.0,
+        "mean": 0.6,
+        "median": 0.0,
+        "min": 0.0,
+        "p95": 2.0
+      },
+      "cost_usd": {
+        "max": 0.0,
+        "mean": 0.0,
+        "median": 0.0,
+        "min": 0.0,
+        "p95": 0.0
+      },
+      "latency_ms": {
+        "max": 30503.0,
+        "mean": 11914.25,
+        "median": 9444.0,
+        "min": 3772.0,
+        "p95": 21834.0
+      },
+      "tokens": {
+        "max": 153860.0,
+        "mean": 25606.4,
+        "median": 19635.0,
+        "min": 5054.0,
+        "p95": 35367.0
+      }
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "arm": "A",
+  "artifact_valid": null,
+  "constraint_violation": false,
+  "contract_compiled": false,
+  "failure_classes": [
+    "execution_failure"
+  ],
+  "first_mutation_output": null,
+  "first_mutation_pass": null,
+  "id": "66-24",
+  "input_artifact_hash": "39ebccfbd4d7d667d7a049842874cab3c10ec5f4416d5c81225e5f88ae1cef29",
+  "internal_status": "UNFULFILLED",
+  "output": "outputs/66-24.xlsx",
+  "output_artifact_hash": "39ebccfbd4d7d667d7a049842874cab3c10ec5f4416d5c81225e5f88ae1cef29",
+  "rendered_eval": "delegated_to_adapter",
+  "status": "error: ValueError: inspection transition exceeds bounded selector limit",
+  "terminal_eval": null,
+  "termination_reason": "execution_error",
+  "usage": {
+    "actions": 0,
+    "cost": 0.0,
+    "input_tokens": 5015,
+    "latency_ms": 2369,
+    "model_calls": 1,
+    "output_tokens": 95,
+    "successful_model_calls": 1,
+    "tokens": 5110
+  }
+}

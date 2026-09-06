@@ -1,0 +1,552 @@
+{
+  "summary": {
+    "items": 20,
+    "graded": 20,
+    "missing": 0,
+    "errors": 0,
+    "pass_rate": 0.1,
+    "cell_accuracy": 0.0781,
+    "pass_rate_cell_level": 0.2,
+    "pass_rate_sheet_level": 0.0
+  },
+  "items": [
+    {
+      "status": "graded",
+      "cells": 98,
+      "correct": 56,
+      "pass": false,
+      "mismatches": [
+        {
+          "cell": "output!A7",
+          "expected": "2023-09-03 00:00:00",
+          "actual": null
+        },
+        {
+          "cell": "output!B7",
+          "expected": "AAMRANET ",
+          "actual": null
+        },
+        {
+          "cell": "output!C7",
+          "expected": 62.6,
+          "actual": null
+        },
+        {
+          "cell": "output!D7",
+          "expected": 63,
+          "actual": null
+        },
+        {
+          "cell": "output!E7",
+          "expected": 61.8,
+          "actual": null
+        }
+      ],
+      "id": "61-4",
+      "type": "Sheet-Level Manipulation"
+    },
+    {
+      "status": "graded",
+      "cells": 18,
+      "correct": 5,
+      "pass": false,
+      "mismatches": [
+        {
+          "cell": "Items Older than 30 days!A1",
+          "expected": "Order Number",
+          "actual": null
+        },
+        {
+          "cell": "Items Older than 30 days!B1",
+          "expected": "Advice Note Number",
+          "actual": null
+        },
+        {
+          "cell": "Items Older than 30 days!C1",
+          "expected": "Stock Number",
+          "actual": null
+        },
+        {
+          "cell": "Items Older than 30 days!D1",
+          "expected": "GRNI Item Type",
+          "actual": null
+        },
+        {
+          "cell": "Items Older than 30 days!E1",
+          "expected": "Date",
+          "actual": null
+        }
+      ],
+      "id": "66-24",
+      "type": "Sheet-Level Manipulation"
+    },
+    {
+      "status": "graded",
+      "cells": 22,
+      "correct": 2,
+      "pass": false,
+      "mismatches": [
+        {
+          "cell": "Open!C4",
+          "expected": "Anuksha Manoj Jaju",
+          "actual": "am427825"
+        },
+        {
+          "cell": "Open!C5",
+          "expected": "Bekkam Rajashekar",
+          "actual": "br690118"
+        },
+        {
+          "cell": "Open!C6",
+          "expected": "Chiranjeevi Bollini",
+          "actual": "cb832551"
+        },
+        {
+          "cell": "Open!C7",
+          "expected": "Dande Reddy",
+          "actual": "dvr95541"
+        },
+        {
+          "cell": "Open!C8",
+          "expected": "Gouthami Jagga",
+          "actual": "gsj65824"
+        }
+      ],
+      "id": "105-24",
+      "type": "Sheet-Level Manipulation"
+    },
+    {
+      "status": "graded",
+      "cells": 55,
+      "correct": 35,
+      "pass": false,
+      "mismatches": [
+        {
+          "cell": "Statement!B2",
+          "expected": null,
+          "actual": "SALES AND ACCESSORIES"
+        },
+        {
+          "cell": "Statement!B3",
+          "expected": null,
+          "actual": "ACCOUNT STATEMENT"
+        },
+        {
+          "cell": "Statement!A4",
+          "expected": null,
+          "actual": "Account Number: KRT821476"
+        },
+        {
+          "cell": "Statement!B4",
+          "expected": null,
+          "actual": "BR1 Ltd"
+        },
+        {
+          "cell": "Statement!A5",
+          "expected": null,
+          "actual": "BR1 Southern Area"
+        }
+      ],
+      "id": "168-17",
+      "type": "Sheet-Level Manipulation"
+    },
+    {
+      "status": "graded",
+      "cells": 44,
+      "correct": 33,
+      "pass": false,
+      "mismatches": [
+        {
+          "cell": "Sheet1!BN6",
+          "expected": "OCOGS - Spares - Transfer Price Overhead",
+          "actual": null
+        },
+        {
+          "cell": "Sheet1!BN7",
+          "expected": "OCOGS - Spares - Transfer Price Overhead",
+          "actual": null
+        },
+        {
+          "cell": "Sheet1!BN9",
+          "expected": "OFSS - ORCL Consulting Prod Cost I/C",
+          "actual": null
+        },
+        {
+          "cell": "Sheet1!BN10",
+          "expected": "OFSS - ORCL Consulting Prod Cost I/C",
+          "actual": null
+        },
+        {
+          "cell": "Sheet1!BN13",
+          "expected": "OCOGS - Spares - Transfer Price Overhead",
+          "actual": null
+        }
+      ],
+      "id": "120-24",
+      "type": "Sheet-Level Manipulation"
+    },
+    {
+      "status": "graded",
+      "cells": 38,
+      "correct": 37,
+      "pass": false,
+      "mismatches": [
+        {
+          "cell": "Statement Recon Items!H2",
+          "expected": "2022-12-22 00:00:00",
+          "actual": "2022-12-22T00:00:00"
+        }
+      ],
+      "id": "141-20",
+      "type": "Sheet-Level Manipulation"
+    },
+    {
+      "status": "graded",
+      "cells": 6066,
+      "correct": 1,
+      "pass": false,
+      "mismatches": [
+        {
+          "cell": "Data to Import!C2",
+          "expected": "DY8 ",
+          "actual": "DY8 3NQ"
+        },
+        {
+          "cell": "Data to Import!C3",
+          "expected": "DY8 ",
+          "actual": "DY8 3NQ"
+        },
+        {
+          "cell": "Data to Import!C4",
+          "expected": "DY8 ",
+          "actual": "DY8 3NQ"
+        },
+        {
+          "cell": "Data to Import!C5",
+          "expected": "DY8 ",
+          "actual": "DY8 3NQ"
+        },
+        {
+          "cell": "Data to Import!C6",
+          "expected": "DY8 ",
+          "actual": "DY8 3NQ"
+        }
+      ],
+      "id": "209-30",
+      "type": "Sheet-Level Manipulation"
+    },
+    {
+      "status": "graded",
+      "cells": 300,
+      "correct": 201,
+      "pass": false,
+      "mismatches": [
+        {
+          "cell": "MyResult!A1",
+          "expected": "Unique ID",
+          "actual": null
+        },
+        {
+          "cell": "MyResult!B1",
+          "expected": "Function",
+          "actual": null
+        },
+        {
+          "cell": "MyResult!C1",
+          "expected": "Class",
+          "actual": null
+        },
+        {
+          "cell": "MyResult!D1",
+          "expected": "Jan",
+          "actual": null
+        },
+        {
+          "cell": "MyResult!E1",
+          "expected": "Feb",
+          "actual": null
+        }
+      ],
+      "id": "395-36",
+      "type": "Sheet-Level Manipulation"
+    },
+    {
+      "status": "graded",
+      "cells": 150,
+      "correct": 100,
+      "pass": false,
+      "mismatches": [
+        {
+          "cell": "Sheet1!A12",
+          "expected": 135791130,
+          "actual": 135791121
+        },
+        {
+          "cell": "Sheet1!B12",
+          "expected": 17,
+          "actual": 6
+        },
+        {
+          "cell": "Sheet1!C12",
+          "expected": 22,
+          "actual": 11
+        },
+        {
+          "cell": "Sheet1!D12",
+          "expected": 27,
+          "actual": 16
+        },
+        {
+          "cell": "Sheet1!E12",
+          "expected": 27,
+          "actual": 16
+        }
+      ],
+      "id": "448-11",
+      "type": "Sheet-Level Manipulation"
+    },
+    {
+      "status": "graded",
+      "cells": 182,
+      "correct": 59,
+      "pass": false,
+      "mismatches": [
+        {
+          "cell": "Sheet1!E3",
+          "expected": "2019-05-01 00:00:00",
+          "actual": "2019-04-01 00:00:00"
+        },
+        {
+          "cell": "Sheet1!A4",
+          "expected": 1997002704,
+          "actual": "1997002667"
+        },
+        {
+          "cell": "Sheet1!B4",
+          "expected": 910369359,
+          "actual": "910368891"
+        },
+        {
+          "cell": "Sheet1!E4",
+          "expected": "2019-10-01 00:00:00",
+          "actual": "2019-05-01 00:00:00"
+        },
+        {
+          "cell": "Sheet1!F4",
+          "expected": "2019-10-03 00:00:00",
+          "actual": "2020-05-13 00:00:00"
+        }
+      ],
+      "id": "567-21",
+      "type": "Sheet-Level Manipulation"
+    },
+    {
+      "status": "graded",
+      "cells": 1,
+      "correct": 0,
+      "pass": false,
+      "mismatches": [
+        {
+          "cell": "Total (2)!K40",
+          "expected": 8000,
+          "actual": 14755
+        }
+      ],
+      "id": "47766",
+      "type": "Cell-Level Manipulation"
+    },
+    {
+      "status": "graded",
+      "cells": 1,
+      "correct": 1,
+      "pass": true,
+      "mismatches": [],
+      "id": "49237",
+      "type": "Cell-Level Manipulation"
+    },
+    {
+      "status": "graded",
+      "cells": 2,
+      "correct": 0,
+      "pass": false,
+      "mismatches": [
+        {
+          "cell": "Sheet1!B9",
+          "expected": "Black",
+          "actual": "#NAME?"
+        },
+        {
+          "cell": "Sheet1!B10",
+          "expected": "Red",
+          "actual": "#NAME?"
+        }
+      ],
+      "id": "50526",
+      "type": "Cell-Level Manipulation"
+    },
+    {
+      "status": "graded",
+      "cells": 1,
+      "correct": 0,
+      "pass": false,
+      "mismatches": [
+        {
+          "cell": "Sheet1!R6",
+          "expected": 1323.8167999999998,
+          "actual": null
+        }
+      ],
+      "id": "31011",
+      "type": "Cell-Level Manipulation"
+    },
+    {
+      "status": "graded",
+      "cells": 4,
+      "correct": 4,
+      "pass": true,
+      "mismatches": [],
+      "id": "35742",
+      "type": "Cell-Level Manipulation"
+    },
+    {
+      "status": "graded",
+      "cells": 16,
+      "correct": 15,
+      "pass": false,
+      "mismatches": [
+        {
+          "cell": "Sheet1!F16",
+          "expected": 824,
+          "actual": 941
+        }
+      ],
+      "id": "37554",
+      "type": "Cell-Level Manipulation"
+    },
+    {
+      "status": "graded",
+      "cells": 480,
+      "correct": 23,
+      "pass": false,
+      "mismatches": [
+        {
+          "cell": "Sheet1!E6",
+          "expected": 0,
+          "actual": null
+        },
+        {
+          "cell": "Sheet1!F6",
+          "expected": 0,
+          "actual": null
+        },
+        {
+          "cell": "Sheet1!G6",
+          "expected": 0,
+          "actual": null
+        },
+        {
+          "cell": "Sheet1!H6",
+          "expected": 0,
+          "actual": null
+        },
+        {
+          "cell": "Sheet1!I6",
+          "expected": 0,
+          "actual": null
+        }
+      ],
+      "id": "45738",
+      "type": "Cell-Level Manipulation"
+    },
+    {
+      "status": "graded",
+      "cells": 11,
+      "correct": 4,
+      "pass": false,
+      "mismatches": [
+        {
+          "cell": "Sheet1!G3",
+          "expected": "AL2230",
+          "actual": "#NAME?"
+        },
+        {
+          "cell": "Sheet1!G8",
+          "expected": "AL2237",
+          "actual": null
+        },
+        {
+          "cell": "Sheet1!G9",
+          "expected": "AL2238",
+          "actual": null
+        },
+        {
+          "cell": "Sheet1!G10",
+          "expected": "AL2241",
+          "actual": null
+        },
+        {
+          "cell": "Sheet1!G11",
+          "expected": "AL2243",
+          "actual": null
+        }
+      ],
+      "id": "50971",
+      "type": "Cell-Level Manipulation"
+    },
+    {
+      "status": "graded",
+      "cells": 5,
+      "correct": 3,
+      "pass": false,
+      "mismatches": [
+        {
+          "cell": "Here!J5",
+          "expected": "Tbrahem, Cadwalader",
+          "actual": null
+        },
+        {
+          "cell": "Here!J6",
+          "expected": "Tbnor, Cadigan",
+          "actual": null
+        }
+      ],
+      "id": "58147",
+      "type": "Cell-Level Manipulation"
+    },
+    {
+      "status": "graded",
+      "cells": 33,
+      "correct": 9,
+      "pass": false,
+      "mismatches": [
+        {
+          "cell": "SOURCE!F3",
+          "expected": "WORD4",
+          "actual": null
+        },
+        {
+          "cell": "SOURCE!G3",
+          "expected": "-",
+          "actual": null
+        },
+        {
+          "cell": "SOURCE!H3",
+          "expected": "-",
+          "actual": null
+        },
+        {
+          "cell": "SOURCE!I3",
+          "expected": "WORD5",
+          "actual": null
+        },
+        {
+          "cell": "SOURCE!J3",
+          "expected": "WORD6XX",
+          "actual": null
+        }
+      ],
+      "id": "59794",
+      "type": "Cell-Level Manipulation"
+    }
+  ]
+}

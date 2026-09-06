@@ -1,0 +1,178 @@
+{
+  "arm": "C",
+  "artifact_valid": true,
+  "constraint_violation": false,
+  "contract_compiled": true,
+  "failure_classes": [],
+  "first_mutation_output": null,
+  "first_mutation_pass": null,
+  "id": "35742",
+  "input_artifact_hash": "5363e0009be1c9a8c6adee147524037058847c2b362b7af3faf972561a08f7bc",
+  "internal_status": "UNFULFILLED",
+  "output": "outputs/35742.xlsx",
+  "output_artifact_hash": "5363e0009be1c9a8c6adee147524037058847c2b362b7af3faf972561a08f7bc",
+  "rendered_eval": "delegated_to_adapter",
+  "status": "ok",
+  "terminal_eval": {
+    "details": {
+      "completion": {
+        "failed_conditions": [
+          "desired_state_unsatisfied",
+          "required_evals_not_passed"
+        ],
+        "fulfilled": false,
+        "reason": "unfulfilled"
+      },
+      "discrepancies": [
+        {
+          "expected": "Cells O4:O7 contain formulas that accurately compute the sum of points across Event 1 to Event 5 (columns F, H, J, L, and N) for each respective participant row.",
+          "failed_eval": "nonblank",
+          "id": "d-5a47f7e8-9bc9-4b22-88f0-4a152211104b",
+          "kind": "state_discrepancy",
+          "observed": [
+            17,
+            7,
+            null,
+            null
+          ],
+          "permissible_mutation_scope": [
+            "workbook/SANDBOX /O4",
+            "workbook/SANDBOX /O5",
+            "workbook/SANDBOX /O6",
+            "workbook/SANDBOX /O7"
+          ]
+        },
+        {
+          "expected": "number",
+          "failed_eval": "type",
+          "id": "d-61881fea-1318-4193-9472-29805732146e",
+          "kind": "state_discrepancy",
+          "observed": [
+            "number",
+            "number",
+            "blank",
+            "blank"
+          ],
+          "permissible_mutation_scope": [
+            "workbook/SANDBOX /O4",
+            "workbook/SANDBOX /O5",
+            "workbook/SANDBOX /O6",
+            "workbook/SANDBOX /O7"
+          ]
+        },
+        {
+          "expected": "intent-satisfying target state",
+          "failed_eval": "semantic",
+          "id": "d-09a7a899-c6b2-436e-8352-f9b15931d68b",
+          "kind": "state_discrepancy",
+          "observed": [
+            17,
+            7,
+            null,
+            null
+          ],
+          "permissible_mutation_scope": [
+            "workbook/SANDBOX /O4",
+            "workbook/SANDBOX /O5",
+            "workbook/SANDBOX /O6",
+            "workbook/SANDBOX /O7"
+          ]
+        }
+      ],
+      "evals": [
+        {
+          "details": {
+            "kind": "artifact_invalid"
+          },
+          "eval_id": "artifact-valid",
+          "message": "workbook loads",
+          "status": "pass"
+        },
+        {
+          "details": {
+            "kind": "constraint_violation",
+            "observed": []
+          },
+          "eval_id": "preservation",
+          "message": "outside scope preserved",
+          "status": "pass"
+        },
+        {
+          "details": {
+            "observed": [
+              17,
+              7,
+              null,
+              null
+            ]
+          },
+          "eval_id": "nonblank",
+          "message": "answers nonblank",
+          "status": "fail"
+        },
+        {
+          "details": {
+            "expected": "number",
+            "observed": [
+              "number",
+              "number",
+              "blank",
+              "blank"
+            ]
+          },
+          "eval_id": "type",
+          "message": "answer types",
+          "status": "fail"
+        },
+        {
+          "details": {
+            "expected": "range",
+            "observed": "range"
+          },
+          "eval_id": "output-shape",
+          "message": "answer shape",
+          "status": "pass"
+        },
+        {
+          "details": {
+            "observed": []
+          },
+          "eval_id": "formula-errors",
+          "message": "no new formula errors",
+          "status": "pass"
+        },
+        {
+          "details": {
+            "confidence": 1.0,
+            "expected": "intent-satisfying target state",
+            "likely_causes": [
+              "target state is missing"
+            ],
+            "observed": [
+              17,
+              7,
+              null,
+              null
+            ]
+          },
+          "eval_id": "semantic",
+          "message": "semantic evaluation deferred until target state exists",
+          "status": "fail"
+        }
+      ]
+    },
+    "passed": false,
+    "status": "completion_gate_failed"
+  },
+  "termination_reason": "internal_eval_completion_gate_failed",
+  "usage": {
+    "actions": 2,
+    "cost": 0.0,
+    "input_tokens": 10190,
+    "latency_ms": 9235,
+    "model_calls": 2,
+    "output_tokens": 625,
+    "successful_model_calls": 2,
+    "tokens": 10815
+  }
+}

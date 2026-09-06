@@ -1,0 +1,54 @@
+{
+  "errors": [],
+  "filesystem": {
+    "data": "/data",
+    "data_readable": true,
+    "out": "/out",
+    "out_writable": true
+  },
+  "packages": {
+    "openpyxl": "3.1.5",
+    "opentelemetry-sdk": "1.44.0",
+    "pydantic-ai-slim": "2.38.0"
+  },
+  "python": {
+    "executable": "/app/.venv/bin/python",
+    "version": "3.13.15"
+  },
+  "soffice": {
+    "path": "/usr/bin/soffice",
+    "version": "LibreOffice 7.4.7.2 40(Build:2)"
+  },
+  "status": "ok"
+}
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/app/research/container_preflight.py", line 141, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "/app/research/container_preflight.py", line 137, in main
+    return run_experiment(Path(args.manifest), Path(args.out_dir))
+  File "/app/research/container_preflight.py", line 114, in run_experiment
+    experiment_main()
+    ~~~~~~~~~~~~~~~^^
+  File "/app/research/experiment/cli.py", line 24, in main
+    source_manifest_bytes=manifest_bytes).run(tasks)
+                                          ~~~^^^^^^^
+  File "/app/research/experiment/runner.py", line 269, in run
+    results.append(self._run_task(task))
+                   ~~~~~~~~~~~~~~^^^^^^
+  File "/app/research/experiment/runner.py", line 335, in _run_task
+    (self.out_dir / "task_results" / f"{task.id}.json").write_text(json.dumps(result, indent=2, sort_keys=True) + "\n")
+                                                                   ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/json/__init__.py", line 242, in dumps
+    **kw).encode(obj)
+          ~~~~~~^^^^^
+  File "/usr/local/lib/python3.13/json/encoder.py", line 202, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "/usr/local/lib/python3.13/json/encoder.py", line 263, in iterencode
+    return _iterencode(o, 0)
+  File "/usr/local/lib/python3.13/json/encoder.py", line 182, in default
+    raise TypeError(f'Object of type {o.__class__.__name__} '
+                    f'is not JSON serializable')
+TypeError: Object of type ArrayFormula is not JSON serializable

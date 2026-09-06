@@ -1,0 +1,187 @@
+{
+  "arm": "C",
+  "artifact_valid": true,
+  "constraint_violation": false,
+  "contract_compiled": true,
+  "failure_classes": [],
+  "first_mutation_output": null,
+  "first_mutation_pass": null,
+  "id": "58147",
+  "input_artifact_hash": "9b7879bd330859575455f3eddc154184372c6b099a445e41430e88204ba2f548",
+  "internal_status": "UNFULFILLED",
+  "output": "outputs/58147.xlsx",
+  "output_artifact_hash": "9b7879bd330859575455f3eddc154184372c6b099a445e41430e88204ba2f548",
+  "rendered_eval": "delegated_to_adapter",
+  "status": "ok",
+  "terminal_eval": {
+    "details": {
+      "completion": {
+        "failed_conditions": [
+          "desired_state_unsatisfied",
+          "required_evals_not_passed"
+        ],
+        "fulfilled": false,
+        "reason": "unfulfilled"
+      },
+      "discrepancies": [
+        {
+          "expected": "Cells in 'Here'!J2:J6 contain formulas that extract and display the target text or values referenced by column I",
+          "failed_eval": "nonblank",
+          "id": "d-1196b3cd-cc3d-433c-9ebe-0ed0ba16f7eb",
+          "kind": "state_discrepancy",
+          "observed": [
+            "Tbnor, Cadigan",
+            "Tbra, Cadle",
+            "Tbrahame, Cadogan",
+            null,
+            null
+          ],
+          "permissible_mutation_scope": [
+            "workbook/Here/J2",
+            "workbook/Here/J3",
+            "workbook/Here/J4",
+            "workbook/Here/J5",
+            "workbook/Here/J6"
+          ]
+        },
+        {
+          "expected": "text",
+          "failed_eval": "type",
+          "id": "d-d40a237f-df64-484a-b243-112c74c8a025",
+          "kind": "state_discrepancy",
+          "observed": [
+            "text",
+            "text",
+            "text",
+            "blank",
+            "blank"
+          ],
+          "permissible_mutation_scope": [
+            "workbook/Here/J2",
+            "workbook/Here/J3",
+            "workbook/Here/J4",
+            "workbook/Here/J5",
+            "workbook/Here/J6"
+          ]
+        },
+        {
+          "expected": "intent-satisfying target state",
+          "failed_eval": "semantic",
+          "id": "d-275555f3-f9a3-4e67-bafd-411c5dba4607",
+          "kind": "state_discrepancy",
+          "observed": [
+            "Tbnor, Cadigan",
+            "Tbra, Cadle",
+            "Tbrahame, Cadogan",
+            null,
+            null
+          ],
+          "permissible_mutation_scope": [
+            "workbook/Here/J2",
+            "workbook/Here/J3",
+            "workbook/Here/J4",
+            "workbook/Here/J5",
+            "workbook/Here/J6"
+          ]
+        }
+      ],
+      "evals": [
+        {
+          "details": {
+            "kind": "artifact_invalid"
+          },
+          "eval_id": "artifact-valid",
+          "message": "workbook loads",
+          "status": "pass"
+        },
+        {
+          "details": {
+            "kind": "constraint_violation",
+            "observed": []
+          },
+          "eval_id": "preservation",
+          "message": "outside scope preserved",
+          "status": "pass"
+        },
+        {
+          "details": {
+            "observed": [
+              "Tbnor, Cadigan",
+              "Tbra, Cadle",
+              "Tbrahame, Cadogan",
+              null,
+              null
+            ]
+          },
+          "eval_id": "nonblank",
+          "message": "answers nonblank",
+          "status": "fail"
+        },
+        {
+          "details": {
+            "expected": "text",
+            "observed": [
+              "text",
+              "text",
+              "text",
+              "blank",
+              "blank"
+            ]
+          },
+          "eval_id": "type",
+          "message": "answer types",
+          "status": "fail"
+        },
+        {
+          "details": {
+            "expected": "range",
+            "observed": "range"
+          },
+          "eval_id": "output-shape",
+          "message": "answer shape",
+          "status": "pass"
+        },
+        {
+          "details": {
+            "observed": []
+          },
+          "eval_id": "formula-errors",
+          "message": "no new formula errors",
+          "status": "pass"
+        },
+        {
+          "details": {
+            "confidence": 1.0,
+            "expected": "intent-satisfying target state",
+            "likely_causes": [
+              "target state is missing"
+            ],
+            "observed": [
+              "Tbnor, Cadigan",
+              "Tbra, Cadle",
+              "Tbrahame, Cadogan",
+              null,
+              null
+            ]
+          },
+          "eval_id": "semantic",
+          "message": "semantic evaluation deferred until target state exists",
+          "status": "fail"
+        }
+      ]
+    },
+    "passed": false,
+    "status": "completion_gate_failed"
+  },
+  "termination_reason": "internal_eval_completion_gate_failed",
+  "usage": {
+    "actions": 2,
+    "cost": 0.0,
+    "input_tokens": 10263,
+    "latency_ms": 8422,
+    "model_calls": 2,
+    "output_tokens": 676,
+    "successful_model_calls": 2,
+    "tokens": 10939
+  }
+}

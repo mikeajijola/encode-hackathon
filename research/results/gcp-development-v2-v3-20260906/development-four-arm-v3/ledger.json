@@ -1,0 +1,145 @@
+{
+  "budgets": {
+    "actions": 12,
+    "tokens": 16000,
+    "wall_clock_seconds": 300
+  },
+  "change": "A through D add declarative state, executable evals, then iterative reconciliation",
+  "confidence_intervals": {
+    "bootstrap": {
+      "confidence": 0.95,
+      "estimate": 0.05,
+      "lower": 0.0,
+      "samples": 10000,
+      "seed": 20260905,
+      "upper": 0.15
+    },
+    "mcnemar": {
+      "control_only": 0,
+      "discordant": 1,
+      "p_value": 1.0,
+      "treatment_only": 1
+    }
+  },
+  "control": "A",
+  "decision": "inconclusive",
+  "deviations": [
+    {
+      "description": "Context bound reduced from 400 cells/30000 chars to 120 cells/8000 chars after v1 showed aggregate 16000-token budget exhaustion before action."
+    },
+    {
+      "description": "Array-formula observations canonicalized after v2 exposed a non-JSON artifact object at the generic evidence boundary."
+    }
+  ],
+  "experiment_id": "development-four-arm-v3",
+  "failure_distribution": {
+    "A": {
+      "budget_failure": 1,
+      "execution_failure": 2
+    },
+    "B": {
+      "budget_failure": 3,
+      "execution_failure": 8,
+      "specification_failure": 3
+    },
+    "C": {
+      "budget_failure": 3,
+      "evaluation_false_negative": 1,
+      "execution_failure": 5
+    },
+    "D": {
+      "budget_failure": 14,
+      "evaluation_false_negative": 1,
+      "execution_failure": 17,
+      "planning_failure": 2,
+      "specification_failure": 2
+    }
+  },
+  "hypothesis": "Explicit executable desired-state specifications combined with independent evals and discrepancy-driven reconciliation improve autonomous artifact fulfilment reliability over direct instruction-to-action agents.",
+  "interpretation": "Provisional automated report generated without changing preregistered decision thresholds; final validity and cost-defensibility review remains required.",
+  "model": {
+    "name": "gemini-3.7-flash",
+    "temperature": 0,
+    "version": "3.7-flash-08-2026"
+  },
+  "next_experiment": "Apply preregistered success criteria and complete evidence-linked failure review.",
+  "protocol_version": "1.0.0",
+  "provenance": {
+    "created_at": "2026-09-06T07:24:35.988895+00:00",
+    "evidence_root_sha256": "b22808bc8d7e562808213bbe5cfa411c7cca5f2d267e447d530a4ba1150fca2c",
+    "git_commit": "cb1039cdc00d2d0079297e374415f82545435c0a",
+    "run_manifest_sha256": "e28a99c5ecdd8184323237d9e29a03edb11ee8492e315da33673756afd12cd63",
+    "scorer_commit": "cb1039cdc00d2d0079297e374415f82545435c0a"
+  },
+  "results": {
+    "A": {
+      "actions_mean": 0.8,
+      "artifact_validity_rate": 1.0,
+      "cell_accuracy": 0.07798591736415571,
+      "completion_claim_precision": 0.0625,
+      "constraint_violation_rate": 0.0,
+      "cost_usd_mean": 0.0,
+      "false_fulfilment_rate": 0.9375,
+      "internal_eval_precision": null,
+      "internal_eval_recall": 0.0,
+      "latency_ms_mean": 4049.55,
+      "pass_rate": 0.05,
+      "recovery_yield": null,
+      "tasks": 20,
+      "tokens_mean": 8528.8
+    },
+    "B": {
+      "actions_mean": 1.45,
+      "artifact_validity_rate": 1.0,
+      "cell_accuracy": 0.0807758735219875,
+      "completion_claim_precision": 0.25,
+      "constraint_violation_rate": 0.0,
+      "cost_usd_mean": 0.0,
+      "false_fulfilment_rate": 0.75,
+      "internal_eval_precision": null,
+      "internal_eval_recall": 0.0,
+      "latency_ms_mean": 7233.9,
+      "pass_rate": 0.15,
+      "recovery_yield": null,
+      "tasks": 20,
+      "tokens_mean": 21732.35
+    },
+    "C": {
+      "actions_mean": 1.7,
+      "artifact_validity_rate": 1.0,
+      "cell_accuracy": 0.08051016341171782,
+      "completion_claim_precision": 1.0,
+      "constraint_violation_rate": 0.0,
+      "cost_usd_mean": 0.0,
+      "false_fulfilment_rate": 0.0,
+      "internal_eval_precision": 1.0,
+      "internal_eval_recall": 0.5,
+      "latency_ms_mean": 9041.35,
+      "pass_rate": 0.1,
+      "recovery_yield": null,
+      "tasks": 20,
+      "tokens_mean": 24662.75
+    },
+    "D": {
+      "actions_mean": 0.6,
+      "artifact_validity_rate": 1.0,
+      "cell_accuracy": 0.07811877241929055,
+      "completion_claim_precision": null,
+      "constraint_violation_rate": 0.0,
+      "cost_usd_mean": 0.0,
+      "false_fulfilment_rate": null,
+      "internal_eval_precision": null,
+      "internal_eval_recall": 0.0,
+      "latency_ms_mean": 11914.25,
+      "pass_rate": 0.1,
+      "recovery_yield": null,
+      "tasks": 20,
+      "tokens_mean": 25606.4
+    }
+  },
+  "task_set": {
+    "manifest_sha256": "90991785a7b341beaaabb2ba8dc2be76f6860b7945338eae1636fdf70ec638ad",
+    "task_count": 20
+  },
+  "treatment": "D"
+}

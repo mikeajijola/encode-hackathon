@@ -1,0 +1,295 @@
+{
+  "arm": "A",
+  "deviations": [
+    "Context bound reduced from 400 cells/30000 chars to 120 cells/8000 chars after v1 showed aggregate 16000-token budget exhaustion before action.",
+    "Array-formula observations canonicalized after v2 exposed a non-JSON artifact object at the generic evidence boundary."
+  ],
+  "environment_image_digest": "sha256:f66573a0b827919c7d51e436474953e84f4810f00df88a2ef7bc5cb158b3a172",
+  "experiment_id": "development-four-arm-v3",
+  "golden_access": "offline_scoring_only",
+  "max_actions": 12,
+  "max_cost": 10.0,
+  "max_tokens": 16000,
+  "max_wall_time_ms": 300000,
+  "model": "gemini-3.7-flash",
+  "model_version": "3.7-flash-08-2026",
+  "recalculation_engine": "LibreOffice 7.4.7.2 40(Build:2)",
+  "retry_policy": {
+    "action_retries": 0,
+    "model_transport_retries": 1
+  },
+  "runtime_created_unix": 1788678642.0057187,
+  "schema_version": "1.1.0",
+  "scorer_commit": "cb1039cdc00d2d0079297e374415f82545435c0a",
+  "source_manifest": {
+    "backend": "backends.spreadsheetbench:factory",
+    "backend_config": {
+      "context_limits": {
+        "max_cells": 120,
+        "max_chars": 8000
+      },
+      "dataset_dir": "/data/dataset",
+      "provider": {
+        "timeout_seconds": 120,
+        "type": "gemini"
+      }
+    },
+    "reproducibility": {
+      "backend_factory": "backends.spreadsheetbench:factory",
+      "container_digest": "sha256:f66573a0b827919c7d51e436474953e84f4810f00df88a2ef7bc5cb158b3a172",
+      "context_limits": {
+        "max_cells": 120,
+        "max_chars": 8000
+      },
+      "dataset_metadata_sha256": "bcecaa89a005bd4e3bbe98da150a86e8062c27f262e575d5e47bd9861b3525e7",
+      "deviations": [
+        "Context bound reduced from 400 cells/30000 chars to 120 cells/8000 chars after v1 showed aggregate 16000-token budget exhaustion before action.",
+        "Array-formula observations canonicalized after v2 exposed a non-JSON artifact object at the generic evidence boundary."
+      ],
+      "environment": "linux-amd64-python3.13",
+      "multimodal_eval": "delegated_to_adapter_when_intent_has_visual_semantics",
+      "protocol_sha256": "fcfec9662043fe03cba28a1bcc1b76637f6b67f21a9a82d16153604d89e2e65a",
+      "provider_timeout_seconds": 120,
+      "selection_file_sha256": "ee473e0931f40a74e3f7cb6d3211e3e0301a50c135e2e6bf3cbc5ec3a1e7cad3",
+      "selection_sha256": "90991785a7b341beaaabb2ba8dc2be76f6860b7945338eae1636fdf70ec638ad",
+      "soffice_version": "LibreOffice 7.4.7.2 40(Build:2)",
+      "uv_lock_sha256": "f4090301c3126f5dc316cb156164153ea4580cb0cc4a4e4c77f0dbbacafea167"
+    },
+    "run_config": {
+      "arm": "A",
+      "deviations": [
+        "Context bound reduced from 400 cells/30000 chars to 120 cells/8000 chars after v1 showed aggregate 16000-token budget exhaustion before action.",
+        "Array-formula observations canonicalized after v2 exposed a non-JSON artifact object at the generic evidence boundary."
+      ],
+      "environment_image_digest": "sha256:f66573a0b827919c7d51e436474953e84f4810f00df88a2ef7bc5cb158b3a172",
+      "experiment_id": "development-four-arm-v3",
+      "max_actions": 12,
+      "max_cost": 10.0,
+      "max_tokens": 16000,
+      "max_wall_time_ms": 300000,
+      "model": "gemini-3.7-flash",
+      "model_version": "3.7-flash-08-2026",
+      "recalculation_engine": "LibreOffice 7.4.7.2 40(Build:2)",
+      "retry_policy": {
+        "action_retries": 0,
+        "model_transport_retries": 1
+      },
+      "scorer_commit": "cb1039cdc00d2d0079297e374415f82545435c0a",
+      "temperature": 0
+    },
+    "schema_version": "1.0.0",
+    "task_selection": {
+      "name": "development",
+      "reference_answer_access": "prohibited",
+      "schema_version": "1.0.0",
+      "seed": 20260905,
+      "selection_sha256": "90991785a7b341beaaabb2ba8dc2be76f6860b7945338eae1636fdf70ec638ad",
+      "source_metadata_sha256": "bcecaa89a005bd4e3bbe98da150a86e8062c27f262e575d5e47bd9861b3525e7",
+      "tasks": [
+        {
+          "answer_position": "'Open'!C2:C23",
+          "answer_sheet": "Open",
+          "data_position": "Open!'B1:P23,'Productivity!'A1:E21'",
+          "id": "105-24",
+          "init_path": "spreadsheet/105-24/1_105-24_init.xlsx",
+          "instruction": "In my Excel file, the 'Open' sheet contains IDs in Columns C and K. Find all these IDs and replace them with their respective Names. The corresponding Names for these IDs are located in Columns A and B of the 'Productivity' sheet. I require assistance with creating a macro or to automate this replacement process and also automatically consider any new additions to Columns A and B in the future for replacements. Do not create instructions, explanations, or a ID_Lookup_Helper tab. Do not create add data to any other columns other than C or K in the Open tab.  Do not hide any data.",
+          "instruction_type": "Sheet-Level Manipulation",
+          "spreadsheet_path": "spreadsheet/105-24"
+        },
+        {
+          "answer_position": "'Sheet1'!BN2:BN45",
+          "answer_sheet": "Sheet1",
+          "data_position": "AY1:BG45",
+          "id": "120-24",
+          "init_path": "spreadsheet/120-24/1_120-24_init.xlsx",
+          "instruction": "I need a VBA code or other solution implemented to validate data and replace values in Excel based on multiple conditions.  Specifically, the criteria for data replacement are: First, check if the value in column BL equals 'LAG'.       Second, look for one of two specific text strings in column BG: 'OCOGS - Spares - Transfer Price Overhead' or 'OFSS - ORCL Consulting Prod Cost I/C'.       Third, check if column AY contains either 'BOA_033E' or 'BOA_011G'.       Based on these conditions, if the first and second criteria are met, and column AY is 'BOA_033E' or 'BOA_011G', then the value in the BN column s should be 'OCOGS - Spares - Transfer Price Overhead';       otherwise, if only the first two conditions are met,  change it to 'OFSS - ORCL Consulting Prod Cost I/C' to column BN.  Finally make sure any cell in BL has a fill color hex value of #0070C0, when BL is \u2018LAG\u2019 and BN is populated.",
+          "instruction_type": "Sheet-Level Manipulation",
+          "spreadsheet_path": "spreadsheet/120-24"
+        },
+        {
+          "answer_position": "'PL Recon Items!'A1:D2,'Statement Recon Items!'A1:J3",
+          "answer_sheet": "PL Recon Items,Statement Recon Items",
+          "data_position": "PL Recon Items!'A1: D2, 'Statement Recon Items!'A1: J3'",
+          "id": "141-20",
+          "init_path": "spreadsheet/141-20/1_141-20_init.xlsx",
+          "instruction": "How can I create a macro that finds and deletes rows in two Excel sheets named 'PL Recon Items' and 'Statement Recon Items', where the invoice number in column C of 'PL Recon Items' and the value in column D match the reference number in column F and value in column I of 'Statement Recon Items'? The matching rows, which I have highlighted in yellow, should be deleted from both sheets. Could someone provide the code to accomplish this?",
+          "instruction_type": "Sheet-Level Manipulation",
+          "spreadsheet_path": "spreadsheet/141-20"
+        },
+        {
+          "answer_position": "'Statement'!A2:E12",
+          "answer_sheet": "Statement",
+          "data_position": "A2:E12",
+          "id": "168-17",
+          "init_path": "spreadsheet/168-17/1_168-17_init.xlsx",
+          "instruction": "How can I write a macro in Excel to locate the first instance of 'Invoice No.' in column A on the 'Statement' sheet and delete all preceding rows, ensuring that the first instance of 'Invoice No.' appears in cell A1 after running the macro?",
+          "instruction_type": "Sheet-Level Manipulation",
+          "spreadsheet_path": "spreadsheet/168-17"
+        },
+        {
+          "answer_position": "'Data to Import'!C1:C6066",
+          "answer_sheet": "Data to Import",
+          "data_position": "C1:C6066 ",
+          "id": "209-30",
+          "init_path": "spreadsheet/209-30/1_209-30_init.xlsx",
+          "instruction": "I have an Excel VBA issue where I'm trying to remove the last three characters from each postcode in a column, and the number of rows can range from 1 to 500,000. My current code is erroneously changing every value in the column to FALSE instead of removing the characters. Here's the code I'm using: Sub RemoveChar()\n\nDim ws As Worksheet\nDim c As Range\nSet ws = Worksheets(\"Data to Import\")\n\nFor Each c In ws.Range(\"C2\", ws.Range(\"c\" & ws.Rows.Count).End(xlUp))\nc.Value = (\"C2\") = Left(ws.Range(\"C2\"), Len(ws.Range(\"C2\")) - 3)\n\nNext c\n\nEnd Sub Can anyone explain what I'm doing wrong with this code?",
+          "instruction_type": "Sheet-Level Manipulation",
+          "spreadsheet_path": "spreadsheet/209-30"
+        },
+        {
+          "answer_position": "R6",
+          "answer_sheet": null,
+          "data_position": null,
+          "id": "31011",
+          "init_path": "spreadsheet/31011/1_31011_init.xlsx",
+          "instruction": "How can I create a formula in cell R6 that totals the values within a specified table range where the dates fall between P6 and Q6 in column A, and the times fall between R3 and R4 in row 1?",
+          "instruction_type": "Cell-Level Manipulation",
+          "spreadsheet_path": "spreadsheet/31011"
+        },
+        {
+          "answer_position": "O4:O7",
+          "answer_sheet": null,
+          "data_position": null,
+          "id": "35742",
+          "init_path": "spreadsheet/35742/1_35742_init.xlsx",
+          "instruction": "I've created a spreadsheet to record the results of an upcoming horse show, which involves multiple sections and aggregate awards that need to be calculated. My IF functions seem to be working correctly, but I'm struggling to sum the scores at the end of the row. I've tried using the =VALUE, =SUM, and =SUMPRODUCT functions but haven't been successful. In my spreadsheet, I'm trying to add the results shown in the blue cells across to a green cell where I've manually entered the total. How can I correctly sum these values?",
+          "instruction_type": "Cell-Level Manipulation",
+          "spreadsheet_path": "spreadsheet/35742"
+        },
+        {
+          "answer_position": "F2:F17",
+          "answer_sheet": null,
+          "data_position": null,
+          "id": "37554",
+          "init_path": "spreadsheet/37554/1_37554_init.xlsx",
+          "instruction": "I'm using a SUMPRODUCT(ISNUMBER(SEARCH formula in cell F2 of my Excel spreadsheet, but it's not functioning correctly. My problem is that it counts the number 'Online Travel Agency' and incorrectly adds it to the 'Travel Agency' count. How do I modify the formula so that it only returns a value for an exact match?",
+          "instruction_type": "Cell-Level Manipulation",
+          "spreadsheet_path": "spreadsheet/37554"
+        },
+        {
+          "answer_position": "'MyResult'!A1:O20",
+          "answer_sheet": "MyResult",
+          "data_position": "Main unique ID!'A1:A19,' w!'A1:O15,'Result what i am expecting !'A1:O20'",
+          "id": "395-36",
+          "init_path": "spreadsheet/395-36/1_395-36_init.xlsx",
+          "instruction": "I have three sheets: 'Main unique ID' for manual input of IDs that may change, 'Result what I am getting', and 'Result what I am expecting.' How can I compare the 'Main unique ID' sheet with the 'Result what I am getting' sheet, and if there are any unique IDs missing in the comparison, how do I add those missing unique IDs from the 'Main unique ID' sheet into the 'Result what I am getting' sheet, along with an empty new row for each missing ID, as illustrated in the yellow-highlighted sections on the 'Result what I am expecting' sheet?",
+          "instruction_type": "Sheet-Level Manipulation",
+          "spreadsheet_path": "spreadsheet/395-36"
+        },
+        {
+          "answer_position": "'Sheet1'!A2:J16",
+          "answer_sheet": "Sheet1",
+          "data_position": "A2:J30",
+          "id": "448-11",
+          "init_path": "spreadsheet/448-11/1_448-11_init.xlsx",
+          "instruction": "I found a code in this forum that highlights and deletes duplicate rows within the current region in Excel, using the entire row content for comparison. The existing code successfully identifies and highlights entire rows that are duplicates and then deletes them. However, I need to modify the code so that it deletes duplicate rows based only on the data in Column A, ignoring whether the other columns from B to the last column match or not. How can this be achieved?",
+          "instruction_type": "Sheet-Level Manipulation",
+          "spreadsheet_path": "spreadsheet/448-11"
+        },
+        {
+          "answer_position": "E6:AB25",
+          "answer_sheet": null,
+          "data_position": null,
+          "id": "45738",
+          "init_path": "spreadsheet/45738/1_45738_init.xlsx",
+          "instruction": "I need to automate cashflow generation for approximately 1,500 bonds where each bond has a principal amount in column A, interest in column B, payment frequency in column C (1 for annual, 2 for semi-annual, 4 for quarterly), and maturity date in column D, with date headers in row 4 from E4 to AB4. Create formulas in the range E6:AB25 that display \"-\" in row 5, and for rows 6-25 calculate cashflows showing interest payments at regular intervals based on the frequency working backwards from the maturity date, principal plus interest at the maturity date, and \"-\" for non-payment dates, then center align the entire E6:AB25 range while preserving existing number formatting.",
+          "instruction_type": "Cell-Level Manipulation",
+          "spreadsheet_path": "spreadsheet/45738"
+        },
+        {
+          "answer_position": "K40",
+          "answer_sheet": null,
+          "data_position": null,
+          "id": "47766",
+          "init_path": "spreadsheet/47766/1_47766_init.xlsx",
+          "instruction": "I am attempting to calculate my agent's yearly production which includes yearly bonuses that reset annually. In the Excel spreadsheet I attached, I have used SUMIF formulas to calculate their total production based on certain criteria, such as including \"*PE*\" in my searches: =SUMIF($H$8:$H$37,\"*PE*\",$C$8:$C$37), =SUMIF($H$41:$H$58,\"*PE*\",$C$41:$C$58), =SUMIF($H$62:$H$74,\"*PE*\",$C$62:$C$74). However, I am having trouble adapting these formulas to work with a date range for the start and end of the year, using closing dates that are found in Column F. I would like to find out how to modify these formulas or use a different approach to consider the date range for accurately calculating annual production. Please change the values in table J39:O53 to reflect the correct yearly totals.",
+          "instruction_type": "Cell-Level Manipulation",
+          "spreadsheet_path": "spreadsheet/47766"
+        },
+        {
+          "answer_position": "F7",
+          "answer_sheet": null,
+          "data_position": null,
+          "id": "49237",
+          "init_path": "spreadsheet/49237/1_49237_init.xlsx",
+          "instruction": "How can I add a period to a cell in Excel if there is a middle initial present, and leave it blank if there is no middle initial? The middle initial is obtained from the full name in cell E19 with first name in E5 and last name in E7. The extraction formula I'm using for the middle name is `=TRIM(MID(E19,LEN(E5)+1,LEN(E19)-LEN(E5&E7)))`, which gives the middle name in E9. Then I'm converting it to proper case with `=PROPER(E9)` in F10, and I'm taking the initial from that result with `=LEFT(F10)` in F7. If F7 contains an initial, I want to add a period after it. Otherwise, F7 should remain blank. Every formula I've tried results in a `#VALUE` error. What formula should I use to achieve this?",
+          "instruction_type": "Cell-Level Manipulation",
+          "spreadsheet_path": "spreadsheet/49237"
+        },
+        {
+          "answer_position": "B9:B10",
+          "answer_sheet": null,
+          "data_position": null,
+          "id": "50526",
+          "init_path": "spreadsheet/50526/1_50526_init.xlsx",
+          "instruction": "I need a formula that I can place in cell B9 of my spreadsheet and then drag down to dynamically look up and display values corresponding to a lookup value specified in another cell (B6). For instance, when B6 contains 'A', the formula should list cells 'Black' and 'Red' from my spreadsheet, because their associated values in the same row as 'A' are above 0. If I change the lookup value in B6 to 'B', the formula should instead list 'Yellow' and 'Orange' from the specified range, as those are the values above 0 for 'B'. The spreadsheet has column headers in row 1 and potential lookup values down column 1. How can this be set up?",
+          "instruction_type": "Cell-Level Manipulation",
+          "spreadsheet_path": "spreadsheet/50526"
+        },
+        {
+          "answer_position": "G3:G13",
+          "answer_sheet": null,
+          "data_position": null,
+          "id": "50971",
+          "init_path": "spreadsheet/50971/1_50971_init.xlsx",
+          "instruction": "How can I extract values from column B that are associated with duplicate entries in column A? Also, in my spreadsheet, column F lists unique values from column A and column E shows the number of duplications. I need the result to look like the range in cells G3:K14, as shown in my attached example. Is there a formula that can accomplish this?",
+          "instruction_type": "Cell-Level Manipulation",
+          "spreadsheet_path": "spreadsheet/50971"
+        },
+        {
+          "answer_position": "'Sheet1'!A3:G28",
+          "answer_sheet": "Sheet1",
+          "data_position": "A3:G28",
+          "id": "567-21",
+          "init_path": "spreadsheet/567-21/1_567-21_init.xlsx",
+          "instruction": "I need assistance with creating a macro for a worksheet containing over 100,000 rows of data. The macro should compare account numbers in column A with an associated number in column B and a date formatted like '2020/10' in column E. Then, it should keep only the rows with the most recent date for each account number and associated number pair, deleting the others. However, it should not delete rows if multiple entries for an account number with the same second number in column B share the same most recent date. Can this macro be efficient to avoid using excessive computer resources?If based on the earlier request to locate the associations between column A, B & E and then save only the most recent date field (column E) for those associations, I need to save any/all associations that have the same most recent dates if they exist, etc.  Additionally, if there is no date in column E, then those rows can be deleted too. Perform this task.",
+          "instruction_type": "Sheet-Level Manipulation",
+          "spreadsheet_path": "spreadsheet/567-21"
+        },
+        {
+          "answer_position": "'Here'!J2:J6",
+          "answer_sheet": null,
+          "data_position": null,
+          "id": "58147",
+          "init_path": "spreadsheet/58147/1_58147_init.xlsx",
+          "instruction": "I am seeking a formula that will allow me to extract only the values or text from column I and display the desired outcome in column J. There is an example provided in the attached sample file named 'Left_Right_Function_Extract_Sample.xlsx'.",
+          "instruction_type": "Cell-Level Manipulation",
+          "spreadsheet_path": "spreadsheet/58147"
+        },
+        {
+          "answer_position": "C3:M5",
+          "answer_sheet": null,
+          "data_position": null,
+          "id": "59794",
+          "init_path": "spreadsheet/59794/1_59794_init.xlsx",
+          "instruction": "How can I correctly split the information from one column (column A labeled 'INITIAL INFORMATION Column1') into multiple new columns (column C-K labeled 'FINAL INFORMATION') in Excel, given the complexity that the delimiters (specifically '/', '-') are not consistently placed and could differ in number from row to row? I have tried using different formulas and the Text to Columns feature without satisfactory results, resulting in much manual correction. Additionally, while I've received suggestions using formulas and Power Query, they don't seem to handle the inconsistency in the pattern and delimiters across rows in my file.   So to be clear, what I need for you to do is split the data by forward slash delimiter and preserve all segments exactly as they appear, including any standalone dash characters, distributing them across the target columns.  And if any new columns need to be made, create them accordingly and format them the same as the adjacent columns to the left.  Then once all values are output, shade the cells with the formula in #E2EFDA",
+          "instruction_type": "Cell-Level Manipulation",
+          "spreadsheet_path": "spreadsheet/59794"
+        },
+        {
+          "answer_position": "'output'!A2:G15",
+          "answer_sheet": "output",
+          "data_position": "input!'A1:Q21,'output!'A1:G6",
+          "id": "61-4",
+          "init_path": "spreadsheet/61-4/1_61-4_init.xlsx",
+          "instruction": "How can I identify consecutive negative values in a column for specific stock names, and then merge the related data such that only the opening price from the first date, the closing price from the last date, the highest 'high' price, the lowest 'low' price within those dates are kept, and the volume from these dates is summed? This summarized data should then be sent to an output sheet. The input and output formats are illustrated in an attached Excel document, with color coding for clarity.Remarks : please chek comments inside cell C2,D2,E2,F2,G2.For better understanding, I kept the output to column K:Q,but this data will be shifted to \"Output sheet\".",
+          "instruction_type": "Sheet-Level Manipulation",
+          "spreadsheet_path": "spreadsheet/61-4"
+        },
+        {
+          "answer_position": "'Items Older than 30 days'!A1:I2",
+          "answer_sheet": "Items Older than 30 days",
+          "data_position": "Imported Data!'A1:I14",
+          "id": "66-24",
+          "init_path": "spreadsheet/66-24/1_66-24_init.xlsx",
+          "instruction": "Extract all rows from the 'Imported Data' sheet where the date in column E is more than 30 days older than the maximum date in column E, and copy them to the 'Items Older than 30 days' sheet. Include the header row and maintain the date formatting then after that delete column Z in sheet 2.",
+          "instruction_type": "Sheet-Level Manipulation",
+          "spreadsheet_path": "spreadsheet/66-24"
+        }
+      ]
+    }
+  },
+  "source_manifest_path": "input_manifest.json",
+  "source_manifest_sha256": "a2bba9d1d55a7fb8e1a7450022db9957adc87530ef820669cf0998410cf86b05",
+  "temperature": 0
+}

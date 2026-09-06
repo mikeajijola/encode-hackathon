@@ -1,0 +1,346 @@
+{
+  "arm": "C",
+  "artifact_valid": true,
+  "constraint_violation": false,
+  "contract_compiled": true,
+  "failure_classes": [],
+  "first_mutation_output": null,
+  "first_mutation_pass": null,
+  "id": "59794",
+  "input_artifact_hash": "044cf308a4de5ac4f2c85e5bb39a526d2920ff223e1320069dbdb13e839aa091",
+  "internal_status": "FULFILLED",
+  "output": "outputs/59794.xlsx",
+  "output_artifact_hash": "06726e984e039d33919dca6ce731db5ec2fcd3bd5b3c49b8dc81d248dfc8083b",
+  "rendered_eval": "delegated_to_adapter",
+  "status": "ok",
+  "terminal_eval": {
+    "details": {
+      "completion": {
+        "failed_conditions": [],
+        "fulfilled": true,
+        "reason": "fulfilled"
+      },
+      "discrepancies": [],
+      "evals": [
+        {
+          "details": {
+            "kind": "artifact_invalid"
+          },
+          "eval_id": "artifact-valid",
+          "message": "workbook loads",
+          "status": "pass"
+        },
+        {
+          "details": {
+            "kind": "constraint_violation",
+            "observed": []
+          },
+          "eval_id": "preservation",
+          "message": "outside scope preserved",
+          "status": "pass"
+        },
+        {
+          "details": {
+            "observed": [
+              "WORD1XXXX",
+              "WORD2",
+              "WORD3",
+              "WORD4",
+              "-",
+              "-",
+              "WORD5",
+              "WORD6XX",
+              "-",
+              "-",
+              "2019 - 2020",
+              "WORD1XXXX",
+              "WORD2",
+              "WORD3XXX",
+              "WORD4",
+              "-",
+              "-",
+              "WORD5",
+              "WORD6",
+              "-",
+              "-",
+              "2019 - 2020",
+              "WORD1",
+              "WORD2",
+              "WORD3",
+              "WORD4",
+              "-",
+              "-",
+              "WORD5XXX",
+              "WORD6",
+              "-",
+              "-",
+              "2019 - 2020"
+            ]
+          },
+          "eval_id": "nonblank",
+          "message": "answers nonblank",
+          "status": "pass"
+        },
+        {
+          "details": {
+            "expected": "text",
+            "observed": [
+              "text",
+              "text",
+              "text",
+              "text",
+              "text",
+              "text",
+              "text",
+              "text",
+              "text",
+              "text",
+              "text",
+              "text",
+              "text",
+              "text",
+              "text",
+              "text",
+              "text",
+              "text",
+              "text",
+              "text",
+              "text",
+              "text",
+              "text",
+              "text",
+              "text",
+              "text",
+              "text",
+              "text",
+              "text",
+              "text",
+              "text",
+              "text",
+              "text"
+            ]
+          },
+          "eval_id": "type",
+          "message": "answer types",
+          "status": "pass"
+        },
+        {
+          "details": {
+            "expected": "range",
+            "observed": "range"
+          },
+          "eval_id": "output-shape",
+          "message": "answer shape",
+          "status": "pass"
+        },
+        {
+          "details": {
+            "observed": []
+          },
+          "eval_id": "formula-errors",
+          "message": "no new formula errors",
+          "status": "pass"
+        },
+        {
+          "details": {
+            "confidence": 1.0,
+            "expected": {
+              "transformed_values": {
+                "C3:M3": [
+                  "WORD1XXXX",
+                  "WORD2",
+                  "WORD3",
+                  "WORD4",
+                  "-",
+                  "-",
+                  "WORD5",
+                  "WORD6XX",
+                  "-",
+                  "-",
+                  "2019 - 2020"
+                ],
+                "C4:M4": [
+                  "WORD1XXXX",
+                  "WORD2",
+                  "WORD3XXX",
+                  "WORD4",
+                  "-",
+                  "-",
+                  "WORD5",
+                  "WORD6",
+                  "-",
+                  "-",
+                  "2019 - 2020"
+                ],
+                "C5:M5": [
+                  "WORD1",
+                  "WORD2",
+                  "WORD3",
+                  "WORD4",
+                  "-",
+                  "-",
+                  "WORD5XXX",
+                  "WORD6",
+                  "-",
+                  "-",
+                  "2019 - 2020"
+                ]
+              }
+            },
+            "likely_causes": [],
+            "observed": [
+              {
+                "selector": "SOURCE!C3",
+                "value": "WORD1XXXX"
+              },
+              {
+                "selector": "SOURCE!D3",
+                "value": "WORD2"
+              },
+              {
+                "selector": "SOURCE!E3",
+                "value": "WORD3"
+              },
+              {
+                "selector": "SOURCE!F3",
+                "value": "WORD4"
+              },
+              {
+                "selector": "SOURCE!G3",
+                "value": "-"
+              },
+              {
+                "selector": "SOURCE!H3",
+                "value": "-"
+              },
+              {
+                "selector": "SOURCE!I3",
+                "value": "WORD5"
+              },
+              {
+                "selector": "SOURCE!J3",
+                "value": "WORD6XX"
+              },
+              {
+                "selector": "SOURCE!K3",
+                "value": "-"
+              },
+              {
+                "selector": "SOURCE!L3",
+                "value": "-"
+              },
+              {
+                "selector": "SOURCE!M3",
+                "value": "2019 - 2020"
+              },
+              {
+                "selector": "SOURCE!C4",
+                "value": "WORD1XXXX"
+              },
+              {
+                "selector": "SOURCE!D4",
+                "value": "WORD2"
+              },
+              {
+                "selector": "SOURCE!E4",
+                "value": "WORD3XXX"
+              },
+              {
+                "selector": "SOURCE!F4",
+                "value": "WORD4"
+              },
+              {
+                "selector": "SOURCE!G4",
+                "value": "-"
+              },
+              {
+                "selector": "SOURCE!H4",
+                "value": "-"
+              },
+              {
+                "selector": "SOURCE!I4",
+                "value": "WORD5"
+              },
+              {
+                "selector": "SOURCE!J4",
+                "value": "WORD6"
+              },
+              {
+                "selector": "SOURCE!K4",
+                "value": "-"
+              },
+              {
+                "selector": "SOURCE!L4",
+                "value": "-"
+              },
+              {
+                "selector": "SOURCE!M4",
+                "value": "2019 - 2020"
+              },
+              {
+                "selector": "SOURCE!C5",
+                "value": "WORD1"
+              },
+              {
+                "selector": "SOURCE!D5",
+                "value": "WORD2"
+              },
+              {
+                "selector": "SOURCE!E5",
+                "value": "WORD3"
+              },
+              {
+                "selector": "SOURCE!F5",
+                "value": "WORD4"
+              },
+              {
+                "selector": "SOURCE!G5",
+                "value": "-"
+              },
+              {
+                "selector": "SOURCE!H5",
+                "value": "-"
+              },
+              {
+                "selector": "SOURCE!I5",
+                "value": "WORD5XXX"
+              },
+              {
+                "selector": "SOURCE!J5",
+                "value": "WORD6"
+              },
+              {
+                "selector": "SOURCE!K5",
+                "value": "-"
+              },
+              {
+                "selector": "SOURCE!L5",
+                "value": "-"
+              },
+              {
+                "selector": "SOURCE!M5",
+                "value": "2019 - 2020"
+              }
+            ]
+          },
+          "eval_id": "semantic",
+          "message": "All segments from SOURCE!A3:A5 were accurately split by the forward slash delimiter ('/') and mapped into columns C through M verbatim, including standalone dashes and trailing strings.",
+          "status": "pass"
+        }
+      ]
+    },
+    "passed": true,
+    "status": "pass"
+  },
+  "termination_reason": "required_internal_evals_passed",
+  "usage": {
+    "actions": 2,
+    "cost": 0.0,
+    "input_tokens": 9693,
+    "latency_ms": 13506,
+    "model_calls": 3,
+    "output_tokens": 1594,
+    "successful_model_calls": 3,
+    "tokens": 11287
+  }
+}

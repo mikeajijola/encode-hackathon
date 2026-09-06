@@ -1,0 +1,23 @@
+commit cb1039cdc00d2d0079297e374415f82545435c0a
+Author:     Codex Research Agent <codex@localhost>
+AuthorDate: Sun Sep 6 08:07:39 2026 +0100
+Commit:     Codex Research Agent <codex@localhost>
+CommitDate: Sun Sep 6 08:07:39 2026 +0100
+
+    Canonicalize array formulas at adapter boundary
+
+commit 6ec82a3f36dbedeb6d20ddd4bebe76414e00a6e3
+Author:     Codex Research Agent <codex@localhost>
+AuthorDate: Sun Sep 6 07:47:53 2026 +0100
+Commit:     Codex Research Agent <codex@localhost>
+CommitDate: Sun Sep 6 07:47:53 2026 +0100
+
+    Fix evidence-backed development protocol blockers
+
+commit 735832625c055cef60839ac99d5b5bcd3b71ea22
+Author:     Codex Research Agent <codex@localhost>
+AuthorDate: Sun Sep 6 07:42:10 2026 +0100
+Commit:     Codex Research Agent <codex@localhost>
+CommitDate: Sun Sep 6 07:42:10 2026 +0100
+
+    Record GCP four-arm development experiment

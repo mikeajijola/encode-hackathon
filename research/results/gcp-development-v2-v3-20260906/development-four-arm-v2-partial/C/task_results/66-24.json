@@ -1,0 +1,258 @@
+{
+  "arm": "C",
+  "artifact_valid": true,
+  "constraint_violation": false,
+  "contract_compiled": true,
+  "failure_classes": [],
+  "first_mutation_output": null,
+  "first_mutation_pass": null,
+  "id": "66-24",
+  "input_artifact_hash": "39ebccfbd4d7d667d7a049842874cab3c10ec5f4416d5c81225e5f88ae1cef29",
+  "internal_status": "UNFULFILLED",
+  "output": "outputs/66-24.xlsx",
+  "output_artifact_hash": "39ebccfbd4d7d667d7a049842874cab3c10ec5f4416d5c81225e5f88ae1cef29",
+  "rendered_eval": "delegated_to_adapter",
+  "status": "ok",
+  "terminal_eval": {
+    "details": {
+      "completion": {
+        "failed_conditions": [
+          "desired_state_unsatisfied",
+          "required_evals_not_passed"
+        ],
+        "fulfilled": false,
+        "reason": "unfulfilled"
+      },
+      "discrepancies": [
+        {
+          "expected": "The 'Items Older than 30 days' sheet contains the header row and all records from 'Imported Data' where the date in column E is strictly more than 30 days older than the maximum date in column E, preserving original column order and date formatting.",
+          "failed_eval": "nonblank",
+          "id": "d-253a8885-d29d-466d-88a1-92549a8739b0",
+          "kind": "state_discrepancy",
+          "observed": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "permissible_mutation_scope": [
+            "workbook/Items Older than 30 days/A1",
+            "workbook/Items Older than 30 days/B1",
+            "workbook/Items Older than 30 days/C1",
+            "workbook/Items Older than 30 days/D1",
+            "workbook/Items Older than 30 days/E1",
+            "workbook/Items Older than 30 days/F1",
+            "workbook/Items Older than 30 days/G1",
+            "workbook/Items Older than 30 days/H1",
+            "workbook/Items Older than 30 days/I1",
+            "workbook/Items Older than 30 days/A2",
+            "workbook/Items Older than 30 days/B2",
+            "workbook/Items Older than 30 days/C2",
+            "workbook/Items Older than 30 days/D2",
+            "workbook/Items Older than 30 days/E2",
+            "workbook/Items Older than 30 days/F2",
+            "workbook/Items Older than 30 days/G2",
+            "workbook/Items Older than 30 days/H2",
+            "workbook/Items Older than 30 days/I2"
+          ]
+        },
+        {
+          "expected": "intent-satisfying target state",
+          "failed_eval": "semantic",
+          "id": "d-72985f0b-6992-4d74-875e-97e115b6adef",
+          "kind": "state_discrepancy",
+          "observed": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "permissible_mutation_scope": [
+            "workbook/Items Older than 30 days/A1",
+            "workbook/Items Older than 30 days/B1",
+            "workbook/Items Older than 30 days/C1",
+            "workbook/Items Older than 30 days/D1",
+            "workbook/Items Older than 30 days/E1",
+            "workbook/Items Older than 30 days/F1",
+            "workbook/Items Older than 30 days/G1",
+            "workbook/Items Older than 30 days/H1",
+            "workbook/Items Older than 30 days/I1",
+            "workbook/Items Older than 30 days/A2",
+            "workbook/Items Older than 30 days/B2",
+            "workbook/Items Older than 30 days/C2",
+            "workbook/Items Older than 30 days/D2",
+            "workbook/Items Older than 30 days/E2",
+            "workbook/Items Older than 30 days/F2",
+            "workbook/Items Older than 30 days/G2",
+            "workbook/Items Older than 30 days/H2",
+            "workbook/Items Older than 30 days/I2"
+          ]
+        }
+      ],
+      "evals": [
+        {
+          "details": {
+            "kind": "artifact_invalid"
+          },
+          "eval_id": "artifact-valid",
+          "message": "workbook loads",
+          "status": "pass"
+        },
+        {
+          "details": {
+            "kind": "constraint_violation",
+            "observed": []
+          },
+          "eval_id": "preservation",
+          "message": "outside scope preserved",
+          "status": "pass"
+        },
+        {
+          "details": {
+            "observed": [
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ]
+          },
+          "eval_id": "nonblank",
+          "message": "answers nonblank",
+          "status": "fail"
+        },
+        {
+          "details": {
+            "expected": "mixed",
+            "observed": [
+              "blank",
+              "blank",
+              "blank",
+              "blank",
+              "blank",
+              "blank",
+              "blank",
+              "blank",
+              "blank",
+              "blank",
+              "blank",
+              "blank",
+              "blank",
+              "blank",
+              "blank",
+              "blank",
+              "blank",
+              "blank"
+            ]
+          },
+          "eval_id": "type",
+          "message": "answer types",
+          "status": "pass"
+        },
+        {
+          "details": {
+            "expected": "range",
+            "observed": "range"
+          },
+          "eval_id": "output-shape",
+          "message": "answer shape",
+          "status": "pass"
+        },
+        {
+          "details": {
+            "observed": []
+          },
+          "eval_id": "formula-errors",
+          "message": "no new formula errors",
+          "status": "pass"
+        },
+        {
+          "details": {
+            "confidence": 1.0,
+            "expected": "intent-satisfying target state",
+            "likely_causes": [
+              "target state is missing"
+            ],
+            "observed": [
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ]
+          },
+          "eval_id": "semantic",
+          "message": "semantic evaluation deferred until target state exists",
+          "status": "fail"
+        }
+      ]
+    },
+    "passed": false,
+    "status": "completion_gate_failed"
+  },
+  "termination_reason": "internal_eval_completion_gate_failed",
+  "usage": {
+    "actions": 2,
+    "cost": 0.0,
+    "input_tokens": 11072,
+    "latency_ms": 7289,
+    "model_calls": 2,
+    "output_tokens": 666,
+    "successful_model_calls": 2,
+    "tokens": 11738
+  }
+}

@@ -1,0 +1,20 @@
+61-4 arm=D status=error: BudgetExceeded: token_budget_exhausted actions=1
+66-24 arm=D status=error: BudgetExceeded: token_budget_exhausted actions=1
+105-24 arm=D status=error: BudgetExceeded: token_budget_exhausted actions=0
+168-17 arm=D status=error: BudgetExceeded: token_budget_exhausted actions=1
+120-24 arm=D status=error: ValueError: contract must contain exactly ['constraints', 'desired_state', 'evaluator_intents', 'invariants', 'required_capabilities', 'schema_version'] actions=0
+141-20 arm=D status=error: BudgetExceeded: token_budget_exhausted actions=2
+209-30 arm=D status=unfulfilled:evaluation_uncertain actions=0
+395-36 arm=D status=error: KeyError: 'Worksheet MyResult does not exist.' actions=0
+448-11 arm=D status=error: BudgetExceeded: token_budget_exhausted actions=0
+567-21 arm=D status=error: BudgetExceeded: token_budget_exhausted actions=0
+47766 arm=D status=error: ValueError: contract must contain exactly ['constraints', 'desired_state', 'evaluator_intents', 'invariants', 'required_capabilities', 'schema_version'] actions=0
+49237 arm=D status=unfulfilled:no_safe_transition actions=1
+50526 arm=D status=error: BudgetExceeded: token_budget_exhausted actions=2
+31011 arm=D status=error: BudgetExceeded: token_budget_exhausted actions=1
+35742 arm=D status=error: BudgetExceeded: token_budget_exhausted actions=1
+37554 arm=D status=error: BudgetExceeded: token_budget_exhausted actions=0
+45738 arm=D status=error: BudgetExceeded: token_budget_exhausted actions=0
+50971 arm=D status=error: BudgetExceeded: token_budget_exhausted actions=1
+58147 arm=D status=error: BudgetExceeded: token_budget_exhausted actions=1
+59794 arm=D status=unfulfilled:no_safe_transition actions=0

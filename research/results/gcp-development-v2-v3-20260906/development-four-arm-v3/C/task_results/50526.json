@@ -1,0 +1,136 @@
+{
+  "arm": "C",
+  "artifact_valid": true,
+  "constraint_violation": false,
+  "contract_compiled": true,
+  "failure_classes": [],
+  "first_mutation_output": null,
+  "first_mutation_pass": null,
+  "id": "50526",
+  "input_artifact_hash": "e4bd7b98a878b924f796044389eef3c5f3f1cfaf34034c820940a6db5a0d2fb6",
+  "internal_status": "UNFULFILLED",
+  "output": "outputs/50526.xlsx",
+  "output_artifact_hash": "6643b25e940babb43826d3e17ff9804275ffd534cf2ffcb69be1930a796237e8",
+  "rendered_eval": "delegated_to_adapter",
+  "status": "ok",
+  "terminal_eval": {
+    "details": {
+      "completion": {
+        "failed_conditions": [
+          "desired_state_unsatisfied",
+          "required_evals_not_passed"
+        ],
+        "fulfilled": false,
+        "reason": "unfulfilled"
+      },
+      "discrepancies": [
+        {
+          "expected": "text",
+          "failed_eval": "type",
+          "id": "d-e2617cb1-c356-4f04-8568-a6b159ea5808",
+          "kind": "state_discrepancy",
+          "observed": [
+            "formula",
+            "formula"
+          ],
+          "permissible_mutation_scope": [
+            "workbook/Sheet1/B9",
+            "workbook/Sheet1/B10"
+          ]
+        }
+      ],
+      "evals": [
+        {
+          "details": {
+            "kind": "artifact_invalid"
+          },
+          "eval_id": "artifact-valid",
+          "message": "workbook loads",
+          "status": "pass"
+        },
+        {
+          "details": {
+            "kind": "constraint_violation",
+            "observed": []
+          },
+          "eval_id": "preservation",
+          "message": "outside scope preserved",
+          "status": "pass"
+        },
+        {
+          "details": {
+            "observed": [
+              "=INDEX($B$1:$G$1, AGGREGATE(15, 6, (COLUMN($B$1:$G$1)-COLUMN($B$1)+1)/(INDEX($B$2:$G$3, MATCH($B$6, $A$2:$A$3, 0), )>0), ROWS($B$9:B9)))",
+              "=INDEX($B$1:$G$1, AGGREGATE(15, 6, (COLUMN($B$1:$G$1)-COLUMN($B$1)+1)/(INDEX($B$2:$G$3, MATCH($B$6, $A$2:$A$3, 0), )>0), ROWS($B$9:B10)))"
+            ]
+          },
+          "eval_id": "nonblank",
+          "message": "answers nonblank",
+          "status": "pass"
+        },
+        {
+          "details": {
+            "expected": "text",
+            "observed": [
+              "formula",
+              "formula"
+            ]
+          },
+          "eval_id": "type",
+          "message": "answer types",
+          "status": "fail"
+        },
+        {
+          "details": {
+            "expected": "range",
+            "observed": "range"
+          },
+          "eval_id": "output-shape",
+          "message": "answer shape",
+          "status": "pass"
+        },
+        {
+          "details": {
+            "observed": []
+          },
+          "eval_id": "formula-errors",
+          "message": "no new formula errors",
+          "status": "pass"
+        },
+        {
+          "details": {
+            "confidence": 1.0,
+            "expected": "Cells B9:B10 contain drag-down formulas using INDEX/AGGREGATE (or equivalent dynamic lookup) that extract headers from B1:G1 corresponding to values > 0 for the lookup key in B6.",
+            "likely_causes": [],
+            "observed": [
+              {
+                "selector": "Sheet1!B9",
+                "value": "=INDEX($B$1:$G$1, AGGREGATE(15, 6, (COLUMN($B$1:$G$1)-COLUMN($B$1)+1)/(INDEX($B$2:$G$3, MATCH($B$6, $A$2:$A$3, 0), )>0), ROWS($B$9:B9)))"
+              },
+              {
+                "selector": "Sheet1!B10",
+                "value": "=INDEX($B$1:$G$1, AGGREGATE(15, 6, (COLUMN($B$1:$G$1)-COLUMN($B$1)+1)/(INDEX($B$2:$G$3, MATCH($B$6, $A$2:$A$3, 0), )>0), ROWS($B$9:B10)))"
+              }
+            ]
+          },
+          "eval_id": "semantic",
+          "message": "The AGGREGATE SMALL formula correctly finds the column positions where the row matching B6 in A2:A3 has values greater than 0, successfully resolving to 'Black' and 'Red' for 'A', and dynamically adapting to 'Yellow' and 'Orange' if B6 is changed to 'B'.",
+          "status": "pass"
+        }
+      ]
+    },
+    "passed": false,
+    "status": "completion_gate_failed"
+  },
+  "termination_reason": "internal_eval_completion_gate_failed",
+  "usage": {
+    "actions": 2,
+    "cost": 0.0,
+    "input_tokens": 8007,
+    "latency_ms": 15758,
+    "model_calls": 3,
+    "output_tokens": 1325,
+    "successful_model_calls": 3,
+    "tokens": 9332
+  }
+}

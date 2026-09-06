@@ -1,0 +1,145 @@
+{
+  "arm": "C",
+  "artifact_valid": true,
+  "constraint_violation": false,
+  "contract_compiled": true,
+  "failure_classes": [],
+  "first_mutation_output": null,
+  "first_mutation_pass": null,
+  "id": "47766",
+  "input_artifact_hash": "bc56a9f2824aaabd5230f671e3c897318318c168a0adc0b4c0b3b7a20d11884a",
+  "internal_status": "UNFULFILLED",
+  "output": "outputs/47766.xlsx",
+  "output_artifact_hash": "bc56a9f2824aaabd5230f671e3c897318318c168a0adc0b4c0b3b7a20d11884a",
+  "rendered_eval": "delegated_to_adapter",
+  "status": "ok",
+  "terminal_eval": {
+    "details": {
+      "completion": {
+        "failed_conditions": [
+          "desired_state_unsatisfied",
+          "required_evals_not_passed"
+        ],
+        "fulfilled": false,
+        "reason": "unfulfilled"
+      },
+      "discrepancies": [
+        {
+          "expected": "number",
+          "failed_eval": "type",
+          "id": "d-ad15733d-ff97-462d-8773-444a9a677d32",
+          "kind": "state_discrepancy",
+          "observed": [
+            "formula"
+          ],
+          "permissible_mutation_scope": [
+            "workbook/Total (2)/K40"
+          ]
+        },
+        {
+          "expected": "independently verified intent-satisfying state",
+          "failed_eval": "semantic",
+          "id": "d-60ed535c-2a2f-4f83-affb-64492bfe472c",
+          "kind": "evaluation_uncertainty",
+          "observed": [
+            {
+              "selector": "Total (2)!K40",
+              "value": "=SUMIF($H$8:$H$37,\"*PE*\",$C$8:$C$37)"
+            }
+          ],
+          "permissible_mutation_scope": [
+            "workbook/Total (2)/K40"
+          ]
+        }
+      ],
+      "evals": [
+        {
+          "details": {
+            "kind": "artifact_invalid"
+          },
+          "eval_id": "artifact-valid",
+          "message": "workbook loads",
+          "status": "pass"
+        },
+        {
+          "details": {
+            "kind": "constraint_violation",
+            "observed": []
+          },
+          "eval_id": "preservation",
+          "message": "outside scope preserved",
+          "status": "pass"
+        },
+        {
+          "details": {
+            "observed": [
+              "=SUMIF($H$8:$H$37,\"*PE*\",$C$8:$C$37)"
+            ]
+          },
+          "eval_id": "nonblank",
+          "message": "answers nonblank",
+          "status": "pass"
+        },
+        {
+          "details": {
+            "expected": "number",
+            "observed": [
+              "formula"
+            ]
+          },
+          "eval_id": "type",
+          "message": "answer types",
+          "status": "fail"
+        },
+        {
+          "details": {
+            "expected": "scalar",
+            "observed": "scalar"
+          },
+          "eval_id": "output-shape",
+          "message": "answer shape",
+          "status": "pass"
+        },
+        {
+          "details": {
+            "observed": []
+          },
+          "eval_id": "formula-errors",
+          "message": "no new formula errors",
+          "status": "pass"
+        },
+        {
+          "details": {
+            "confidence": 0.0,
+            "expected": "independently verified intent-satisfying state",
+            "likely_causes": [
+              "semantic evaluator failure"
+            ],
+            "observed": [
+              {
+                "selector": "Total (2)!K40",
+                "value": "=SUMIF($H$8:$H$37,\"*PE*\",$C$8:$C$37)"
+              }
+            ]
+          },
+          "eval_id": "semantic",
+          "message": "independent evaluator unavailable or malformed: BudgetExceeded: token_budget_exhausted",
+          "status": "uncertain"
+        }
+      ]
+    },
+    "passed": false,
+    "status": "uncertain"
+  },
+  "termination_reason": "internal_eval_uncertain",
+  "usage": {
+    "actions": 2,
+    "cost": 0.0,
+    "input_tokens": 16161,
+    "latency_ms": 8848,
+    "model_calls": 3,
+    "output_tokens": 759,
+    "successful_model_calls": 3,
+    "tokens": 16920
+  }
+}

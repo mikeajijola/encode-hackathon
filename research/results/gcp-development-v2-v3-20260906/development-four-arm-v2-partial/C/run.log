@@ -1,0 +1,15 @@
+61-4 arm=C status=error: ValueError: inspection transition exceeds bounded selector limit actions=1
+66-24 arm=C status=ok actions=2
+105-24 arm=C status=ok actions=2
+168-17 arm=C status=ok actions=2
+120-24 arm=C status=ok actions=2
+141-20 arm=C status=ok actions=2
+209-30 arm=C status=error: BudgetExceeded: token_budget_exhausted actions=1
+395-36 arm=C status=error: KeyError: 'observation' actions=1
+448-11 arm=C status=error: ValueError: contract must contain exactly ['constraints', 'desired_state', 'evaluator_intents', 'invariants', 'required_capabilities', 'schema_version'] actions=0
+567-21 arm=C status=error: BudgetExceeded: token_budget_exhausted actions=1
+47766 arm=C status=ok actions=2
+49237 arm=C status=error: ValueError: contract must contain exactly ['constraints', 'desired_state', 'evaluator_intents', 'invariants', 'required_capabilities', 'schema_version'] actions=0
+50526 arm=C status=ok actions=2
+31011 arm=C status=ok actions=2
+35742 arm=C status=ok actions=2
