@@ -158,9 +158,8 @@ class _SpreadsheetEvaluator:
                            "answers nonblank", observed=values)
         elif spec.evaluator == "type":
             expected = spec.parameters.get("expected_type", "any")
-            state_property = spec.parameters.get("state_property")
-            result = _eval(spec.id, observation, _type_satisfied(values, expected, state_property),
-                           "answer types (formula result type delegated to independent semantic eval)",
+            result = _eval(spec.id, observation, expected in ("any", "mixed") or
+                           all(_type_name(value) == expected for value in values), "answer types",
                            expected=expected, observed=[_type_name(value) for value in values])
         elif spec.evaluator == "output-shape":
             expected = spec.parameters["expected_shape"]; observed = "scalar" if len(values) == 1 else "range"
@@ -297,8 +296,7 @@ class SpreadsheetServices:
             EvalSpec("artifact-valid", assertion_id, "artifact-valid"),
             EvalSpec("preservation", assertion_id, "preservation"),
             EvalSpec("nonblank", assertion_id, "nonblank"),
-            EvalSpec("type", assertion_id, "type", parameters={
-                "expected_type": output["type"], "state_property": proposed["property"]}),
+            EvalSpec("type", assertion_id, "type", parameters={"expected_type": output["type"]}),
             EvalSpec("output-shape", assertion_id, "output-shape", parameters={"expected_shape": output["shape"]}),
             EvalSpec("formula-errors", assertion_id, "formula-errors"),
             EvalSpec("semantic", assertion_id, "semantic-independent", parameters={
@@ -513,7 +511,7 @@ class SpreadsheetServices:
         results.append(_eval("nonblank", observation, all(v not in (None, "") for v in values), "answers nonblank", observed=values))
         type_spec = next(spec for spec in session.contract.evals if spec.id == "type")
         expected_type = type_spec.parameters.get("expected_type", "any")
-        type_ok = _type_satisfied(values, expected_type, type_spec.parameters.get("state_property"))
+        type_ok = expected_type in ("any", "mixed") or all(_type_name(v) == expected_type for v in values)
         results.append(_eval("type", observation, type_ok, "answer types", expected=expected_type,
                              observed=[_type_name(v) for v in values]))
         shape_spec = next(spec for spec in session.contract.evals if spec.id == "output-shape")
@@ -685,8 +683,7 @@ def _policy_evals(assertion_id, proposed, semantic_purpose, *, visual):
         EvalSpec("artifact-valid", assertion_id, "artifact-valid"),
         EvalSpec("preservation", assertion_id, "preservation"),
         EvalSpec("nonblank", assertion_id, "nonblank"),
-        EvalSpec("type", assertion_id, "type", parameters={
-            "expected_type": output["type"], "state_property": proposed["property"]}),
+        EvalSpec("type", assertion_id, "type", parameters={"expected_type": output["type"]}),
         EvalSpec("output-shape", assertion_id, "output-shape", parameters={"expected_shape": output["shape"]}),
         EvalSpec("formula-errors", assertion_id, "formula-errors"),
         EvalSpec("semantic", assertion_id, "semantic-independent", parameters={
@@ -928,18 +925,6 @@ def _type_name(value):
     if value is None: return "blank"
     if hasattr(value, "isoformat") and hasattr(value, "year"): return "date"
     return "other"
-
-
-def _type_satisfied(values, expected, state_property):
-    if expected in ("any", "mixed"):
-        return True
-    # Formula-result assertions describe evaluated output, while observations
-    # preserve source formulas. The independent semantic evaluator owns result
-    # semantics; comparing source storage type to result type is a category error.
-    if state_property == "formula_result" and values and all(
-            isinstance(value, str) and value.startswith("=") for value in values):
-        return True
-    return all(_type_name(value) == expected for value in values)
 
 
 def _file_hash(path):

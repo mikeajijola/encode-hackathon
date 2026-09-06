@@ -7,7 +7,7 @@ from openpyxl import Workbook, load_workbook
 
 from adapters.spreadsheet import KIND
 from experiment.runner import Arm, ExperimentRunner, ModelReply, RunConfig, Task
-from services.spreadsheet import SpreadsheetServices, _type_satisfied
+from services.spreadsheet import SpreadsheetServices
 from fulfilment import EvidenceStore
 from tests.contract_fixtures import capability_records, contract_reply, transition_reply
 
@@ -25,10 +25,6 @@ def config(arm):
 
 
 class IsolatedSemanticEvaluatorTest(unittest.TestCase):
-    def test_formula_result_type_does_not_compare_source_to_result_type(self):
-        self.assertTrue(_type_satisfied(["=SUM(A1:A2)"], "number", "formula_result"))
-        self.assertFalse(_type_satisfied(["=SUM(A1:A2)"], "number", "computed_value"))
-
     def run_arm(self, arm, replies, service_type=SpreadsheetServices, context_extra=None):
         td = tempfile.TemporaryDirectory(); root = Path(td.name)
         artifact = root / "initial.xlsx"
