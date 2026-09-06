@@ -1,8 +1,15 @@
-from research.protocol.completion_calibration import (
-    coverage_aware_three_valued,
-    legacy_policy,
-    strict_three_valued,
-)
+try:
+    from research.protocol.completion_calibration import (
+        coverage_aware_three_valued,
+        legacy_policy,
+        strict_three_valued,
+    )
+except ModuleNotFoundError:  # canonical image has /app/research on PYTHONPATH
+    from protocol.completion_calibration import (
+        coverage_aware_three_valued,
+        legacy_policy,
+        strict_three_valued,
+    )
 
 
 def candidate(*, truncated=False, statuses=None, compiled=True, coverage=1.0,
