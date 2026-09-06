@@ -6,6 +6,7 @@ prepare)
     mkdir -p evidence results
     chmod 777 evidence results
     tar -xzf payload.tar.gz
+    tar -xzf test-fixtures.tar.gz
     chmod -R a+rX data scorer-dataset retained
     cd repo
     git rev-parse HEAD > ../evidence/repository_commit.txt
@@ -13,7 +14,7 @@ prepare)
     sudo docker build -t encode-serialization . > ../evidence/build.log 2>&1
     sudo docker image inspect encode-serialization > ../evidence/image_inspect.json
     sudo docker run --rm --entrypoint sh encode-serialization -c 'python --version; soffice --version' > ../evidence/runtime_versions.txt
-    sudo docker run --rm --user root --entrypoint sh -e GIT_CONFIG_COUNT=1 -e GIT_CONFIG_KEY_0=safe.directory -e GIT_CONFIG_VALUE_0=/app -v /srv/serialization/repo/.git:/app/.git:ro -v /srv/serialization/repo/Dockerfile:/app/Dockerfile:ro -v /srv/serialization/data/dataset:/app/research/data/spreadsheetbench_verified_400:ro encode-serialization -c 'apt-get update -qq && apt-get install -y -qq git && uv pip install --python /app/.venv/bin/python pytest==9.1.1 && cd /app && python -m pytest -q' > ../evidence/test_suite.log 2>&1
+    sudo docker run --rm --user root --entrypoint sh -e GIT_CONFIG_COUNT=1 -e GIT_CONFIG_KEY_0=safe.directory -e GIT_CONFIG_VALUE_0=/app -v /srv/serialization/repo/.git:/app/.git:ro -v /srv/serialization/repo/Dockerfile:/app/Dockerfile:ro -v /srv/serialization/repo/.dockerignore:/app/.dockerignore:ro -v /srv/serialization/test-dataset:/app/research/data/spreadsheetbench_verified_400:ro encode-serialization -c 'apt-get update -qq && apt-get install -y -qq git && uv pip install --python /app/.venv/bin/python pytest==9.1.1 && cd /app && python -m pytest -q' > ../evidence/test_suite.log 2>&1
     cd ..
     python3 - <<'PY'
 import json
