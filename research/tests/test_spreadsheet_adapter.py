@@ -222,6 +222,30 @@ class SpreadsheetAdapterTest(unittest.TestCase):
         self.assertEqual(event["before_hash"], event["after_hash"])
         self.assertEqual(list(self.path.parent.glob(".*transaction*")), [])
 
+    def test_runtime_checkpoint_is_reconstructed_committed_artifact(self):
+        from types import SimpleNamespace
+        from services.spreadsheet import _RuntimeCapability
+        class Handler:
+            def invoke(inner_self, request):
+                wb = load_workbook(request.artifact_id)
+                wb["Data"]["A1"] = 4; wb["Other"]["A1"] = "bad"
+                wb.save(request.artifact_id); wb.close()
+                return CapabilityResult(request.id, True, {}, (scope_for("Data!A1"),), {})
+        runtime = SimpleNamespace(event_path=self.path.parent / "events" / "task.jsonl",
+                                  action=lambda *args: None, event=lambda *args: None,
+                                  usage=lambda: {})
+        session = SimpleNamespace(capability_observations=[], first_mutation_path=None, mutation_paths=[])
+        self.broker.register(CapabilityManifest("checkpoint-test", "1", (KIND,), {"type": "object"},
+                             CapabilityEffect.MUTATE, (Scope("workbook/*"),)),
+                             _RuntimeCapability(runtime, Handler(), session))
+        self.broker.invoke(self.contract, CapabilityRequest("checkpoint-test", "checkpoint-test", "1",
+                           str(self.path), KIND, {}, (scope_for("Data!A1"),), ("d",)))
+        self.assertEqual(len(session.mutation_paths), 1)
+        self.assertEqual(session.mutation_paths[0].read_bytes(), self.path.read_bytes())
+        self.assertEqual(session.first_mutation_path.read_bytes(), self.path.read_bytes())
+        wb = load_workbook(session.mutation_paths[0])
+        self.assertEqual(wb["Other"]["A1"].value, "untouched"); wb.close()
+
     def test_selector_and_manifests_are_structurally_strict(self):
         self.assertEqual(parse_selector("'Data'!a1:b2"), ("Data", "A1:B2"))
         with self.assertRaises(SelectorError): parse_selector("A1")

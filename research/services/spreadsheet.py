@@ -72,6 +72,12 @@ class _RuntimeCapability:
     def invoke(self, request):
         self.runtime.action(request.capability_name, {"discrepancy_ids": request.discrepancy_ids})
         result = self.handler.invoke(request)
+        if not request.requested_mutation_scope:
+            self.after_transaction(request, result)
+        return result
+
+    def after_transaction(self, request, result):
+        """Capture actual committed state, never the isolated candidate."""
         self.session.capability_observations.append({
             "capability": request.capability_name, "succeeded": result.succeeded,
             "output": dict(result.output), "error": result.error,

@@ -158,6 +158,12 @@ class Broker:
         if transactional and result is not None:
             result = replace(result, provenance={**result.provenance,
                              "artifact_sha256": after_hash})
+        if mutating and result is not None and hasattr(handler, "after_transaction"):
+            committed_result = result
+            if invocation_error or validation_error or not result.succeeded:
+                committed_result = replace(result, succeeded=False, actual_mutation_scope=(),
+                                           error=invocation_error or validation_error or result.error)
+            handler.after_transaction(request, committed_result)
         self.evidence.append("capability_result", {
             "request_event_id": requested.id, "request_id": request.id,
             "succeeded": bool(result and result.succeeded and not invocation_error and not validation_error),
