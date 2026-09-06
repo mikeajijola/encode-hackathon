@@ -1,0 +1,113 @@
+{
+  "experiment_id": "development-d-serialization-firewall-v1",
+  "timestamp_date": "2026-09-06",
+  "hypothesis": "Scoped original-package reconstruction removes ordinary-save preservation drift without weakening calibrated completion.",
+  "change": "Generic broker transaction hooks; scoped raw XML value reconstruction; post-commit evidence capture. Runtime implementation 38c262b.",
+  "control": "Arm D at c70e0b5, preserved unchanged.",
+  "treatment": "Arm D on the same frozen 20 tasks, with the same model/version, prompts, completion semantics, tools, resource policy and official scorer. Writable runtime-home mount is an explicitly recorded operational deviation.",
+  "task_set": "frozen 20-task development selection, seed 20260905",
+  "model": "gemini-3.7-flash",
+  "model_version": "3.7-flash-08-2026",
+  "budgets": {
+    "research_tokens_per_task": null,
+    "operational_emergency_tokens": 250000,
+    "actions": 12,
+    "wall_time_ms": 300000
+  },
+  "results": {
+    "actions_per_success": 2.5,
+    "estimated_cost_per_success": 0.07165225,
+    "false_fulfilment_rate": 0,
+    "false_unfulfilment_rate": 0.1875,
+    "iterations_per_success": 3.1666666666666665,
+    "latency_ms_per_success": 40388.833333333336,
+    "median_actions_per_cycle": 1,
+    "median_cycles_per_task": 1,
+    "median_tokens_per_cycle": 27220,
+    "median_tokens_per_task": 35851.5,
+    "official_pass_rate": 0.3,
+    "operational_emergency_ceiling_terminations": 1,
+    "recoverable_first_attempt_failures": 6,
+    "recovery_yield": 0,
+    "successful_recoveries": 0,
+    "task_count": 20,
+    "tasks_completing_ge_1_cycle": 12,
+    "tasks_completing_ge_2_cycles": 5,
+    "tasks_completing_ge_3_cycles": 3,
+    "tokens_per_recovery": null,
+    "tokens_per_success": 88767,
+    "unknown_official_fail": 1,
+    "unknown_official_pass": 2,
+    "unknown_rate": 0.15,
+    "cell_accuracy": 0.1545,
+    "fulfilled_precision": 1,
+    "fulfilled_recall": 0.16666666666666666,
+    "fulfilled_claims": 1,
+    "valid_artifacts": 20,
+    "runtime_positive_validity_flags": 14,
+    "runtime_unknown_validity_flags": 6,
+    "preservation_violations": 0,
+    "mean_resources": {
+      "actions": 1.85,
+      "iterations": 2.4,
+      "tokens": 84231.85,
+      "latency_ms": 25361.2,
+      "estimated_cost": 0.0672373875
+    },
+    "total_resources": {
+      "actions": 37,
+      "iterations": 48,
+      "tokens": 1684637,
+      "latency_ms": 507224,
+      "estimated_cost": 1.34474775
+    }
+  },
+  "resource_metric_definitions": {
+    "results_fields_ending_per_success": "Conditional means over successful tasks, inherited unchanged from mechanism analysis; not total experiment cost divided by successes.",
+    "amortized_total_tokens_per_success": 280772.8333333333,
+    "amortized_total_estimated_cost_per_success": 0.224124625
+  },
+  "confidence_intervals": {
+    "paired_pass_rate_difference": {
+      "estimate": -0.15,
+      "lower": -0.35,
+      "upper": 0.05,
+      "confidence": 0.95,
+      "samples": 10000,
+      "seed": 20260906
+    },
+    "mcnemar": {
+      "control_only": 4,
+      "treatment_only": 1,
+      "discordant": 5,
+      "p_value": 0.375
+    }
+  },
+  "failure_distribution": {
+    "execution_failure": 5,
+    "specification_failure": 4,
+    "reconciliation_failure": 7,
+    "planning_failure": 5,
+    "budget_failure": 1
+  },
+  "interpretation": "Narrow preservation hypothesis supported by fixed-transition replay and zero final violations. Overall gate fails on 30% versus 45% task success. One correct FULFILLED claim in each run; recognition improvement is not established. Compiler variability, scope conflict and evaluator-driven in-scope regression remain.",
+  "decision": "STOP; no A/B/C/D rerun and no intervention broadening after the failed gate.",
+  "next_experiment": "Freeze accepted runtime-legal contracts to isolate compiler variability, and shadow-evaluate conditional blank applicability on retained correct-state trajectories without official labels as runtime inputs.",
+  "golden_isolation": "20-task development goldens mounted only in separate offline scorer. All 20 compiler prompts are byte-identical to parent. No held-out outcomes inspected.",
+  "archive_sha256": "3d927b08e10045ee39be2073aad107d265466a7dde25e316c162775162a58ce6",
+  "decision_gate": {
+    "preservation_at_most_prior_baseline_one": true,
+    "original_fixed_cases_remain_fixed": true,
+    "FFR_zero": true,
+    "precision_100_percent_nonvacuous": true,
+    "valid_artifacts_100_percent": true,
+    "official_pass_rate_at_least_parent": false,
+    "evidence_integrity": true
+  },
+  "operational_deviations": [
+    "Runtime UID 999 with writable tmpfs /home/runner; host-UID profile configuration failed actual LibreOffice probe.",
+    "Canonical test fixtures require public initial workbook metadata for all 400 cases; no held-out scoring was performed.",
+    "One aborted default-home model trial retained separately: 3 completed task records, 17 completed model calls, 267804 tokens.",
+    "Scorer checkpoint directory required root creation; scoring resumed without rerunning fulfilment."
+  ]
+}

@@ -1,0 +1,18 @@
+Author:          Bolaji
+Creator:         Calc
+Producer:        LibreOffice 7.4
+CreationDate:    Sun Sep  6 11:08:03 2026 UTC
+Custom Metadata: no
+Metadata Stream: no
+Tagged:          no
+UserProperties:  no
+Suspects:        no
+Form:            none
+JavaScript:      no
+Pages:           5
+Encrypted:       no
+Page size:       612 x 792 pts (letter)
+Page rot:        0
+File size:       30497 bytes
+Optimized:       no
+PDF version:     1.6

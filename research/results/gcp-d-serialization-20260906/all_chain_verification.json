@@ -1,0 +1,200 @@
+{
+  "chains": [
+    {
+      "path": "results-invalid-default-home/D/events/66-24.broker.jsonl",
+      "valid": true,
+      "events": 12
+    },
+    {
+      "path": "results-invalid-default-home/D/events/105-24.broker.jsonl",
+      "valid": true,
+      "events": 37
+    },
+    {
+      "path": "results-invalid-default-home/D/events/61-4.broker.jsonl",
+      "valid": true,
+      "events": 52
+    },
+    {
+      "path": "results-invalid-default-home/D/events/168-17.broker.jsonl",
+      "valid": true,
+      "events": 41
+    },
+    {
+      "path": "retained/events/45738.broker.jsonl",
+      "valid": true,
+      "events": 38
+    },
+    {
+      "path": "retained/events/59794.broker.jsonl",
+      "valid": true,
+      "events": 25
+    },
+    {
+      "path": "retained/events/141-20.broker.jsonl",
+      "valid": true,
+      "events": 42
+    },
+    {
+      "path": "retained/events/567-21.broker.jsonl",
+      "valid": true,
+      "events": 53
+    },
+    {
+      "path": "retained/events/49237.broker.jsonl",
+      "valid": true,
+      "events": 66
+    },
+    {
+      "path": "retained/events/37554.broker.jsonl",
+      "valid": true,
+      "events": 25
+    },
+    {
+      "path": "retained/events/50526.broker.jsonl",
+      "valid": true,
+      "events": 29
+    },
+    {
+      "path": "retained/events/58147.broker.jsonl",
+      "valid": true,
+      "events": 30
+    },
+    {
+      "path": "retained/events/395-36.broker.jsonl",
+      "valid": true,
+      "events": 0
+    },
+    {
+      "path": "retained/events/47766.broker.jsonl",
+      "valid": true,
+      "events": 54
+    },
+    {
+      "path": "retained/events/66-24.broker.jsonl",
+      "valid": true,
+      "events": 25
+    },
+    {
+      "path": "retained/events/105-24.broker.jsonl",
+      "valid": true,
+      "events": 36
+    },
+    {
+      "path": "retained/events/61-4.broker.jsonl",
+      "valid": true,
+      "events": 55
+    },
+    {
+      "path": "retained/events/31011.broker.jsonl",
+      "valid": true,
+      "events": 39
+    },
+    {
+      "path": "retained/events/209-30.broker.jsonl",
+      "valid": true,
+      "events": 10
+    },
+    {
+      "path": "retained/events/120-24.broker.jsonl",
+      "valid": true,
+      "events": 56
+    },
+    {
+      "path": "retained/events/168-17.broker.jsonl",
+      "valid": true,
+      "events": 28
+    },
+    {
+      "path": "retained/events/50971.broker.jsonl",
+      "valid": true,
+      "events": 29
+    },
+    {
+      "path": "retained/events/448-11.broker.jsonl",
+      "valid": true,
+      "events": 51
+    },
+    {
+      "path": "results/D/events/45738.broker.jsonl",
+      "valid": true,
+      "events": 38
+    },
+    {
+      "path": "results/D/events/59794.broker.jsonl",
+      "valid": true,
+      "events": 25
+    },
+    {
+      "path": "results/D/events/141-20.broker.jsonl",
+      "valid": true,
+      "events": 39
+    },
+    {
+      "path": "results/D/events/50526.broker.jsonl",
+      "valid": true,
+      "events": 92
+    },
+    {
+      "path": "results/D/events/58147.broker.jsonl",
+      "valid": true,
+      "events": 29
+    },
+    {
+      "path": "results/D/events/395-36.broker.jsonl",
+      "valid": true,
+      "events": 0
+    },
+    {
+      "path": "results/D/events/47766.broker.jsonl",
+      "valid": true,
+      "events": 41
+    },
+    {
+      "path": "results/D/events/66-24.broker.jsonl",
+      "valid": true,
+      "events": 12
+    },
+    {
+      "path": "results/D/events/35742.broker.jsonl",
+      "valid": true,
+      "events": 76
+    },
+    {
+      "path": "results/D/events/61-4.broker.jsonl",
+      "valid": true,
+      "events": 65
+    },
+    {
+      "path": "results/D/events/31011.broker.jsonl",
+      "valid": true,
+      "events": 26
+    },
+    {
+      "path": "results/D/events/209-30.broker.jsonl",
+      "valid": true,
+      "events": 10
+    },
+    {
+      "path": "results/D/events/120-24.broker.jsonl",
+      "valid": true,
+      "events": 86
+    },
+    {
+      "path": "results/D/events/168-17.broker.jsonl",
+      "valid": true,
+      "events": 13
+    },
+    {
+      "path": "results/D/events/50971.broker.jsonl",
+      "valid": true,
+      "events": 44
+    },
+    {
+      "path": "results/D/events/448-11.broker.jsonl",
+      "valid": true,
+      "events": 51
+    }
+  ],
+  "all_valid": true
+}

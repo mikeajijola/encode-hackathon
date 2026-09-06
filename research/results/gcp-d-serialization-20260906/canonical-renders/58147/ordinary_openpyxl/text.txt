@@ -1,0 +1,64 @@
+#    ID           First Name   Last Name
+1    TA32785655   Tbnor        Cadigan
+2    SA12442673   Abo          Cadiz
+3    AA21259159   Tbra         Cadle
+4    CA84636028   Abrahaim     Cadman
+5    OA61505754   Abraham      Cadmus
+6    LB71531251   Tbrahame     Cadogan
+7    TB19548089   Abrahamo     Cadoret
+8    SB46327164   Abrahan      Cadorette
+9    PB67349700   Abraheem     Cadotte
+10   EB32531079   Tbrahem      Cadwalader
+11   SC17296774   Abrahim      Cadwallader
+12   FC70634829   Abrahm       Cadwell
+13   AD17153037   Abrahon      Cady
+14   CD14845828   Abrahsa      Caesar
+15   JG66805710   Abram        Caetano
+16   CH36848865   Abramo       Cafarella
+17   CL41033165   Absalon      Cafarelli
+18   LL21590248   Abselon      Cafaro
+19   RK32756907   Absolom      Cafasso
+20   EM26000697   Absolum      Caggiano
+21   MM12168514   Tbnor        Cadigan
+22   HO10339330
+23   RS31728184
+24   SS43010028
+25   TT33991592
+26   CV22833553
+Name                   Cond1
+Tbnor, Cadigan         Tbnor, Cadigan - TA32785655
+Abo, Cadiz             Abo, Cadiz - SA12442673
+Tbra, Cadle            Tbra, Cadle - AA21259159
+Abrahaim, Cadman       Abrahaim, Cadman - CA84636028
+Abraham, Cadmus        Abraham, Cadmus - OA61505754
+Tbrahame, Cadogan      Tbrahame, Cadogan - LB71531251
+Abrahamo, Cadoret      Abrahamo, Cadoret - TB19548089
+Abrahan, Cadorette     Abrahan, Cadorette - SB46327164
+Abraheem, Cadotte      Abraheem, Cadotte - PB67349700
+Tbrahem, Cadwalader    Tbrahem, Cadwalader - EB32531079
+Abrahim, Cadwallader   Abrahim, Cadwallader - SC17296774
+Abrahm, Cadwell        Abrahm, Cadwell - FC70634829
+Abrahon, Cady          Abrahon, Cady - AD17153037
+Abrahsa, Caesar        Abrahsa, Caesar - CD14845828
+Abram, Caetano         Abram, Caetano - JG66805710
+Abramo, Cafarella      Abramo, Cafarella - CH36848865
+Absalon, Cafarelli     Absalon, Cafarelli - CL41033165
+Abselon, Cafaro        Abselon, Cafaro - LL21590248
+Absolom, Cafasso       Absolom, Cafasso - RK32756907
+Absolum, Caggiano      Absolum, Caggiano - EM26000697
+Tbnor, Cadigan         Tbnor, Cadigan - MM12168514
+Extract                            ID           #    ID
+Tbnor, Cadigan - TA32785655        TA32785655    1   MM12168514
+Tbra, Cadle - AA21259159           AA21259159    3
+Tbrahame, Cadogan - LB71531251     LB71531251    6
+Tbrahem, Cadwalader - EB32531079   EB32531079   10
+Tbnor, Cadigan - MM12168514        MM12168514   21
+#
+21
+Extract                            Outcome
+1 - Tbnor, Cadigan - TA32785655    Tbnor, Cadigan
+Tbra, Cadle - AA21259159           Tbra, Cadle
+Tbrahame, Cadogan - LB71531251     Tbrahame, Cadogan
+Tbrahem, Cadwalader - EB32531079   Tbrahem, Cadwalader
+2 - Tbnor, Cadigan - MM12168514    Tbnor, Cadigan
+

@@ -18,3 +18,11 @@ fulfilment-time image and mount boundary.
 
 The full A/B/C/D experiment is not authorized by the measured gate: final pass
 rate is 30%, versus the parent's 45%. No held-out experiment was run.
+
+The primary remote archive was committed and pushed at `48063e6` before resource
+deletion. `RESOURCE_DELETION.json` records successful deletion and empty instance
+and disk queries afterwards. The final `encode-serialization-complete.tar.gz`
+bundle additionally contains local analyses, reports, failed replay trials,
+rendered comparisons and deletion evidence. Its SHA-256 is recorded in the
+adjacent `.sha256` file. The primary archive is preserved unchanged inside it.
+The final bundle does not recursively contain itself or its own checksum.

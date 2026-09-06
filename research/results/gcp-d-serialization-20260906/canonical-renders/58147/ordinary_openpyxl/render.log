@@ -1,0 +1,2 @@
+Warning: failed to launch javaldx - java may not function correctly
+convert /inputs/58147/ordinary_openpyxl.xlsx -> /out/ordinary_openpyxl.pdf using filter : calc_pdf_Export

@@ -1,0 +1,17 @@
+{
+  "project": "law-needs-fcfa7",
+  "zone": "europe-west2-b",
+  "instance": "encode-serialization-20260906",
+  "boot_disk": "encode-serialization-20260906",
+  "deletion_command": "gcloud compute instances delete encode-serialization-20260906 --project=law-needs-fcfa7 --zone=europe-west2-b --delete-disks=all --quiet",
+  "command_exit_code": 0,
+  "command_result": "Deleted instance encode-serialization-20260906",
+  "verification_time_utc": "2026-09-06 11:47:35 UTC",
+  "instance_list_after_delete": [],
+  "disk_list_after_delete": [],
+  "retention_verified_before_delete": true,
+  "github_retention_commit": "48063e65a92a347310b0a1144e9e345004925eff",
+  "retained_archive_sha256": "3d927b08e10045ee39be2073aad107d265466a7dde25e316c162775162a58ce6",
+  "other_project_resources_modified": false,
+  "static_addresses_or_snapshots_created": false
+}

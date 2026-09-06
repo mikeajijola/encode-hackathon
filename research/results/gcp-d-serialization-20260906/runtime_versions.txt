@@ -1,0 +1,3 @@
+Python 3.13.15
+LibreOffice 7.4.7.2 40(Build:2)
+

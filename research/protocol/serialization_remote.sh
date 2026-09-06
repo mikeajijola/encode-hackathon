@@ -42,7 +42,7 @@ score)
     test -f evidence/run_finished.txt
     sudo docker run --rm --user root --entrypoint python -v /srv/serialization/scorer-dataset:/scorer:ro -v /srv/serialization/results:/out encode-serialization -m evaluate --predictions /out/D/predictions.jsonl --dataset-dir /scorer --out /out/D/official_results.json > evidence/scoring.log 2>&1
     sudo docker run --rm --user root --entrypoint python -v /srv/serialization/results:/out encode-serialization -m protocol.mechanism_validation checkpoints --run-dir /out/D --out-dir /out/D/checkpoint-predictions
-    mkdir -p results/D/checkpoint-results
+    sudo mkdir -p results/D/checkpoint-results
     for prediction in results/D/checkpoint-predictions/*.jsonl; do
         name=$(basename "$prediction" .jsonl)
         sudo docker run --rm --user root --entrypoint python -v /srv/serialization/scorer-dataset:/scorer:ro -v /srv/serialization/results:/out encode-serialization -m evaluate --predictions "/out/D/checkpoint-predictions/$name.jsonl" --dataset-dir /scorer --out "/out/D/checkpoint-results/$name.official.json" > "evidence/$name.scoring.log" 2>&1

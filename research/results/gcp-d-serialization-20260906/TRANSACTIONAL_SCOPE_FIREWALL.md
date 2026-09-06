@@ -13,8 +13,9 @@ the same boundary. No spreadsheet imports enter the generic broker.
 The candidate executes in a separate file. Raw XML value reconstruction copies
 only authorized cell nodes into the original worksheet bytes, retaining original
 style IDs and all other package members. Shared strings become inline strings
-using the candidate's resolved value. Target style changes and partial formula
-groups fail closed. The reconstructed workbook is loaded and independently
+using the candidate's resolved value. Target style changes are discarded because
+the current capability effects are value/formula-only; partial formula groups
+fail closed. The reconstructed workbook is loaded and independently
 diffed before commit. Unsupported features are retained from the original.
 
 File staging is isolation for cooperative adapter code, not a security sandbox
@@ -28,8 +29,22 @@ openpyxl reconstruction from original, tree-level OOXML cell transplantation,
 and raw XML value reconstruction. The tree strategy exposed invalid style-ID
 references on 47766. The first raw implementation exposed a self-closing-cell
 regex bug on 58147. Both failed trials are retained. The selected raw strategy
-fixes that parsing boundary, uses original style IDs, and is validated before any
-new model run. Extra model calls and model actions for reconstruction are zero.
+fixes that parsing boundary, uses original style IDs, and is validated before the
+controlled task rerun. Extra model calls and model actions for reconstruction are zero.
+
+Integration preflight exposed two additional boundary requirements. Checkpoints
+must be recorded after commit, otherwise recovery analysis sees isolated candidate
+states. Recalculation must preserve target styles while transacting values:
+LibreOffice changed target style metadata even in a two-cell calculation probe.
+Both changes are restricted to transaction/evidence handling; three-valued
+completion and official evaluation code are unchanged.
+
+The image's default home was root-owned, and an attempted registered host-UID
+configuration also failed LibreOffice profile creation. The validated execution
+configuration therefore retains the image's runner UID and adds a writable
+tmpfs at its existing home. This operational deviation is explicit. The brief
+default-home task run was aborted on the independent profile-creation failure,
+before using task outcomes to change code; its evidence is retained separately.
 
 Pre-registered remote gate: <=1 preservation violation, original fixes preserved,
 FFR=0, precision=100%, validity=100%, and pass rate >=45%. Zero FULFILLED claims
