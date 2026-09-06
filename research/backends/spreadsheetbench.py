@@ -12,6 +12,7 @@ from typing import Any, Mapping
 
 from openpyxl import load_workbook
 from openpyxl.utils.cell import range_boundaries
+from openpyxl.worksheet.formula import ArrayFormula
 
 from adapters.spreadsheet import KIND, manifests
 from experiment.runner import ModelReply, Task
@@ -195,5 +196,6 @@ def _manifest_mapping(manifest):
 
 
 def _json_value(value):
+    if isinstance(value, ArrayFormula): return value.text
     if value is None or isinstance(value, (bool, int, float, str)): return value
     return value.isoformat() if hasattr(value, "isoformat") else str(value)

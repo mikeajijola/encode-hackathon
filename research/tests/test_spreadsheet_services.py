@@ -5,6 +5,7 @@ from pathlib import Path
 from unittest.mock import patch
 
 from openpyxl import Workbook, load_workbook
+from openpyxl.worksheet.formula import ArrayFormula
 
 from adapters.spreadsheet import KIND
 from experiment.runner import Arm, ExperimentRunner, ModelReply, RunConfig, Task
@@ -153,6 +154,27 @@ class SpreadsheetServicesE2E(unittest.TestCase):
         )
         self.addCleanup(td.cleanup)
         self.assertEqual(self.value(out, result), (4, "preserve"))
+
+    def test_array_formula_is_canonicalized_before_generic_evidence_serialization(self):
+        td = tempfile.TemporaryDirectory(); self.addCleanup(td.cleanup)
+        root = Path(td.name); artifact = self.fixture(root)
+        wb = load_workbook(artifact); wb["Data"]["B1"] = ArrayFormula("B1", "=A1*2")
+        wb.save(artifact); wb.close()
+        context = {"answer_sheet": "Data", "answer_position": "B1", "expected_type": "formula"}
+        provider = QueueProvider([
+            contract_reply("B1 remains a valid formula", property="formula_result",
+                           output_type="formula", uncertainty_allowed=True),
+            transition_reply("inspect_workbook", {"selectors": ["Data!A1:B1"]}),
+            '{"verdict":"uncertain","expected_state":"a valid formula",'
+            '"rationale":"insufficient independent evidence","confidence":0.5}',
+        ])
+        out = root / "out"
+        result = ExperimentRunner(config(Arm.C), SpreadsheetServices(), provider, out).run([
+            Task("array", "retain a valid formula", artifact, KIND, context, capability_records())])[0]
+        self.assertEqual(result["status"], "ok")
+        persisted = json.loads((out / "task_results" / "array.json").read_text())
+        observed = persisted["terminal_eval"]["details"]["evals"][2]["details"]["observed"]
+        self.assertEqual(observed, ["=A1*2"])
 
 
 if __name__ == "__main__":

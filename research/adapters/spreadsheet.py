@@ -11,6 +11,7 @@ from typing import Any
 
 from openpyxl import load_workbook
 from openpyxl.formula.translate import Translator
+from openpyxl.worksheet.formula import ArrayFormula
 from openpyxl.utils.cell import get_column_letter, range_boundaries
 
 from fulfilment.models import CapabilityEffect, CapabilityManifest, CapabilityRequest, CapabilityResult, Scope
@@ -66,6 +67,8 @@ def _cells(ws, coordinates: str):
 
 
 def _value(value: Any) -> Any:
+    if isinstance(value, ArrayFormula):
+        return value.text
     if value is None or isinstance(value, (bool, int, float, str)):
         return value
     return value.isoformat() if hasattr(value, "isoformat") else str(value)

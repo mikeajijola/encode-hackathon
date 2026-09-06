@@ -12,6 +12,7 @@ from uuid import uuid4
 
 from openpyxl import load_workbook
 from openpyxl.utils.cell import range_boundaries
+from openpyxl.worksheet.formula import ArrayFormula
 
 from adapters.spreadsheet import (
     KIND, VERSION, SpreadsheetCapability, WorkbookSnapshots, expand_selector_scopes,
@@ -872,7 +873,7 @@ def _selected_cells(path, selectors):
         sheet, coordinates = parse_selector(selector)
         min_col, min_row, max_col, max_row = range_boundaries(coordinates)
         for row in wb[sheet].iter_rows(min_row=min_row, max_row=max_row, min_col=min_col, max_col=max_col):
-            for cell in row: rows.append({"selector": f"{sheet}!{cell.coordinate}", "value": cell.value})
+            for cell in row: rows.append({"selector": f"{sheet}!{cell.coordinate}", "value": _cell_value(cell.value)})
     wb.close(); return rows
 
 
@@ -881,7 +882,7 @@ def _all_cells(path):
     for ws in wb.worksheets:
         for row in ws.iter_rows():
             for cell in row:
-                if cell.value is not None: result[f"workbook/{ws.title}/{cell.coordinate}"] = cell.value
+                if cell.value is not None: result[f"workbook/{ws.title}/{cell.coordinate}"] = _cell_value(cell.value)
     wb.close(); return result
 
 
@@ -889,6 +890,15 @@ def _valid(path):
     try:
         wb = load_workbook(path); wb.close(); return True, None
     except Exception as error: return False, f"{type(error).__name__}:{error}"
+
+
+def _cell_value(value):
+    """Keep spreadsheet implementation objects below the generic state boundary."""
+    if isinstance(value, ArrayFormula):
+        return value.text
+    if value is None or isinstance(value, (bool, int, float, str)):
+        return value
+    return value.isoformat() if hasattr(value, "isoformat") else str(value)
 
 
 def _type_name(value):
