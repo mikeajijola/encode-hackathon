@@ -1,0 +1,12 @@
+{
+  "project": "law-needs-fcfa7",
+  "zone": "europe-west2-b",
+  "instance": "encode-d-calibration-20260906",
+  "deleted_at": "2026-09-06T09:30:41Z",
+  "delete_operation_status": "DONE",
+  "post_delete_instance_matches": 0,
+  "post_delete_disk_matches": 0,
+  "boot_disk_auto_delete": true,
+  "evidence_retained_commit": "3adbb7d8a466caff04ca6e109394444d2158dfa8",
+  "evidence_archive_sha256": "5e8e2d26c9d313bb4d894c2e8b5c742ea3f81c624e40827afbc647838ce56a07"
+}
