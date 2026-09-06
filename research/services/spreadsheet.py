@@ -164,9 +164,9 @@ class _SpreadsheetEvaluator:
                                      for e in contract.evals if e.assertion_id == item.id)
                                  for item in contract.assertions)
             if formula_result and expected not in ("any", "mixed", "formula") and set(observed_types) <= {"formula"}:
-                result = EvalResult(spec.id, observation.id, EvalStatus.UNCERTAIN,
-                                    "formula result type cannot be established from formula-source observation",
-                                    details={"knowledge_gap": True, "expected": expected,
+                result = EvalResult(spec.id, observation.id, EvalStatus.FAIL,
+                                    "formula source does not directly establish computed-result type",
+                                    details={"completion_evidence_adequate": False, "expected": expected,
                                              "observed": observed_types,
                                              "epistemic_reason": "formula_result_representation"})
             else:
@@ -199,11 +199,11 @@ class _SpreadsheetEvaluator:
                 truncation = self.task.context.get("workbook_observation", {}).get("truncation", {})
                 if truncation.get("truncated"):
                     details = dict(result.details)
-                    details.update({"knowledge_gap": True, "evidence_adequate": False,
+                    details.update({"completion_evidence_adequate": False,
                                     "epistemic_reason": "source_observation_truncated",
                                     "omitted_nonempty_cells": truncation.get("omitted_nonempty_cells")})
-                    result = EvalResult(spec.id, observation.id, EvalStatus.UNCERTAIN,
-                                        "semantic evidence cannot establish completion from truncated source observation",
+                    result = EvalResult(spec.id, observation.id, result.status,
+                                        result.message,
                                         result.evidence_event_ids, details)
         elif spec.evaluator == "render":
             selector = _answer_selectors(self.task.context, self.artifact)[0]

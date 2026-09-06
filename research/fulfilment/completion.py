@@ -37,17 +37,22 @@ def decide_completion(
     missing = required - set(latest)
     uncertain = {eval_id for eval_id in required if eval_id in latest and
                  latest[eval_id].status in {EvalStatus.ERROR, EvalStatus.UNCERTAIN}}
+    inadequate = {eval_id for eval_id in required if eval_id in latest and
+                  latest[eval_id].details.get("completion_evidence_adequate") is False}
     failures = []
     unknowns = []
     if not desired_state_satisfied:
-        (unknowns if missing or uncertain else failures).append(
-            "desired_state_unestablished" if missing or uncertain else "desired_state_unsatisfied")
+        (unknowns if missing or uncertain or inadequate else failures).append(
+            "desired_state_unestablished" if missing or uncertain or inadequate else "desired_state_unsatisfied")
     if missing:
         unknowns.append("required_evals_missing")
     if uncertain:
         unknowns.append("required_evals_uncertain")
+    if inadequate:
+        unknowns.append("required_eval_evidence_inadequate")
     if contract.completion.require_all_required_evals and any(
-        eval_id in latest and latest[eval_id].status is EvalStatus.FAIL for eval_id in required
+        eval_id in latest and latest[eval_id].status is EvalStatus.FAIL and eval_id not in inadequate
+        for eval_id in required
     ):
         failures.append("required_evals_not_passed")
     if contract.completion.require_constraints and not constraints_preserved:

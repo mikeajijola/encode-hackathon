@@ -305,6 +305,9 @@ class FulfilmentAgent:
             if completion.fulfilled:
                 return self._finish(True, "fulfilled", contract, iteration, observation, (),
                                     completion.status)
+            if completion.status is CompletionStatus.UNKNOWN and not discrepancies:
+                return self._finish(False, UnfulfilledReason.EVALUATION_UNCERTAIN.value,
+                                    contract, iteration, observation, (), completion.status)
             if DiscrepancyKind.ARTIFACT_INVALID in kinds:
                 return self._finish(False, UnfulfilledReason.ARTIFACT_INVALID.value, contract,
                                     iteration, observation, discrepancies)
@@ -313,7 +316,8 @@ class FulfilmentAgent:
                 reason = (UnfulfilledReason.EVALUATION_UNCERTAIN.value
                           if kinds == {DiscrepancyKind.EVALUATION_UNCERTAINTY}
                           else UnfulfilledReason.NO_SAFE_TRANSITION.value)
-                return self._finish(False, reason, contract, iteration, observation, discrepancies)
+                return self._finish(False, reason, contract, iteration, observation, discrepancies,
+                                    completion.status)
             current_ids = {item.id for item in discrepancies}
             if not transition.discrepancy_ids or not set(transition.discrepancy_ids) <= current_ids:
                 return self._finish(False, UnfulfilledReason.NO_SAFE_TRANSITION.value, contract,
@@ -325,7 +329,7 @@ class FulfilmentAgent:
             repeated[signature] = repeated.get(signature, 0) + 1
             if repeated[signature] > self.max_repeated_transition:
                 return self._finish(False, UnfulfilledReason.NO_PROGRESS.value, contract,
-                                    iteration, observation, discrepancies)
+                                    iteration, observation, discrepancies, completion.status)
             self.evidence.append("transition_decision", {
                 "transition_id": transition.id, "kind": transition.kind.value,
                 "discrepancy_ids": transition.discrepancy_ids, "rationale": transition.rationale,
