@@ -1,7 +1,7 @@
 """Artifact-neutral primitives for declarative fulfilment."""
 
 from .broker import Broker, BrokerError, CapabilityHandler, SnapshotHooks
-from .completion import CompletionDecision, decide_completion
+from .completion import CompletionDecision, CompletionStatus, decide_completion
 from .control import (
     ArtifactLifecycle,
     ContractAmbiguous,

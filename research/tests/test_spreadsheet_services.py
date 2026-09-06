@@ -111,7 +111,8 @@ class SpreadsheetServicesE2E(unittest.TestCase):
         ])
         uncertain = ExperimentRunner(config(Arm.D), SpreadsheetServices(), provider2, out2).run(
             [Task("u1", "derive an answer", artifact, KIND, context, capability_records())])[0]
-        self.assertEqual(uncertain["status"], "unfulfilled:evaluation_uncertain")
+        self.assertEqual(uncertain["status"], "unknown:evaluation_uncertain")
+        self.assertEqual(uncertain["internal_status"], "UNKNOWN")
         self.assertFalse(uncertain["terminal_eval"]["passed"])
         discrepancies = uncertain["terminal_eval"]["details"]["discrepancies"]
         self.assertTrue(any(d["kind"] == "evaluation_uncertainty" for d in discrepancies))

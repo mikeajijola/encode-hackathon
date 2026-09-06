@@ -106,7 +106,8 @@ class CompletionEvidenceAndBudgetInvariants(unittest.TestCase):
         decision = decide_completion(contract, [result], [], desired_state_satisfied=True,
                                      constraints_preserved=True, invariants_hold=True, artifact_valid=True)
         self.assertFalse(decision.fulfilled)
-        self.assertIn("required_evals_not_passed", decision.failed_conditions)
+        self.assertIn("required_evals_uncertain", decision.failed_conditions)
+        self.assertEqual(decision.status.value, "UNKNOWN")
         self.assertIn("required_evidence_missing", decision.failed_conditions)
 
     def test_hash_chained_evidence_detects_tampering(self):

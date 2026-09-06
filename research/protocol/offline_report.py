@@ -38,7 +38,7 @@ def join_results(internal: list[dict], official: list[dict], metadata: dict[str,
         declared = internal_row.get("internal_status")
         if declared is None:
             declared = "FULFILLED" if terminal and terminal.get("passed") is True else "UNFULFILLED"
-        if declared not in {"FULFILLED", "FULFILLED_UNVERIFIED", "UNFULFILLED"}:
+        if declared not in {"FULFILLED", "FULFILLED_UNVERIFIED", "UNFULFILLED", "UNKNOWN"}:
             raise ValueError(f"unknown internal_status for task {task_id}: {declared!r}")
         internal_artifact_valid = internal_row.get("artifact_valid")
         artifact_valid = (official_row.get("status") == "graded" if internal_artifact_valid is None

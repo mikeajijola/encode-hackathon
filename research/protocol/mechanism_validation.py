@@ -225,6 +225,8 @@ def summarize(run_dir: Path, official_path: Path,
     false_fulfilled = [task for task in fulfilled if task["official_benchmark_result"] == "FAIL"]
     false_unfulfilled = [task for task in tasks if task["internal_completion"] == "UNFULFILLED"
                          and task["official_benchmark_result"] == "PASS"]
+    unfulfilled = [task for task in tasks if task["internal_completion"] == "UNFULFILLED"]
+    unknown = [task for task in tasks if task["internal_completion"] == "UNKNOWN"]
     genuine_cycles = [cycle for task in tasks for cycle in task["reconciliation_cycles"] if cycle["genuine_cycle"]]
     recoverable = [task for task in tasks if task["first_mutation_official_pass"] is False]
     recoveries = [task for task in tasks if task["recovered"]]
@@ -242,7 +244,10 @@ def summarize(run_dir: Path, official_path: Path,
             "task_count": len(tasks),
             "official_pass_rate": len(official_passes) / len(tasks) if tasks else 0,
             "false_fulfilment_rate": len(false_fulfilled) / len(fulfilled) if fulfilled else 0,
-            "false_unfulfilment_rate": len(false_unfulfilled) / (len(tasks) - len(fulfilled)) if len(tasks) > len(fulfilled) else 0,
+            "false_unfulfilment_rate": len(false_unfulfilled) / len(unfulfilled) if unfulfilled else None,
+            "unknown_rate": len(unknown) / len(tasks) if tasks else 0,
+            "unknown_official_pass": sum(task["official_benchmark_result"] == "PASS" for task in unknown),
+            "unknown_official_fail": sum(task["official_benchmark_result"] == "FAIL" for task in unknown),
             "tasks_completing_ge_1_cycle": sum(value >= 1 for value in genuine_counts),
             "tasks_completing_ge_2_cycles": sum(value >= 2 for value in genuine_counts),
             "tasks_completing_ge_3_cycles": sum(value >= 3 for value in genuine_counts),

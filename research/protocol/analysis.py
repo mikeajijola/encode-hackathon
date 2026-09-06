@@ -24,6 +24,8 @@ def arm_metrics(rows: list[dict]) -> dict:
     fulfilled = [r for r in rows if r["internal_status"] in {"FULFILLED", "FULFILLED_UNVERIFIED"}]
     eval_fulfilled = [r for r in rows if r["internal_status"] == "FULFILLED"]
     official_success = [r for r in rows if r["official_pass"]]
+    unfulfilled = [r for r in rows if r["internal_status"] == "UNFULFILLED"]
+    unknown = [r for r in rows if r["internal_status"] == "UNKNOWN"]
     true_fulfilled = [r for r in fulfilled if r["official_pass"]]
     true_eval_fulfilled = [r for r in eval_fulfilled if r["official_pass"]]
     first_failed = [r for r in rows if r.get("first_mutation_pass") is False]
@@ -38,6 +40,10 @@ def arm_metrics(rows: list[dict]) -> dict:
         "completion_claim_precision": safe_ratio(len(true_fulfilled), len(fulfilled)),
         "internal_eval_precision": safe_ratio(len(true_eval_fulfilled), len(eval_fulfilled)),
         "internal_eval_recall": safe_ratio(len(true_eval_fulfilled), len(official_success)),
+        "false_unfulfilment_rate": safe_ratio(sum(r["official_pass"] for r in unfulfilled), len(unfulfilled)),
+        "unknown_rate": safe_ratio(len(unknown), n),
+        "unknown_official_pass": sum(r["official_pass"] for r in unknown),
+        "unknown_official_fail": sum(not r["official_pass"] for r in unknown),
         "recovery_yield": safe_ratio(len(recovered), len(first_failed)),
         "artifact_validity_rate": safe_ratio(sum(bool(r["artifact_valid"]) for r in rows), n),
         "constraint_violation_rate": safe_ratio(sum(bool(r.get("constraint_violation")) for r in rows), n),

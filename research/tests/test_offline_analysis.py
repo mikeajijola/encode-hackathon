@@ -73,6 +73,14 @@ class OfflineAnalysisTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "unknown internal_status"):
             join_results([row], [official("1", True)])
 
+    def test_epistemic_unknown_is_not_a_completion_claim(self):
+        row = internal("1", False, None, 1); row["internal_status"] = "UNKNOWN"
+        joined = join_results([row], [official("1", True)])
+        metrics = analyze({arm: joined for arm in "ABCD"}, samples=10)["metrics"]["D"]
+        self.assertEqual(metrics["unknown_rate"], 1.0)
+        self.assertEqual(metrics["unknown_official_pass"], 1)
+        self.assertIsNone(metrics["false_fulfilment_rate"])
+
     def test_unverified_one_shot_completion_claim_is_in_ffr_denominator(self):
         rows = join_results([
             {"id": "1", "internal_status": "FULFILLED_UNVERIFIED", "usage": {}},

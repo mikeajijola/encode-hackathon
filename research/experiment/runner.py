@@ -315,7 +315,9 @@ class ExperimentRunner:
                 termination_reason = "one_shot_completed_unverified" if status == "ok" else "execution_failed"
             else:
                 passed = evaluation is not None and evaluation.passed
-                internal_status = "FULFILLED" if passed else "UNFULFILLED"
+                internal_status = ("FULFILLED" if passed else "UNKNOWN"
+                                   if evaluation is not None and evaluation.status == "unknown"
+                                   else "UNFULFILLED")
                 termination_reason = "required_internal_evals_passed" if passed else (
                     f"internal_eval_{evaluation.status}" if evaluation else "evaluation_missing")
         except Exception as exc:
@@ -395,7 +397,7 @@ def _failure_classes(status: str, termination_reason: str, evaluation: Evaluatio
         }.get(kind)
         if mapped:
             labels.add(mapped)
-    if internal_status != "UNFULFILLED":
+    if internal_status in {"FULFILLED", "FULFILLED_UNVERIFIED"}:
         return []
     return sorted(labels)
 

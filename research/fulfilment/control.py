@@ -8,7 +8,7 @@ from typing import Mapping, Protocol, Sequence
 from uuid import uuid4
 
 from .broker import Broker, BrokerError
-from .completion import decide_completion
+from .completion import CompletionStatus, decide_completion
 from .evidence import EvidenceStore
 from .models import (
     CapabilityManifest,
@@ -103,6 +103,7 @@ class FulfilmentResult:
     observation_id: str
     artifact: Mapping[str, object]
     open_discrepancies: tuple[Discrepancy, ...]
+    completion_status: CompletionStatus = CompletionStatus.UNFULFILLED
 
 
 class ContractValidator:
@@ -227,15 +228,29 @@ class FulfilmentAgent:
         self.evidence, self.lifecycle = evidence, lifecycle
         self.max_iterations, self.max_repeated_transition = max_iterations, max_repeated_transition
 
-    def _finish(self, fulfilled, reason, contract, iteration, observation, discrepancies):
-        artifact = self.lifecycle.select_result(observation, "fulfilled" if fulfilled else "unfulfilled")
+    def _finish(self, fulfilled, reason, contract, iteration, observation, discrepancies,
+                completion_status=None):
+        if completion_status is None:
+            epistemic = reason in {
+                UnfulfilledReason.CONTRACT_AMBIGUOUS.value,
+                UnfulfilledReason.CAPABILITY_MISSING.value,
+                UnfulfilledReason.EVALUATION_UNCERTAIN.value,
+            } or any(item.kind in {DiscrepancyKind.KNOWLEDGE,
+                                   DiscrepancyKind.EVALUATION_UNCERTAINTY}
+                     for item in discrepancies)
+            completion_status = (CompletionStatus.FULFILLED if fulfilled else
+                                 CompletionStatus.UNKNOWN if epistemic else
+                                 CompletionStatus.UNFULFILLED)
+        artifact = self.lifecycle.select_result(observation, completion_status.value.lower())
         self.evidence.append("termination_decision", {
             "fulfilled": fulfilled, "reason": reason, "contract_id": contract.id if contract else None,
+            "completion_status": completion_status.value,
             "observation_id": observation.id, "open_discrepancy_ids": [d.id for d in discrepancies],
             "artifact": artifact,
         })
         return FulfilmentResult(fulfilled, reason, contract.id if contract else None,
-                                iteration, observation.id, artifact, tuple(discrepancies))
+                                iteration, observation.id, artifact, tuple(discrepancies),
+                                completion_status)
 
     def run(self, intent: str, initial_observation: Observation) -> FulfilmentResult:
         observation = initial_observation
@@ -288,7 +303,8 @@ class FulfilmentAgent:
                 artifact_valid=DiscrepancyKind.ARTIFACT_INVALID not in kinds,
             )
             if completion.fulfilled:
-                return self._finish(True, "fulfilled", contract, iteration, observation, ())
+                return self._finish(True, "fulfilled", contract, iteration, observation, (),
+                                    completion.status)
             if DiscrepancyKind.ARTIFACT_INVALID in kinds:
                 return self._finish(False, UnfulfilledReason.ARTIFACT_INVALID.value, contract,
                                     iteration, observation, discrepancies)

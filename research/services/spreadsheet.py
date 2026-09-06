@@ -158,9 +158,21 @@ class _SpreadsheetEvaluator:
                            "answers nonblank", observed=values)
         elif spec.evaluator == "type":
             expected = spec.parameters.get("expected_type", "any")
-            result = _eval(spec.id, observation, expected in ("any", "mixed") or
-                           all(_type_name(value) == expected for value in values), "answer types",
-                           expected=expected, observed=[_type_name(value) for value in values])
+            observed_types = [_type_name(value) for value in values]
+            formula_result = any(item.id == spec.assertion_id and
+                                 any(e.parameters.get("property") == "formula_result"
+                                     for e in contract.evals if e.assertion_id == item.id)
+                                 for item in contract.assertions)
+            if formula_result and expected not in ("any", "mixed", "formula") and set(observed_types) <= {"formula"}:
+                result = EvalResult(spec.id, observation.id, EvalStatus.UNCERTAIN,
+                                    "formula result type cannot be established from formula-source observation",
+                                    details={"knowledge_gap": True, "expected": expected,
+                                             "observed": observed_types,
+                                             "epistemic_reason": "formula_result_representation"})
+            else:
+                result = _eval(spec.id, observation, expected in ("any", "mixed") or
+                               all(item == expected for item in observed_types), "answer types",
+                               expected=expected, observed=observed_types)
         elif spec.evaluator == "output-shape":
             expected = spec.parameters["expected_shape"]; observed = "scalar" if len(values) == 1 else "range"
             result = _eval(spec.id, observation, expected == observed, "answer shape",
@@ -184,6 +196,15 @@ class _SpreadsheetEvaluator:
                                likely_causes=["target state is missing"], confidence=1.0)
             else:
                 result = self.services._semantic_model_eval(self.task, contract, observation, facts, self.runtime)
+                truncation = self.task.context.get("workbook_observation", {}).get("truncation", {})
+                if result.status is EvalStatus.PASS and truncation.get("truncated"):
+                    details = dict(result.details)
+                    details.update({"knowledge_gap": True, "evidence_adequate": False,
+                                    "epistemic_reason": "source_observation_truncated",
+                                    "omitted_nonempty_cells": truncation.get("omitted_nonempty_cells")})
+                    result = EvalResult(spec.id, observation.id, EvalStatus.UNCERTAIN,
+                                        "semantic evidence cannot establish completion from truncated source observation",
+                                        result.evidence_event_ids, details)
         elif spec.evaluator == "render":
             selector = _answer_selectors(self.task.context, self.artifact)[0]
             request = CapabilityRequest(str(uuid4()), "render_range", VERSION, str(self.artifact), KIND,
@@ -373,12 +394,16 @@ class SpreadsheetServices:
         )
         result = agent.run(task.intent, observer.observe(()))
         latest = domain_evaluator.latest
-        evaluation = EvaluationResult(result.fulfilled, "pass" if result.fulfilled else result.reason, {
+        evaluation = EvaluationResult(result.fulfilled, "pass" if result.fulfilled else
+                                      "unknown" if result.completion_status.value == "UNKNOWN" else result.reason, {
             "iteration": result.iterations, "evals": [_eval_mapping(item) for item in latest],
             "discrepancies": [_discrepancy_mapping(item) for item in result.open_discrepancies],
+            "completion_status": result.completion_status.value,
         })
         runtime.event("terminal_evaluation", asdict(evaluation))
-        status = "fulfilled" if result.fulfilled else f"unfulfilled:{result.reason}"
+        status = ("fulfilled" if result.fulfilled else
+                  f"unknown:{result.reason}" if result.completion_status.value == "UNKNOWN" else
+                  f"unfulfilled:{result.reason}")
         return ExecutionResult(destination, status, {"iterations": result.iterations,
             "broker_evidence": str(session.evidence.path),
             "first_mutation_artifact": str(session.first_mutation_path) if session.first_mutation_path else None,

@@ -99,12 +99,31 @@ class IsolatedSemanticEvaluatorTest(unittest.TestCase):
         self.assertIn("state_discrepancy", repair_prompt)
         self.assertNotIn("independent_semantic_evaluator", repair_prompt)
 
+    def test_semantic_pass_with_truncated_source_evidence_is_unknown(self):
+        replies = [
+            contract_reply("B1 equals twice A1"),
+            transition_reply(),
+            '{"verdict":"pass","expected_state":{"Data!B1":4},"rationale":"looks correct","confidence":1}',
+        ]
+        truncated = {"workbook_observation": {"facts": {"cells": [
+            {"selector": "Data!A1", "value": 2, "data_type": "n"}
+        ]}, "truncation": {"truncated": True, "omitted_nonempty_cells": 10}}}
+        td, out, provider, result = self.run_arm(Arm.D, replies, context_extra=truncated)
+        self.addCleanup(td.cleanup)
+        self.assertEqual(self.value(out, result), 4)
+        self.assertEqual(result["internal_status"], "UNKNOWN")
+        semantic = next(item for item in result["terminal_eval"]["details"]["evals"]
+                        if item["eval_id"] == "semantic")
+        self.assertEqual(semantic["status"], "uncertain")
+        self.assertEqual(semantic["details"]["epistemic_reason"], "source_observation_truncated")
+
     def test_malformed_evaluator_response_is_uncertain_and_never_passes(self):
         replies = [contract_reply("B1 equals twice A1"),
                    transition_reply(),
                    '{"verdict":"pass"}']
         td, out, provider, result = self.run_arm(Arm.D, replies); self.addCleanup(td.cleanup)
-        self.assertEqual(result["status"], "unfulfilled:evaluation_uncertain")
+        self.assertEqual(result["status"], "unknown:evaluation_uncertain")
+        self.assertEqual(result["internal_status"], "UNKNOWN")
         self.assertFalse(result["terminal_eval"]["passed"])
         semantic = next(e for e in result["terminal_eval"]["details"]["evals"] if e["eval_id"] == "semantic")
         self.assertEqual(semantic["status"], "uncertain")
@@ -115,14 +134,16 @@ class IsolatedSemanticEvaluatorTest(unittest.TestCase):
                    transition_reply(),
                    '{"verdict":"uncertain","expected_state":null,"rationale":"insufficient source facts","confidence":0.2}']
         td, out, provider, result = self.run_arm(Arm.D, replies); self.addCleanup(td.cleanup)
-        self.assertEqual(result["status"], "unfulfilled:evaluation_uncertain")
+        self.assertEqual(result["status"], "unknown:evaluation_uncertain")
+        self.assertEqual(result["internal_status"], "UNKNOWN")
         self.assertFalse(EvidenceStore(out / "events" / "t.broker.jsonl").verify()[-1].payload["fulfilled"])
 
     def test_evaluator_provider_error_prevents_fulfilled(self):
         replies = [contract_reply("B1 equals twice A1"),
                    transition_reply()]
         td, out, provider, result = self.run_arm(Arm.D, replies); self.addCleanup(td.cleanup)
-        self.assertEqual(result["status"], "unfulfilled:evaluation_uncertain")
+        self.assertEqual(result["status"], "unknown:evaluation_uncertain")
+        self.assertEqual(result["internal_status"], "UNKNOWN")
         semantic = next(e for e in result["terminal_eval"]["details"]["evals"] if e["eval_id"] == "semantic")
         self.assertEqual(semantic["status"], "uncertain")
         self.assertIn("IndexError", semantic["message"])
