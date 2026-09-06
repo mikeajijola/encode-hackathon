@@ -85,8 +85,9 @@ def patch_cell_values_raw(original: Path, candidate: Path, output: Path,
     """Value-only reconstruction preserving every unselected XML byte.
 
     Current mutators write values/formulas only. Styles, relationships, layout,
-    metadata and all other package members come from the original. Unsupported
-    namespace layouts or style changes fail closed; no ordinary-save fallback.
+    metadata and all other package members come from the original. Candidate
+    style changes are not part of value-only capabilities and are not copied.
+    Unsupported namespace layouts fail closed; no ordinary-save fallback.
     """
     selected: dict[str, set[str]] = {}
     for scope in scopes:
@@ -117,9 +118,6 @@ def patch_cell_values_raw(original: Path, candidate: Path, output: Path,
                                 raise ValueError("formula group crosses authorized scope")
                 for coordinate in sorted(coordinates, key=coordinate_to_tuple):
                     old_cell, new_cell = before_book[sheet][coordinate], candidate_book[sheet][coordinate]
-                    if any(copy(getattr(old_cell, field)) != copy(getattr(new_cell, field)) for field in
-                           ("font", "fill", "border", "alignment", "protection", "number_format")):
-                        raise ValueError("value reconstruction cannot apply style changes")
                     pattern = rb'<c\b(?=[^>]*\br="' + coordinate.encode() + rb'")[^>]*?(?:/>|>.*?</c>)'
                     match = re.search(pattern, raw, flags=re.S)
                     node = deepcopy(cells.get(coordinate))

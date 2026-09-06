@@ -31,12 +31,14 @@ class TargetedOoxmlPatchTest(unittest.TestCase):
                         value = value.replace(b">marker<", b"><").replace(b">0.1<", b">0.10000000000000142<")
                     z.writestr(info, value)
             wb = load_workbook(original); wb["Data"]["A1"] = 2; wb["Other"]["A1"] = "corruption"
+            wb["Data"]["A1"].fill = PatternFill("solid", fgColor="FF0000")
             wb.save(candidate); wb.close()
             patch_cell_values_raw(original, candidate, output, (Scope("workbook/Data/A1"),))
             wb = load_workbook(output)
             self.assertEqual(wb["Data"]["B1"].value, "")
             self.assertEqual(wb["Data"]["C1"].value, 0.10000000000000142)
             self.assertEqual(wb["Data"]["A1"].value, 2)
+            self.assertNotEqual(wb["Data"]["A1"].fill.fgColor.rgb, "00FF0000")
             wb.close()
             with ZipFile(original) as a, ZipFile(output) as b:
                 for name in a.namelist():

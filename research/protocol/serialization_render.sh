@@ -7,7 +7,7 @@ for task in 58147 61-4; do
         directory="/srv/serialization/evidence/renders/$task/$variant"
         mkdir -p "$directory"
         chmod 777 "$directory"
-        sudo docker run --rm --user "$(id -u):$(id -g)" --tmpfs /tmp:rw,exec,nosuid,size=1g -e HOME=/tmp/run-home --entrypoint soffice -v /srv/serialization/evidence/offline:/inputs:ro -v "$directory":/out encode-serialization --headless --convert-to pdf --outdir /out "/inputs/$task/$variant.xlsx" > "$directory/render.log" 2>&1
+        sudo docker run --rm --tmpfs /home/runner:rw,exec,nosuid,uid=999,gid=999 --tmpfs /tmp:rw,exec,nosuid,size=1g --entrypoint soffice -v /srv/serialization/evidence/offline:/inputs:ro -v "$directory":/out encode-serialization --headless --convert-to pdf --outdir /out "/inputs/$task/$variant.xlsx" > "$directory/render.log" 2>&1
         pdfinfo "$directory/$variant.pdf" > "$directory/pdfinfo.txt"
         pdftotext -layout "$directory/$variant.pdf" "$directory/text.txt"
         pdftoppm -f 1 -l 1 -scale-to 1600 -png -singlefile "$directory/$variant.pdf" "$directory/page-1"

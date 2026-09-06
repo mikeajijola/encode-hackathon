@@ -124,6 +124,10 @@ class WorkbookSnapshots:
         reconstructed.replace(candidate)
         committed = diff_workbooks(original, candidate, request.requested_mutation_scope)
         return replace(committed,
+                       # Cached computed results are observable state changes
+                       # even when formula text is unchanged after recalculation.
+                       semantic_scopes=tuple(dict.fromkeys(committed.semantic_scopes +
+                                                          committed.evaluator_visible_scopes)),
                        attempted_semantic_scopes=attempted.semantic_scopes,
                        reconstruction_applied=True)
 

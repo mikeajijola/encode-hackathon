@@ -18,7 +18,8 @@ with TemporaryDirectory() as directory:
     result = broker.invoke(contract, CapabilityRequest("probe", "recalculate", VERSION, str(artifact), KIND, {}, (scope,), ("d",)))
     wb = load_workbook(artifact, data_only=True)
     report = {"capability_succeeded": result.succeeded, "computed_value": wb.active["A1"].value,
-              "preservation": wb.active["B1"].value == "preserve", "workbook_valid": True}
+              "preservation": wb.active["B1"].value == "preserve", "workbook_valid": True,
+              "actual_scope": [item.resource for item in result.actual_mutation_scope]}
     wb.close()
     report["pass"] = result.succeeded and report["computed_value"] == 4 and report["preservation"]
     Path("/out/recalculation-probe.json").write_text(json.dumps(report, indent=2) + "\n")
