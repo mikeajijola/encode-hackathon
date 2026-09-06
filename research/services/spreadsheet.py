@@ -197,7 +197,7 @@ class _SpreadsheetEvaluator:
             else:
                 result = self.services._semantic_model_eval(self.task, contract, observation, facts, self.runtime)
                 truncation = self.task.context.get("workbook_observation", {}).get("truncation", {})
-                if result.status is EvalStatus.PASS and truncation.get("truncated"):
+                if truncation.get("truncated"):
                     details = dict(result.details)
                     details.update({"knowledge_gap": True, "evidence_adequate": False,
                                     "epistemic_reason": "source_observation_truncated",

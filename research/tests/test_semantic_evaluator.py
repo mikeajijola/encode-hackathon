@@ -117,6 +117,22 @@ class IsolatedSemanticEvaluatorTest(unittest.TestCase):
         self.assertEqual(semantic["status"], "uncertain")
         self.assertEqual(semantic["details"]["epistemic_reason"], "source_observation_truncated")
 
+    def test_semantic_failure_with_truncated_source_evidence_is_also_unknown(self):
+        replies = [
+            contract_reply("B1 equals twice A1"),
+            transition_reply(inputs={"writes": [{"selector": "Data!B1", "value": 3}]}),
+            '{"verdict":"fail","expected_state":{"Data!B1":4},"rationale":"looks wrong","confidence":1}',
+        ]
+        truncated = {"workbook_observation": {"facts": {"cells": [
+            {"selector": "Data!A1", "value": 2, "data_type": "n"}
+        ]}, "truncation": {"truncated": True, "omitted_nonempty_cells": 10}}}
+        td, out, provider, result = self.run_arm(Arm.D, replies, context_extra=truncated)
+        self.addCleanup(td.cleanup)
+        self.assertEqual(result["internal_status"], "UNKNOWN")
+        semantic = next(item for item in result["terminal_eval"]["details"]["evals"]
+                        if item["eval_id"] == "semantic")
+        self.assertEqual(semantic["status"], "uncertain")
+
     def test_malformed_evaluator_response_is_uncertain_and_never_passes(self):
         replies = [contract_reply("B1 equals twice A1"),
                    transition_reply(),
