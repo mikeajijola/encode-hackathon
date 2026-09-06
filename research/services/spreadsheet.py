@@ -63,6 +63,7 @@ class _Session:
     discrepancies: tuple[Discrepancy, ...] = ()
     capability_observations: list[dict[str, Any]] = field(default_factory=list)
     first_mutation_path: Path | None = None
+    mutation_paths: list[Path] = field(default_factory=list)
 
 
 class _RuntimeCapability:
@@ -86,6 +87,19 @@ class _RuntimeCapability:
                 "path": str(checkpoint.relative_to(root)), "artifact_hash": _file_hash(checkpoint),
                 "capability": request.capability_name, "request_id": request.id,
             })
+        if result.succeeded and result.actual_mutation_scope:
+            root = self.runtime.event_path.parent.parent
+            number = len(self.session.mutation_paths) + 1
+            checkpoint = root / "checkpoints" / self.runtime.event_path.stem / f"mutation-{number:02d}.xlsx"
+            checkpoint.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(request.artifact_id, checkpoint)
+            self.session.mutation_paths.append(checkpoint)
+            self.runtime.event("mutation_checkpoint", {
+                "mutation_number": number, "path": str(checkpoint.relative_to(root)),
+                "artifact_hash": _file_hash(checkpoint), "capability": request.capability_name,
+                "request_id": request.id, "discrepancy_ids": list(request.discrepancy_ids),
+                "usage": self.runtime.usage(),
+            })
         return result
 
 
@@ -94,7 +108,8 @@ class _RuntimeEvidenceStore(EvidenceStore):
     def __init__(self, path, runtime): self.runtime = runtime; super().__init__(path)
     def append(self, event_type, payload):
         event = super().append(event_type, payload)
-        mirrored = {"evidence_event_id": event.id, **dict(payload)}
+        mirrored = {"evidence_event_id": event.id, **dict(payload),
+                    "usage": self.runtime.usage()}
         if event_type == "capability_result":
             mirrored["actual_scope"] = list(payload.get("actual_mutation_scope", ()))
         self.runtime.event(event_type, mirrored)
@@ -366,7 +381,8 @@ class SpreadsheetServices:
         status = "fulfilled" if result.fulfilled else f"unfulfilled:{result.reason}"
         return ExecutionResult(destination, status, {"iterations": result.iterations,
             "broker_evidence": str(session.evidence.path),
-            "first_mutation_artifact": str(session.first_mutation_path) if session.first_mutation_path else None}), evaluation
+            "first_mutation_artifact": str(session.first_mutation_path) if session.first_mutation_path else None,
+            "mutation_artifacts": [str(path) for path in session.mutation_paths]}), evaluation
 
     def _session(self, task, contract_mapping, artifact, runtime, *, inspect=False, record_contract=True,
                  runtime_capabilities=False):

@@ -127,6 +127,8 @@ def build_manifests(
             "scorer_commit": scorer_commit.lower(),
             "retry_policy": fixed["retry_policy"],
             "deviations": list(deviations),
+            "token_policy": "fixed_research_budget",
+            "operational_emergency_token_ceiling": None,
         },
     }
     manifests = {}

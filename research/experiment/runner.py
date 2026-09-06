@@ -49,6 +49,8 @@ class RunConfig:
     scorer_commit: str
     retry_policy: Mapping[str, Any]
     deviations: tuple[str, ...] = ()
+    token_policy: str = "fixed_research_budget"
+    operational_emergency_token_ceiling: int | None = None
 
 
 @dataclass(frozen=True)
@@ -128,8 +130,14 @@ class TaskRuntime:
     def _check(self) -> None:
         if self.actions > self.config.max_actions:
             raise BudgetExceeded("action_budget_exhausted")
-        if self.input_tokens + self.output_tokens > self.config.max_tokens:
+        tokens = self.input_tokens + self.output_tokens
+        if self.config.token_policy == "fixed_research_budget" and tokens > self.config.max_tokens:
             raise BudgetExceeded("token_budget_exhausted")
+        if self.config.token_policy == "measured_cost" and (
+            self.config.operational_emergency_token_ceiling is not None
+            and tokens > self.config.operational_emergency_token_ceiling
+        ):
+            raise BudgetExceeded("operational_emergency_token_ceiling")
         if self._elapsed_ms() > self.config.max_wall_time_ms:
             raise BudgetExceeded("wall_clock_budget_exhausted")
         if self.cost > self.config.max_cost:
@@ -220,9 +228,14 @@ class ExperimentRunner:
         expected = json.loads(json.dumps(asdict(self.config), default=str))
         expected["arm"] = self.config.arm.value
         observed = source["run_config"]
+        source_defaults = {
+            "deviations": [],
+            "token_policy": "fixed_research_budget",
+            "operational_emergency_token_ceiling": None,
+        }
         mismatched = sorted(
             key for key, value in expected.items()
-            if observed.get(key, [] if key == "deviations" else None) != value
+            if observed.get(key, source_defaults.get(key)) != value
         )
         if mismatched:
             raise ManifestIntegrityError(f"source manifest differs from runtime config: {mismatched}")
@@ -284,7 +297,10 @@ class ExperimentRunner:
             if self.config.arm is Arm.A:
                 execution = self.services.execute_once(task, None, destination, runtime)
             else:
+                phase_before = runtime.usage()
                 contract = self.services.compile_contract(task, runtime)
+                runtime.event("phase_usage", {"phase": "contract_compilation",
+                    "before": phase_before, "after": runtime.usage()})
                 runtime.event("accepted_contract", {"contract": contract})
                 if self.config.arm is Arm.D:
                     execution, evaluation = self.services.reconcile(task, contract, destination, runtime)
@@ -305,7 +321,9 @@ class ExperimentRunner:
         except Exception as exc:
             status = f"error: {type(exc).__name__}: {exc}"[:500]
             internal_status = "UNFULFILLED"
-            termination_reason = "execution_error"
+            termination_reason = ("operational_emergency_ceiling"
+                                  if "operational_emergency" in str(exc)
+                                  else "execution_error")
             runtime.event("task_error", {"error": status})
         if not destination.exists():
             shutil.copy2(task.artifact, destination)
@@ -320,6 +338,11 @@ class ExperimentRunner:
         checkpoint_path = Path(checkpoint) if checkpoint else None
         checkpoint_relative = (checkpoint_path.relative_to(self.out_dir).as_posix()
                                if checkpoint_path and checkpoint_path.is_file() else None)
+        mutation_outputs = []
+        for item in (execution.details.get("mutation_artifacts", ()) if execution else ()):
+            path = Path(item)
+            if path.is_file():
+                mutation_outputs.append(path.relative_to(self.out_dir).as_posix())
         result = {
             "id": task.id, "arm": self.config.arm.value, "status": status,
             "output": f"outputs/{destination.name}", "input_artifact_hash": before,
@@ -329,7 +352,7 @@ class ExperimentRunner:
             "rendered_eval": "delegated_to_adapter",
             "artifact_valid": artifact_valid, "constraint_violation": constraint_violation,
             "failure_classes": failure_classes, "first_mutation_output": checkpoint_relative,
-            "first_mutation_pass": None,
+            "first_mutation_pass": None, "mutation_outputs": mutation_outputs,
         }
         runtime.event("task_finished", result)
         (self.out_dir / "task_results" / f"{task.id}.json").write_text(json.dumps(result, indent=2, sort_keys=True) + "\n")

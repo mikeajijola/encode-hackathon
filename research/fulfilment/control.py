@@ -91,6 +91,7 @@ class UnfulfilledReason(StrEnum):
     ARTIFACT_INVALID = "artifact_invalid"
     EVALUATION_UNCERTAIN = "evaluation_uncertain"
     NO_PROGRESS = "no_progress"
+    OPERATIONAL_EMERGENCY_CEILING = "operational_emergency_ceiling"
 
 
 @dataclass(frozen=True)
@@ -249,6 +250,7 @@ class FulfilmentAgent:
         })
         discrepancies: tuple[Discrepancy, ...] = ()
         repeated: dict[tuple[object, ...], int] = {}
+        pending_cycle: dict[str, object] | None = None
         for iteration in range(1, self.max_iterations + 1):
             observed_event = self.evidence.append("observation", {
                 "observation_id": observation.id, "artifact_hash": observation.artifact_hash,
@@ -257,6 +259,7 @@ class FulfilmentAgent:
             })
             results = self.evaluators.run(contract, observation)
             discrepancies = derive_discrepancies(contract, results, discrepancies)
+            failed_eval_ids = [result.eval_id for result in results if not result.passed]
             for discrepancy in discrepancies:
                 self.evidence.append("discrepancy", {
                     "discrepancy_id": discrepancy.id, "kind": discrepancy.kind.value,
@@ -264,6 +267,18 @@ class FulfilmentAgent:
                     "observation_event_id": observed_event.id,
                     "permissible_mutation_scope": [s.resource for s in discrepancy.permissible_mutation_scope],
                 })
+            if pending_cycle is not None:
+                changed = pending_cycle["artifact_hash_before"] != observation.artifact_hash
+                self.evidence.append("reconciliation_cycle", {
+                    **pending_cycle,
+                    "cycle_number": pending_cycle["cycle_number"],
+                    "artifact_hash_after": observation.artifact_hash,
+                    "failed_evals_after": failed_eval_ids,
+                    "discrepancy_ids_after": [item.id for item in discrepancies],
+                    "changed_state": changed,
+                    "genuine_cycle": bool(changed),
+                })
+                pending_cycle = None
             kinds = {item.kind for item in discrepancies}
             completion = decide_completion(
                 contract, results, self.evidence.records(),
@@ -319,6 +334,15 @@ class FulfilmentAgent:
                 return self._finish(False, reason, contract, iteration, observation, discrepancies)
             if not result.succeeded:
                 self.lifecycle.rollback(result.error or "capability failed")
+            if result.succeeded and result.actual_mutation_scope:
+                pending_cycle = {
+                    "cycle_number": iteration,
+                    "transition_id": transition.id,
+                    "capability": request.capability_name,
+                    "artifact_hash_before": observation.artifact_hash,
+                    "failed_evals_before": failed_eval_ids,
+                    "discrepancy_ids_before": [item.id for item in discrepancies],
+                }
             observation = self.observer.observe(())
-        return self._finish(False, UnfulfilledReason.BUDGET_EXHAUSTED.value, contract,
+        return self._finish(False, UnfulfilledReason.OPERATIONAL_EMERGENCY_CEILING.value, contract,
                             self.max_iterations, observation, discrepancies)
